@@ -4,6 +4,6 @@
 [submodule "modules/ebanina-vst-ipc-host"]
 	path = modules/ebanina-vst-ipc-host
 	url = https://github.com/Rediska4445/mizuki-vst-ipc-host
-[submodule "modules/untitled10"]
+[submodule "modules/spotify-api-wrapper"]
 	path = modules/untitled10
 	url = https://github.com/Rediska4445/mizuki-std-network-spotify-api-wrapper
