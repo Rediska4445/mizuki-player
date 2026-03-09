@@ -1,5 +1,5 @@
 <div align="center" style="margin-bottom: 16px; margin-top: 48px;">
-  <img src="res/visual/gui/logo.jpg" width="200" height="200" alt="Ebanina Logo"/>
+  <img src="res/visual/gui/logo.png" width="200" height="200" alt="Ebanina Logo"/>
 </div>
 
 <div align="center" style="margin-bottom: 22px;">
