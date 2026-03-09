@@ -3,3 +3,11 @@
 /Ebanina.iml
 /cache/
 /res/layouts/Settings.fxml
+package/maven/out-build/out/
+/res/mods/
+/res/mods/mizuka-std-images/
+out/
+mods/
+/libraries/classes/logs/
+/libraries/classes/bin/git
+/libraries/classes/ebanina-vst-ipc-host.jargit
