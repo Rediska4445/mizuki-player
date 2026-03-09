@@ -1,6 +1,6 @@
 [submodule "modules/ebanina-std-utils"]
 	path = modules/ebanina-std-utils
-	url = https://github.com/Rediska4445/mizuki-player
+	url = https://github.com/Rediska4445/mizuki-std-utils
 [submodule "modules/ebanina-vst-ipc-host"]
 	path = modules/ebanina-vst-ipc-host
 	url = https://github.com/Rediska4445/mizuki-player
