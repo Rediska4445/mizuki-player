@@ -8,10 +8,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import rf.ebanina.UI.Editors.Player.AudioHost;
 import rf.ebanina.UI.Editors.Player.Tabs.AudioPlugins.Vst.VstParamsWindow;
+import rf.ebanina.ebanina.Music;
 import rf.ebanina.ebanina.Player.AudioPlugins.PluginWrapper;
 
 import static rf.ebanina.File.Localization.LocalizationManager.getLocaleString;
-import static rf.ebanina.UI.Editors.Player.Controller.updateMediaPlayerPlugins;
 import static rf.ebanina.UI.Root.showError;
 
 public class VstPluginListCell<T> extends ListCell<PluginWrapper> {
@@ -128,6 +128,11 @@ public class VstPluginListCell<T> extends ListCell<PluginWrapper> {
     }
 
     private void moveRow(PluginWrapper row, int dir) {
+        if (row == null) {
+            Music.mainLogger.println("moveRow: row is null");
+            return;
+        }
+
         ListView<PluginWrapper> lv = getListView();
         if (lv == null)
             return;
@@ -135,10 +140,23 @@ public class VstPluginListCell<T> extends ListCell<PluginWrapper> {
         int idx = lv.getItems().indexOf(row);
         int newIdx = idx + dir;
 
+        Music.mainLogger.printf("Direction: %d\nNew Index: %d\nIndex: %d\nSize: %d\n", dir, newIdx, idx, lv.getItems().size());
+
         if (newIdx < 0 || newIdx >= lv.getItems().size())
             return;
 
         PluginWrapper ofDirPlugin = lv.getItems().get(newIdx);
+        if (ofDirPlugin == null) {
+            Music.mainLogger.println("moveRow: target plugin is null, skip");
+            return;
+        }
+
+        Music.mainLogger.println("ListView items:");
+        for (int i = 0; i < lv.getItems().size(); i++) {
+            PluginWrapper pw = lv.getItems().get(i);
+            Music.mainLogger.println("LV " + i + ": " +
+                    System.identityHashCode(pw) + " -> " + pw);
+        }
 
         if (AudioHost.instance.vstPlugins != null) {
             AudioHost.instance.vstPlugins.set(idx, ofDirPlugin);
@@ -146,8 +164,6 @@ public class VstPluginListCell<T> extends ListCell<PluginWrapper> {
 
             lv.getItems().set(idx, ofDirPlugin);
             lv.getItems().set(newIdx, row);
-
-            updateMediaPlayerPlugins();
         }
 
         lv.refresh();
