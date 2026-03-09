@@ -266,7 +266,7 @@ public class mod implements AudioMod {
 
 ## 🤝 Contributing
 
-**Currently a solo project 😢**<br>
+**Currently a solo project**<br>
 Your contributions are welcome! Open an issue or submit a PR to help grow this project.
 
 ---
@@ -275,10 +275,10 @@ Your contributions are welcome! Open an issue or submit a PR to help grow this p
 
 **Free for open-source use with restrictions:**
 
-- ✅ **Free modification** and mod creation
-- ✅ **Free distribution** of source code
-- ❌ **No selling** code or software
-- ⚠️ **Changes require** author approval
-- 🎯 **Open-source use only**
+- **Free modification** and mod creation
+- **Free distribution** of source code
+- **No selling** code or software
+- **Changes require** author approval
+- **Open-source use only**
 
 > If you wish to use the project commercially or release code-modifications without permission, please contact the authors.
