@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.layout.VBox?>
+<Tab text="Аудио плагины" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+     fx:id="tab"
+     fx:controller="rf.ebanina.UI.Editors.Player.Tabs.AudioEffects.Controller">
+    <VBox>
+        <children>
+            <ListView fx:id="ownPluginsListView" prefHeight="325.0" prefWidth="760.0" VBox.vgrow="ALWAYS" />
+        </children>
+    </VBox>
+</Tab>

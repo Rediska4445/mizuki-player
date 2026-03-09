@@ -1,0 +1,17 @@
+java.lang.NullPointerException: Cannot invoke "java.nio.file.Path.getFileSystem()" because "path" is null
+at java.base/java.nio.file.Files.provider(Files.java:105)
+at java.base/java.nio.file.Files.exists(Files.java:2519)
+at rf.ebanina.utils.loggining.Log.init_file_log(Log.java:566)
+at rf.ebanina.ebanina.Player.AudioPlugins.IPCHost.<init>(IPCHost.java:54)
+at rf.ebanina.ebanina.Music.start(Music.java:524)
+at javafx.graphics/com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$9(LauncherImpl.java:847)
+at javafx.graphics/com.sun.javafx.application.PlatformImpl.lambda$runAndWait$12(PlatformImpl.java:484)
+at javafx.graphics/com.sun.javafx.application.PlatformImpl.lambda$runLater$10(PlatformImpl.java:457)
+at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+at javafx.graphics/com.sun.javafx.application.PlatformImpl.lambda$runLater$11(PlatformImpl.java:456)
+at javafx.graphics/com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:96)
+at javafx.graphics/com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+at javafx.graphics/com.sun.glass.ui.win.WinApplication.lambda$runLoop$3(WinApplication.java:184)
+at java.base/java.lang.Thread.run(Thread.java:1589)
+мар. 06, 2026 10:33:45 PM com.sun.javafx.css.StyleManager$ImageCache getCachedImage
+WARNING: Error loading image: file:C:/Users/2022/Desktop/YXvyeYZsASGiXGgXpcJR3ELsuaoH5iQ51XAcTzP7kLvHZkAHhkvlGlVqoTBCHv9fWHO2XpE_wEZ2HjGiEoCjPHEl.jpg

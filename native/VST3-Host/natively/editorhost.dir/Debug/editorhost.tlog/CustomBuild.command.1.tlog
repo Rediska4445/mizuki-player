@@ -1,0 +1,10 @@
+^C:\USERS\2022\DESKTOP\VST_SDK\VST3SDK\PUBLIC.SDK\SAMPLES\VST-HOSTING\EDITORHOST\CMAKELISTS.TXT
+setlocal
+A:\CMake\bin\cmake.exe -SC:/Users/2022/Desktop/VST_SDK/vst3sdk -BC:/Users/2022/Desktop/VST_SDK/build --check-stamp-file C:/Users/2022/Desktop/VST_SDK/build/public.sdk/samples/plugin-hosting/editorhost/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

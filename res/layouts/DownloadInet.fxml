@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+
+<AnchorPane fx:id = "mainPain" prefHeight="600" prefWidth="860" style="-fx-background-color: #f7f7f7;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rf.ebanina.UI.Network.Controller">
+
+    <VBox layoutX="20" layoutY="20" prefHeight="560.0" prefWidth="300.0" spacing="15" AnchorPane.leftAnchor="20" AnchorPane.topAnchor="20">
+
+        <!-- Download from Stream -->
+        <Label style="-fx-font-weight: bold; -fx-text-fill: #7092be;" text="Search" />
+        <JFXTextField fx:id="download" prefWidth="300" promptText="Item" style="-jfx-unfocus-color: #7092be; -jfx-focus-color: #7092be;" />
+
+        <!-- SearchProcessor -->
+        <Label style="-fx-font-weight: bold; -fx-text-fill: #7092be;" text="Addict" />
+        <JFXTextField fx:id="addict" prefWidth="300" promptText="Item" style="-jfx-unfocus-color: #7092be; -jfx-focus-color: #7092be;" />
+
+        <!-- SearchProcessor -->
+        <Label style="-fx-font-weight: bold; -fx-text-fill: #7092be;" text="Search in playlist" />
+        <JFXTextField fx:id="search" prefWidth="300" promptText="Item" style="-jfx-unfocus-color: #7092be; -jfx-focus-color: #7092be;" />
+
+        <!-- Quantity -->
+        <Label fx:id="numbers" style="-fx-font-weight: bold; -fx-text-fill: #7092be;" text="Quantity: 0" />
+
+        <!-- Buttons -->
+        <HBox alignment="CENTER_LEFT" spacing="15">
+            <JFXButton fx:id="setToPlaylist" prefWidth="140" style="-jfx-button-type: RAISED; -fx-background-color: #7092be; -fx-text-fill: white;" text="Set to playlist" />
+            <JFXButton fx:id="addToPlaylist" prefWidth="140" style="-jfx-button-type: RAISED; -fx-background-color: #7092be; -fx-text-fill: white;" text="Add to playlist" />
+        </HBox>
+    </VBox>
+</AnchorPane>

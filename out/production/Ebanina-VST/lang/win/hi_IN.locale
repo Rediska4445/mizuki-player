@@ -1,0 +1,166 @@
+lang: भाषा;
+
+license_agree: स्वीकारें;
+
+tooltip {
+    tooltip_main_play: विराम हटाएँ / विराम करें;
+    tooltip_main_next: अगला;
+    tooltip_main_prev: पिछला;
+    tooltip_main_slider: खींचें;
+    tooltip_main_hide_left: नेटवर्क प्लेलिस्ट खोलें;
+    tooltip_main_hide_right: स्थानीय प्लेलिस्ट खोलें;
+    tooltip_playlist_prev_playlist: पिछला प्लेलिस्ट;
+    tooltip_playlist_next_playlist: अगला प्लेलिस्ट;
+    tooltip_playlist_set_playlist: प्लेलिस्ट बदलें;
+    tooltip_playlist_search: खोजें;
+    tooltip_all_functions_button: ऐप के सामान्य फंक्शन;
+}
+
+window_title {
+    window_title_metadata: फ़ाइल मेटाडेटा;
+    window_title_host: ऑडियो होस्ट;
+    window_title_settings: सेटिंग्स;
+    window_title_download_inet: नेटवर्क होस्ट;
+    window_title_metadata: ट्रैक मेटाडेटा;
+}
+
+stats {
+    track_statistics: ट्रैक सांख्यिकी;
+    track_statistics_key: सांख्यिकी कुंजी;
+    track_statistics_value: सांख्यिकी मान;
+
+    local {
+        track_statistics_time: अंतिम प्लेबैक स्थिति;
+        track_statistics_volume: अंतिम वॉल्यूम;
+        track_statistics_last tempo: अंतिम टेम्पो;
+        track_statistics_tempo: अंतिम टेम्पो;
+        track_statistics_pan: अंतिम पैन;
+        track_statistics_last pitch: अंतिम पिच;
+        track_statistics_count streams: प्लेबैक संख्या;
+        track_statistics_total time played: कुल सुनने का समय;
+        track_statistics_count full play: पूर्ण प्ले次数;
+        track_statistics_last date: अंतिम सुनने की तारीख;
+    }
+
+    net {
+        spotify {
+            spotify_track_statistics_title: शीर्षक;
+            spotify_track_statistics_author: लेखक;
+            spotify_track_statistics_art: आर्ट;
+            spotify_track_statistics_popularity: लोकप्रियता;
+            spotify_track_statistics_duration: अवधि;
+            spotify_track_statistics_explicit: अश्लील भाषा;
+        }
+
+        lastfm {
+            lastfm_track_statistics_title: शीर्षक;
+            lastfm_track_statistics_artist: कलाकार;
+            lastfm_track_statistics_album: एल्बम;
+            lastfm_track_statistics_location: स्थान;
+            lastfm_track_statistics_id: पहचान;
+            lastfm_track_statistics_dura: अवधि;
+            lastfm_track_statistics_play_count: प्ले次数;
+            lastfm_track_statistics_tags: टैग्स;
+            lastfm_track_statistics_url: URL;
+            lastfm_track_statistics_listeners: श्रोता;
+            lastfm_track_statistics_wiki: जानकारी;
+            lastfm_track_statistics_image: छवि;
+        }
+
+        soundcloud {
+            soundcloud_track_statistics_duration: अवधि;
+            soundcloud_track_statistics_comment_count: टिप्पणी संख्या;
+            soundcloud_track_statistics_art: कवर छवि;
+            soundcloud_track_statistics_genre: жанр;
+            soundcloud_track_statistics_created_at: बनाया गया;
+            soundcloud_track_statistics_description: विवरण;
+            soundcloud_track_statistics_id: पहचान;
+            soundcloud_track_statistics_title: शीर्षक;
+            soundcloud_track_statistics_permalink_url: स्थायी लिंक;
+            soundcloud_track_statistics_playbacks: प्लेबैक संख्या;
+            soundcloud_track_statistics_username: उपयोगकर्ता नाम;
+        }
+    }
+}
+
+metadata {
+    metadata_save: सहेजें;
+    metadata_remove: हटाएँ;
+    metadata_search: खोजें;
+}
+
+context_menu {
+    context_menu_rename: प्लेलिस्ट नाम बदलें;
+    context_menu_remove_playlist_from_list: प्लेलिस्ट से हटाएँ;
+    context_menu_remove_playlist_from_disk: डिवाइस से हटाएँ;
+    context_menu_about_playlist: प्लेलिस्ट के बारे में;
+    context_menu_open_in_explorer: फ़ोल्डर में खोलें;
+    context_menu_delete_track: ट्रैक हटाएँ;
+    context_menu_delete_track_from_playlist: प्लेलिस्ट से ट्रैक हटाएँ;
+    context_menu_show_tracks_by_artist: लेखक के सभी ट्रैक दिखाएँ;
+    context_menu_manage_tags: टैग प्रबंधन;
+    context_menu_move_to: दूसरे प्लेलिस्ट में ले जाएँ;
+    context_menu_copy_to: दूसरे प्लेलिस्ट में कॉपी करें;
+    context_menu_get_possible_url: लिंक कॉपी करें;
+    context_menu_open_possible_url: लिंक खोलें;
+    context_menu_show_track_statistics: सांख्यिकी;
+    context_menu_download_to: प्लेलिस्ट में डाउनलोड करें;
+    context_menu_edit_tags: ऑडियो टैग संपादित करें;
+    context_menu_edit_item: फ़ाइल टैग संपादित करें;
+    context_menu_phantom: काल्पनिक तत्व;
+    context_menu_new_playlist: नया प्लेलिस्ट;
+}
+
+tags {
+    tags_new_tag: टैग नाम;
+    tags_title: ट्रैक टैग्स;
+    tags_save: टैग सहेजें;
+}
+
+vst_editor {
+    vst_editor_tab_vst: VST;
+    vst_editor_tab_own_plugins: ऐप प्लगइन्स;
+    vst_editor_tab_parameters: पैरामीटर;
+    vst_editor_tab_auto: ऑटोमेशन;
+    vst_editor_pan: पैन;
+    vst_editor_volume: वॉल्यूम;
+    vst_editor_tempo: टेम्पो;
+    vst_editor_pitch: पिच;
+    vst_editor_main_text: ऑडियो होस्ट;
+    vst_editor_add: प्लगइन जोड़ें;
+    vst_editor_remove: प्लगइन हटाएँ;
+    vst_editor_load_session: सेशन लोड करें;
+    vst_editor_save_session: सेशन सहेजें;
+    vst_editor_tempo_text: टेम्पो;
+    vst_editor_pitch_text: पिच;
+    vst_editor_volume_text: वॉल्यूम;
+    vst_editor_pan_text: चैनल;
+    vst_editor_parameters: पैरामीटर;
+    vst_editor_save_state: सहेजें;
+    vst_editor_load_state: लोड करें;
+    vst_editor_open_gui: GUI खोलें;
+    vst_editor_add_auto: नया ऑटोमेशन;
+    vst_editor_remove_auto: ऑटोमेशन हटाएँ;
+    vst_editor_file_dialog_save_state: प्लगइन पैरामीटर सहेजें;
+    vst_editor_file_dialog_load_state: प्लगइन पैरामीटर लोड करें;
+    vst_editor_file_dialog_file_type: टेक्स्ट फ़ाइल;
+    vst_editor_file_dialog_save_state_error: पैरामीटर सहेजने में त्रुटि;
+    vst_editor_file_dialog_load_state_error: पैरामीटर लोड करने में त्रुटि;
+}
+
+track_statistics {
+    track_statistics: सांख्यिकी;
+    track_statistics_value: मान;
+}
+
+network {
+    network_host_add_to_playlist: वर्तमान प्लेलिस्ट में जोड़ें;
+    network_host_set_to_playlist: वर्तमान प्लेलिस्ट सेट करें;
+    network_host_quantity: संख्या;
+    network_host_download_promt_text: डाउनलोड;
+    network_host_search: क्या खोजें?
+    network_host_addict_promt_text: पैरामीटर;
+}
+
+gui_config: सेटिंग्स;
+configuration_is_zero: शून्य के बराबर;

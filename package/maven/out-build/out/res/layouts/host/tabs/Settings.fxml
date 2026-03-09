@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<Tab text="Параметры" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+     fx:id="tab"
+     fx:controller="rf.ebanina.UI.Editors.Player.Tabs.Settings.Controller">
+    <VBox>
+        <spacing>15</spacing>
+        <padding>
+            <Insets bottom="15" left="15" right="15" top="15" />
+        </padding>
+        <HBox prefHeight="177.0" prefWidth="730.0" VBox.vgrow="ALWAYS">
+            <children>
+                <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                    <children>
+                        <HBox alignment="CENTER_LEFT">
+                            <spacing>12</spacing>
+                            <Label fx:id="pitch" minWidth="50"
+                                   style="-fx-font-weight: 700; -fx-text-fill: #425a85; -fx-font-size: 14px;" text="Питч:" />
+                            <Slider fx:id="pitchSlider" max="2.0" value="1.0" />
+                            <Label fx:id="pitchLabel" minWidth="45"
+                                   style="-fx-font-weight: 700; -fx-text-fill: #5478a1; -fx-font-size: 13px;" text="1.00x" />
+                        </HBox>
+                        <Pane fx:id="pitchTempoControlPad" prefHeight="241.0" prefWidth="365.0" VBox.vgrow="ALWAYS" />
+                        <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                            <spacing>12</spacing>
+                            <Label fx:id="tempo" minWidth="50"
+                                   style="-fx-font-weight: 700; -fx-text-fill: #425a85; -fx-font-size: 14px;" text="Темп:" />
+                            <Slider fx:id="tempoSlider" max="2.0" value="1.0" />
+                            <Label fx:id="tempoLabel" minWidth="45"
+                                   style="-fx-font-weight: 700; -fx-text-fill: #5478a1; -fx-font-size: 13px;" text="1.00x" />
+                        </HBox>
+                    </children>
+                </VBox>
+                <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                    <children>
+                        <HBox alignment="CENTER_LEFT">
+                            <spacing>12</spacing>
+                            <Label fx:id="volume_label1" minWidth="50"
+                                   style="-fx-font-weight: 700; -fx-text-fill: #425a85; -fx-font-size: 14px;" text="Громкость:" />
+                            <Slider fx:id="volume_slider" max="1.0" />
+                            <Label fx:id="volume_label" minWidth="45"
+                                   style="-fx-font-weight: 700; -fx-text-fill: #5478a1; -fx-font-size: 13px;" text="1.00x" />
+                        </HBox>
+                        <Pane fx:id="panVolumeControlPad" prefHeight="246.0" prefWidth="365.0" VBox.vgrow="ALWAYS" />
+                        <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                            <spacing>12</spacing>
+                            <Label fx:id="pan_text" minWidth="50"
+                                   style="-fx-font-weight: 700; -fx-text-fill: #425a85; -fx-font-size: 14px;" text="Панорамирование:" />
+                            <Slider fx:id="pan_slider" max="1.0" min="-1.0" />
+                            <Label fx:id="pan_text1" minWidth="45"
+                                   style="-fx-font-weight: 700; -fx-text-fill: #5478a1; -fx-font-size: 13px;" text="1.00x" />
+                        </HBox>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+    </VBox>
+</Tab>

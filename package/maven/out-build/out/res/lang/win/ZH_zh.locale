@@ -1,0 +1,153 @@
+lang: 语言;
+
+tooltip_main_play: 取消暂停 / 暂停;
+tooltip_main_next: 下一个;
+tooltip_main_prev: 上一个;
+tooltip_main_slider: 移动;
+tooltip_main_hide_left: 打开网络播放列表;
+tooltip_main_hide_right: 打开本地播放列表;
+tooltip_playlist_prev_playlist: 上一个播放列表;
+tooltip_playlist_next_playlist: 下一个播放列表;
+tooltip_playlist_set_playlist: 更改播放列表;
+tooltip_playlist_search: 搜索;
+tooltip_all_functions_button: 应用程序的通用功能;
+
+license_agree: 接受;
+
+window_title_metadata: 文件元数据;
+window_title_host: 音频主机;
+window_title_settings: 设置;
+window_title_download_inet: 网络主机;
+window_title_metadata: 曲目信息;
+
+tags {
+    tags_new_tag: 标签名称;
+    tags_title: 轨道标签;
+    tags_save: 保存标签;
+}
+
+stats {
+    track_statistics: 轨迹统计;
+    track_statistics_key: 统计键值;
+    track_statistics_value: 统计值;
+
+    local {
+        track_statistics_time: 上次播放位置;
+        track_statistics_volume: 上次音量;
+        track_statistics_last tempo: 上次节奏;
+        track_statistics_tempo: 上次节奏;
+        track_statistics_pan: 上次声像;
+        track_statistics_last pitch: 上次音高;
+        track_statistics_count streams: 播放次数;
+        track_statistics_total time played: 总播放时间;
+        track_statistics_count full play: 完全播放次数;
+        track_statistics_last date: 上次收听日期;
+    }
+
+    net {
+        spotify {
+            spotify_track_statistics_title: 标题;
+            spotify_track_statistics_author: 作者;
+            spotify_track_statistics_art: 艺术作品;
+            spotify_track_statistics_popularity: 流行度;
+            spotify_track_statistics_duration: 持续时间;
+            spotify_track_statistics_explicit: 不雅语言;
+        }
+
+        lastfm {
+            lastfm_track_statistics_title: 标题;
+            lastfm_track_statistics_artist: 艺术家;
+            lastfm_track_statistics_album: 专辑;
+            lastfm_track_statistics_location: 地点;
+            lastfm_track_statistics_id: ID;
+            lastfm_track_statistics_dura: 持续时间;
+            lastfm_track_statistics_play_count: 播放计数;
+            lastfm_track_statistics_tags: 标签;
+            lastfm_track_statistics_url: URL;
+            lastfm_track_statistics_listeners: 听众人数;
+            lastfm_track_statistics_wiki: Wiki信息;
+            lastfm_track_statistics_image: 图片;
+        }
+
+        soundcloud {
+            soundcloud_track_statistics_duration: 持续时间;
+            soundcloud_track_statistics_comment_count: 评论数量;
+            soundcloud_track_statistics_art: 封面艺术;
+            soundcloud_track_statistics_genre: 类型;
+            soundcloud_track_statistics_created_at: 创建于;
+            soundcloud_track_statistics_description: 描述;
+            soundcloud_track_statistics_id: ID;
+            soundcloud_track_statistics_title: 标题;
+            soundcloud_track_statistics_permalink_url: 永久链接;
+            soundcloud_track_statistics_playbacks: 播放回数;
+            soundcloud_track_statistics_username: 用户名;
+        }
+    }
+}
+
+metadata_save: 保存;
+metadata_remove: 删除;
+metadata_search: 搜索;
+
+context_menu_rename: 重命名播放列表;
+context_menu_remove_playlist_from_list: 从播放列表移除;
+context_menu_remove_playlist_from_disk: 从设备删除;
+context_menu_about_playlist: 关于播放列表;
+
+context_menu_open_in_explorer: 在文件夹中打开;
+context_menu_delete_track: 删除曲目;
+context_menu_delete_track_from_playlist: 从播放列表删除曲目;
+context_menu_show_tracks_by_artist: 显示所有该艺术家曲目;
+context_menu_manage_tags: 管理标签;
+context_menu_move_to: 移动到其他播放列表;
+context_menu_copy_to: 复制到其他播放列表;
+context_menu_get_possible_url: 复制链接;
+context_menu_open_possible_url: 打开链接;
+context_menu_show_track_statistics: 统计信息;
+context_menu_download_to: 下载到播放列表;
+context_menu_edit_tags: 编辑音频标签;
+context_menu_edit_item: 编辑文件标签;
+context_menu_phantom: 幻影元素;
+context_menu_new_playlist: 新建播放列表;
+
+vst_editor_tab_vst: VST;
+vst_editor_tab_own_plugins: 应用插件;
+vst_editor_tab_parameters: 参数;
+vst_editor_tab_auto: 自动化;
+vst_editor_pan: 声像;
+vst_editor_volume: 音量;
+vst_editor_tempo: 速度;
+vst_editor_pitch: 音调;
+vst_editor_main_text: 音频主机;
+vst_editor_add: 添加插件;
+vst_editor_remove: 删除插件;
+vst_editor_load_session: 加载会话;
+vst_editor_save_session: 保存会话;
+vst_editor_tempo_text: 节奏;
+vst_editor_pitch_text: 音高;
+vst_editor_volume_text: 音量;
+vst_editor_pan_text: 通道;
+vst_editor_parameters: 参数;
+vst_editor_save_state: 保存;
+vst_editor_load_state: 加载;
+vst_editor_open_gui: 打开GUI;
+vst_editor_add_auto: 添加自动;
+vst_editor_remove_auto: 删除自动;
+vst_editor_file_dialog_save_state: 保存插件参数;
+vst_editor_file_dialog_load_state: 加载插件参数;
+vst_editor_file_dialog_file_type: 文本文件;
+vst_editor_file_dialog_save_state_error: 参数保存错误;
+vst_editor_file_dialog_load_state_error: 参数加载错误;
+
+track_statistics: 统计信息;
+track_statistics_value: 数值;
+
+network_host_add_to_playlist: 添加到当前播放列表;
+network_host_set_to_playlist: 设置为当前播放列表;
+network_host_quantity: 数量;
+network_host_download_promt_text: 下载;
+network_host_search: 搜索什么？
+network_host_addict_promt_text: 参数;
+
+gui_config: 设置;
+configuration_is_zero: 等于零;

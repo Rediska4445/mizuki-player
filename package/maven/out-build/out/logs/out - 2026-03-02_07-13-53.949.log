@@ -1,0 +1,100 @@
+мар. 02, 2026 7:13:55 AM com.sun.javafx.css.StyleManager$ImageCache getCachedImage
+WARNING: Error loading image: file:C:/Users/2022/Desktop/YXvyeYZsASGiXGgXpcJR3ELsuaoH5iQ51XAcTzP7kLvHZkAHhkvlGlVqoTBCHv9fWHO2XpE_wEZ2HjGiEoCjPHEl.jpg
+java.lang.RuntimeException: org.jsoup.HttpStatusException: HTTP error fetching URL. Status=451, URL=https://web.ligaudio.ru/mp3/ghostemane%20-%20plagues%20full%20album
+at rf.ebanina.Network.Illegal.Download.LightAudio.getLightAudioInfoTracks(LightAudio.java:125)
+at rf.ebanina.Network.Info.getLightAudioInfoTracks(Info.java:118)
+at rf.ebanina.Network.Info.lambda$static$2(Info.java:92)
+at rf.ebanina.UI.Network.Controller.lambda$initialize$2(Controller.java:70)
+at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: org.jsoup.HttpStatusException: HTTP error fetching URL. Status=451, URL=https://web.ligaudio.ru/mp3/ghostemane%20-%20plagues%20full%20album
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection$Response.execute(HttpConnection.java:598)
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection$Response.execute(HttpConnection.java:548)
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection.execute(HttpConnection.java:235)
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection.get(HttpConnection.java:224)
+at rf.ebanina.Network.Illegal.Download.LightAudio.getLightAudioInfoTracks(LightAudio.java:74)
+... 4 more
+java.lang.IllegalArgumentException: Invalid URL: Invalid URL or resource not found
+at javafx.graphics/javafx.scene.image.Image.validateUrl(Image.java:1130)
+at javafx.graphics/javafx.scene.image.Image.<init>(Image.java:661)
+at rf.ebanina.File.Metadata.Formats.MP3.getArt(MP3.java:175)
+at rf.ebanina.File.Metadata.MetadataOfFile.getArt(MetadataOfFile.java:311)
+at rf.ebanina.ebanina.Player.Track.getIndependentAlbumArt(Track.java:585)
+at rf.ebanina.UI.UI.Popup.PreviewPopupService.lambda$updateTrackPopup$1(PreviewPopupService.java:29)
+at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: java.lang.IllegalArgumentException: Invalid URL or resource not found
+at javafx.graphics/javafx.scene.image.Image.validateUrl(Image.java:1119)
+... 10 more
+java.lang.IllegalArgumentException: Invalid URL: Invalid URL or resource not found
+at javafx.graphics/javafx.scene.image.Image.validateUrl(Image.java:1130)
+at javafx.graphics/javafx.scene.image.Image.<init>(Image.java:661)
+at rf.ebanina.File.Metadata.Formats.MP3.getArt(MP3.java:175)
+at rf.ebanina.File.Metadata.MetadataOfFile.getArt(MetadataOfFile.java:311)
+at rf.ebanina.ebanina.Player.Track.getIndependentAlbumArt(Track.java:585)
+at rf.ebanina.UI.UI.Popup.PreviewPopupService.lambda$updateTrackPopup$1(PreviewPopupService.java:29)
+at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: java.lang.IllegalArgumentException: Invalid URL or resource not found
+at javafx.graphics/javafx.scene.image.Image.validateUrl(Image.java:1119)
+... 10 more
+java.lang.IllegalArgumentException: Invalid URL: Invalid URL or resource not found
+at javafx.graphics/javafx.scene.image.Image.validateUrl(Image.java:1130)
+at javafx.graphics/javafx.scene.image.Image.<init>(Image.java:661)
+at rf.ebanina.File.Metadata.Formats.MP3.getArt(MP3.java:175)
+at rf.ebanina.File.Metadata.MetadataOfFile.getArt(MetadataOfFile.java:311)
+at rf.ebanina.ebanina.Player.Track.getIndependentAlbumArt(Track.java:585)
+at rf.ebanina.UI.UI.Popup.PreviewPopupService.lambda$updateTrackPopup$1(PreviewPopupService.java:29)
+at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: java.lang.IllegalArgumentException: Invalid URL or resource not found
+at javafx.graphics/javafx.scene.image.Image.validateUrl(Image.java:1119)
+... 10 more
+java.lang.IllegalArgumentException: Invalid URL: Invalid URL or resource not found
+at javafx.graphics/javafx.scene.image.Image.validateUrl(Image.java:1130)
+at javafx.graphics/javafx.scene.image.Image.<init>(Image.java:661)
+at rf.ebanina.File.Metadata.Formats.MP3.getArt(MP3.java:175)
+at rf.ebanina.File.Metadata.MetadataOfFile.getArt(MetadataOfFile.java:311)
+at rf.ebanina.ebanina.Player.Track.getIndependentAlbumArt(Track.java:585)
+at rf.ebanina.ebanina.Player.Track.getAlbumArt(Track.java:606)
+at rf.ebanina.ebanina.Player.Track.getAlbumArt(Track.java:619)
+at rf.ebanina.ebanina.Player.Track.getAlbumArt(Track.java:631)
+at rf.ebanina.ebanina.Player.Controllers.ArtProcessor.lambda$initArt$7(ArtProcessor.java:349)
+at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: java.lang.IllegalArgumentException: Invalid URL or resource not found
+at javafx.graphics/javafx.scene.image.Image.validateUrl(Image.java:1119)
+... 9 more
+java.lang.RuntimeException: org.jsoup.HttpStatusException: HTTP error fetching URL. Status=451, URL=https://web.ligaudio.ru/mp3/GHOSTEMANE%20-%20Until%20The%20Light%20Takes%20Us
+at rf.ebanina.Network.Illegal.Download.LightAudio.getLightAudioInfoTracks(LightAudio.java:125)
+at rf.ebanina.Network.Info.getLightAudioInfoTracks(Info.java:118)
+at rf.ebanina.Network.Info.lambda$static$2(Info.java:92)
+at rf.ebanina.UI.Network.Controller.lambda$initialize$2(Controller.java:70)
+at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: org.jsoup.HttpStatusException: HTTP error fetching URL. Status=451, URL=https://web.ligaudio.ru/mp3/GHOSTEMANE%20-%20Until%20The%20Light%20Takes%20Us
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection$Response.execute(HttpConnection.java:598)
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection$Response.execute(HttpConnection.java:548)
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection.execute(HttpConnection.java:235)
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection.get(HttpConnection.java:224)
+at rf.ebanina.Network.Illegal.Download.LightAudio.getLightAudioInfoTracks(LightAudio.java:74)
+... 4 more
+java.lang.RuntimeException: org.jsoup.HttpStatusException: HTTP error fetching URL. Status=451, URL=https://web.ligaudio.ru/mp3/ghostemane
+at rf.ebanina.Network.Illegal.Download.LightAudio.getLightAudioInfoTracks(LightAudio.java:125)
+at rf.ebanina.Network.Info.getLightAudioInfoTracks(Info.java:118)
+at rf.ebanina.Network.Info.lambda$static$2(Info.java:92)
+at rf.ebanina.UI.Network.Controller.lambda$initialize$2(Controller.java:70)
+at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: org.jsoup.HttpStatusException: HTTP error fetching URL. Status=451, URL=https://web.ligaudio.ru/mp3/ghostemane
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection$Response.execute(HttpConnection.java:598)
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection$Response.execute(HttpConnection.java:548)
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection.execute(HttpConnection.java:235)
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection.get(HttpConnection.java:224)
+at rf.ebanina.Network.Illegal.Download.LightAudio.getLightAudioInfoTracks(LightAudio.java:74)
+... 4 more

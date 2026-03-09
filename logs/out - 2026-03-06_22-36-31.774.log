@@ -1,0 +1,30 @@
+[INFO 2026-03-06T22:36:31.778817700] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) File logging initialized
+[INFO 2026-03-06T22:36:31.823817100] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Root stage reference set
+[INFO 2026-03-06T22:36:31.878815100] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Main scene created with root node
+[INFO 2026-03-06T22:36:31.884815200] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Stage configured with title: Ebanina (Mizuki): v1.4.7 - Mizuki - [rf.ebanina.ebanina.Music.start(Music.java:316)] :: 2026-03-06T22:36:31.880815[INFO] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Window geometry restored from session
+[INFO 2026-03-06T22:36:32.092548500] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Stage displayed with max constraints
+[INFO 2026-03-06T22:36:32.095551400] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Animations controller initialized
+[INFO 2026-03-06T22:36:32.097549200] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Exit event handler registered
+[INFO 2026-03-06T22:36:32.183102300] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Configuration FXML converter executed
+[INFO 2026-03-06T22:36:32.184105900] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Playlist cursorus prepare
+[INFO 2026-03-06T22:36:32.243103400] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) GlobalScreen native hook registered successfully
+[INFO 2026-03-06T22:36:32.244112700] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) KeyBindingController initialized and listeners registered
+[PROFILER 2026-03-06T22:36:32.249116900] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) 1_772_825_792_248 * Root UI initialization start
+[PROFILER 2026-03-06T22:36:32.632891900] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) 1_772_825_792_630 (Δ 382 ms) * Root UI initialization complete
+[INFO 2026-03-06T22:36:32.639893800] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Media cache (global map) initialized
+[INFO 2026-03-06T22:36:32.751894200] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Current track media loaded
+[INFO 2026-03-06T22:36:32.755895700] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) MediaPlayer updated with new track
+[INFO 2026-03-06T22:36:32.976898100] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Root UI final setup complete
+[INFO 2026-03-06T22:36:32.992894800] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) All UI handlers initialized
+[INFO 2026-03-06T22:36:32.992894800] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) MediaProcessor fully initialized
+[INFO 2026-03-06T22:36:32.993893300] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Scene finalized and key listeners setup
+[INFO 2026-03-06T22:36:32.996895100] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) User session loaded
+[INFO 2026-03-06T22:36:32.997893600] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) All mods loaded from folder
+[INFO 2026-03-06T22:36:33.023892400] VST Host уже запущен на localhost:888
+[INFO 2026-03-06T22:36:33.027894] Подключение к VST Host установлено
+[PROFILER 2026-03-06T22:36:33.028895600] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) 1_772_825_793_028 (Δ 398 ms) * Application ENDUP Time
+SUCCESS: 78553 bytes
+Preview: {"tracks":{"href":"https://api.spotify.com/v1/search?offset=0&limit=20&query=06.%20DJ%20Squeeky%20-%20Victim%20Of%20A%20%20Pimp%20Shit.wav&type=track&locale=*","limit":20,"next":"https://api.spotify.c
+[INFO 2026-03-06T22:36:37.643964200SUCCESS: 78553 bytes] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Focus lost - Track title: Archez - Suxcess
+Preview: {"tracks":{"href":"https://api.spotify.com/v1/search?offset=0&limit=20&query=06.%20DJ%20Squeeky%20-%20Victim%20Of%20A%20%20Pimp%20Shit.wav&type=track&locale=*","limit":20,"next":"https://api.spotify.c
+[INFO 2026-03-06T22:36:56.208060500] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Focus gained - App title restored

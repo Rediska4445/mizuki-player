@@ -1,0 +1,150 @@
+lang: Sprache;
+
+tooltip_main_play: Pause aufheben / Pause setzen;
+tooltip_main_next: Nächster;
+tooltip_main_prev: Vorheriger;
+tooltip_main_slider: Verschieben;
+tooltip_main_hide_left: Netzwerk-Playlist öffnen;
+tooltip_main_hide_right: Lokale Playlist öffnen;
+tooltip_playlist_prev_playlist: Vorherige Playlist;
+tooltip_playlist_next_playlist: Nächste Playlist;
+tooltip_playlist_set_playlist: Playlist ändern;
+tooltip_playlist_search: Suche;
+tooltip_all_functions_button: Allgemeine Funktionen der Anwendung;
+
+license_agree: Akzeptieren;
+
+window_title_metadata: Dateimetadaten;
+window_title_host: Audio-Host;
+window_title_settings: Einstellungen;
+window_title_download_inet: Netzwerk-Host;
+window_title_metadata: Track-Metadaten;
+
+tags {
+    tags_new_tag: Tag-Name;
+    tags_title: Track-Tags;
+    tags_save: Tag speichern;
+}
+
+stats {
+    track_statistics: Track-Statistiken;
+    track_statistics_key: Schlüssel der Statistiken;
+    track_statistics_value: Wert der Statistiken;
+
+    local {
+       track_statistics_time: Letzte Wiedergabeposition;
+       track_statistics_volume: Letzter Volumenstufe;
+       track_statistics_last tempo: Letztes Tempo;
+       track_statistics_tempo: Letztes Tempo;
+       track_statistics_pan: Letzte Paneinstellung;
+       track_statistics_last pitch: Letzte Tonhöhe;
+       track_statistics_count streams: Anzahl Streams;
+       track_statistics_total time played: Gesamtspielzeit;
+       track_statistics_count full play: Anzahl vollständiger Abschlüsse;
+       track_statistics_last date: Datum der letzten Abspielung;
+    }
+
+    net {
+        spotify {
+            spotify_track_statistics_title: Titel;
+            spotify_track_statistics_author: Autor;
+            spotify_track_statistics_art: Kunstwerk;
+            spotify_track_statistics_popularity: Beliebtheit;
+            spotify_track_statistics_duration: Dauer;
+            spotify_track_statistics_explicit: Unflätige Ausdrücke enthalten;
+        }
+
+        lastfm {
+            lastfm_track_statistics_title: Titel;
+            lastfm_track_statistics_artist: Künstler;
+            lastfm_track_statistics_album: Album;
+            lastfm_track_statistics_location: Ort;
+            lastfm_track_statistics_id: ID;
+            lastfm_track_statistics_dura: Dauer;
+            lastfm_track_statistics_play_count: Wiedergabeanzahl;
+            lastfm_track_statistics_tags: Schlagworte;
+            lastfm_track_statistics_url: URL;
+            lastfm_track_statistics_listeners: Hörer;
+            lastfm_track_statistics_wiki: Wiki-Informationen;
+            lastfm_track_statistics_image: Bild;
+        }
+
+        soundcloud {
+            soundcloud_track_statistics_duration: Dauer;
+            soundcloud_track_statistics_comment_count: Kommentare;
+            soundcloud_track_statistics_art: Coverbild;
+            soundcloud_track_statistics_genre: Genr;
+            soundcloud_track_statistics_created_at: Erstellungsdatum;
+            soundcloud_track_statistics_description: Beschreibung;
+            soundcloud_track_statistics_id: ID;
+            soundcloud_track_statistics_title: Titel;
+            soundcloud_track_statistics_permalink_url: Permanentlink;
+            soundcloud_track_statistics_playbacks: Wiedergabe-Zähler;
+            soundcloud_track_statistics_username: Benutzername;
+        }
+    }
+}
+
+metadata_save: Speichern;
+metadata_remove: Entfernen;
+metadata_search: Suche;
+
+context_menu_rename: Playlist umbenennen;
+context_menu_remove_playlist_from_list: Von der Playlist entfernen;
+context_menu_remove_playlist_from_disk: Vom Gerät entfernen;
+context_menu_about_playlist: Über die Playlist;
+
+context_menu_open_in_explorer: Im Ordner öffnen;
+context_menu_delete_track: Titel löschen;
+context_menu_delete_track_from_playlist: Titel aus Playlist entfernen;
+context_menu_show_tracks_by_artist: Alle Titel des Künstlers anzeigen;
+context_menu_manage_tags: Tags verwalten;
+context_menu_move_to: In eine andere Playlist verschieben;
+context_menu_copy_to: In eine andere Playlist kopieren;
+context_menu_get_possible_url: Link kopieren;
+context_menu_open_possible_url: Link öffnen;
+context_menu_show_track_statistics: Statistik;
+context_menu_download_to: In Playlist herunterladen;
+context_menu_edit_tags: Audiotags bearbeiten;
+context_menu_edit_item: Dateitags bearbeiten;
+context_menu_phantom: Phantom-Element;
+context_menu_new_playlist: Neue Playlist;
+
+vst_editor_tab_vst: VST;
+vst_editor_tab_own_plugins: Anwendungs-Plugins;
+vst_editor_tab_parameters: Parameter;
+vst_editor_tab_auto: Automatisierung;
+vst_editor_pan: Panorama;
+vst_editor_volume: Lautstärke;
+vst_editor_tempo: Tempo;
+vst_editor_pitch: Tonhöhe;
+vst_editor_main_text: Audio-Host;
+vst_editor_add: Plugin hinzufügen;
+vst_editor_remove: Plugin entfernen;
+vst_editor_load_session: Sitzung laden;
+vst_editor_save_session: Sitzung speichern;
+vst_editor_tempo_text: Tempo;
+vst_editor_pitch_text: Tonhöhe;
+vst_editor_volume_text: Lautstärke;
+vst_editor_pan_text: Kanäle;
+vst_editor_parameters: Parameter;
+vst_editor_save_state: Speichern;
+vst_editor_load_state: Laden;
+vst_editor_open_gui: GUI öffnen;
+vst_editor_add_auto: Automatisch hinzufügen;
+vst_editor_remove_auto: Automatisch entfernen;
+vst_editor_file_dialog_save_state: Plugin-Parameter speichern;
+vst_editor_file_dialog_load_state: Plugin-Parameter laden;
+vst_editor_file_dialog_file_type: Textdatei;
+vst_editor_file_dialog_save_state_error: Fehler beim Speichern der Parameter;
+vst_editor_file_dialog_load_state_error: Fehler beim Laden der Parameter;
+
+network_host_add_to_playlist: Zur aktuellen Playlist hinzufügen;
+network_host_set_to_playlist: In die aktuelle Playlist setzen;
+network_host_quantity: Anzahl;
+network_host_download_promt_text: Herunterladen;
+network_host_search: Was suchen?;
+network_host_addict_promt_text: Parameter;
+
+gui_config: Einstellungen;
+configuration_is_zero: ist Null;

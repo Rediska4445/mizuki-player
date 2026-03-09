@@ -1,0 +1,153 @@
+lang: 언어;
+
+tooltip_main_play: 일시정지 해제 / 일시정지;
+tooltip_main_next: 다음;
+tooltip_main_prev: 이전;
+tooltip_main_slider: 이동;
+tooltip_main_hide_left: 네트워크 플레이리스트 열기;
+tooltip_main_hide_right: 로컬 플레이리스트 열기;
+tooltip_playlist_prev_playlist: 이전 플레이리스트;
+tooltip_playlist_next_playlist: 다음 플레이리스트;
+tooltip_playlist_set_playlist: 플레이리스트 변경;
+tooltip_playlist_search: 검색;
+tooltip_all_functions_button: 앱의 공통 기능;
+
+license_agree: 동의;
+
+window_title_metadata: 파일 메타데이터;
+window_title_host: 오디오 호스트;
+window_title_settings: 설정;
+window_title_download_inet: 네트워크 호스트;
+window_title_metadata: 트랙 메타데이터;
+
+tags {
+    tags_new_tag: 태그 이름;
+    tags_title: 트랙 태그;
+    tags_save: 태그 저장;
+}
+
+stats {
+    track_statistics: 트랙 통계;
+    track_statistics_key: 통계 키값;
+    track_statistics_value: 통계 값;
+
+    local {
+        track_statistics_time: 마지막 재생 위치;
+        track_statistics_volume: 마지막 볼륨;
+        track_statistics_last tempo: 마지막 템포;
+        track_statistics_tempo: 마지막 템포;
+        track_statistics_pan: 마지막 판 포인트;
+        track_statistics_last pitch: 마지막 피치;
+        track_statistics_count streams: 스트리밍 수;
+        track_statistics_total time played: 총 재생 시간;
+        track_statistics_count full play: 완전히 재생된 횟수;
+        track_statistics_last date: 마지막으로 듣던 날짜;
+    }
+
+    net {
+        spotify {
+            spotify_track_statistics_title: 제목;
+            spotify_track_statistics_author: 저자;
+            spotify_track_statistics_art: 미술 작품;
+            spotify_track_statistics_popularity: 인기도;
+            spotify_track_statistics_duration: 지속 시간;
+            spotify_track_statistics_explicit: 비양심적 용어 사용 유무;
+        }
+
+        lastfm {
+            lastfm_track_statistics_title: 제목;
+            lastfm_track_statistics_artist: 아티스트;
+            lastfm_track_statistics_album: 앨범;
+            lastfm_track_statistics_location: 위치;
+            lastfm_track_statistics_id: ID;
+            lastfm_track_statistics_dura: 지속 시간;
+            lastfm_track_statistics_play_count: 재생 횟수;
+            lastfm_track_statistics_tags: 태그;
+            lastfm_track_statistics_url: URL;
+            lastfm_track_statistics_listeners: 청취자 수;
+            lastfm_track_statistics_wiki: 위키 정보;
+            lastfm_track_statistics_image: 이미지;
+        }
+
+        soundcloud {
+            soundcloud_track_statistics_duration: 지속 시간;
+            soundcloud_track_statistics_comment_count: 댓글 수;
+            soundcloud_track_statistics_art: 커버 예술 작품;
+            soundcloud_track_statistics_genre: 장르;
+            soundcloud_track_statistics_created_at: 생성일;
+            soundcloud_track_statistics_description: 설명;
+            soundcloud_track_statistics_id: ID;
+            soundcloud_track_statistics_title: 제목;
+            soundcloud_track_statistics_permalink_url: 고유 주소;
+            soundcloud_track_statistics_playbacks: 재생 횟수;
+            soundcloud_track_statistics_username: 사용자 이름;
+        }
+    }
+}
+
+metadata_save: 저장;
+metadata_remove: 삭제;
+metadata_search: 검색;
+
+context_menu_rename: 플레이리스트 이름 변경;
+context_menu_remove_playlist_from_list: 플레이리스트에서 제거;
+context_menu_remove_playlist_from_disk: 장치에서 제거;
+context_menu_about_playlist: 플레이리스트 정보;
+
+context_menu_open_in_explorer: 폴더 열기;
+context_menu_delete_track: 트랙 삭제;
+context_menu_delete_track_from_playlist: 플레이리스트에서 트랙 삭제;
+context_menu_show_tracks_by_artist: 아티스트의 모든 트랙 보기;
+context_menu_manage_tags: 태그 관리;
+context_menu_move_to: 다른 플레이리스트로 이동;
+context_menu_copy_to: 다른 플레이리스트로 복사;
+context_menu_get_possible_url: 링크 복사;
+context_menu_open_possible_url: 링크 열기;
+context_menu_show_track_statistics: 통계;
+context_menu_download_to: 플레이리스트에 다운로드;
+context_menu_edit_tags: 오디오 태그 편집;
+context_menu_edit_item: 파일 태그 편집;
+context_menu_phantom: 팬텀 아이템;
+context_menu_new_playlist: 새 플레이리스트;
+
+vst_editor_tab_vst: VST;
+vst_editor_tab_own_plugins: 애플리케이션 플러그인;
+vst_editor_tab_parameters: 매개변수;
+vst_editor_tab_auto: 자동화;
+vst_editor_pan: 팬;
+vst_editor_volume: 볼륨;
+vst_editor_tempo: 템포;
+vst_editor_pitch: 피치;
+vst_editor_main_text: 오디오 호스트;
+vst_editor_add: 플러그인 추가;
+vst_editor_remove: 플러그인 제거;
+vst_editor_load_session: 세션 불러오기;
+vst_editor_save_session: 세션 저장;
+vst_editor_tempo_text: 템포;
+vst_editor_pitch_text: 피치;
+vst_editor_volume_text: 볼륨;
+vst_editor_pan_text: 채널;
+vst_editor_parameters: 매개변수;
+vst_editor_save_state: 저장;
+vst_editor_load_state: 불러오기;
+vst_editor_open_gui: GUI 열기;
+vst_editor_add_auto: 자동 추가;
+vst_editor_remove_auto: 자동 제거;
+vst_editor_file_dialog_save_state: 플러그인 매개변수 저장;
+vst_editor_file_dialog_load_state: 플러그인 매개변수 불러오기;
+vst_editor_file_dialog_file_type: 텍스트 파일;
+vst_editor_file_dialog_save_state_error: 매개변수 저장 오류;
+vst_editor_file_dialog_load_state_error: 매개변수 불러오기 오류;
+
+track_statistics: 통계;
+track_statistics_value: 값;
+
+network_host_add_to_playlist: 현재 플레이리스트에 추가;
+network_host_set_to_playlist: 현재 플레이리스트로 설정;
+network_host_quantity: 수량;
+network_host_download_promt_text: 다운로드;
+network_host_search: 무엇을 검색할까요?;
+network_host_addict_promt_text: 매개변수;
+
+gui_config: 설정;
+configuration_is_zero: 0입니다;

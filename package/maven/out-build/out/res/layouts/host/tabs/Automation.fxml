@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.Double?>
+<Tab text="Автоматизация" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+     fx:id="tab"
+     fx:controller="rf.ebanina.UI.Editors.Player.Tabs.Automation.Controller">
+
+    <VBox AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
+        <padding>
+            <Insets top="10" right="10" bottom="10" left="10" />
+        </padding>
+
+        <spacing>
+            <Double fx:value="10" />
+        </spacing>
+        <HBox alignment="CENTER_LEFT">
+            <spacing>
+                <Double fx:value="10" />
+            </spacing>
+
+            <Button fx:id="addButton" text="Добавить"/>
+            <Button fx:id="removeButton" text="Удалить"/>
+        </HBox>
+
+        <ListView fx:id="listView" VBox.vgrow="ALWAYS" />
+    </VBox>
+</Tab>

@@ -1,0 +1,153 @@
+lang: Språk;
+
+tooltip_main_play: Pausa / Spela upp;
+tooltip_main_next: Nästa;
+tooltip_main_prev: Föregående;
+tooltip_main_slider: Flytta;
+tooltip_main_hide_left: Öppna nätverksspelista;
+tooltip_main_hide_right: Öppna lokal spelista;
+tooltip_playlist_prev_playlist: Föregående spellista;
+tooltip_playlist_next_playlist: Nästa spellista;
+tooltip_playlist_set_playlist: Ändra spellista;
+tooltip_playlist_search: Sök;
+tooltip_all_functions_button: Appens allmänna funktioner;
+
+license_agree: Acceptera;
+
+window_title_metadata: Filmetadata;
+window_title_host: Audiohost;
+window_title_settings: Inställningar;
+window_title_download_inet: Nätverkshost;
+window_title_metadata: Spårmetadata;
+
+tags {
+    tags_new_tag: Taggnamn;
+    tags_title: Spår-taggar;
+    tags_save: Spara tagg;
+}
+
+stats {
+    track_statistics: Spårstatistik;
+    track_statistics_key: Statistiksnyckel;
+    track_statistics_value: Statistiskt värde;
+
+    local {
+        track_statistics_time: Senaste uppspelningsposition;
+        track_statistics_volume: Senaste volymnivå;
+        track_statistics_last tempo: Senaste tempo;
+        track_statistics_tempo: Senaste tempo;
+        track_statistics_pan: Senaste panorering;
+        track_statistics_last pitch: Senaste tonhöjd;
+        track_statistics_count streams: Antal uppspelningar;
+        track_statistics_total time played: Total speltid;
+        track_statistics_count full play: Totalt antal hela uppspelningar;
+        track_statistics_last date: Datum för senaste uppspelning;
+    }
+
+    net {
+        spotify {
+            spotify_track_statistics_title: Titel;
+            spotify_track_statistics_author: Författare;
+            spotify_track_statistics_art: Konst;
+            spotify_track_statistics_popularity: Popularitet;
+            spotify_track_statistics_duration: Längd;
+            spotify_track_statistics_explicit: Explicita texter;
+        }
+
+        lastfm {
+            lastfm_track_statistics_title: Titel;
+            lastfm_track_statistics_artist: Artist;
+            lastfm_track_statistics_album: Album;
+            lastfm_track_statistics_location: Plats;
+            lastfm_track_statistics_id: ID;
+            lastfm_track_statistics_dura: Längd;
+            lastfm_track_statistics_play_count: Antal uppspelningar;
+            lastfm_track_statistics_tags: Taggar;
+            lastfm_track_statistics_url: URL;
+            lastfm_track_statistics_listeners: Lyssnare;
+            lastfm_track_statistics_wiki: Information;
+            lastfm_track_statistics_image: Bild;
+        }
+
+        soundcloud {
+            soundcloud_track_statistics_duration: Längd;
+            soundcloud_track_statistics_comment_count: Antal kommentarer;
+            soundcloud_track_statistics_art: Omslagsbild;
+            soundcloud_track_statistics_genre: Genre;
+            soundcloud_track_statistics_created_at: Skapad;
+            soundcloud_track_statistics_description: Beskrivning;
+            soundcloud_track_statistics_id: ID;
+            soundcloud_track_statistics_title: Titel;
+            soundcloud_track_statistics_permalink_url: Permanent länk;
+            soundcloud_track_statistics_playbacks: Antal uppspelningar;
+            soundcloud_track_statistics_username: Användarnamn;
+        }
+    }
+}
+
+metadata_save: Spara;
+metadata_remove: Ta bort;
+metadata_search: Sök;
+
+context_menu_rename: Byt namn på spellistan;
+context_menu_remove_playlist_from_list: Ta bort från spellista;
+context_menu_remove_playlist_from_disk: Ta bort från enhet;
+context_menu_about_playlist: Om spellistan;
+
+context_menu_open_in_explorer: Öppna i mappen;
+context_menu_delete_track: Ta bort spår;
+context_menu_delete_track_from_playlist: Ta bort spår från spellistan;
+context_menu_show_tracks_by_artist: Visa alla spår av artist;
+context_menu_manage_tags: Hantera taggar;
+context_menu_move_to: Flytta till annan spellista;
+context_menu_copy_to: Kopiera till annan spellista;
+context_menu_get_possible_url: Kopiera länk;
+context_menu_open_possible_url: Öppna länk;
+context_menu_show_track_statistics: Statistik;
+context_menu_download_to: Ladda ner till spellista;
+context_menu_edit_tags: Redigera ljudets taggar;
+context_menu_edit_item: Redigera filens taggar;
+context_menu_phantom: Fantomelement;
+context_menu_new_playlist: Ny spellista;
+
+vst_editor_tab_vst: VST;
+vst_editor_tab_own_plugins: Appens plugins;
+vst_editor_tab_parameters: Parametrar;
+vst_editor_tab_auto: Automation;
+vst_editor_pan: Panorering;
+vst_editor_volume: Volym;
+vst_editor_tempo: Tempo;
+vst_editor_pitch: Tonhöjd;
+vst_editor_main_text: Audiohost;
+vst_editor_add: Lägg till plugin;
+vst_editor_remove: Ta bort plugin;
+vst_editor_load_session: Ladda session;
+vst_editor_save_session: Spara session;
+vst_editor_tempo_text: Tempo;
+vst_editor_pitch_text: Tonhöjd;
+vst_editor_volume_text: Volym;
+vst_editor_pan_text: Kanaler;
+vst_editor_parameters: Parametrar;
+vst_editor_save_state: Spara;
+vst_editor_load_state: Ladda;
+vst_editor_open_gui: Öppna GUI;
+vst_editor_add_auto: Ny automation;
+vst_editor_remove_auto: Ta bort automation;
+vst_editor_file_dialog_save_state: Spara plugins parametrar;
+vst_editor_file_dialog_load_state: Ladda plugins parametrar;
+vst_editor_file_dialog_file_type: Textfil;
+vst_editor_file_dialog_save_state_error: Fel vid sparande av parametrar;
+vst_editor_file_dialog_load_state_error: Fel vid laddning av parametrar;
+
+track_statistics: Statistik;
+track_statistics_value: Värde;
+
+network_host_add_to_playlist: Lägg till i aktuell spellista;
+network_host_set_to_playlist: Sätt som aktuell spellista;
+network_host_quantity: Antal;
+network_host_download_promt_text: Ladda ner;
+network_host_search: Vad söker du?;
+network_host_addict_promt_text: Inställningar;
+
+gui_config: Inställningar;
+configuration_is_zero: är noll;

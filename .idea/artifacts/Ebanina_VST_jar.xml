@@ -1,0 +1,15 @@
+<component name="ArtifactManager">
+  <artifact name="Ebanina-VST:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Ebanina_VST_jar</output-path>
+    <root id="root">
+      <element id="archive" name="Ebanina-VST.jar">
+        <element id="directory" name="META-INF">
+          <element id="file-copy" path="$APPLICATION_HOME_DIR$/jbr/bin/META-INF/MANIFEST.MF" />
+        </element>
+        <element id="module-output" name="Ebanina-VST" />
+      </element>
+      <element id="library" level="project" name="classes" />
+      <element id="library" level="project" name="modules" />
+    </root>
+  </artifact>
+</component>

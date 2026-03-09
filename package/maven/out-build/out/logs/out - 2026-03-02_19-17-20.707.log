@@ -1,0 +1,93 @@
+мар. 02, 2026 7:17:21 PM com.sun.javafx.css.StyleManager$ImageCache getCachedImage
+WARNING: Error loading image: file:C:/Users/2022/Desktop/YXvyeYZsASGiXGgXpcJR3ELsuaoH5iQ51XAcTzP7kLvHZkAHhkvlGlVqoTBCHv9fWHO2XpE_wEZ2HjGiEoCjPHEl.jpg
+java.lang.RuntimeException: org.jsoup.HttpStatusException: HTTP error fetching URL. Status=451, URL=https://web.ligaudio.ru/mp3/GHOSTEMANE%20-%20Rapture
+at rf.ebanina.Network.Illegal.Download.LightAudio.getLightAudioInfoTracks(LightAudio.java:125)
+at rf.ebanina.Network.Info.getLightAudioInfoTracks(Info.java:118)
+at rf.ebanina.Network.Info.lambda$static$2(Info.java:92)
+at rf.ebanina.UI.Network.Controller.lambda$initialize$2(Controller.java:70)
+at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: org.jsoup.HttpStatusException: HTTP error fetching URL. Status=451, URL=https://web.ligaudio.ru/mp3/GHOSTEMANE%20-%20Rapture
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection$Response.execute(HttpConnection.java:598)
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection$Response.execute(HttpConnection.java:548)
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection.execute(HttpConnection.java:235)
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection.get(HttpConnection.java:224)
+at rf.ebanina.Network.Illegal.Download.LightAudio.getLightAudioInfoTracks(LightAudio.java:74)
+... 4 more
+java.lang.RuntimeException: org.jsoup.HttpStatusException: HTTP error fetching URL. Status=451, URL=https://web.ligaudio.ru/mp3/GHOSTEMANE%20-%20Cult%20of%20Thoth
+at rf.ebanina.Network.Illegal.Download.LightAudio.getLightAudioInfoTracks(LightAudio.java:125)
+at rf.ebanina.Network.Info.getLightAudioInfoTracks(Info.java:118)
+at rf.ebanina.Network.Info.lambda$static$2(Info.java:92)
+at rf.ebanina.UI.Network.Controller.lambda$initialize$2(Controller.java:70)
+at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: org.jsoup.HttpStatusException: HTTP error fetching URL. Status=451, URL=https://web.ligaudio.ru/mp3/GHOSTEMANE%20-%20Cult%20of%20Thoth
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection$Response.execute(HttpConnection.java:598)
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection$Response.execute(HttpConnection.java:548)
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection.execute(HttpConnection.java:235)
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection.get(HttpConnection.java:224)
+at rf.ebanina.Network.Illegal.Download.LightAudio.getLightAudioInfoTracks(LightAudio.java:74)
+... 4 more
+java.lang.RuntimeException: org.jsoup.HttpStatusException: HTTP error fetching URL. Status=451, URL=https://web.ligaudio.ru/mp3/GHOSTEMANE%20-%20Wishers%20Lose%20Copper%20Dreamers%20Lose%20Everything
+at rf.ebanina.Network.Illegal.Download.LightAudio.getLightAudioInfoTracks(LightAudio.java:125)
+at rf.ebanina.Network.Info.getLightAudioInfoTracks(Info.java:118)
+at rf.ebanina.Network.Info.lambda$static$2(Info.java:92)
+at rf.ebanina.UI.Network.Controller.lambda$initialize$2(Controller.java:70)
+at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: org.jsoup.HttpStatusException: HTTP error fetching URL. Status=451, URL=https://web.ligaudio.ru/mp3/GHOSTEMANE%20-%20Wishers%20Lose%20Copper%20Dreamers%20Lose%20Everything
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection$Response.execute(HttpConnection.java:598)
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection$Response.execute(HttpConnection.java:548)
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection.execute(HttpConnection.java:235)
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection.get(HttpConnection.java:224)
+at rf.ebanina.Network.Illegal.Download.LightAudio.getLightAudioInfoTracks(LightAudio.java:74)
+... 4 more
+java.lang.RuntimeException: org.jsoup.HttpStatusException: HTTP error fetching URL. Status=451, URL=https://web.ligaudio.ru/mp3/GHOSTEMANE%20-%20Plague%20Dr.%20Mask%20II
+at rf.ebanina.Network.Illegal.Download.LightAudio.getLightAudioInfoTracks(LightAudio.java:125)
+at rf.ebanina.Network.Info.getLightAudioInfoTracks(Info.java:118)
+at rf.ebanina.Network.Info.lambda$static$2(Info.java:92)
+at rf.ebanina.UI.Network.Controller.lambda$initialize$2(Controller.java:70)
+at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: org.jsoup.HttpStatusException: HTTP error fetching URL. Status=451, URL=https://web.ligaudio.ru/mp3/GHOSTEMANE%20-%20Plague%20Dr.%20Mask%20II
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection$Response.execute(HttpConnection.java:598)
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection$Response.execute(HttpConnection.java:548)
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection.execute(HttpConnection.java:235)
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection.get(HttpConnection.java:224)
+at rf.ebanina.Network.Illegal.Download.LightAudio.getLightAudioInfoTracks(LightAudio.java:74)
+... 4 more
+java.lang.RuntimeException: org.jsoup.HttpStatusException: HTTP error fetching URL. Status=451, URL=https://web.ligaudio.ru/mp3/GHOSTEMANE%20-%20Black%20Blood
+at rf.ebanina.Network.Illegal.Download.LightAudio.getLightAudioInfoTracks(LightAudio.java:125)
+at rf.ebanina.Network.Info.getLightAudioInfoTracks(Info.java:118)
+at rf.ebanina.Network.Info.lambda$static$2(Info.java:92)
+at rf.ebanina.UI.Network.Controller.lambda$initialize$2(Controller.java:70)
+at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: org.jsoup.HttpStatusException: HTTP error fetching URL. Status=451, URL=https://web.ligaudio.ru/mp3/GHOSTEMANE%20-%20Black%20Blood
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection$Response.execute(HttpConnection.java:598)
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection$Response.execute(HttpConnection.java:548)
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection.execute(HttpConnection.java:235)
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection.get(HttpConnection.java:224)
+at rf.ebanina.Network.Illegal.Download.LightAudio.getLightAudioInfoTracks(LightAudio.java:74)
+... 4 more
+java.lang.RuntimeException: org.jsoup.HttpStatusException: HTTP error fetching URL. Status=451, URL=https://web.ligaudio.ru/mp3/GHOSTEMANE%20-%20Blackmage
+at rf.ebanina.Network.Illegal.Download.LightAudio.getLightAudioInfoTracks(LightAudio.java:125)
+at rf.ebanina.Network.Info.getLightAudioInfoTracks(Info.java:118)
+at rf.ebanina.Network.Info.lambda$static$2(Info.java:92)
+at rf.ebanina.UI.Network.Controller.lambda$initialize$2(Controller.java:70)
+at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: org.jsoup.HttpStatusException: HTTP error fetching URL. Status=451, URL=https://web.ligaudio.ru/mp3/GHOSTEMANE%20-%20Blackmage
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection$Response.execute(HttpConnection.java:598)
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection$Response.execute(HttpConnection.java:548)
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection.execute(HttpConnection.java:235)
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection.get(HttpConnection.java:224)
+at rf.ebanina.Network.Illegal.Download.LightAudio.getLightAudioInfoTracks(LightAudio.java:74)
+... 4 more
+java.lang.RuntimeException: org.jsoup.HttpStatusException: HTTP error fetching URL. Status=451, URL=https://web.ligaudio.ru/mp3/GHOSTEMANE%20-%20As%20Above%20so%20Look%20out%20Below
+at rf.ebanina.Network.Illegal.Download.LightAudio.getLightAudioInfoTracks(LightAudio.java:125)
+at rf.ebanina.Network.Info.getLightAudioInfoTracks(Info.java:118)
+at rf.ebanina.Network.Info.lambda$static$2(Info.java:92)
+at rf.ebanina.UI.Network.Controller.lambda$initialize$2(Controller.java:70)
+at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: org.jsoup.HttpStatusException: HTTP error fetching URL. Status=451, URL=https://web.ligaudio.ru/mp3/GHOSTEMANE%20-%20As%20Above%20so%20Look%20out%20Below
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection$Response.execute(HttpConnection.java:598)
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection$Response.execute(HttpConnection.java:548)
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection.execute(HttpConnection.java:235)
+at jsoup@1.10.1/org.jsoup.helper.HttpConnection.get(HttpConnection.java:224)
+at rf.ebanina.Network.Illegal.Download.LightAudio.getLightAudioInfoTracks(LightAudio.java:74)
+... 4 more

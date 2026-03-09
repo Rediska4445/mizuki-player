@@ -1,0 +1,153 @@
+lang: Dil;
+
+tooltip_main_play: Duraklat / Devam ettir;
+tooltip_main_next: Sonraki;
+tooltip_main_prev: Önceki;
+tooltip_main_slider: Taşı;
+tooltip_main_hide_left: Ağ oynatma listesini aç;
+tooltip_main_hide_right: Yerel oynatma listesini aç;
+tooltip_main_hide_left: Önceki oynatma listesi;
+tooltip_main_next_playlist: Sonraki oynatma listesi;
+tooltip_playlist_set_playlist: Oynatma listesini değiştir;
+tooltip_playlist_search: Ara;
+tooltip_all_functions_button: Uygulamanın genel fonksiyonları;
+
+license_agree: Kabul et;
+
+window_title_metadata: Dosya meta verileri;
+window_title_host: Ses sunucusu;
+window_title_settings: Ayarlar;
+window_title_download_inet: Ağ sunucusu;
+window_title_metadata: Parça meta verileri;
+
+tags {
+    tags_new_tag: Etiket adı;
+    tags_title: Parça etiketleri;
+    tags_save: Etiketi kaydet;
+}
+
+stats {
+    track_statistics: Parça istatistikleri;
+    track_statistics_key: İstatistik anahtarı;
+    track_statistics_value: İstatistik değeri;
+
+    local {
+        track_statistics_time: Son oynatma konumu;
+        track_statistics_volume: Son ses seviyesi;
+        track_statistics_last tempo: Son tempo;
+        track_statistics_tempo: Son tempo;
+        track_statistics_pan: Son panoramik;
+        track_statistics_last pitch: Son perde;
+        track_statistics_count streams: Oynatma sayısı;
+        track_statistics_total time played: Toplam oynatma süresi;
+        track_statistics_count full play: Tam oynatılan kez sayısı;
+        track_statistics_last date: Son oynatma tarihi;
+    }
+
+    net {
+        spotify {
+            spotify_track_statistics_title: Başlık;
+            spotify_track_statistics_author: Yazar;
+            spotify_track_statistics_art: Sanat;
+            spotify_track_statistics_popularity: Popülerlik;
+            spotify_track_statistics_duration: Süre;
+            spotify_track_statistics_explicit: Müstehcen dil;
+        }
+
+        lastfm {
+            lastfm_track_statistics_title: Başlık;
+            lastfm_track_statistics_artist: Sanatçı;
+            lastfm_track_statistics_album: Albüm;
+            lastfm_track_statistics_location: Konum;
+            lastfm_track_statistics_id: Kimlik;
+            lastfm_track_statistics_dura: Süre;
+            lastfm_track_statistics_play_count: Oynatma sayısı;
+            lastfm_track_statistics_tags: Etiketler;
+            lastfm_track_statistics_url: URL;
+            lastfm_track_statistics_listeners: Dinleyiciler;
+            lastfm_track_statistics_wiki: Bilgi;
+            lastfm_track_statistics_image: Resim;
+        }
+
+        soundcloud {
+            soundcloud_track_statistics_duration: Süre;
+            soundcloud_track_statistics_comment_count: Yorum sayısı;
+            soundcloud_track_statistics_art: Kapak resmi;
+            soundcloud_track_statistics_genre: Tür;
+            soundcloud_track_statistics_created_at: Oluşturulma;
+            soundcloud_track_statistics_description: Açıklama;
+            soundcloud_track_statistics_id: Kimlik;
+            soundcloud_track_statistics_title: Başlık;
+            soundcloud_track_statistics_permalink_url: Kalıcı bağlantı;
+            soundcloud_track_statistics_playbacks: Oynatma sayısı;
+            soundcloud_track_statistics_username: Kullanıcı adı;
+        }
+    }
+}
+
+metadata_save: Kaydet;
+metadata_remove: Sil;
+metadata_search: Ara;
+
+context_menu_rename: Oynatma listesini yeniden adlandır;
+context_menu_remove_playlist_from_list: Oynatma listesinden kaldır;
+context_menu_remove_playlist_from_disk: Cihazdan sil;
+context_menu_about_playlist: Oynatma listesi hakkında;
+
+context_menu_open_in_explorer: Klasörde aç;
+context_menu_delete_track: Parçayı sil;
+context_menu_delete_track_from_playlist: Oynatma listesinden parçayı kaldır;
+context_menu_show_tracks_by_artist: Sanatçının tüm parçalarını göster;
+context_menu_manage_tags: Etiketleri yönet;
+context_menu_move_to: Başka oynatma listesine taşı;
+context_menu_copy_to: Başka oynatma listesine kopyala;
+context_menu_get_possible_url: Bağlantıyı kopyala;
+context_menu_open_possible_url: Bağlantıyı aç;
+context_menu_show_track_statistics: İstatistikler;
+context_menu_download_to: Oynatma listesine indir;
+context_menu_edit_tags: Ses etiketlerini düzenle;
+context_menu_edit_item: Dosya etiketlerini düzenle;
+context_menu_phantom: Hayalet öğe;
+context_menu_new_playlist: Yeni oynatma listesi;
+
+vst_editor_tab_vst: VST;
+vst_editor_tab_own_plugins: Uygulama eklentileri;
+vst_editor_tab_parameters: Parametreler;
+vst_editor_tab_auto: Otomasyon;
+vst_editor_pan: Panoramik;
+vst_editor_volume: Ses seviyesi;
+vst_editor_tempo: Tempo;
+vst_editor_pitch: Perde;
+vst_editor_main_text: Ses sunucusu;
+vst_editor_add: Eklenti ekle;
+vst_editor_remove: Eklenti kaldır;
+vst_editor_load_session: Oturum yükle;
+vst_editor_save_session: Oturum kaydet;
+vst_editor_tempo_text: Tempo;
+vst_editor_pitch_text: Perde;
+vst_editor_volume_text: Ses seviyesi;
+vst_editor_pan_text: Kanallar;
+vst_editor_parameters: Parametreler;
+vst_editor_save_state: Kaydet;
+vst_editor_load_state: Yükle;
+vst_editor_open_gui: GUI aç;
+vst_editor_add_auto: Yeni otomasyon;
+vst_editor_remove_auto: Otomasyonu kaldır;
+vst_editor_file_dialog_save_state: Eklenti parametrelerini kaydet;
+vst_editor_file_dialog_load_state: Eklenti parametrelerini yükle;
+vst_editor_file_dialog_file_type: Metin dosyası;
+vst_editor_file_dialog_save_state_error: Parametre kaydetme hatası;
+vst_editor_file_dialog_load_state_error: Parametre yükleme hatası;
+
+track_statistics: İstatistikler;
+track_statistics_value: Değer;
+
+network_host_add_to_playlist: Mevcut oynatma listesine ekle;
+network_host_set_to_playlist: Mevcut oynatma listesi olarak ayarla;
+network_host_quantity: Miktar;
+network_host_download_promt_text: İndir;
+network_host_search: Ne arıyorsun?
+network_host_addict_promt_text: Parametreler;
+
+gui_config: Ayarlar;
+configuration_is_zero: sıfırdır;

@@ -1,0 +1,62 @@
+/* Основной фон и отступы */
+.root-pane {
+    -fx-background-color: #f7f7f7;
+}
+
+/* Панель кнопок */
+.button-bar {
+    -fx-background-color: #7092be;
+    -fx-padding: 10 12 10 12;
+    -fx-background-radius: 8;
+}
+
+/* Кнопки */
+.main-button {
+    -fx-background-color: #f7f7f7;
+    -fx-text-fill: #7092be;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+    -fx-padding: 6 14 6 14;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 2, 0, 0, 1);
+    -fx-transition: all 0.3s ease;
+}
+
+/* Эффект наведения на кнопки */
+.main-button:hover {
+    -fx-background-color: #5a7dbf;
+    -fx-text-fill: #f7f7f7;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 4, 0, 0, 2);
+}
+
+/* Эффект нажатия кнопки */
+.main-button:pressed {
+    -fx-background-color: #3f5a99;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 6, 0, 0, 3);
+}
+
+/* Список плагинов */
+.plugin-list {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #7092be;
+    -fx-border-width: 2;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-padding: 6;
+    -fx-cell-size: 48px; /* чуть больше для удобства */
+}
+
+/* Подсветка выбранного элемента в списке */
+.plugin-list .list-cell:filled:selected, .plugin-list .list-cell:filled:selected:focused {
+    -fx-background-color: #7092be;
+    -fx-text-fill: white;
+}
+
+/* Плавное появление при наведении на элементы списка */
+.plugin-list .list-cell:hover {
+    -fx-background-color: #d6e1f0;
+    -fx-text-fill: #333333;
+    -fx-cursor: hand;
+    -fx-transition: background-color 0.2s ease;
+}

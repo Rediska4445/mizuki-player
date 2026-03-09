@@ -1,0 +1,2 @@
+last index of (C:\Users\2022\Music\Musica) = 14;
+last index of (C:\Users\2022\Music) = 0;

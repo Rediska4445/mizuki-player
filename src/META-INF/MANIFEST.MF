@@ -1,0 +1,10 @@
+Manifest-Version: 1.4.7-1.0.0
+Main-Class: rf.ebanina.Start
+Implementation-Title: Ebanina
+Implementation-Version: 1.4.7-1.0.0
+Implementation-Vendor: Std
+Created-By: rediska
+Specification-Title: Audio-Player
+Specification-Version: 1.4
+Specification-Vendor: Std
+Sealed: false

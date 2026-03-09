@@ -1,0 +1,49 @@
+мар. 06, 2026 5:01:17 PM com.sun.javafx.css.StyleManager$ImageCache getCachedImage
+WARNING: Error loading image: file:C:/Users/2022/Desktop/YXvyeYZsASGiXGgXpcJR3ELsuaoH5iQ51XAcTzP7kLvHZkAHhkvlGlVqoTBCHv9fWHO2XpE_wEZ2HjGiEoCjPHEl.jpg
+мар. 06, 2026 5:07:58 PM de.umass.lastfm.Caller openConnection
+INFO: Open connection: http://ws.audioscrobbler.com/2.0/
+мар. 06, 2026 5:07:58 PM de.umass.lastfm.Caller openPostConnection
+INFO: Post body: method=track.getInfo&track=Endless+Love&artist=DVRST%2C+OBLXKQ&api_key=52ad98fbc4ea0816d852a1ce0598b740
+мар. 06, 2026 5:08:16 PM de.umass.lastfm.Caller openConnection
+INFO: Open connection: http://ws.audioscrobbler.com/2.0/
+мар. 06, 2026 5:08:16 PM de.umass.lastfm.Caller openPostConnection
+INFO: Post body: method=track.getSimilar&track=Endless+Love&artist=DVRST%2C+OBLXKQ&api_key=52ad98fbc4ea0816d852a1ce0598b740
+мар. 06, 2026 5:20:20 PM de.umass.lastfm.Caller openConnection
+INFO: Open connection: http://ws.audioscrobbler.com/2.0/
+мар. 06, 2026 5:20:20 PM de.umass.lastfm.Caller openPostConnection
+INFO: Post body: method=track.getInfo&track=REASON+TO+LIVE&artist=DVRST&api_key=52ad98fbc4ea0816d852a1ce0598b740
+java.net.SocketTimeoutException: timeout
+at untitled10/okhttp3.internal.http2.Http2Stream$StreamTimeout.newTimeoutException(Http2Stream.kt:675)
+at untitled10/okhttp3.internal.http2.Http2Stream$StreamTimeout.exitAndThrowIfTimedOut(Http2Stream.kt:684)
+at untitled10/okhttp3.internal.http2.Http2Stream$FramingSource.read(Http2Stream.kt:380)
+at untitled10/okhttp3.internal.connection.Exchange$ResponseBodySource.read(Exchange.kt:281)
+at untitled10/okio.RealBufferedSource.read(RealBufferedSource.kt:192)
+at untitled10/okio.RealBufferedSource.exhausted(RealBufferedSource.kt:200)
+at untitled10/okio.InflaterSource.refill(InflaterSource.kt:112)
+at untitled10/okio.InflaterSource.readOrInflate(InflaterSource.kt:76)
+at untitled10/okio.InflaterSource.read(InflaterSource.kt:49)
+at untitled10/okio.GzipSource.read(GzipSource.kt:69)
+at untitled10/okio.Buffer.writeAll(Buffer.kt:1303)
+at untitled10/okio.RealBufferedSource.readString(RealBufferedSource.kt:96)
+at untitled10/okhttp3.ResponseBody.string(ResponseBody.kt:187)
+at untitled10/me.API.Net.sendGETRequest(Net.java:110)
+at untitled10/me.API.Info.getRawSimilarTracks(Info.java:103)
+at untitled10/me.API.Info.getSimilarTracks(Info.java:155)
+at rf.ebanina.Network.Illegal.Similar.Spotify.updateSimilar(Spotify.java:31)
+at rf.ebanina.Network.Info.updateSimilarList(Info.java:154)
+at rf.ebanina.Network.Info.updateSimilarList(Info.java:133)
+at rf.ebanina.Network.Info.updateSimilarList(Info.java:128)
+at rf.ebanina.Network.Info.lambda$similarStart$1(Info.java:38)
+at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:577)
+at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+at java.base/java.lang.Thread.run(Thread.java:1589)
+мар. 06, 2026 5:31:26 PM de.umass.lastfm.Caller openConnection
+INFO: Open connection: http://ws.audioscrobbler.com/2.0/
+мар. 06, 2026 5:31:27 PM de.umass.lastfm.Caller openPostConnection
+INFO: Post body: method=track.getSimilar&track=OFFL1NX-+MISTED&artist=OFFL1NX&api_key=52ad98fbc4ea0816d852a1ce0598b740
+мар. 06, 2026 5:49:42 PM de.umass.lastfm.Caller openConnection
+INFO: Open connection: http://ws.audioscrobbler.com/2.0/
+мар. 06, 2026 5:49:42 PM de.umass.lastfm.Caller openPostConnection
+INFO: Post body: method=track.getSimilar&track=North+Memphis&artist=Pharmacist&api_key=52ad98fbc4ea0816d852a1ce0598b740

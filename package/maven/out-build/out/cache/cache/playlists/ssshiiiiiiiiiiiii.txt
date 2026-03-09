@@ -1,0 +1,2 @@
+last index of (C:\Users\2022\Music\ssshiiiiiiiiiiiii) = 20;
+last index of (C:\Users\2022\Music\wav - test) = 22;

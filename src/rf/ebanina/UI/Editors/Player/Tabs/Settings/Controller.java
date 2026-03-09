@@ -1,0 +1,102 @@
+package rf.ebanina.UI.Editors.Player.Tabs.Settings;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
+import javafx.scene.control.Tab;
+import javafx.scene.layout.Pane;
+import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
+import rf.ebanina.ebanina.Player.Track;
+import rf.ebanina.File.Configuration.ConfigurationManager;
+import rf.ebanina.File.Localization.LocalizationManager;
+import rf.ebanina.File.Metadata.MetadataOfFile;
+import rf.ebanina.UI.UI.Paint.ColorProcessor;
+
+import java.net.URI;
+import java.nio.file.Paths;
+
+import static rf.ebanina.UI.Root.*;
+
+public class Controller {
+
+    public Tab tab;
+    public Label pitch;
+    public Label volume_label1;
+    public Label pan_text;
+    public Label tempo;
+    @FXML private Slider tempoSlider;
+    @FXML private Slider pitchSlider;
+    @FXML private Slider volume_slider;
+    @FXML private Slider pan_slider;
+    @FXML private Label tempoLabel;
+    @FXML private Label pitchLabel;
+    @FXML private Label volume_label;
+    @FXML private Label pan_text1;
+    @FXML private Pane panVolumeControlPad;
+    @FXML private Pane pitchTempoControlPad;
+
+    @FXML
+    public void initialize() {
+        tab.setText(LocalizationManager.getLocaleString("vst_editor_tab_parameters", "Settings"));
+
+        tempoSlider.setValue(MediaProcessor.mediaProcessor.mediaPlayer.getTempo());
+        volume_slider.setValue(MediaProcessor.mediaProcessor.mediaPlayer.getVolume());
+        pan_slider.setValue(MediaProcessor.mediaProcessor.mediaPlayer.getPan());
+
+        tempoLabel.setText(String.format("%.2f", tempoSlider.getValue()));
+        pitchLabel.setText(String.format("%.2f", pitchSlider.getValue()));
+
+        pitch.setText(LocalizationManager.getLocaleString("vst_editor_pitch", "Pitch"));
+        tempo.setText(LocalizationManager.getLocaleString("vst_editor_tempo", "Tempo"));
+        pan_text.setText(LocalizationManager.getLocaleString("vst_editor_pan", "Pan"));
+        volume_label1.setText(LocalizationManager.getLocaleString("vst_editor_volume", "Volume"));
+
+        tempoSlider.valueProperty().addListener((obs, oldV, newV) -> {
+            float val = (float) (Math.round(newV.doubleValue() * 100) / 100.0);
+
+            tempoLabel.setText(String.format("%.2f", val));
+            if (MediaProcessor.mediaProcessor.mediaPlayer != null) {
+                MediaProcessor.mediaProcessor.globalMap.put("tempo", val, float.class);
+                MediaProcessor.mediaProcessor.mediaPlayer.setTempo(val);
+
+                soundSlider.setMax(MediaProcessor.mediaProcessor.mediaPlayer.recalculateOverDuration().toSeconds());
+                endTime.setText(Track.getFormattedTotalDuration((float) soundSlider.getMax()));
+
+                if(ConfigurationManager.instance.getBooleanItem("is_hue_change", "false")) {
+                    ColorProcessor.core.scaleHue(val);
+
+                    artProcessor.setImage(MetadataOfFile.iMetadataOfFiles.getArt(new Track(Paths.get(URI.create(MediaProcessor.mediaProcessor.mediaPlayer.getMedia().getSource())).toString()), ColorProcessor.size, ColorProcessor.size, ColorProcessor.isPreserveRatio, ColorProcessor.isSmooth));
+                    artProcessor.initColor(art.getImage());
+                }
+            }
+        });
+
+        pitchSlider.valueProperty().addListener((obs, oldV, newV) -> {
+            float val = (float) (Math.round(newV.doubleValue() * 100) / 100.0);
+
+            pitchLabel.setText(String.format("%.2f", val));
+            if (MediaProcessor.mediaProcessor.mediaPlayer != null) {
+                MediaProcessor.mediaProcessor.globalMap.put("pitch", val, float.class);
+            }
+        });
+
+        volume_slider.valueProperty().addListener((o, old, newV) -> {
+            double val = Math.round(newV.doubleValue() * 100) / 100.0;
+            volume_label.setText(String.format("%.2f", val));
+            if (MediaProcessor.mediaProcessor.mediaPlayer != null) {
+                MediaProcessor.mediaProcessor.mediaPlayer.setVolume(val);
+                MediaProcessor.mediaProcessor.globalMap.put("volume", val, double.class);
+            }
+        });
+
+        pan_slider.valueProperty().addListener((obs, oldV, newV) -> {
+            double val = Math.round(newV.doubleValue() * 100) / 100.0;
+            pan_text1.setText(String.format("%.2f", val));
+
+            if (MediaProcessor.mediaProcessor.mediaPlayer != null) {
+                MediaProcessor.mediaProcessor.mediaPlayer.setPan((float) val);
+                MediaProcessor.mediaProcessor.globalMap.put("pan", (float) val, float.class);
+            }
+        });
+    }
+}

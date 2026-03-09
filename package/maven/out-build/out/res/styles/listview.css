@@ -1,0 +1,82 @@
+.list-view {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-border-color: black;
+    -fx-border-width: 2;
+    -fx-padding: 0;
+}
+
+.list-view .border {
+    -fx-border-width: 2px;
+    -fx-background-insets: 0;
+    -fx-border-radius: 5px;
+    -fx-padding: 0;
+}
+
+.list-cell:even {
+    -fx-background-color: /* -fx-custom-cell-color */ transparent;
+}
+
+.list-cell:odd {
+    -fx-background-color: /* -fx-custom-cell-color */ transparent;
+}
+
+.list-cell:filled:hover {
+/*
+    -fx-background-color: -fx-custom-focus-color;
+    -fx-text-fill: white;
+*/
+}
+
+.list-view .list-cell:focused {
+    -fx-background-color: /* -fx-custom-color */ transparent;
+    -fx-text-fill: #f7f7f7;
+}
+
+.list-view .scroll-bar {
+    -fx-background-color: /* -fx-custom-cell-color */ transparent;
+    -fx-border-width: 2px;
+    -fx-pref-width: 12;
+    -fx-pref-height: 8;
+    -fx-padding: 0;
+}
+
+.list-view .scroll-bar .thumb {
+    -fx-background-color: rgba(0, 0, 0, .2);
+    -fx-background-radius: 0;
+    -fx-pref-width: 10;
+    -fx-pref-height: 10;
+}
+
+.list-view .scroll-bar:horizontal:hover .track ,
+.list-view .scroll-bar:horizontal:pressed .track ,
+.list-view .scroll-bar:vertical:hover .track,
+.list-view .scroll-bar:vertical:pressed .track{
+     -fx-background-color: derive(#434343, 50%);
+	 -fx-opacity: 0.2;
+	 -fx-background-radius: 0em;
+}
+
+/* Kill the next, if empty */
+
+.list-view .scroll-bar:horizontal .increment-button ,
+.list-view .scroll-bar:horizontal .decrement-button {
+    -fx-background-color:transparent;
+	-fx-background-radius: 0em;
+	-fx-padding:0 0 10 0;
+
+}
+
+.list-view .scroll-bar:vertical .increment-button,
+.list-view .scroll-bar:vertical .decrement-button {
+    -fx-background-color: transparent;
+	-fx-background-radius: 0em;
+	-fx-padding:0 10 0 0;
+}
+
+.list-view  .scroll-bar .increment-arrow,
+.list-view  .scroll-bar .decrement-arrow {
+    -fx-background-color: transparent;
+	-fx-shape: " ";
+	-fx-padding:0;
+}

@@ -1,0 +1,43 @@
+[INFO 2026-03-06T17:27:43.015048300] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) File logging initialized
+[INFO 2026-03-06T17:27:43.092049600] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Root stage reference set
+[INFO 2026-03-06T17:27:43.169659100] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Main scene created with root node
+[INFO 2026-03-06T17:27:43.179661600] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Stage configured with title: Ebanina (Mizuki): v1.4.7 - Mizuki - [rf.ebanina.ebanina.Music.start(Music.java:311)] :: 2026-03-06T17:27:43.172661[INFO] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Window geometry restored from session
+[INFO 2026-03-06T17:27:43.425391700] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Stage displayed with max constraints
+[INFO 2026-03-06T17:27:43.427391700] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Animations controller initialized
+[INFO 2026-03-06T17:27:43.434585700] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Exit event handler registered
+[INFO 2026-03-06T17:27:43.538403400] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Configuration FXML converter executed
+[INFO 2026-03-06T17:27:43.539394200] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Playlist cursorus prepare
+[INFO 2026-03-06T17:27:43.620498400] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) GlobalScreen native hook registered successfully
+[INFO 2026-03-06T17:27:43.623499500] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) KeyBindingController initialized and listeners registered
+[PROFILER 2026-03-06T17:27:43.630504200] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) 1_772_807_263_629 * Root UI initialization start
+[PROFILER 2026-03-06T17:27:43.956499100] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) 1_772_807_263_953 (Δ 324 ms) * Root UI initialization complete
+[INFO 2026-03-06T17:27:43.966497800] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Media cache (global map) initialized
+[INFO 2026-03-06T17:27:44.076517800] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Current track media loaded
+[INFO 2026-03-06T17:27:44.081500300] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) MediaPlayer updated with new track
+[INFO 2026-03-06T17:27:44.336498100] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Root UI final setup complete
+[INFO 2026-03-06T17:27:44.356499200] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) All UI handlers initialized
+[INFO 2026-03-06T17:27:44.357499100] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) MediaProcessor fully initialized
+[INFO 2026-03-06T17:27:44.360512200] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Scene finalized and key listeners setup
+[INFO 2026-03-06T17:27:44.364638400] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) User session loaded
+[INFO 2026-03-06T17:27:44.366500900] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) All mods loaded from folder
+[ERROR 2026-03-06T17:27:44.480498300] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) java.base/sun.nio.ch.UnixDomainSockets.connect0(Native Method)
+[ERROR 2026-03-06T17:27:44.481497600] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) java.base/sun.nio.ch.UnixDomainSockets.connect(UnixDomainSockets.java:154)
+[ERROR 2026-03-06T17:27:44.488523500] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) java.base/sun.nio.ch.UnixDomainSockets.connect(UnixDomainSockets.java:150)
+[ERROR 2026-03-06T17:27:44.490500800] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) java.base/sun.nio.ch.SocketChannelImpl.connect(SocketChannelImpl.java:878)
+[ERROR 2026-03-06T17:27:44.491500400] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) java.base/java.nio.channels.SocketChannel.open(SocketChannel.java:285)
+[ERROR 2026-03-06T17:27:44.492501900] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) rf.ebanina.ebanina.Player.AudioPlugins.PluginWrapper.sendRequest(PluginWrapper.java:44)
+[ERROR 2026-03-06T17:27:44.493496100] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) rf.ebanina.ebanina.Music.start(Music.java:510)
+[ERROR 2026-03-06T17:27:44.493496100] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) javafx.graphics/com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$9(LauncherImpl.java:847)
+[ERROR 2026-03-06T17:27:44.495497900] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) javafx.graphics/com.sun.javafx.application.PlatformImpl.lambda$runAndWait$12(PlatformImpl.java:484)
+[ERROR 2026-03-06T17:27:44.499495900] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) javafx.graphics/com.sun.javafx.application.PlatformImpl.lambda$runLater$10(PlatformImpl.java:457)
+[ERROR 2026-03-06T17:27:44.500496900] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
+[ERROR 2026-03-06T17:27:44.500496900] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) javafx.graphics/com.sun.javafx.application.PlatformImpl.lambda$runLater$11(PlatformImpl.java:456)
+[ERROR 2026-03-06T17:27:44.500496900] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) javafx.graphics/com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:96)
+[ERROR 2026-03-06T17:27:44.501496700] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) javafx.graphics/com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+[ERROR 2026-03-06T17:27:44.501496700] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) javafx.graphics/com.sun.glass.ui.win.WinApplication.lambda$runLoop$3(WinApplication.java:184)
+[ERROR 2026-03-06T17:27:44.502496600] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) java.base/java.lang.Thread.run(Thread.java:1583)
+[PROFILER 2026-03-06T17:27:44.502496600] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) 1_772_807_264_502 (Δ 549 ms) * Application ENDUP Time
+SUCCESS: 77537 bytes
+Preview: {"tracks":{"href":"https://api.spotify.com/v1/search?offset=0&limit=20&query=06.%20DJ%20Squeeky%20-%20Victim%20Of%20A%20%20Pimp%20Shit.wav&type=track&locale=*","limit":20,"next":"https://api.spotify.c
+SUCCESS: 77537 bytes
+Preview: {"tracks":{"href":"https://api.spotify.com/v1/search?offset=0&limit=20&query=06.%20DJ%20Squeeky%20-%20Victim%20Of%20A%20%20Pimp%20Shit.wav&type=track&locale=*","limit":20,"next":"https://api.spotify.c

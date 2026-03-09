@@ -1,0 +1,3 @@
+array of (C:\Users\2022\Music\PostPunk\ThxSoMch -  - SPIT IN MY FACE!.mp3) = [volume=1.0, count streams=2, total time played=201.63333129882812, count full play=1, tempo=0.8899999260902405, last date=2026-02-22T03:45:13.913230, time=0, pan=0.0];
+array of (C:\Users\2022\Music\PostPunk\Неизвестен - Виктор Ужаков  Я один.mp3) = [volume=1.0, count streams=1, total time played=205.6254195011338, count full play=1, tempo=0.9899999499320984, last date=2026-02-22T03:45:12.892682200, pan=0.0];
+array of (C:\Users\2022\Music\PostPunk\Ploho_Molchat_doma_-_Po_krayu_ostrova_67785029.mp3) = [volume=1.0, count streams=1, total time played=243.37755102040816, count full play=1, tempo=0.8899999260902405, last date=2026-02-22T03:54:47.303558500, pan=0.0];

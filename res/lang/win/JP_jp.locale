@@ -1,0 +1,151 @@
+lang: 言語;
+
+tooltip_main_play: 一時停止を解除 / 一時停止;
+tooltip_main_next: 次へ;
+tooltip_main_prev: 前へ;
+tooltip_main_slider: 移動;
+tooltip_main_hide_left: ネットワークプレイリストを開く;
+tooltip_main_hide_right: ローカルプレイリストを開く;
+tooltip_playlist_prev_playlist: 前のプレイリスト;
+tooltip_playlist_next_playlist: 次のプレイリスト;
+tooltip_playlist_set_playlist: プレイリストを変更;
+tooltip_playlist_search: 検索;
+tooltip_all_functions_button: アプリの全機能;
+
+license_agree: 同意する;
+
+window_title_metadata: ファイルのメタデータ;
+window_title_host: オーディオホスト;
+window_title_settings: 設定;
+window_title_download_inet: ネットワークホスト;
+window_title_metadata: トラックのメタデータ;
+
+tags {
+    tags_new_tag: タグ名;
+    tags_title: トラックのタグ;
+    tags_save: タグを保存;
+}
+
+stats {
+    track_statistics: ファイルの統計情報;
+    track_statistics_key: 統計キー;
+    track_statistics_value: 統計値;
+
+    local {
+        track_statistics_time: 最終再生位置;
+        track_statistics_volume: 最後のボリューム;
+        track_statistics_last tempo: 最後のテンポ;
+        track_statistics_tempo: 最後のテンポ;
+        track_statistics_pan: 最後のパン;
+        track_statistics_last pitch: 最後のピッチ;
+        track_statistics_count streams: ストリーミング回数;
+        track_statistics_total time played: 総再生時間;
+        track_statistics_count full play: 完了した再生回数;
+        track_statistics_last date: 最終聴取日付;
+    }
+
+    net {
+        spotify {
+            spotify_track_statistics_title: タイトル;
+            spotify_track_statistics_author: 著者;
+            spotify_track_statistics_art: アートワーク;
+            spotify_track_statistics_popularity: 人気度;
+            spotify_track_statistics_duration: 継続時間;
+            spotify_track_statistics_explicit: 下品な言葉を含むか否か;
+        }
+
+        lastfm {
+            lastfm_track_statistics_title: タイトル;
+            lastfm_track_statistics_artist: アーティスト;
+            lastfm_track_statistics_album: アルバム;
+            lastfm_track_statistics_location: 場所;
+            lastfm_track_statistics_id: ID;
+            lastfm_track_statistics_dura: 継続時間;
+            lastfm_track_statistics_play_count: 再生回数;
+            lastfm_track_statistics_tags: タグ;
+            lastfm_track_statistics_url: URL;
+            lastfm_track_statistics_listeners: 聴衆数;
+            lastfm_track_statistics_wiki: Wiki情報;
+            lastfm_track_statistics_image: イメージ;
+        }
+
+        soundcloud {
+            soundcloud_track_statistics_duration: 継続時間;
+            soundcloud_track_statistics_comment_count: コメント数;
+            soundcloud_track_statistics_art: カバーアート;
+            soundcloud_track_statistics_genre: ジャンル;
+            soundcloud_track_statistics_created_at: 作成日時;
+            soundcloud_track_statistics_description: 説明文;
+            soundcloud_track_statistics_id: ID;
+            soundcloud_track_statistics_title: タイトル;
+            soundcloud_track_statistics_permalink_url: 永続URL;
+            soundcloud_track_statistics_playbacks: 再生回数;
+            soundcloud_track_statistics_username: ユーザ名;
+        }
+    }
+}
+
+metadata_save: 保存;
+metadata_remove: 削除;
+metadata_search: 検索;
+
+context_menu_rename: プレイリスト名を変更;
+context_menu_remove_playlist_from_list: プレイリストから削除;
+context_menu_remove_playlist_from_disk: デバイスから削除;
+context_menu_about_playlist: プレイリストについて;
+
+context_menu_open_in_explorer: フォルダを開く;
+context_menu_delete_track: トラックを削除;
+context_menu_delete_track_from_playlist: プレイリストからトラックを削除;
+context_menu_show_tracks_by_artist: アーティストの全トラックを表示;
+context_menu_manage_tags: タグ管理;
+context_menu_move_to: 別のプレイリストに移動;
+context_menu_copy_to: 別のプレイリストにコピー;
+context_menu_get_possible_url: リンクをコピー;
+context_menu_open_possible_url: リンクを開く;
+context_menu_show_track_statistics: 統計;
+context_menu_download_to: プレイリストにダウンロード;
+context_menu_edit_tags: オーディオタグ編集;
+context_menu_edit_item: ファイルタグ編集;
+context_menu_phantom: ファントムアイテム;
+context_menu_new_playlist: 新しいプレイリスト;
+
+vst_editor_tab_vst: VST;
+vst_editor_tab_own_plugins: アプリケーションプラグイン;
+vst_editor_tab_parameters: パラメーター;
+vst_editor_tab_auto: オートメーション;
+vst_editor_pan: パン;
+vst_editor_volume: ボリューム;
+vst_editor_tempo: テンポ;
+vst_editor_pitch: ピッチ;
+vst_editor_main_text: オーディオホスト;
+vst_editor_add: プラグインを追加;
+vst_editor_remove: プラグインを削除;
+vst_editor_load_session: セッションを読み込み;
+vst_editor_save_session: セッションを保存;
+vst_editor_tempo_text: テンポ;
+vst_editor_pitch_text: ピッチ;
+vst_editor_volume_text: ボリューム;
+vst_editor_pan_text: チャンネル;
+vst_editor_parameters: パラメータ;
+vst_editor_save_state: 保存;
+vst_editor_load_state: 読み込み;
+vst_editor_open_gui: GUIを開く;
+vst_editor_add_auto: 自動追加;
+vst_editor_remove_auto: 自動削除;
+vst_editor_file_dialog_save_state: プラグインパラメータを保存;
+vst_editor_file_dialog_load_state: プラグインパラメータを読み込み;
+vst_editor_file_dialog_file_type: テキストファイル;
+vst_editor_file_dialog_save_state_error: パラメータ保存エラー;
+vst_editor_file_dialog_load_state_error: パラメータ読み込みエラー;
+
+
+network_host_add_to_playlist: 現在のプレイリストに追加;
+network_host_set_to_playlist: 現在のプレイリストに設定;
+network_host_quantity: 数量;
+network_host_download_promt_text: ダウンロード;
+network_host_search: 何を検索しますか？
+network_host_addict_promt_text: パラメータ;
+
+gui_config: 設定;
+configuration_is_zero: ゼロ;

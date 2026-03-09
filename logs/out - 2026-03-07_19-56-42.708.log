@@ -1,0 +1,30 @@
+[INFO 2026-03-07T19:56:42.715131800] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) File logging initialized
+[INFO 2026-03-07T19:56:42.787134600] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Root stage reference set
+[INFO 2026-03-07T19:56:42.854133600] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Main scene created with root node
+[INFO 2026-03-07T19:56:42.861129900] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Stage configured with title: Ebanina (Mizuki): v1.4.7 - Mizuki - [rf.ebanina.ebanina.Music.start(Music.java:316)] :: 2026-03-07T19:56:42.856131100[INFO] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Window geometry restored from session
+[INFO 2026-03-07T19:56:43.064130700] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Stage displayed with max constraints
+[INFO 2026-03-07T19:56:43.067134600] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Animations controller initialized
+[INFO 2026-03-07T19:56:43.069135200] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Exit event handler registered
+[INFO 2026-03-07T19:56:43.143129400] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Configuration FXML converter executed
+[INFO 2026-03-07T19:56:43.143129400] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Playlist cursorus prepare
+[INFO 2026-03-07T19:56:43.377526400] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) GlobalScreen native hook registered successfully
+[INFO 2026-03-07T19:56:43.380528100] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) KeyBindingController initialized and listeners registered
+[PROFILER 2026-03-07T19:56:43.395527300] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) 1_772_902_603_393 * Root UI initialization start
+[PROFILER 2026-03-07T19:56:43.715526700] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) 1_772_902_603_712 (Δ 319 ms) * Root UI initialization complete
+[INFO 2026-03-07T19:56:43.721528600] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Media cache (global map) initialized
+[INFO 2026-03-07T19:56:43.792525400] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Current track media loaded
+[INFO 2026-03-07T19:56:43.794529200] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) MediaPlayer updated with new track
+[INFO 2026-03-07T19:56:44.085528600] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Root UI final setup complete
+[INFO 2026-03-07T19:56:44.106529900] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) All UI handlers initialized
+[INFO 2026-03-07T19:56:44.107527800] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) MediaProcessor fully initialized
+[INFO 2026-03-07T19:56:44.112530700] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Scene finalized and key listeners setup
+[INFO 2026-03-07T19:56:44.117527600] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) User session loaded
+[INFO 2026-03-07T19:56:44.119526] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) All mods loaded from folder
+[INFO 2026-03-07T19:56:44.166526400] VST Host уже запущен на localhost:888
+[INFO 2026-03-07T19:56:44.170525600] Подключение к VST Host установлено
+[PROFILER 2026-03-07T19:56:44.174526300] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) 1_772_902_604_174 (Δ 462 ms) * Application ENDUP Time
+[INFO 2026-03-07T19:56:47.827311900SUCCESS: 78572 bytes] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Focus lost - Track title: SCXR SOUL, sxdboy - DEMONS IN MY SOUL 2  MEMPHIS HOUSE
+Preview: {"tracks":{"href":"https://api.spotify.com/v1/search?offset=0&limit=20&query=06.%20DJ%20Squeeky%20-%20Victim%20Of%20A%20%20Pimp%20Shit.wav&type=track&locale=*","limit":20,"next":"https://api.spotify.c
+SUCCESS: 78572 bytes
+Preview: {"tracks":{"href":"https://api.spotify.com/v1/search?offset=0&limit=20&query=06.%20DJ%20Squeeky%20-%20Victim%20Of%20A%20%20Pimp%20Shit.wav&type=track&locale=*","limit":20,"next":"https://api.spotify.c
+[INFO 2026-03-07T19:57:07.773278600] (* ^ ω ^) / Main Loader Class \ (^ ω ^ *) Focus gained - App title restored

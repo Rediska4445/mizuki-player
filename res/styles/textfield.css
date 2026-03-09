@@ -1,0 +1,4 @@
+.text-field {
+    -fx-background-color: var(--background-color, white);
+    -fx-text-fill: var(--text-fill, black);
+}

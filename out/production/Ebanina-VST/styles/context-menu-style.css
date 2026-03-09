@@ -1,0 +1,33 @@
+.context-menu {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-padding: 6 0 6 0;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 8, 0, 0, 3);
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+}
+
+.context-menu .menu-item {
+    -fx-padding: 6 16 6 16;
+    -fx-font-size: 12px;
+    -fx-text-fill: #333333;
+    -fx-font-weight: 500;
+    -fx-background-radius: 6;
+    -fx-background-color: transparent;
+    -fx-wrap-text: true;
+    -fx-max-width: 230px;
+}
+
+.context-menu .menu-item:hover,
+.context-menu .menu-item:focused,
+.context-menu .menu-item:armed {
+    -fx-background-color: #3f51b5;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+.context-menu .separator {
+    -fx-background-color: #e0e0e0;
+    -fx-padding: 0;
+    -fx-max-height: 1;
+}

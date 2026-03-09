@@ -1,0 +1,153 @@
+lang: Kieli;
+
+tooltip_main_play: Keskeytä / Jatka toistoa;
+tooltip_main_next: Seuraava;
+tooltip_main_prev: Edellinen;
+tooltip_main_slider: Siirrä;
+tooltip_main_hide_left: Avaa verkkosoittolista;
+tooltip_main_hide_right: Avaa paikallinen soittolista;
+tooltip_playlist_prev_playlist: Edellinen soittolista;
+tooltip_playlist_next_playlist: Seuraava soittolista;
+tooltip_playlist_set_playlist: Vaihda soittolistaa;
+tooltip_playlist_search: Haku;
+tooltip_all_functions_button: Sovelluksen yleiset toiminnot;
+
+license_agree: Hyväksy;
+
+window_title_metadata: Tiedoston metatiedot;
+window_title_host: Äänipalvelin;
+window_title_settings: Asetukset;
+window_title_download_inet: Verkkopalvelin;
+window_title_metadata: Kappaleen metatiedot;
+
+tags {
+    tags_new_tag: Tunnisteen nimi;
+    tags_title: Kappaleen tunnisteet;
+    tags_save: Tallenna tunniste;
+}
+
+stats {
+    track_statistics: Kappaleiden tilastot;
+    track_statistics_key: Tilastokenttä;
+    track_statistics_value: Tilastokentän arvo;
+
+    local {
+        track_statistics_time: Viimeisin toistopiste;
+        track_statistics_volume: Viimeisin äänenvoimakkuus;
+        track_statistics_last tempo: Viimeisin tempo;
+        track_statistics_tempo: Viimeisin tempo;
+        track_statistics_pan: Viimeisin panorointi;
+        track_statistics_last pitch: Viimeisin sävelkorkeus;
+        track_statistics_count streams: Toistokertojen määrä;
+        track_statistics_total time played: Kuunteluaika yhteensä;
+        track_statistics_count full play: Täysin toistettujen kertojen määrä;
+        track_statistics_last date: Viimeisen toiston päivämäärä;
+    }
+
+    net {
+        spotify {
+            spotify_track_statistics_title: Otsikko;
+            spotify_track_statistics_author: Tekijä;
+            spotify_track_statistics_art: Kuvat;
+            spotify_track_statistics_popularity: Suosio;
+            spotify_track_statistics_duration: Kesto;
+            spotify_track_statistics_explicit: Raaka kieli;
+        }
+
+        lastfm {
+            lastfm_track_statistics_title: Otsikko;
+            lastfm_track_statistics_artist: Esittäjä;
+            lastfm_track_statistics_album: Albumi;
+            lastfm_track_statistics_location: Sijainti;
+            lastfm_track_statistics_id: Tunniste;
+            lastfm_track_statistics_dura: Kesto;
+            lastfm_track_statistics_play_count: Toistokertojen määrä;
+            lastfm_track_statistics_tags: Tunnisteet;
+            lastfm_track_statistics_url: URL;
+            lastfm_track_statistics_listeners: Kuuntelijat;
+            lastfm_track_statistics_wiki: Tiedot;
+            lastfm_track_statistics_image: Kuva;
+        }
+
+        soundcloud {
+            soundcloud_track_statistics_duration: Kesto;
+            soundcloud_track_statistics_comment_count: Kommenttien määrä;
+            soundcloud_track_statistics_art: Kannen kuva;
+            soundcloud_track_statistics_genre: Genre;
+            soundcloud_track_statistics_created_at: Luotu;
+            soundcloud_track_statistics_description: Kuvaus;
+            soundcloud_track_statistics_id: Tunniste;
+            soundcloud_track_statistics_title: Otsikko;
+            soundcloud_track_statistics_permalink_url: Suora linkki;
+            soundcloud_track_statistics_playbacks: Toistokertojen määrä;
+            soundcloud_track_statistics_username: Käyttäjätunnus;
+        }
+    }
+}
+
+metadata_save: Tallenna;
+metadata_remove: Poista;
+metadata_search: Haku;
+
+context_menu_rename: Nimeä soittolista uudelleen;
+context_menu_remove_playlist_from_list: Poista soittolistalta;
+context_menu_remove_playlist_from_disk: Poista laitteesta;
+context_menu_about_playlist: Soittolistasta;
+
+context_menu_open_in_explorer: Avaa kansiossa;
+context_menu_delete_track: Poista kappale;
+context_menu_delete_track_from_playlist: Poista kappale soittolistalta;
+context_menu_show_tracks_by_artist: Näytä kaikki esittäjän kappaleet;
+context_menu_manage_tags: Hallitse tunnisteita;
+context_menu_move_to: Siirrä toiseen soittolistaan;
+context_menu_copy_to: Kopioi toiseen soittolistaan;
+context_menu_get_possible_url: Kopioi linkki;
+context_menu_open_possible_url: Avaa linkki;
+context_menu_show_track_statistics: Tilastot;
+context_menu_download_to: Lataa soittolistaan;
+context_menu_edit_tags: Muokkaa äänen tunnisteita;
+context_menu_edit_item: Muokkaa tiedoston tunnisteita;
+context_menu_phantom: Haamuelementti;
+context_menu_new_playlist: Uusi soittolista;
+
+vst_editor_tab_vst: VST;
+vst_editor_tab_own_plugins: Sovelluksen lisäosat;
+vst_editor_tab_parameters: Parametrit;
+vst_editor_tab_auto: Automaatio;
+vst_editor_pan: Panorointi;
+vst_editor_volume: Äänenvoimakkuus;
+vst_editor_tempo: Tempo;
+vst_editor_pitch: Sävelkorkeus;
+vst_editor_main_text: Äänipalvelin;
+vst_editor_add: Lisää lisäosa;
+vst_editor_remove: Poista lisäosa;
+vst_editor_load_session: Lataa sessio;
+vst_editor_save_session: Tallenna sessio;
+vst_editor_tempo_text: Tempo;
+vst_editor_pitch_text: Sävelkorkeus;
+vst_editor_volume_text: Äänenvoimakkuus;
+vst_editor_pan_text: Kanavat;
+vst_editor_parameters: Parametrit;
+vst_editor_save_state: Tallenna;
+vst_editor_load_state: Lataa;
+vst_editor_open_gui: Avaa GUI;
+vst_editor_add_auto: Uusi automaatio;
+vst_editor_remove_auto: Poista automaatio;
+vst_editor_file_dialog_save_state: Tallenna lisäosan parametrit;
+vst_editor_file_dialog_load_state: Lataa lisäosan parametrit;
+vst_editor_file_dialog_file_type: Tekstitiedosto;
+vst_editor_file_dialog_save_state_error: Parametrien tallennuksessa virhe;
+vst_editor_file_dialog_load_state_error: Parametrien latauksessa virhe;
+
+track_statistics: Tilastot;
+track_statistics_value: Arvo;
+
+network_host_add_to_playlist: Lisää nykyiseen soittolistaan;
+network_host_set_to_playlist: Aseta nykyiseksi soittolistaksi;
+network_host_quantity: Määrä;
+network_host_download_promt_text: Lataa;
+network_host_search: Mitä haetaan?
+network_host_addict_promt_text: Asetukset;
+
+gui_config: Asetukset;
+configuration_is_zero: on nolla;

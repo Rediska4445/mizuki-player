@@ -1,0 +1,2 @@
+last index of (C:\Users\2022\Music\old memphis) = 18;
+last track of (C:\Users\2022\Music\old memphis) = C:\Users\2022\Music\new PLaylist\Lebanon Hanover - Gallowdance.mp3;

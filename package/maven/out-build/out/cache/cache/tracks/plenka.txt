@@ -1,0 +1,11 @@
+array of (C:\Users\2022\Music\plenka\Narvent_-_Fainted_76900501.mp3) = [last tempo=0.9999999403953552, time=0];
+array of (C:\Users\2022\Music\plenka\plenka_-_No_(musmore.com).mp3) = [last tempo=0.9999999403953552, time=3];
+array of (C:\Users\2022\Music\plenka\lannarie - still alive.mp3) = [last tempo=0.9999999403953552];
+array of (C:\Users\2022\Music\plenka\Narvent, Luneex - Calm Night.mp3) = [last tempo=0.9999999403953552];
+array of (C:\Users\2022\Music\plenka\Narvent_-_Vanished_74671182.mp3) = [last tempo=0.9999999403953552];
+array of (C:\Users\2022\Music\plenka\neheart_ETHIEL_-_Surface_74627702.mp3) = [last tempo=0.9999999403953552];
+array of (C:\Users\2022\Music\plenka\OBLXKQ - EUPHORIA SECRET.mp3) = [last tempo=0.9999999403953552, volume=1.0, count streams=1, total time played=0, last date=2025-11-30T06:57:04.285499700, tempo=0.9099999666213989, time=3, pan=0.05000000074505806];
+array of (C:\Users\2022\Music\plenka\ONL, CNQR+ - In your soul.mp3) = [last tempo=0.9999999403953552];
+array of (C:\Users\2022\Music\plenka\plenka - everything that I can't forget.mp3) = [last tempo=0.9999999403953552];
+array of (C:\Users\2022\Music\plenka\plenka - Next Day Was Yesterday.mp3) = [last tempo=0.9999999403953552, time=8];
+array of (C:\Users\2022\Music\plenka\portwave - SHADOW LADY (DRKNESS).mp3) = [last tempo=0.9999999403953552, time=116];

@@ -1,0 +1,1 @@
+array of (C:\Users\2022\Music\pitcher\kaito shoma - haunted house - pitched to -100 cents.mp3) = [volume=1.0, count streams=2, total time played=0, tempo=0.9099999666213989, last date=2025-12-02T18:42:05.610792400, time=0, pan=0.05000000074505806];
