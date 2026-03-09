@@ -1,9 +1,9 @@
 [submodule "modules/ebanina-std-utils"]
-	path = modules/ebanina-std-utils
-	url = https://github.com/Rediska4445/mizuki-std-utils
+    path = modules/ebanina-std-utils
+    url = https://github.com
 [submodule "modules/ebanina-vst-ipc-host"]
-	path = modules/ebanina-vst-ipc-host
-	url = https://github.com/Rediska4445/mizuki-vst-ipc-host
+    path = modules/ebanina-vst-ipc-host
+    url = https://github.com
 [submodule "modules/untitled10"]
-	path = modules/untitled10
-	url = https://github.com/Rediska4445/mizuki-std-network-spotify-api-wrapper
+    path = modules/untitled10
+    url = https://github.com
