@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox prefHeight="313.0" prefWidth="280.0" spacing="10" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rf.ebanina.UI.Editors.Tags.Controller">
+
+    <!-- Заголовок по центру -->
+    <Label alignment="CENTER" fx:id="title" text="Теги трека:">
+        <VBox.margin>
+            <Insets bottom="0" top="10" />
+        </VBox.margin>
+    </Label>
+
+    <ListView fx:id="tagListView" prefHeight="200" />
+
+    <HBox alignment="CENTER_LEFT" spacing="5">
+        <TextField fx:id="tagInput" promptText="Введите новый тег" HBox.hgrow="ALWAYS" />
+
+        <Button maxHeight="28" maxWidth="28" mnemonicParsing="false" onAction="#onAddTag" prefHeight="28" prefWidth="28" text="+" />
+        <Button maxHeight="28" maxWidth="28" mnemonicParsing="false" onAction="#onDeleteSelected" prefHeight="28" prefWidth="28" text="-" />
+    </HBox>
+
+    <Button alignment="CENTER" maxWidth="Infinity" fx:id="save" onAction="#onSave" text="Сохранить" VBox.vgrow="ALWAYS" />
+</VBox>

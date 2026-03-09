@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<Tab text="VST" xmlns="http://javafx.com/javafx/17.0.2-ea"
+     xmlns:fx="http://javafx.com/fxml/1"
+     fx:id="tab"
+     fx:controller="rf.ebanina.UI.Editors.Player.Tabs.AudioPlugins.Controller">
+    <HBox>
+        <spacing>20</spacing>
+        <padding>
+            <Insets bottom="15" left="15" right="15" top="15" />
+        </padding>
+
+        <VBox prefHeight="291.0" prefWidth="40.0" spacing="20"
+              style="-fx-background-color: #e8eef7; -fx-border-radius: 8; -fx-background-radius: 8;">
+            <JFXButton fx:id="removeBtn" maxWidth="Infinity" ripplerFill="#607ea3"
+                       style="-fx-background-color: #7092be; -fx-text-fill: white; -fx-font-weight: 600; -fx-background-radius: 2;"
+                       styleClass="button-raised" VBox.vgrow="ALWAYS">
+                <graphic>
+                    <SVGPath content="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" fill="white" />
+                </graphic>
+            </JFXButton>
+            <JFXButton fx:id="removeAllPluginsBtn" maxWidth="Infinity" ripplerFill="#607ea3"
+                       style="-fx-background-color: #7092be; -fx-text-fill: white; -fx-font-weight: 600; -fx-background-radius: 2;"
+                       styleClass="button-raised">
+                <graphic>
+                    <SVGPath content="M3 6h18v2H3V6zm2 6h14v2H5v-2zm2 6h10v2H7v-2z" fill="white" />
+                </graphic>
+            </JFXButton>
+            <JFXButton fx:id="addBtn" maxWidth="Infinity" ripplerFill="#607ea3"
+                       style="-fx-background-color: #7092be; -fx-text-fill: white; -fx-font-weight: 600; -fx-background-radius: 2;"
+                       styleClass="button-raised" VBox.vgrow="ALWAYS">
+                <graphic>
+                    <SVGPath content="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z" fill="white" />
+                </graphic>
+            </JFXButton>
+            <!-- Кнопка сериализации (стрелка вверх - загрузка) -->
+            <JFXButton fx:id="serialize" maxWidth="Infinity" ripplerFill="#607ea3"
+                       style="-fx-background-color: #7092be; -fx-text-fill: white; -fx-font-weight: 600; -fx-background-radius: 2;"
+                       styleClass="button-raised">
+                <graphic>
+                    <SVGPath content="M12 2L5 9h4v9h6V9h4L12 2z" fill="white"/>
+                </graphic>
+            </JFXButton>
+
+            <!-- Кнопка десериализации (стрелка вниз - сохранение) -->
+            <JFXButton fx:id="deserialize" maxWidth="Infinity" ripplerFill="#607ea3"
+                       style="-fx-background-color: #7092be; -fx-text-fill: white; -fx-font-weight: 600; -fx-background-radius: 2;"
+                       styleClass="button-raised">
+                <graphic>
+                    <SVGPath content="M12 22l7-7h-4V6h-6v9H5l7 7z" fill="white"/>
+                </graphic>
+            </JFXButton>
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+            </padding>
+        </VBox>
+
+        <ListView fx:id="pluginListView" prefHeight="291.0" prefWidth="572.0"
+                  style="-fx-background-color: white; -fx-border-color: #7092be; -fx-border-radius: 6; -fx-background-radius: 6;"
+                  HBox.hgrow="ALWAYS" />
+    </HBox>
+</Tab>

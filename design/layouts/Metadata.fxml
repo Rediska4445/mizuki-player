@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="436.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+   <content>
+      <VBox prefHeight="518.0" prefWidth="434.0">
+         <children>
+            <HBox prefHeight="0.0" prefWidth="434.0">
+               <children>
+                  <Rectangle fx:id="album_art" arcHeight="15.0" arcWidth="10.0" fill="#ffffff00" height="100.0" stroke="#0000004a" strokeType="INSIDE" width="100.0" />
+                  <VBox prefHeight="100.0" prefWidth="351.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <TextField fx:id="title" prefHeight="47.0" prefWidth="304.0" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <TextField fx:id="author" prefHeight="53.0" prefWidth="304.0" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <Separator prefWidth="200.0">
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" />
+                           </VBox.margin>
+                        </Separator>
+                     </children>
+                  </VBox>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </VBox.margin></HBox>
+            <VBox prefHeight="325.0" prefWidth="404.0">
+               <children>
+                  <TextArea fx:id="lyrics" minHeight="180.0" prefHeight="180.0" prefWidth="404.0" VBox.vgrow="ALWAYS" />
+                  <VBox fx:id="metadata" prefHeight="158.0" prefWidth="404.0" VBox.vgrow="ALWAYS" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="15.0" left="15.0" right="15.0" />
+               </VBox.margin>
+            </VBox>
+            <VBox prefHeight="94.0" prefWidth="404.0">
+               <VBox.margin>
+                  <Insets bottom="15.0" left="15.0" right="15.0" />
+               </VBox.margin>
+               <children>
+                  <Separator prefHeight="5.0" prefWidth="200.0" />
+                  <TextField fx:id="command_field" prefHeight="40.0" prefWidth="404.0" VBox.vgrow="ALWAYS">
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <HBox alignment="CENTER" prefHeight="46.0" prefWidth="404.0">
+                     <children>
+                        <Button fx:id="save" alignment="CENTER" mnemonicParsing="false" prefHeight="64.0" prefWidth="290.0" text="Button" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </HBox.margin></Button>
+                        <Button fx:id="remove" alignment="CENTER" mnemonicParsing="false" prefHeight="98.0" prefWidth="302.0" text="Button" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </HBox.margin></Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </content>
+</ScrollPane>

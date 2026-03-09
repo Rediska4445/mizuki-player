@@ -1,0 +1,28 @@
+.context-menu {
+    -fx-background-color: rgba(255, 255, 255, 0.9); /* Полупрозрачный белый фон */
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 12px; /* Скруглённые углы */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 20, 0, 0, 4); /* Мягкая тень */
+    -fx-padding: 4 0 4 0; /* Меньше отступов сверху и снизу */
+    -fx-font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    -fx-font-size: 13px;
+    -fx-text-fill: black; /* Чёрный текст */
+}
+
+.context-menu .menu-item {
+    -fx-background-color: transparent;
+    -fx-padding: 5 12 5 12; /* Уменьшенные отступы */
+    -fx-text-fill: black;
+}
+
+.context-menu .menu-item:hover {
+    -fx-background-color: #e5e5f7; /* Светло-голубой эффект наведения */
+    -fx-text-fill: black;
+    -fx-background-radius: 8px;
+}
+
+.context-menu .menu-item:armed {
+    -fx-background-color: #c4c4f0;
+    -fx-text-fill: black;
+    -fx-background-radius: 8px;
+}

@@ -1,0 +1,10 @@
+.root {
+    -fx-border-color: fx-main-color;
+    -fx-border-radius: 2.5;
+    -fx-background-color: transparent;
+    -fx-border-width: 2;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+    -fx-font-size: 16;
+    -fx-padding: 16 32 16 32;
+}

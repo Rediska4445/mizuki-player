@@ -1,0 +1,646 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" prefWidth="600" prefHeight="600" fx:controller="rf.ebanina.file.Configuration.GuiController"
+            style="-fx-background-color: #f7f7f7;">
+    <children>
+        <TabPane fx:id="tabPane" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="50">
+            <tabs>
+                <Tab text="Mainly" closable="false" style="-fx-text-base-color: #7092be;">
+                    <content>
+                        <ScrollPane fitToWidth="true" fitToHeight="true">
+                            <content>
+                                <VBox alignment="TOP_LEFT" spacing="8" style="-fx-padding: 15; -fx-background-color: #f7f7f7;">
+                                    <VBox fx:id="mod_loadVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="mod_load (mod_load)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="mod_load -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <CheckBox fx:id="mod_load" mnemonicParsing="false" selected="true" />
+        </HBox>
+        <TextArea fx:id="mod_loadDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="animationVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="animation (animation)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="animation -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <CheckBox fx:id="animation" mnemonicParsing="false" selected="true" />
+        </HBox>
+        <TextArea fx:id="animationDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="blur_time_animationVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="blur_time_animation (blur_time_animation)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="blur_time_animation -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <TextField fx:id="blur_time_animation" text="250" style="-fx-background-color: white; -fx-border-color: #7092be; -fx-text-fill: black; -fx-background-radius: 5; -fx-border-radius: 5;" />
+        </HBox>
+        <TextArea fx:id="blur_time_animationDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="exception_parse_album_artVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="exception_parse_album_art (exception_parse_album_art)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="exception_parse_album_art -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <TextField fx:id="exception_parse_album_art" text="null" style="-fx-background-color: white; -fx-border-color: #7092be; -fx-text-fill: black; -fx-background-radius: 5; -fx-border-radius: 5;" />
+        </HBox>
+        <TextArea fx:id="exception_parse_album_artDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="global_history_sizeVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="global_history_size (global_history_size)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="global_history_size -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <TextField fx:id="global_history_size" text="25" style="-fx-background-color: white; -fx-border-color: #7092be; -fx-text-fill: black; -fx-background-radius: 5; -fx-border-radius: 5;" />
+        </HBox>
+        <TextArea fx:id="global_history_sizeDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="langVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text=" Язык (lang)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="lang -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <TextField fx:id="lang" text="auto" style="-fx-background-color: white; -fx-border-color: #7092be; -fx-text-fill: black; -fx-background-radius: 5; -fx-border-radius: 5;" />
+        </HBox>
+        <TextArea fx:id="langDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="translate_track_titleVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="translate_track_title (translate_track_title)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="translate_track_title -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <CheckBox fx:id="translate_track_title" mnemonicParsing="false" selected="false" />
+        </HBox>
+        <TextArea fx:id="translate_track_titleDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="translate_typeVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="translate_type (translate_type)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="translate_type -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <TextField fx:id="translate_type" text="mymemory" style="-fx-background-color: white; -fx-border-color: #7092be; -fx-text-fill: black; -fx-background-radius: 5; -fx-border-radius: 5;" />
+        </HBox>
+        <TextArea fx:id="translate_typeDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="track_cache_sizeVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="track_cache_size (track_cache_size)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="track_cache_size -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <TextField fx:id="track_cache_size" text="25" style="-fx-background-color: white; -fx-border-color: #7092be; -fx-text-fill: black; -fx-background-radius: 5; -fx-border-radius: 5;" />
+        </HBox>
+        <TextArea fx:id="track_cache_sizeDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                </VBox>
+                            </content>
+                        </ScrollPane>
+                    </content>
+                </Tab>
+                <Tab text="Audio-Player" closable="false" style="-fx-text-base-color: #7092be;">
+                    <content>
+                        <ScrollPane fitToWidth="true" fitToHeight="true">
+                            <content>
+                                <VBox alignment="TOP_LEFT" spacing="8" style="-fx-padding: 15; -fx-background-color: #f7f7f7;">
+                                    <VBox fx:id="audio_player_block_size_framesVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="audio_player_block_size_frames (audio_player_block_size_frames)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="audio_player_block_size_frames -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <TextField fx:id="audio_player_block_size_frames" text="512" style="-fx-background-color: white; -fx-border-color: #7092be; -fx-text-fill: black; -fx-background-radius: 5; -fx-border-radius: 5;" />
+        </HBox>
+        <TextArea fx:id="audio_player_block_size_framesDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="audio_outVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="audio_out (audio_out)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="audio_out -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <TextField fx:id="audio_out" text="a" style="-fx-background-color: white; -fx-border-color: #7092be; -fx-text-fill: black; -fx-background-radius: 5; -fx-border-radius: 5;" />
+        </HBox>
+        <TextArea fx:id="audio_outDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="clear_samplesVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="clear_samples (clear_samples)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="clear_samples -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <CheckBox fx:id="clear_samples" mnemonicParsing="false" selected="false" />
+        </HBox>
+        <TextArea fx:id="clear_samplesDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                </VBox>
+                            </content>
+                        </ScrollPane>
+                    </content>
+                </Tab>
+                <Tab text="Background" closable="false" style="-fx-text-base-color: #7092be;">
+                    <content>
+                        <ScrollPane fitToWidth="true" fitToHeight="true">
+                            <content>
+                                <VBox alignment="TOP_LEFT" spacing="8" style="-fx-padding: 15; -fx-background-color: #f7f7f7;">
+                                    <VBox fx:id="background_css_styleVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="background_css_style (background_css_style)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="background_css_style -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <TextField fx:id="background_css_style" text="; -fx-background-image: url(&apos;file:C:/Users/2022/Desktop/YXvyeYZsASGiXGgXpcJR3ELsuaoH5iQ51XAcTzP7kLvHZkAHhkvlGlVqoTBCHv9fWHO2XpE_wEZ2HjGiEoCjPHEl.jpg&apos;); -fx-background-size: cover;" style="-fx-background-color: white; -fx-border-color: #7092be; -fx-text-fill: black; -fx-background-radius: 5; -fx-border-radius: 5;" />
+        </HBox>
+        <TextArea fx:id="background_css_styleDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="is_blur_backgroundVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="is_blur_background (is_blur_background)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="is_blur_background -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <CheckBox fx:id="is_blur_background" mnemonicParsing="false" selected="true" />
+        </HBox>
+        <TextArea fx:id="is_blur_backgroundDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="rainbowVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="rainbow (rainbow)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="rainbow -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <CheckBox fx:id="rainbow" mnemonicParsing="false" selected="true" />
+        </HBox>
+        <TextArea fx:id="rainbowDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                </VBox>
+                            </content>
+                        </ScrollPane>
+                    </content>
+                </Tab>
+                <Tab text="Slider" closable="false" style="-fx-text-base-color: #7092be;">
+                    <content>
+                        <ScrollPane fitToWidth="true" fitToHeight="true">
+                            <content>
+                                <VBox alignment="TOP_LEFT" spacing="8" style="-fx-padding: 15; -fx-background-color: #f7f7f7;">
+                                    <VBox fx:id="slider_thread_sleepVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="slider_thread_sleep (slider_thread_sleep)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="slider_thread_sleep -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <TextField fx:id="slider_thread_sleep" text="500" style="-fx-background-color: white; -fx-border-color: #7092be; -fx-text-fill: black; -fx-background-radius: 5; -fx-border-radius: 5;" />
+        </HBox>
+        <TextArea fx:id="slider_thread_sleepDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="slider_widthVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="slider_width (slider_width)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="slider_width -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <TextField fx:id="slider_width" text="125" style="-fx-background-color: white; -fx-border-color: #7092be; -fx-text-fill: black; -fx-background-radius: 5; -fx-border-radius: 5;" />
+        </HBox>
+        <TextArea fx:id="slider_widthDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="slider_heightVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="slider_height (slider_height)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="slider_height -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <TextField fx:id="slider_height" text="25" style="-fx-background-color: white; -fx-border-color: #7092be; -fx-text-fill: black; -fx-background-radius: 5; -fx-border-radius: 5;" />
+        </HBox>
+        <TextArea fx:id="slider_heightDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                </VBox>
+                            </content>
+                        </ScrollPane>
+                    </content>
+                </Tab>
+                <Tab text="Album-Art" closable="false" style="-fx-text-base-color: #7092be;">
+                    <content>
+                        <ScrollPane fitToWidth="true" fitToHeight="true">
+                            <content>
+                                <VBox alignment="TOP_LEFT" spacing="8" style="-fx-padding: 15; -fx-background-color: #f7f7f7;">
+                                    <VBox fx:id="album_art_cornersVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="album_art_corners (album_art_corners)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="album_art_corners -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <TextField fx:id="album_art_corners" text="35" style="-fx-background-color: white; -fx-border-color: #7092be; -fx-text-fill: black; -fx-background-radius: 5; -fx-border-radius: 5;" />
+        </HBox>
+        <TextArea fx:id="album_art_cornersDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="album_art_image_sizeVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="album_art_image_size (album_art_image_size)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="album_art_image_size -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <TextField fx:id="album_art_image_size" text="400" style="-fx-background-color: white; -fx-border-color: #7092be; -fx-text-fill: black; -fx-background-radius: 5; -fx-border-radius: 5;" />
+        </HBox>
+        <TextArea fx:id="album_art_image_sizeDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="album_art_parseVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="album_art_parse (album_art_parse)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="album_art_parse -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <CheckBox fx:id="album_art_parse" mnemonicParsing="false" selected="false" />
+        </HBox>
+        <TextArea fx:id="album_art_parseDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="album_art_caption_paintVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="album_art_caption_paint (album_art_caption_paint)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="album_art_caption_paint -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <CheckBox fx:id="album_art_caption_paint" mnemonicParsing="false" selected="true" />
+        </HBox>
+        <TextArea fx:id="album_art_caption_paintDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="album_art_parsed_set_in_tagsVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="album_art_parsed_set_in_tags (album_art_parsed_set_in_tags)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="album_art_parsed_set_in_tags -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <CheckBox fx:id="album_art_parsed_set_in_tags" mnemonicParsing="false" selected="false" />
+        </HBox>
+        <TextArea fx:id="album_art_parsed_set_in_tagsDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="album_art_get_color_typeVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="album_art_get_color_type (album_art_get_color_type)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="album_art_get_color_type -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <TextField fx:id="album_art_get_color_type" text="contrast" style="-fx-background-color: white; -fx-border-color: #7092be; -fx-text-fill: black; -fx-background-radius: 5; -fx-border-radius: 5;" />
+        </HBox>
+        <TextArea fx:id="album_art_get_color_typeDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                </VBox>
+                            </content>
+                        </ScrollPane>
+                    </content>
+                </Tab>
+                <Tab text="List-View" closable="false" style="-fx-text-base-color: #7092be;">
+                    <content>
+                        <ScrollPane fitToWidth="true" fitToHeight="true">
+                            <content>
+                                <VBox alignment="TOP_LEFT" spacing="8" style="-fx-padding: 15; -fx-background-color: #f7f7f7;">
+                                    <VBox fx:id="listview_scroll_sensitivityVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="listview_scroll_sensitivity (listview_scroll_sensitivity)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="listview_scroll_sensitivity -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <TextField fx:id="listview_scroll_sensitivity" text="0.0015" style="-fx-background-color: white; -fx-border-color: #7092be; -fx-text-fill: black; -fx-background-radius: 5; -fx-border-radius: 5;" />
+        </HBox>
+        <TextArea fx:id="listview_scroll_sensitivityDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="save_factory_timeVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="save_factory_time (save_factory_time)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="save_factory_time -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <CheckBox fx:id="save_factory_time" mnemonicParsing="false" selected="true" />
+        </HBox>
+        <TextArea fx:id="save_factory_timeDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                </VBox>
+                            </content>
+                        </ScrollPane>
+                    </content>
+                </Tab>
+                <Tab text="Network" closable="false" style="-fx-text-base-color: #7092be;">
+                    <content>
+                        <ScrollPane fitToWidth="true" fitToHeight="true">
+                            <content>
+                                <VBox alignment="TOP_LEFT" spacing="8" style="-fx-padding: 15; -fx-background-color: #f7f7f7;">
+                                    <VBox fx:id="max_count_downloadVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="max_count_download (max_count_download)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="max_count_download -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <TextField fx:id="max_count_download" text="100" style="-fx-background-color: white; -fx-border-color: #7092be; -fx-text-fill: black; -fx-background-radius: 5; -fx-border-radius: 5;" />
+        </HBox>
+        <TextArea fx:id="max_count_downloadDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="soundcloud_related_limitVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="soundcloud_related_limit (soundcloud_related_limit)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="soundcloud_related_limit -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <TextField fx:id="soundcloud_related_limit" text="25" style="-fx-background-color: white; -fx-border-color: #7092be; -fx-text-fill: black; -fx-background-radius: 5; -fx-border-radius: 5;" />
+        </HBox>
+        <TextArea fx:id="soundcloud_related_limitDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="soundcloud_api_client_idVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="soundcloud_api_client_id (soundcloud_api_client_id)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="soundcloud_api_client_id -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <TextField fx:id="soundcloud_api_client_id" text="cS5UqHNGRKP6XLU2mp1C7NGuEcf6qYci" style="-fx-background-color: white; -fx-border-color: #7092be; -fx-text-fill: black; -fx-background-radius: 5; -fx-border-radius: 5;" />
+        </HBox>
+        <TextArea fx:id="soundcloud_api_client_idDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="network_pre_downloadVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="network_pre_download (network_pre_download)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="network_pre_download -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <CheckBox fx:id="network_pre_download" mnemonicParsing="false" selected="true" />
+        </HBox>
+        <TextArea fx:id="network_pre_downloadDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="network_pre_download_timeoutVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="network_pre_download_timeout (network_pre_download_timeout)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="network_pre_download_timeout -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <TextField fx:id="network_pre_download_timeout" text="7500" style="-fx-background-color: white; -fx-border-color: #7092be; -fx-text-fill: black; -fx-background-radius: 5; -fx-border-radius: 5;" />
+        </HBox>
+        <TextArea fx:id="network_pre_download_timeoutDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="network_art_parse_timeoutVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="network_art_parse_timeout (network_art_parse_timeout)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="network_art_parse_timeout -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <TextField fx:id="network_art_parse_timeout" text="60000" style="-fx-background-color: white; -fx-border-color: #7092be; -fx-text-fill: black; -fx-background-radius: 5; -fx-border-radius: 5;" />
+        </HBox>
+        <TextArea fx:id="network_art_parse_timeoutDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="delayed_loadingVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="delayed_loading (delayed_loading)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="delayed_loading -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <CheckBox fx:id="delayed_loading" mnemonicParsing="false" selected="true" />
+        </HBox>
+        <TextArea fx:id="delayed_loadingDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                </VBox>
+                            </content>
+                        </ScrollPane>
+                    </content>
+                </Tab>
+                <Tab text="Player" closable="false" style="-fx-text-base-color: #7092be;">
+                    <content>
+                        <ScrollPane fitToWidth="true" fitToHeight="true">
+                            <content>
+                                <VBox alignment="TOP_LEFT" spacing="8" style="-fx-padding: 15; -fx-background-color: #f7f7f7;">
+                                    <VBox fx:id="default_playlistVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="default_playlist (default_playlist)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="default_playlist -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <TextField fx:id="default_playlist" text="default_User_music" style="-fx-background-color: white; -fx-border-color: #7092be; -fx-text-fill: black; -fx-background-radius: 5; -fx-border-radius: 5;" />
+        </HBox>
+        <TextArea fx:id="default_playlistDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="auto_playlist_scanVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="auto_playlist_scan (auto_playlist_scan)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="auto_playlist_scan -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <CheckBox fx:id="auto_playlist_scan" mnemonicParsing="false" selected="false" />
+        </HBox>
+        <TextArea fx:id="auto_playlist_scanDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="intro_pathVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="intro_path (intro_path)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="intro_path -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <TextField fx:id="intro_path" text="res\audio\intro_cassette.wav" style="-fx-background-color: white; -fx-border-color: #7092be; -fx-text-fill: black; -fx-background-radius: 5; -fx-border-radius: 5;" />
+        </HBox>
+        <TextArea fx:id="intro_pathDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="time_fade_inVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="time_fade_in (time_fade_in)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="time_fade_in -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <TextField fx:id="time_fade_in" text="500" style="-fx-background-color: white; -fx-border-color: #7092be; -fx-text-fill: black; -fx-background-radius: 5; -fx-border-radius: 5;" />
+        </HBox>
+        <TextArea fx:id="time_fade_inDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="time_endVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="time_end (time_end)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="time_end -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <TextField fx:id="time_end" text="10" style="-fx-background-color: white; -fx-border-color: #7092be; -fx-text-fill: black; -fx-background-radius: 5; -fx-border-radius: 5;" />
+        </HBox>
+        <TextArea fx:id="time_endDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="play_of_pauseVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="play_of_pause (play_of_pause)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="play_of_pause -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <CheckBox fx:id="play_of_pause" mnemonicParsing="false" selected="false" />
+        </HBox>
+        <TextArea fx:id="play_of_pauseDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="playback_selectedVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="playback_selected (playback_selected)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="playback_selected -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <CheckBox fx:id="playback_selected" mnemonicParsing="false" selected="false" />
+        </HBox>
+        <TextArea fx:id="playback_selectedDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="mixrand_selectedVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="mixrand_selected (mixrand_selected)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="mixrand_selected -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <CheckBox fx:id="mixrand_selected" mnemonicParsing="false" selected="false" />
+        </HBox>
+        <TextArea fx:id="mixrand_selectedDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="playlist_playback_selectedVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="playlist_playback_selected (playlist_playback_selected)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="playlist_playback_selected -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <CheckBox fx:id="playlist_playback_selected" mnemonicParsing="false" selected="false" />
+        </HBox>
+        <TextArea fx:id="playlist_playback_selectedDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="matching_algorithmVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="matching_algorithm (matching_algorithm)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="matching_algorithm -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <TextField fx:id="matching_algorithm" text="last_to_first" style="-fx-background-color: white; -fx-border-color: #7092be; -fx-text-fill: black; -fx-background-radius: 5; -fx-border-radius: 5;" />
+        </HBox>
+        <TextArea fx:id="matching_algorithmDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="delay_between_playVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="delay_between_play (delay_between_play)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="delay_between_play -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <TextField fx:id="delay_between_play" text="15" style="-fx-background-color: white; -fx-border-color: #7092be; -fx-text-fill: black; -fx-background-radius: 5; -fx-border-radius: 5;" />
+        </HBox>
+        <TextArea fx:id="delay_between_playDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="restore_state_trackVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="restore_state_track (restore_state_track)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="restore_state_track -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <CheckBox fx:id="restore_state_track" mnemonicParsing="false" selected="true" />
+        </HBox>
+        <TextArea fx:id="restore_state_trackDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="start_play_fromVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="start_play_from (start_play_from)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="start_play_from -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <TextField fx:id="start_play_from" text="last_time" style="-fx-background-color: white; -fx-border-color: #7092be; -fx-text-fill: black; -fx-background-radius: 5; -fx-border-radius: 5;" />
+        </HBox>
+        <TextArea fx:id="start_play_fromDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="playlist_track_auto_select_from_currentVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="playlist_track_auto_select_from_current (playlist_track_auto_select_from_current)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="playlist_track_auto_select_from_current -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <CheckBox fx:id="playlist_track_auto_select_from_current" mnemonicParsing="false" selected="true" />
+        </HBox>
+        <TextArea fx:id="playlist_track_auto_select_from_currentDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                </VBox>
+                            </content>
+                        </ScrollPane>
+                    </content>
+                </Tab>
+                <Tab text="Graphics" closable="false" style="-fx-text-base-color: #7092be;">
+                    <content>
+                        <ScrollPane fitToWidth="true" fitToHeight="true">
+                            <content>
+                                <VBox alignment="TOP_LEFT" spacing="8" style="-fx-padding: 15; -fx-background-color: #f7f7f7;">
+                                    <VBox fx:id="themeVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="theme (theme)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="theme -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <TextField fx:id="theme" text="res/resources.properties" style="-fx-background-color: white; -fx-border-color: #7092be; -fx-text-fill: black; -fx-background-radius: 5; -fx-border-radius: 5;" />
+        </HBox>
+        <TextArea fx:id="themeDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="general_animations_interpolatorVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="general_animations_interpolator (general_animations_interpolator)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="general_animations_interpolator -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <TextField fx:id="general_animations_interpolator" text="0.16, 1, 0.3, 1" style="-fx-background-color: white; -fx-border-color: #7092be; -fx-text-fill: black; -fx-background-radius: 5; -fx-border-radius: 5;" />
+        </HBox>
+        <TextArea fx:id="general_animations_interpolatorDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="is_hue_changeVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="is_hue_change (is_hue_change)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="is_hue_change -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <CheckBox fx:id="is_hue_change" mnemonicParsing="false" selected="false" />
+        </HBox>
+        <TextArea fx:id="is_hue_changeDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="anchor_imageVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="anchor_image (anchor_image)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="anchor_image -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <CheckBox fx:id="anchor_image" mnemonicParsing="false" selected="false" />
+        </HBox>
+        <TextArea fx:id="anchor_imageDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="static_elementsVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="static_elements (static_elements)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="static_elements -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <CheckBox fx:id="static_elements" mnemonicParsing="false" selected="true" />
+        </HBox>
+        <TextArea fx:id="static_elementsDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="la_gradientVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="la_gradient (la_gradient)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="la_gradient -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <CheckBox fx:id="la_gradient" mnemonicParsing="false" selected="true" />
+        </HBox>
+        <TextArea fx:id="la_gradientDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="non_backgroundVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="non_background (non_background)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="non_background -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <CheckBox fx:id="non_background" mnemonicParsing="false" selected="true" />
+        </HBox>
+        <TextArea fx:id="non_backgroundDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="time_animationsVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="time_animations (time_animations)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="time_animations -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <TextField fx:id="time_animations" text="50" style="-fx-background-color: white; -fx-border-color: #7092be; -fx-text-fill: black; -fx-background-radius: 5; -fx-border-radius: 5;" />
+        </HBox>
+        <TextArea fx:id="time_animationsDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="auto_set_night_themeVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="auto_set_night_theme (auto_set_night_theme)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="auto_set_night_theme -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <CheckBox fx:id="auto_set_night_theme" mnemonicParsing="false" selected="false" />
+        </HBox>
+        <TextArea fx:id="auto_set_night_themeDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="background_colorVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="background_color (background_color)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="background_color -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <TextField fx:id="background_color" text="f2f2f2" style="-fx-background-color: white; -fx-border-color: #7092be; -fx-text-fill: black; -fx-background-radius: 5; -fx-border-radius: 5;" />
+        </HBox>
+        <TextArea fx:id="background_colorDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="main_colorVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="main_color (main_color)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="main_color -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <TextField fx:id="main_color" text="nan" style="-fx-background-color: white; -fx-border-color: #7092be; -fx-text-fill: black; -fx-background-radius: 5; -fx-border-radius: 5;" />
+        </HBox>
+        <TextArea fx:id="main_colorDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="text_colorVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="text_color (text_color)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="text_color -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <TextField fx:id="text_color" text="000000" style="-fx-background-color: white; -fx-border-color: #7092be; -fx-text-fill: black; -fx-background-radius: 5; -fx-border-radius: 5;" />
+        </HBox>
+        <TextArea fx:id="text_colorDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="is_mobileVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="is_mobile (is_mobile)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="is_mobile -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <CheckBox fx:id="is_mobile" mnemonicParsing="false" selected="true" />
+        </HBox>
+        <TextArea fx:id="is_mobileDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                </VBox>
+                            </content>
+                        </ScrollPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+        <Button fx:id="saveButton" text="Сохранить" AnchorPane.bottomAnchor="10" AnchorPane.rightAnchor="10" prefWidth="100" prefHeight="30" style="-fx-background-color: #7092be; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-weight: bold;" />
+    </children>
+</AnchorPane>

@@ -1,0 +1,9 @@
+.tab-pane {
+    -fx-tab-header-background-color: derive(#7092be, 95%);
+}
+
+.tab-pane .tab-header-background {
+    -fx-background-color: -fx-tab-header-background-color;
+    -fx-background-radius: 8 8 0 0;
+    -fx-border-radius: 8 8 0 0;
+}
