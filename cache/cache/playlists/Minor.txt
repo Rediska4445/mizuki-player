@@ -1,2 +1,0 @@
-last index of (C:\Users\2022\Music\Minor) = 13;
-last index of (C:\Users\2022\Music\27VbyГрустногоФонка) = 0;

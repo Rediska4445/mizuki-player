@@ -1,2 +1,0 @@
-last index of (C:\Users\2022\Music\new PLaylist) = 15;
-last track of (C:\Users\2022\Music\new PLaylist) = C:\Users\2022\Music\Musics\5admin_-_Garden_74450633.mp3;

@@ -1,2 +1,0 @@
-last index of (C:\Users\2022\Music\Musics) = 12;
-last track of (C:\Users\2022\Music\Musics) = C:\Users\2022\Music\MusicEnded\1nonly, SXMPRA -  - Step Back!.mp3;

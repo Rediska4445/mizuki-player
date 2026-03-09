@@ -1,5 +1,0 @@
-last index of (C:\Users\2022\Music\MusicEnded) = 10;
-last index of (C:\Users\2022\Music\Новая) = 28;
-last index of (C:\Users\2022\Music) = 0;
-last index of (C:\Users\2022\Music\Musica) = 10;
-last index of (C:\Users\2022\Music\blackMetal) = 3;
