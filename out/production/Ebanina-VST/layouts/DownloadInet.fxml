@@ -6,7 +6,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 
-<AnchorPane fx:id = "mainPain" prefHeight="600" prefWidth="860" style="-fx-background-color: #f7f7f7;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rf.ebanina.UI.Network.Controller">
+<AnchorPane fx:id = "mainPain" prefHeight="600" prefWidth="860" style="-fx-background-color: #f7f7f7;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rf.ebanina.UI.Editors.Network.Controller">
 
     <VBox layoutX="20" layoutY="20" prefHeight="560.0" prefWidth="300.0" spacing="15" AnchorPane.leftAnchor="20" AnchorPane.topAnchor="20">
 

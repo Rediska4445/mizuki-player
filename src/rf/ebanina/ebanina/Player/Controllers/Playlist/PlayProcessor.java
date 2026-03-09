@@ -4,15 +4,15 @@ import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
-import rf.ebanina.ebanina.Player.Playlist;
-import rf.ebanina.ebanina.Player.Track;
-import rf.ebanina.ebanina.Player.TrackHistory;
 import rf.ebanina.File.Configuration.ConfigurationManager;
 import rf.ebanina.File.Field;
 import rf.ebanina.File.FileManager;
 import rf.ebanina.File.Resources.Resources;
 import rf.ebanina.Network.OnlineTrack;
+import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
+import rf.ebanina.ebanina.Player.Playlist;
+import rf.ebanina.ebanina.Player.Track;
+import rf.ebanina.ebanina.Player.TrackHistory;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -483,6 +483,8 @@ public class PlayProcessor<T extends Track, J extends Playlist>
         MediaProcessor.mediaProcessor._track();
     }
 
+    public Random trackRandomizer = new Random();
+
     /**
      * Выполняет действие переключения на следующий трек в плейлисте.
      * <p>
@@ -512,7 +514,7 @@ public class PlayProcessor<T extends Track, J extends Playlist>
         if(!playbackTrack.get()) {
             if (!configurationManager.getBooleanItem("use_mood_matching_algorithm", "false")) {
                 if (mixRand.get()) {
-                    currentTrackIter.set(new Random().nextInt(0, currentTracksList.size() - 1));
+                    currentTrackIter.set(trackRandomizer.nextInt(0, currentTracksList.size() - 1));
                 } else {
                     currentTrackIter.set(currentTrackIter.get() + 1);
                 }

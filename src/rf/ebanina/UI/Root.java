@@ -1,21 +1,23 @@
 package rf.ebanina.UI;
 
 import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
-import com.sun.jna.Pointer;
-import com.sun.jna.platform.win32.WinDef;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.geometry.*;
 import javafx.geometry.Insets;
+import javafx.geometry.Point3D;
+import javafx.geometry.Pos;
 import javafx.scene.CacheHint;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.MultipleSelectionModel;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.GaussianBlur;
@@ -29,6 +31,35 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import rf.ebanina.File.Configuration.ConfigurableField;
+import rf.ebanina.File.Configuration.ConfigurationManager;
+import rf.ebanina.File.Field;
+import rf.ebanina.File.FileManager;
+import rf.ebanina.File.Localization.Locales;
+import rf.ebanina.File.Localization.LocalizationManager;
+import rf.ebanina.File.Resources.ResourceManager;
+import rf.ebanina.File.Resources.Resources;
+import rf.ebanina.Network.Info;
+import rf.ebanina.UI.Editors.Metadata.Track.Metadata;
+import rf.ebanina.UI.UI.Context.Tooltip.ContextTooltip;
+import rf.ebanina.UI.UI.Element.Art;
+import rf.ebanina.UI.UI.Element.Buttons.Commons;
+import rf.ebanina.UI.UI.Element.Buttons.Player.NextButton;
+import rf.ebanina.UI.UI.Element.Buttons.Player.PlayButton;
+import rf.ebanina.UI.UI.Element.Buttons.Player.PrevButton;
+import rf.ebanina.UI.UI.Element.Buttons.Playlist.HideLeft;
+import rf.ebanina.UI.UI.Element.Buttons.Playlist.HideRight;
+import rf.ebanina.UI.UI.Element.ControlPane;
+import rf.ebanina.UI.UI.Element.Dialog;
+import rf.ebanina.UI.UI.Element.ListViews.ListCells.Playlists.ListCellPlaylist;
+import rf.ebanina.UI.UI.Element.ListViews.ListCells.Playlists.ListCellSimilar;
+import rf.ebanina.UI.UI.Element.ListViews.ListCells.Playlists.ListCellTrack;
+import rf.ebanina.UI.UI.Element.ListViews.Playlist.PlayView;
+import rf.ebanina.UI.UI.Element.Slider.SoundSlider;
+import rf.ebanina.UI.UI.Element.Text.TextField;
+import rf.ebanina.UI.UI.Paint.ColorProcessor;
+import rf.ebanina.UI.UI.Popup.LabelPopupMenu;
+import rf.ebanina.UI.UI.Popup.PreviewPopupService;
 import rf.ebanina.ebanina.KeyBindings.Keys;
 import rf.ebanina.ebanina.Music;
 import rf.ebanina.ebanina.Player.Controllers.ArtProcessor;
@@ -39,35 +70,6 @@ import rf.ebanina.ebanina.Player.Controllers.Playlist.PlaylistController;
 import rf.ebanina.ebanina.Player.Playlist;
 import rf.ebanina.ebanina.Player.Track;
 import rf.ebanina.ebanina.Player.TrackHistory;
-import rf.ebanina.File.Configuration.ConfigurableField;
-import rf.ebanina.File.Configuration.ConfigurationManager;
-import rf.ebanina.File.Field;
-import rf.ebanina.File.FileManager;
-import rf.ebanina.File.Localization.Locales;
-import rf.ebanina.File.Localization.LocalizationManager;
-import rf.ebanina.File.Resources.ResourceManager;
-import rf.ebanina.File.Resources.Resources;
-import rf.ebanina.UI.UI.Context.Tooltip.ContextTooltip;
-import rf.ebanina.UI.UI.Element.AgreementDialog;
-import rf.ebanina.UI.UI.Element.Art;
-import rf.ebanina.UI.UI.Element.Buttons.Commons;
-import rf.ebanina.UI.UI.Element.Buttons.Player.NextButton;
-import rf.ebanina.UI.UI.Element.Buttons.Player.PlayButton;
-import rf.ebanina.UI.UI.Element.Buttons.Player.PrevButton;
-import rf.ebanina.UI.UI.Element.Buttons.Playlist.HideLeft;
-import rf.ebanina.UI.UI.Element.Buttons.Playlist.HideRight;
-import rf.ebanina.UI.UI.Element.ControlPane;
-import rf.ebanina.UI.UI.Element.ListViews.ListCells.Playlists.ListCellPlaylist;
-import rf.ebanina.UI.UI.Element.ListViews.ListCells.Playlists.ListCellSimilar;
-import rf.ebanina.UI.UI.Element.ListViews.ListCells.Playlists.ListCellTrack;
-import rf.ebanina.UI.UI.Element.ListViews.Playlist.PlayView;
-import rf.ebanina.UI.UI.Element.Slider.SoundSlider;
-import rf.ebanina.UI.UI.Element.Text.TextField;
-import rf.ebanina.UI.UI.Paint.ColorProcessor;
-import rf.ebanina.UI.UI.Popup.LabelPopupMenu;
-import rf.ebanina.UI.UI.Popup.PreviewPopupService;
-import rf.ebanina.UI.Editors.Metadata.Track.Metadata;
-import rf.ebanina.Network.Info;
 import rf.ebanina.utils.concurrency.LonelyThreadPool;
 import rf.ebanina.utils.loggining.logging;
 import rf.ebanina.utils.weakly.WeakConst;
@@ -89,12 +91,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static rf.ebanina.File.Resources.ResourceManager.BIN_LIBRARIES_PATH;
+import static rf.ebanina.Network.Info.updateSimilarListAsync;
+import static rf.ebanina.UI.Root.PlaylistHandler.playlistSelected;
+import static rf.ebanina.UI.UI.Paint.ColorProcessor.logo;
 import static rf.ebanina.ebanina.KeyBindings.KeyBindingController.isKeyPressed;
 import static rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor.playProcessor;
-import static rf.ebanina.File.Resources.ResourceManager.BIN_LIBRARIES_PATH;
-import static rf.ebanina.UI.UI.Paint.ColorProcessor.logo;
-import static rf.ebanina.UI.Root.PlaylistHandler.playlistSelected;
-import static rf.ebanina.Network.Info.updateSimilarListAsync;
 
 @logging(tag = "root")
 public class Root
@@ -501,15 +503,9 @@ public class Root
         throw new RuntimeException("Window is not exist");
     }
 
-    public static WinDef.HWND getNativeHandleForStage(Stage stage) {
-        final Pointer pointer = new Pointer(getNativeHandlePeerForStage(stage));
-        return new WinDef.HWND(pointer);
-    }
-
     public void alert(String title, String msg, Alert.AlertType alertType) {
-        Alert alert = new Alert(Alert.AlertType.ERROR, msg, ButtonType.OK);
+        Alert alert = new Alert(alertType, msg, ButtonType.OK);
         alert.setTitle(title);
-        alert.setAlertType(alertType);
         alert.showAndWait();
     }
 
@@ -715,8 +711,6 @@ public class Root
             root.setStyle(image);
         }
 
-        Music.mainLogger.info(image);
-
         stage.maximizedProperty().addListener((e, e1, e2) -> {
             if(isInternalMaximazied.get()) {
                 if(!isMaximazied.get()) {
@@ -755,7 +749,7 @@ public class Root
         }
 
         if(!Boolean.parseBoolean(FileManager.instance.readSharedData().getOrDefault("license_agreed", "false"))) {
-            AgreementDialog agreementDialog = new AgreementDialog(stage, LocalizationManager.getLocaleString("license_agree", "Agree"), readAllLicensesRecursively(
+            Dialog agreementDialog = new Dialog(stage, LocalizationManager.getLocaleString("license_agree", "Agree"), readAllLicensesRecursively(
                     "license", LocalizationManager.instance.lang.split("_")[1]
             ));
             agreementDialog.setOnAgree(() -> {

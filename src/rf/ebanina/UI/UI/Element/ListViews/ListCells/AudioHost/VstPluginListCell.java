@@ -6,13 +6,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import rf.ebanina.ebanina.Player.AudioPlugins.PluginWrapper;
 import rf.ebanina.UI.Editors.Player.AudioHost;
 import rf.ebanina.UI.Editors.Player.Tabs.AudioPlugins.Vst.VstParamsWindow;
+import rf.ebanina.ebanina.Player.AudioPlugins.PluginWrapper;
 
 import static rf.ebanina.File.Localization.LocalizationManager.getLocaleString;
-import static rf.ebanina.UI.Root.showError;
 import static rf.ebanina.UI.Editors.Player.Controller.updateMediaPlayerPlugins;
+import static rf.ebanina.UI.Root.showError;
 
 public class VstPluginListCell<T> extends ListCell<PluginWrapper> {
     private final Button openGuiBtn = new Button(getLocaleString("vst_editor_open_gui", "GUI"));
@@ -71,6 +71,7 @@ public class VstPluginListCell<T> extends ListCell<PluginWrapper> {
 
         paramsBtn.setOnAction(e -> {
             PluginWrapper item = getItem();
+
             if (item != null) {
                 new VstParamsWindow(item).show();
             }
@@ -78,6 +79,7 @@ public class VstPluginListCell<T> extends ListCell<PluginWrapper> {
 
         up.setOnAction(e -> {
             PluginWrapper item = getItem();
+
             if (item != null) {
                 moveRow(item, -1);
             }
@@ -85,6 +87,7 @@ public class VstPluginListCell<T> extends ListCell<PluginWrapper> {
 
         down.setOnAction(e -> {
             PluginWrapper item = getItem();
+
             if (item != null) {
                 moveRow(item, 1);
             }

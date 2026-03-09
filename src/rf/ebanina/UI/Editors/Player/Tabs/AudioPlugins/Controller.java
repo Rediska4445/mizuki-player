@@ -9,27 +9,29 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import rf.ebanina.File.Configuration.ConfigurationManager;
+import rf.ebanina.File.Localization.LocalizationManager;
+import rf.ebanina.UI.Editors.Player.AudioHost;
+import rf.ebanina.UI.UI.Element.ListViews.ListCells.AudioHost.VstPluginListCell;
+import rf.ebanina.ebanina.Music;
 import rf.ebanina.ebanina.Player.AudioPlugins.IPluginWrapper;
 import rf.ebanina.ebanina.Player.AudioPlugins.PluginWrapper;
 import rf.ebanina.ebanina.Player.AudioPlugins.VST.VST;
 import rf.ebanina.ebanina.Player.AudioPlugins.VST.VST3;
 import rf.ebanina.ebanina.Player.AudioPlugins.VST.VST3LoadException;
 import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
-import rf.ebanina.File.Configuration.ConfigurationManager;
-import rf.ebanina.File.Localization.LocalizationManager;
-import rf.ebanina.UI.UI.Element.ListViews.ListCells.AudioHost.VstPluginListCell;
-import rf.ebanina.UI.Editors.Player.AudioHost;
 import rf.vst3;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Function;
 
-import static rf.ebanina.UI.Root.showError;
 import static rf.ebanina.Network.Info.PlayersTypes.URI_NULL;
+import static rf.ebanina.UI.Root.showError;
 
 public class Controller {
     public Tab tab;
@@ -64,14 +66,14 @@ public class Controller {
 
         tab.setText(LocalizationManager.getLocaleString("vst_editor_tab_vst", "VST"));
 
-        addBtn.setOnAction(e -> addPlugin());
+        addBtn.setOnAction(e -> shoFileChooserAndAddPlugin());
         removeBtn.setOnAction(e -> removeSelectedPlugin());
         removeAllPluginsBtn.setOnAction(e -> removeAllPlugins());
         serialize.setOnAction(e -> savePlugin());
         deserialize.setOnAction(e -> loadPlugin());
     }
 
-    private void loadPlugin() {
+    protected void loadPlugin() {
         FileChooser fc = new FileChooser();
         File file = fc.showOpenDialog(stage);
 
@@ -79,8 +81,6 @@ public class Controller {
             PluginWrapper plugin = new PluginWrapper();
 
             if (plugin.loadState(file.toPath())) {
-                plugin.turnOn();
-
                 addToList(plugin);
             } else {
                 showError("Host Error", "State load is false");
@@ -88,7 +88,7 @@ public class Controller {
         }
     }
 
-    private void savePlugin() {
+    protected void savePlugin() {
         PluginWrapper selected = pluginListView.getSelectionModel().getSelectedItem();
 
         FileChooser fileChooser = new FileChooser();
@@ -103,7 +103,7 @@ public class Controller {
         selected.saveState(file.toPath());
     }
 
-    private void addPlugin() {
+    protected void shoFileChooserAndAddPlugin() {
         FileChooser fc = new FileChooser();
         File file = fc.showOpenDialog(stage);
 
@@ -150,55 +150,65 @@ public class Controller {
             })
     ));
 
-    private String getExtension(String path) {
+    protected String getExtension(String path) {
         if(!path.contains("."))
             return URI_NULL.getCode();
 
         return path.substring(path.lastIndexOf(".") + 1);
     }
 
-    private void addPlugin(File file) {
-        if (file != null) {
+    protected void addPlugin(File file) {
+        if (file == null) return;
+
+        new Thread(() -> {
             try {
-                PluginWrapper plugin = loadPlugin.get(getExtension(file.getAbsolutePath())).apply(file);
+                PluginWrapper plugin = loadPlugin
+                        .get(getExtension(file.getAbsolutePath()))
+                        .apply(file);
 
-                if(plugin != null) {
-                    plugin.turnOn();
-
-                    addToList(plugin);
-
-                    rf.ebanina.UI.Editors.Player.Controller.updateMediaPlayerPlugins();
-                } else {
-                    showError("Error", "PluginWrapper is not be applied");
+                if (plugin == null) {
+                    Music.mainLogger.severe("PluginWrapper is null after loadPlugin");
+                    return;
                 }
-            } catch (VST3LoadException ex) {
+
+                javafx.application.Platform.runLater(() -> {
+                    addToList(plugin);
+                    plugin.openEditor();
+                });
+            } catch (Throwable ex) {
+                Music.mainLogger.severe("loadPlugin failed: " + ex.getClass().getName() + ": " + ex.getMessage());
                 ex.printStackTrace();
-                showError("VST3 Error", ex.getMessage());
-            } catch (RuntimeException ex) {
-                ex.printStackTrace();
-                showError("Error", ex.getMessage());
             }
-        }
+        }, "AddPluginThread").start();
     }
 
-    private void addToList(PluginWrapper plugin) {
+    protected void addToList(PluginWrapper plugin) {
+        plugin.turnOn();
         AudioHost.instance.vstPlugins.add(plugin);
         pluginListView.getItems().add(plugin);
+        rf.ebanina.UI.Editors.Player.Controller.updateMediaPlayerPlugins();
     }
 
-    private void removeSelectedPlugin() {
+    protected void removeSelectedPlugin() {
         PluginWrapper selected = pluginListView.getSelectionModel().getSelectedItem();
 
         if (selected != null) {
+            selected.destroy();
             pluginListView.getItems().remove(selected);
             AudioHost.instance.vstPlugins.remove(selected);
             rf.ebanina.UI.Editors.Player.Controller.updateMediaPlayerPlugins();
         }
     }
 
-    public void removeAllPlugins() {
+    protected void removeAllPlugins() {
+        List<PluginWrapper> pointer = MediaProcessor.mediaProcessor.mediaPlayer.getPlugins();
+
         MediaProcessor.mediaProcessor.mediaPlayer.getPlugins().clear();
         pluginListView.getItems().clear();
         AudioHost.instance.vstPlugins.clear();
+
+        for (PluginWrapper pluginWrapper : pointer) {
+            pluginWrapper.destroy();
+        }
     }
 }

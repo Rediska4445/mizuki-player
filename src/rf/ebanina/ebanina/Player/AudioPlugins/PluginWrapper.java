@@ -3,24 +3,18 @@ package rf.ebanina.ebanina.Player.AudioPlugins;
 import com.synthbot.audioplugin.vst.JVstLoadException;
 import com.synthbot.audioplugin.vst.vst2.JVstHost2;
 import javafx.beans.property.SimpleObjectProperty;
+import rf.ebanina.File.FileManager;
 import rf.ebanina.ebanina.Player.AudioPlugins.VST.VST;
 import rf.ebanina.ebanina.Player.AudioPlugins.VST.VST3;
-import rf.ebanina.File.FileManager;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.channels.SocketChannel;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import static rf.ebanina.vst.Host.readFully;
 
 public class PluginWrapper {
     private IPluginWrapper<?> plugin;
@@ -36,96 +30,6 @@ public class PluginWrapper {
             this.stateExtension = stateExtension;
             this.fileExtension = fileExtension;
         }
-    }
-
-    public static String sendRequest(IPCHost host, String command, byte[] binaryData, ByteBuffer binaryOutputBuffer) throws Exception {
-        SocketChannel socket = host.getSocket();
-
-        if (socket == null || !socket.isOpen()) {
-            throw new Exception("IPCHost не подключён");
-        }
-
-        byte[] commandBytes = command.getBytes(StandardCharsets.UTF_8);
-        int totalLength = commandBytes.length;
-
-        ByteBuffer lenBuf = ByteBuffer.allocate(4).putInt(totalLength);
-        lenBuf.flip();
-        while (lenBuf.hasRemaining()) {
-            socket.write(lenBuf);
-        }
-
-        ByteBuffer cmdBuf = ByteBuffer.wrap(commandBytes);
-        while (cmdBuf.hasRemaining()) {
-            socket.write(cmdBuf);
-        }
-
-        if (binaryData != null && binaryData.length > 0) {
-            ByteBuffer dataBuf = ByteBuffer.wrap(binaryData);
-            while (dataBuf.hasRemaining()) {
-                socket.write(dataBuf);
-            }
-        }
-
-        ByteBuffer respLenBuf = ByteBuffer.allocate(4);
-        int lenRead = readFully(socket, respLenBuf, 4);
-        if (lenRead < 0) {
-            throw new Exception("Host disconnected while reading response length");
-        }
-        respLenBuf.flip();
-        int responseLength = respLenBuf.getInt();
-
-        if (responseLength <= 0 || responseLength > 65536) {
-            throw new Exception("Invalid response length: " + responseLength);
-        }
-
-        ByteBuffer respBuf = ByteBuffer.allocate(responseLength);
-        int respRead = readFully(socket, respBuf, responseLength);
-        if (respRead < 0) {
-            throw new Exception("Host disconnected while reading response");
-        }
-        respBuf.flip();
-
-        CharBuffer charBuf = StandardCharsets.UTF_8.newDecoder().decode(respBuf);
-        String textResponse = charBuf.toString().trim();
-
-        if (textResponse.startsWith("ERROR:")) {
-            throw new Exception("Host error: " + textResponse.substring(6));
-        }
-
-        if (binaryOutputBuffer != null && textResponse.startsWith("OK:")) {
-            binaryOutputBuffer.clear();
-
-            int expectedBinaryBytes = 0;
-            try {
-                String[] parts = textResponse.substring(3).split(";");
-                if (parts.length >= 2) {
-                    int respChannels = Integer.parseInt(parts[0]);
-                    int respSamples  = Integer.parseInt(parts[1]);
-                    expectedBinaryBytes = respChannels * respSamples * 4;
-                }
-            } catch (Exception e) {
-                throw new Exception("Cannot parse binary size from response: " + textResponse, e);
-            }
-
-            if (expectedBinaryBytes > binaryOutputBuffer.capacity()) {
-                throw new Exception("binaryOutputBuffer too small: need " +
-                        expectedBinaryBytes + ", have " + binaryOutputBuffer.capacity());
-            }
-
-            int totalRead = 0;
-            while (totalRead < expectedBinaryBytes) {
-                int read = socket.read(binaryOutputBuffer);
-                if (read == -1) {
-                    throw new Exception("Unexpected end of stream while reading binary data");
-                }
-                totalRead += read;
-            }
-
-            binaryOutputBuffer.flip();
-        }
-
-
-        return textResponse;
     }
 
     private final AtomicBoolean isEnable = new AtomicBoolean(true);

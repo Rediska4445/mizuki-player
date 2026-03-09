@@ -1,4 +1,4 @@
-package rf.ebanina.UI.Network;
+package rf.ebanina.UI.Editors.Network;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
@@ -10,14 +10,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
-import rf.ebanina.ebanina.Music;
-import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
-import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
-import rf.ebanina.ebanina.Player.Track;
 import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.UI.Root;
 import rf.ebanina.UI.UI.Element.ListViews.ListCells.Playlists.ListCellSimilar;
 import rf.ebanina.UI.UI.Element.ListViews.ListView;
+import rf.ebanina.ebanina.Music;
+import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
+import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
+import rf.ebanina.ebanina.Player.Track;
 
 import java.util.List;
 

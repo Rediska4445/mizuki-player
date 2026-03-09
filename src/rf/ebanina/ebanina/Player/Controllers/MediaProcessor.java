@@ -5,27 +5,28 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.util.Duration;
-import rf.ebanina.ebanina.Music;
-import rf.ebanina.ebanina.Player.AudioDecoder;
-import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
-import rf.ebanina.ebanina.Player.Controllers.Playlist.PlaylistController;
-import rf.ebanina.ebanina.Player.Media;
-import rf.ebanina.ebanina.Player.MediaPlayer;
-import rf.ebanina.ebanina.Player.Track;
 import rf.ebanina.File.Configuration.ConfigurationManager;
 import rf.ebanina.File.Field;
 import rf.ebanina.File.FileManager;
 import rf.ebanina.File.Localization.LocalizationManager;
 import rf.ebanina.File.Metadata.MetadataOfFile;
 import rf.ebanina.File.Resources.Resources;
+import rf.ebanina.Network.Info;
+import rf.ebanina.Network.OnlineTrack;
+import rf.ebanina.Network.Translator;
+import rf.ebanina.UI.Editors.Player.AudioHost;
 import rf.ebanina.UI.Root;
 import rf.ebanina.UI.UI.Element.Slider.SoundSlider;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
 import rf.ebanina.UI.UI.Popup.PreviewPopupService;
-import rf.ebanina.UI.Editors.Player.AudioHost;
-import rf.ebanina.Network.Info;
-import rf.ebanina.Network.OnlineTrack;
-import rf.ebanina.Network.Translator;
+import rf.ebanina.ebanina.Music;
+import rf.ebanina.ebanina.Player.AudioDecoder;
+import rf.ebanina.ebanina.Player.AudioPlugins.PluginWrapper;
+import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
+import rf.ebanina.ebanina.Player.Controllers.Playlist.PlaylistController;
+import rf.ebanina.ebanina.Player.Media;
+import rf.ebanina.ebanina.Player.MediaPlayer;
+import rf.ebanina.ebanina.Player.Track;
 import rf.ebanina.utils.collections.TypicalMapWrapper;
 import rf.ebanina.utils.concurrency.LonelyThreadPool;
 import rf.ebanina.utils.loggining.Prefix;
@@ -46,13 +47,13 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
-import static rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor.playProcessor;
-import static rf.ebanina.ebanina.Player.Controllers.Playlist.PlaylistController.checkIndexOutOfBoundPlaylist;
 import static rf.ebanina.File.Field.fields;
+import static rf.ebanina.Network.Info.playersMap;
+import static rf.ebanina.UI.Root.PlaylistHandler.playlistExit;
 import static rf.ebanina.UI.Root.endTime;
 import static rf.ebanina.UI.Root.soundSlider;
-import static rf.ebanina.UI.Root.PlaylistHandler.playlistExit;
-import static rf.ebanina.Network.Info.playersMap;
+import static rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor.playProcessor;
+import static rf.ebanina.ebanina.Player.Controllers.Playlist.PlaylistController.checkIndexOutOfBoundPlaylist;
 
 public class MediaProcessor {
     public static MediaProcessor mediaProcessor = new MediaProcessor(
@@ -139,6 +140,10 @@ public class MediaProcessor {
 
     // Автоматизированная инициализация настроек для плеера.
     public void initializeAudioParameters(MediaPlayer mediaPlayer) {
+        for(PluginWrapper pluginWrapper : AudioHost.instance.vstPlugins) {
+            pluginWrapper.turnOn();
+        }
+
         mediaPlayer
                 // Плагины (Steinberg, Au, Ivl2 и типо того)
                 .setPlugins(AudioHost.instance.vstPlugins)
@@ -200,7 +205,6 @@ public class MediaProcessor {
     //TODO: Так, получается приходится дублировать код!
     //TODO: При слиянии, и отдельной логике внутри методов через Track.isNetty(), можно добиться универсальности!
     public void _track(Track track) {
-
         // Задержка
         int delay = ConfigurationManager.instance.getIntItem("delay_between_play", "2000");
 
@@ -344,7 +348,6 @@ public class MediaProcessor {
     final boolean isPreDownload = ConfigurationManager.instance.getBooleanItem("network_pre_download", "false");
 
     public void regenerateMediaPlayer(Track track) {
-
         // Запихать состояние плеера (пауза/плей)
         globalMap.put("pause",
                 (mediaPlayer.getStatus() == rf.ebanina.ebanina.Player.MediaPlayer.Status.PAUSED

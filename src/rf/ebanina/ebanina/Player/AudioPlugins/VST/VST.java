@@ -1,12 +1,9 @@
 package rf.ebanina.ebanina.Player.AudioPlugins.VST;
 
-import com.synthbot.audioplugin.vst.JVstLoadException;
 import com.synthbot.audioplugin.vst.vst2.JVstHost2;
 import rf.ebanina.ebanina.Player.AudioPlugins.IPluginWrapper;
 import rf.ebanina.ebanina.Player.AudioPlugins.PluginWrapper;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Map;
@@ -58,7 +55,7 @@ public final class VST
 
     @Override
     public void destroy() {
-        vst2Plugin.turnOffAndUnloadPlugin();
+        vst2Plugin.turnOff();
     }
 
     @Override

@@ -1,5 +1,5 @@
-array of (app) = [license_agreed=true, full_time=59870.328];
-array of (main_window) = [right_list_open=true, left_list_open=false, width=1272.0, layout_x=195.0, layout_y=255.0, height=720.0];
+array of (app) = [license_agreed=true, full_time=59928.340000000004];
+array of (main_window) = [right_list_open=false, left_list_open=false, width=1272.0, layout_x=273.0, layout_y=177.0, height=720.0];
 array of (mediaPlayer) = [volume=1.0, tempo=0.98999995, pitch=1.0, pan=0.0, pause=false];
 array of (player) = [last_track_index_playlist_local=9, last_track_index_local=21, last_track_time=0.0];
 array of (history) = [https://storage9.lightaudio.ru/dm/399c2c6b/3bb5090f/zecki%20%E2%80%94%20chichen%20itza.mp3?d=132&v=92842f360b, tracks=[C:\Users\2022\Music\ijustwannadie\Ghostemane - Tartarus.mp3, C:\Users\2022\Music\ijustwannadie\Ghostemane - Somewhere Between Happiness and the Bottom of the Lake.mp3, C:\Users\2022\Music\ijustwannadie\Ghostemane - Rapture.mp3, C:\Users\2022\Music\ijustwannadie\Ghostemane - Enter Anubis.mp3]];

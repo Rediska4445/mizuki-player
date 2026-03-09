@@ -1,20 +1,20 @@
-package rf.ebanina.UI.Network;
+package rf.ebanina.UI.Editors.Network;
 
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import rf.ebanina.File.Resources.ResourceManager;
+import rf.ebanina.UI.Editors.IEditor;
 import rf.ebanina.UI.Root;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
-import rf.ebanina.UI.Editors.IEditor;
 
 import java.awt.*;
 import java.io.IOException;
 import java.util.Map;
 
-import static rf.ebanina.ebanina.Music.name;
 import static rf.ebanina.File.Localization.LocalizationManager.getLocaleString;
 import static rf.ebanina.UI.Root.windowsSizes;
+import static rf.ebanina.ebanina.Music.name;
 
 public class NetworkHost implements IEditor {
     public static NetworkHost instance = new NetworkHost();

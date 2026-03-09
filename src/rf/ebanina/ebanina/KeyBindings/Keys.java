@@ -5,15 +5,15 @@ import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import rf.ebanina.ebanina.Music;
-import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
-import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
 import rf.ebanina.File.Configuration.ConfigurationManager;
-import rf.ebanina.UI.Network.NetworkHost;
+import rf.ebanina.UI.Editors.Network.NetworkHost;
 import rf.ebanina.UI.Editors.Player.AudioHost;
 import rf.ebanina.UI.Editors.Settings.Settings;
 import rf.ebanina.UI.Editors.Statistics.TrackStatistics;
 import rf.ebanina.UI.Editors.Statistics.TracksStatistics;
+import rf.ebanina.ebanina.Music;
+import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
+import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
 import rf.ebanina.utils.loggining.logging;
 
 import java.io.IOException;
@@ -28,11 +28,11 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.nio.file.FileVisitOption.FOLLOW_LINKS;
+import static rf.ebanina.Network.APIS.GeniusAPI.Search.openGeniusLyrics;
+import static rf.ebanina.UI.Root.*;
 import static rf.ebanina.ebanina.KeyBindings.KeyBindingController.isKeyPressed;
 import static rf.ebanina.ebanina.KeyBindings.KeyBindingController.pressed_keys;
 import static rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor.playProcessor;
-import static rf.ebanina.UI.Root.*;
-import static rf.ebanina.Network.APIS.GeniusAPI.Search.openGeniusLyrics;
 
 /**
  * <h1>Keys</h1>
@@ -260,6 +260,11 @@ public class Keys {
                         btn.setVisible(!btn.isVisible());
                         btnNext.setVisible(!btnNext.isVisible());
                     }
+            ),
+            new HotKey(
+                    "ebanina_get_debug_info",
+                    new int[] {NativeKeyEvent.VC_SHIFT, NativeKeyEvent.VC_ALT, NativeKeyEvent.VC_B},
+                    () -> Platform.runLater(() -> MediaProcessor.mediaProcessor.skipPit(playProcessor.getTracks().get(playProcessor.getTrackIter()).getPath()))
             )
     ));
 

@@ -19,7 +19,7 @@
                                             <Label text="mod_load (mod_load)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
                                                 <tooltip><Tooltip text="mod_load -  равен нулю"/></tooltip>
                                             </Label>
-                                            <CheckBox fx:id="mod_load" mnemonicParsing="false" selected="false" />
+                                            <CheckBox fx:id="mod_load" mnemonicParsing="false" selected="true" />
         </HBox>
         <TextArea fx:id="mod_loadDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
     </VBox>

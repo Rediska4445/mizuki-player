@@ -13,5 +13,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="modules" level="project" />
     <orderEntry type="library" exported="" name="classes" level="project" />
+    <orderEntry type="library" name="ebanina-vst-ipc-host-mod" level="project" />
   </component>
 </module>

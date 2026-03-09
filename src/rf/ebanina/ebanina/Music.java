@@ -7,13 +7,6 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import rf.ebanina.ebanina.KeyBindings.KeyBindingController;
-import rf.ebanina.ebanina.KeyBindings.Keys;
-import rf.ebanina.ebanina.Player.AudioPlugins.IPCHost;
-import rf.ebanina.ebanina.Player.AudioPlugins.PluginWrapper;
-import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
-import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
-import rf.ebanina.ebanina.Player.Media;
 import rf.ebanina.File.Configuration.ConfigurationManager;
 import rf.ebanina.File.FileManager;
 import rf.ebanina.File.Modification.Anvil;
@@ -22,6 +15,12 @@ import rf.ebanina.File.Resources.Resources;
 import rf.ebanina.UI.Root;
 import rf.ebanina.UI.UI.Animations;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
+import rf.ebanina.ebanina.KeyBindings.KeyBindingController;
+import rf.ebanina.ebanina.KeyBindings.Keys;
+import rf.ebanina.ebanina.Player.AudioPlugins.PluginWrapper;
+import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
+import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
+import rf.ebanina.ebanina.Player.Media;
 import rf.ebanina.utils.loggining.Log;
 import rf.ebanina.utils.loggining.logging;
 import rf.ebanina.utils.weakly.WeakConst;
@@ -29,11 +28,7 @@ import rf.ebanina.utils.weakly.WeakConst;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.nio.channels.Pipe;
-import java.nio.channels.SocketChannel;
 import java.nio.file.Paths;
-import java.util.Properties;
 
 import static rf.ebanina.UI.Root.scene;
 
@@ -187,6 +182,10 @@ public final class Music
      */
     public static javafx.event.EventHandler<javafx.stage.WindowEvent> exitEvent = windowEvent -> {
         // Закрытие плеера
+        for (PluginWrapper p : MediaProcessor.mediaProcessor.mediaPlayer.getPlugins()) {
+            p.destroy();
+        }
+
         if (MediaProcessor.mediaProcessor.mediaPlayer != null)
             MediaProcessor.mediaProcessor.mediaPlayer.close();
 
@@ -510,32 +509,6 @@ public final class Music
         }
 
         mainLogger.info("All mods loaded from folder");
-
-        try {
-            // FIXME: Сделать корректный вывод логов у ipc-хоста
-
-            Properties ipcProps = FileManager.instance.readProperties(ConfigurationManager.instance.getDirectoryPath() + File.separator + "host" + File.separator + "ipc.properties");
-
-            IPCHost.vstHost = new IPCHost(
-                    ipcProps.get("ipc.host.addr").toString(),
-                    Integer.parseInt(ipcProps.get("ipc.host.port").toString()),
-                    (int) MediaProcessor.mediaProcessor.mediaPlayer.getChannels(),
-                    MediaProcessor.mediaProcessor.MEDIA_PLAYER_BLOCK_SIZE_FRAMES,
-                    ipcProps.get("ipc.host.process.mode").toString(),
-                    Boolean.parseBoolean(ipcProps.get("ipc.host.verbose").toString()),
-                    ipcProps.get("ipc.logs.out.path").toString());
-
-            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                mainLogger.info("Завершение работы хоста");
-                IPCHost.vstHost.stop();
-            }));
-
-            IPCHost.vstHost.start();
-        } catch (Exception e) {
-            mainLogger.severe("Ошибка: " + e.getMessage());
-            e.printStackTrace();
-        }
-
         mainLogger.profiler("Application ENDUP Time");
     }
 }
