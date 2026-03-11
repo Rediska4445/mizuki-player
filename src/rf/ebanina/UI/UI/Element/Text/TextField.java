@@ -132,6 +132,41 @@ public class TextField
 
         textProperty().addListener((obs, oldText, newText) -> updateAlignment());
         widthProperty().addListener((obs, oldWidth, newWidth) -> updateAlignment());
+
+        focusedProperty().addListener((obs, wasFocused, isFocused) -> {
+            Node textNode = lookup(".text");
+            if (textNode instanceof Text t) {
+                Color nativeColor = colorProperty.get() != null ? colorProperty.get() : Color.BLACK;
+
+                Color highlightColor = (nativeColor.equals(Color.BLACK) || nativeColor.getBrightness() < 0.1)
+                        ? Color.WHITE
+                        : nativeColor.deriveColor(0, 1.0, 1.5, 1.0);
+
+                FillTransition ft = new FillTransition(Duration.millis(200), t);
+                ft.setToValue(isFocused ? highlightColor : nativeColor);
+                ft.play();
+            }
+        });
+
+        setOnMouseEntered(e -> {
+            ScaleTransition st = new ScaleTransition(Duration.millis(150), this);
+            st.setToX(1.05);
+            st.setToY(1.05);
+            st.play();
+        });
+
+        setOnMouseExited(e -> {
+            ScaleTransition st = new ScaleTransition(Duration.millis(150), this);
+            st.setToX(1.0);
+            st.setToY(1.0);
+            st.play();
+        });
+
+        Platform.runLater(() -> {
+            javafx.animation.FadeTransition fade = new javafx.animation.FadeTransition(Duration.millis(500), this);
+            fade.setToValue(1.0);
+            fade.play();
+        });
     }
 
     /**
