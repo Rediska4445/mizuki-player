@@ -1,136 +1,191 @@
 package rf.ebanina.UI.UI.Element;
 
 import javafx.animation.FadeTransition;
+import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Cursor;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import rf.ebanina.File.Resources.ResourceManager;
 
-public class Dialog extends StackPane {
-    private final Region backgroundDim;
-    private final VBox dialogBox;
-    private final ScrollPane scrollPane;
-    private final TextFlow textFlow;
-    private final rf.ebanina.UI.UI.Element.Buttons.Button acceptButton;
+public abstract class Dialog
+        extends StackPane
+{
+    protected final Pane backgroundDim;
+    protected final VBox dialogBox;
+    protected Runnable onAction;
+    protected final Stage ownerStage;
 
-    private Runnable onAgree;
+    public Dialog(Stage ownerStage) {
+        this.ownerStage = ownerStage;
 
-    public Dialog setOnAgree(Runnable onAgree) {
-        this.onAgree = onAgree;
-        return this;
-    }
-
-    public Dialog(Stage ownerStage, String agreeText, String agreementText) {
-        // Затемнение фона
-        backgroundDim = new Region();
-        backgroundDim.setStyle("-fx-background-color: rgba(0, 0, 0, 0.55);");
+        backgroundDim = new Pane();
+        backgroundDim.setStyle("-fx-background-color: rgba(0, 0, 0, 0.65);");
         backgroundDim.setOpacity(0);
+        backgroundDim.setOnMouseClicked(this::hideOnBackgroundClick);
 
-        // Контент (текст)
-        Text content = new Text(agreementText);
-        content.setFill(Color.LIGHTGRAY);
-        content.setStyle("-fx-font-size: 14px;");
-
-        textFlow = new TextFlow(content);
-        textFlow.setPadding(new Insets(20));
-        textFlow.setLineSpacing(5);
-
-        scrollPane = new ScrollPane(textFlow);
-        scrollPane.setFitToWidth(true);
-        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-        // Прозрачный фон скролла в стиле Material
-        scrollPane.setStyle("-fx-background: transparent; -fx-background-color: transparent;");
-
-        Label label = new Label(agreeText);
-        label.setTextFill(Color.WHITE);
-
-        acceptButton = new rf.ebanina.UI.UI.Element.Buttons.Button(label) {};
-        acceptButton.setCornerRadius(20); // Более скругленные кнопки как в новом Google Style
-        acceptButton.setSize(140, 40);
-        acceptButton.setDisable(true);
-        acceptButton.setCursor(Cursor.HAND);
-        acceptButton.setBackground(new Background(new BackgroundFill(Color.web("#212121"), new CornerRadii(20), Insets.EMPTY)));
-
-        acceptButton.setOnAction(e -> hide());
-
-        // Контейнер окна
-        dialogBox = new VBox(20, scrollPane, acceptButton);
+        dialogBox = new VBox(20);
         dialogBox.setAlignment(Pos.CENTER);
         dialogBox.setPadding(new Insets(25));
-        dialogBox.setMaxSize(ownerStage.getWidth() * 0.8, ownerStage.getHeight() * 0.8);
-
         dialogBox.setBackground(new Background(new BackgroundFill(
-                Color.web("#212121"),
-                new CornerRadii(12),
-                Insets.EMPTY
+                Color.web("#1E1E1E"), new CornerRadii(16), Insets.EMPTY
         )));
+        dialogBox.setOpacity(0);
 
         dialogBox.setBorder(new Border(new BorderStroke(
-                Color.GRAY, BorderStrokeStyle.SOLID, new CornerRadii(12), new BorderWidths(1)
+                Color.gray(0.3), BorderStrokeStyle.SOLID, new CornerRadii(16), new BorderWidths(1)
         )));
 
-        // Логика разблокировки кнопки при прокрутке
-        scrollPane.vvalueProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal.doubleValue() >= 0.98) {
-                acceptButton.setDisable(false);
-            }
-        });
-
+        bindBackgroundToStage();
         this.getChildren().addAll(backgroundDim, dialogBox);
         this.setVisible(false);
+    }
 
-        scrollPane.getStylesheets().add(ResourceManager.Instance.loadStylesheet("scrollpane-scroll-bar"));
+    private void bindBackgroundToStage() {
+        backgroundDim.prefWidthProperty().bind(ownerStage.widthProperty());
+        backgroundDim.prefHeightProperty().bind(ownerStage.heightProperty());
+        backgroundDim.minWidthProperty().bind(ownerStage.widthProperty());
+        backgroundDim.minHeightProperty().bind(ownerStage.heightProperty());
+        backgroundDim.maxWidthProperty().bind(ownerStage.widthProperty());
+        backgroundDim.maxHeightProperty().bind(ownerStage.heightProperty());
+    }
+
+    /**
+     * Устанавливает максимальные размеры диалога (коэффициенты от stage)
+     */
+    public void setDialogMaxSize(double widthFactor, double heightFactor) {
+        dialogBox.setMaxSize(
+                ownerStage.getWidth() * widthFactor,
+                ownerStage.getHeight() * heightFactor
+        );
+    }
+
+    /**
+     * Устанавливает фиксированные размеры диалога
+     */
+    public void setDialogSize(double width, double height) {
+        dialogBox.setPrefSize(width, height);
+        dialogBox.setMaxSize(width, height);
+    }
+
+    /**
+     * Устанавливает отступы внутри диалога
+     */
+    public void setDialogPadding(Insets padding) {
+        dialogBox.setPadding(padding);
+    }
+
+    // === МЕТОДЫ ДЛЯ ФОНА ===
+
+    /**
+     * Уровень затемнения фона (0.0 - прозрачный, 1.0 - полностью чёрный)
+     */
+    public void setBackgroundOpacity(double opacity) {
+        opacity = Math.max(0.0, Math.min(1.0, opacity));
+        String rgba = String.format("rgba(0, 0, 0, %.2f)", opacity);
+        backgroundDim.setStyle("-fx-background-color: " + rgba + ";");
+    }
+
+    /**
+     * Устанавливает цвет фона (по умолчанию чёрный)
+     */
+    public void setBackgroundColor(Color color, double opacity) {
+        opacity = Math.max(0.0, Math.min(1.0, opacity));
+        String rgba = String.format("rgba(%.0f, %.0f, %.0f, %.2f)",
+                color.getRed() * 255,
+                color.getGreen() * 255,
+                color.getBlue() * 255,
+                opacity);
+        backgroundDim.setStyle("-fx-background-color: " + rgba + ";");
+    }
+
+    /**
+     * Включает/выключает закрытие по клику на фон
+     */
+    public void setCloseOnBackgroundClick(boolean enabled) {
+        if (enabled) {
+            backgroundDim.setOnMouseClicked(this::hideOnBackgroundClick);
+        } else {
+            backgroundDim.setOnMouseClicked(null);
+        }
+    }
+
+    /**
+     * Устанавливает цвет фона диалога
+     */
+    public void setDialogBackgroundColor(Color color) {
+        dialogBox.setBackground(new Background(new BackgroundFill(
+                color, new CornerRadii(16), Insets.EMPTY
+        )));
+    }
+
+    /**
+     * Устанавливает радиус скругления углов
+     */
+    public void setDialogCornerRadius(double radius) {
+        // Требует пересоздания background и border
+        dialogBox.setBackground(new Background(new BackgroundFill(
+                Color.web("#1E1E1E"), new CornerRadii(radius), Insets.EMPTY
+        )));
+        dialogBox.setBorder(new Border(new BorderStroke(
+                Color.gray(0.3), BorderStrokeStyle.SOLID, new CornerRadii(radius), new BorderWidths(1)
+        )));
+    }
+
+    /**
+     * Устанавливает spacing между элементами в VBox
+     */
+    public void setDialogSpacing(double spacing) {
+        dialogBox.setSpacing(spacing);
+    }
+
+    private void hideOnBackgroundClick(MouseEvent event) {
+        if (event.getTarget() == backgroundDim) {
+            hide();
+        }
     }
 
     public void show() {
         this.setVisible(true);
 
-        // Анимация Google Style: Плавное появление + легкое масштабирование вверх
         FadeTransition fadeInDim = new FadeTransition(Duration.millis(300), backgroundDim);
         fadeInDim.setToValue(1.0);
 
-        FadeTransition fadeInBox = new FadeTransition(Duration.millis(300), dialogBox);
-        fadeInBox.setFromValue(0.0);
+        FadeTransition fadeInBox = new FadeTransition(Duration.millis(350), dialogBox);
         fadeInBox.setToValue(1.0);
 
-        ScaleTransition scaleIn = new ScaleTransition(Duration.millis(300), dialogBox);
-        scaleIn.setFromX(0.85);
-        scaleIn.setFromY(0.85);
+        ScaleTransition scaleIn = new ScaleTransition(Duration.millis(350), dialogBox);
+        scaleIn.setFromX(0.8);
+        scaleIn.setFromY(0.8);
         scaleIn.setToX(1.0);
         scaleIn.setToY(1.0);
+        scaleIn.setInterpolator(Interpolator.LINEAR);
 
-        ParallelTransition showAnim = new ParallelTransition(fadeInDim, fadeInBox, scaleIn);
-        showAnim.play();
+        new ParallelTransition(fadeInDim, fadeInBox, scaleIn).play();
     }
 
-    public ParallelTransition hide() {
-        // Анимация исчезновения: Плавное затухание + уменьшение
+    public void hide() {
         FadeTransition fadeOut = new FadeTransition(Duration.millis(200), this);
-        fadeOut.setToValue(0.0);
+        fadeOut.setToValue(0);
 
         ScaleTransition scaleOut = new ScaleTransition(Duration.millis(200), dialogBox);
-        scaleOut.setToX(0.95);
-        scaleOut.setToY(0.95);
+        scaleOut.setToX(0.9);
+        scaleOut.setToY(0.9);
 
         ParallelTransition hideAnim = new ParallelTransition(fadeOut, scaleOut);
         hideAnim.setOnFinished(e -> {
             this.setVisible(false);
             this.setOpacity(1.0);
-            if (onAgree != null) onAgree.run();
+            if (onAction != null) onAction.run();
         });
-
         hideAnim.play();
+    }
 
-        return hideAnim;
+    public void setOnAction(Runnable onAction) {
+        this.onAction = onAction;
     }
 }
