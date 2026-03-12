@@ -327,13 +327,8 @@ public class TextField
 
             if(textNode != null) {
                 if (textNode instanceof Text text) {
-                    if (text.getFill() instanceof Color) {
-                        if(text.fillProperty().isBound()) {
-                            text.fillProperty().unbind();
-                        }
-
-                        text.setFill(Color.valueOf(colorHex));
-                    }
+                    text.fillProperty().unbind();
+                    text.setFill(Color.valueOf(colorHex));
                 }
             } else {
                 throw new NullPointerException("lookup(\".text\") not can be null");
