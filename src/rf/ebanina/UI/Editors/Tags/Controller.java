@@ -5,19 +5,20 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import rf.ebanina.ebanina.Music;
-import rf.ebanina.ebanina.Player.Track;
 import rf.ebanina.File.FileManager;
 import rf.ebanina.File.Localization.LocalizationManager;
 import rf.ebanina.File.Resources.Resources;
+import rf.ebanina.UI.UI.Paint.ColorProcessor;
+import rf.ebanina.ebanina.Music;
+import rf.ebanina.ebanina.Player.Track;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
 //TODO: Переделать под readArray/saveArray
@@ -25,6 +26,9 @@ public class Controller implements Initializable {
 
     public Label title;
     public Button save;
+    public Button addButton;
+    public Button removeButton;
+    public VBox vBox;
     @FXML
     private ListView<Track.Tag> tagListView;
 
@@ -34,8 +38,6 @@ public class Controller implements Initializable {
     private Track track;
 
     private ObservableList<Track.Tag> tagsObservable;
-
-    private final Path tagsDir = Paths.get(Resources.Properties.DEFAULT_CACHE_TRACKS_TAGS_PATH.getKey());
 
     public void setTrack(Track track) {
         this.track = track;
@@ -126,5 +128,31 @@ public class Controller implements Initializable {
         title.setText(LocalizationManager.getLocaleString("tags_title", "Tags"));
         save.setText(LocalizationManager.getLocaleString("tags_save", "Save tags"));
         tagInput.setPromptText(LocalizationManager.getLocaleString("tags_new_tag", "Save tags"));
+
+        String hexColor = ColorProcessor.core.getMainClr().toString().replace("0x", "#");
+
+        // Заголовок
+        title.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: " + hexColor + ";");
+
+        // Кнопка сохранения
+        save.setStyle("-fx-background-color: " + hexColor + "; -fx-text-fill: white; -fx-font-weight: bold;");
+
+        // Кнопки +/-
+        addButton.setStyle("-fx-background-color: " + hexColor + "; -fx-text-fill: white; -fx-font-size: 14px;");
+        removeButton.setStyle("-fx-background-color: " + hexColor + "; -fx-text-fill: white; -fx-font-size: 14px;");
+
+        // Поле ввода
+        tagInput.setStyle("-fx-background-color: #333333; -fx-text-fill: white; -fx-prompt-text-fill: #AAAAAA; -fx-border-color: " + hexColor + "; -fx-focus-color: " + hexColor + ";");
+        tagInput.setPromptText(LocalizationManager.getLocaleString("tags_new_tag", "Введите новый тег"));
+
+        // Список тегов
+        tagListView.setStyle("-fx-background-color: #2D2D2D; -fx-border-color: " + hexColor + "; -fx-control-inner-background: #2D2D2D;");
+
+        // Основной контейнер
+        vBox.setStyle("-fx-background-color: transparent;");
+
+        // Локализация
+        title.setText(LocalizationManager.getLocaleString("tags_title", "Редактор тегов"));
+        save.setText(LocalizationManager.getLocaleString("tags_save", "Сохранить"));
     }
 }
