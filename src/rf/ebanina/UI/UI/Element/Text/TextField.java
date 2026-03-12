@@ -6,6 +6,7 @@ import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
@@ -118,6 +119,7 @@ public class TextField
         super(text);
 
         setFontSize(11);
+        setPadding(new Insets(0));
         setAlignment(Pos.CENTER);
         setBackground(Background.EMPTY);
         setFocusTraversable(true);
