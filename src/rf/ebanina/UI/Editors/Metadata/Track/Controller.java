@@ -1,6 +1,7 @@
 package rf.ebanina.UI.Editors.Metadata.Track;
 
 import javafx.embed.swing.SwingFXUtils;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -12,13 +13,16 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import me.API.Info;
 import org.json.simple.parser.ParseException;
-import rf.ebanina.ebanina.Player.Track;
 import rf.ebanina.File.Metadata.MetadataOfFile;
+import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.UI.Root;
+import rf.ebanina.UI.UI.Paint.ColorProcessor;
+import rf.ebanina.ebanina.Player.Track;
 
 import java.io.IOException;
 import java.net.URL;
@@ -44,6 +48,9 @@ public class Controller implements
 
     private Track track;
 
+    @FXML
+    protected VBox mainBox;
+
     private static final ExecutorService serv = Executors.newFixedThreadPool(1);
 
     @Override
@@ -54,6 +61,8 @@ public class Controller implements
 
         final Set<String> isActived = new HashSet<>();
 
+        mainBox.getStylesheets().add(ResourceManager.Instance.loadStylesheet("scrollbar-fixed-width"));
+
         album_art.setFill(new ImagePattern(track.getAlbumArt(100)));
         title.setText(track.getTitle());
         author.setText(track.getArtist());
@@ -62,6 +71,19 @@ public class Controller implements
         command_field.setPromptText(getLocaleString("metadata_search", "Search"));
         save.setText(getLocaleString("metadata_save", "Save"));
         remove.setText(getLocaleString("metadata_remove", "Remove"));
+
+        Color mainColor = ColorProcessor.core.getMainClr();
+        String hexColor = ColorProcessor.core.toHex(mainColor);
+
+        title.setStyle("-fx-background-color: #333333; -fx-text-fill: white; -fx-prompt-text-fill: #AAAAAA; -jfx-unfocus-color: " + hexColor + "; -jfx-focus-color: " + hexColor + ";");
+        author.setStyle("-fx-background-color: #333333; -fx-text-fill: white; -fx-prompt-text-fill: #AAAAAA; -jfx-unfocus-color: " + hexColor + "; -jfx-focus-color: " + hexColor + ";");
+        command_field.setStyle("-fx-background-color: #333333; -fx-text-fill: white; -fx-prompt-text-fill: #AAAAAA; -jfx-unfocus-color: " + hexColor + "; -jfx-focus-color: " + hexColor + ";");
+        lyrics.setStyle("-fx-background-color: #333333; -fx-control-inner-background: #333333; -fx-text-fill: " + hexColor + "; -fx-prompt-text-fill: #AAAAAA;");
+
+        save.setTextFill(mainColor);
+        remove.setTextFill(mainColor);
+
+        metadata.setStyle("-fx-background-color: #2D2D2D;");
 
         title.setOnKeyTyped(e -> isActived.add("title"));
         author.setOnKeyTyped(e -> isActived.add("author"));
@@ -88,9 +110,13 @@ public class Controller implements
                 Label key = new Label(data.getKey());
                 TextField value = new TextField(data.getValue());
 
+                val.setStyle("-fx-background-color: transparent;");
                 val.setSpacing(20);
                 val.setAlignment(Pos.CENTER_LEFT);
                 val.setPadding(new Insets(5, 5, 5, 5));
+
+                key.setStyle("-fx-font-weight: bold; -fx-text-fill: " + hexColor + "; -fx-background-color: transparent;");
+                value.setStyle("-fx-background-color: #333333; -fx-text-fill: white; -fx-prompt-text-fill: #AAAAAA; -jfx-unfocus-color: " + hexColor + "; -jfx-focus-color: " + hexColor + ";");
 
                 val.getChildren().add(key);
                 val.getChildren().add(value);
