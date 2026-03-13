@@ -137,6 +137,7 @@ public class TextField
 
         focusedProperty().addListener((obs, wasFocused, isFocused) -> {
             Node textNode = lookup(".text");
+
             if (textNode instanceof Text t) {
                 Color nativeColor = colorProperty.get() != null ? colorProperty.get() : Color.BLACK;
 
@@ -144,9 +145,11 @@ public class TextField
                         ? Color.WHITE
                         : nativeColor.deriveColor(0, 1.0, 1.5, 1.0);
 
-                FillTransition ft = new FillTransition(Duration.millis(200), t);
-                ft.setToValue(isFocused ? highlightColor : nativeColor);
-                ft.play();
+                if (!t.fillProperty().isBound()) {
+                    FillTransition ft = new FillTransition(Duration.millis(200), t);
+                    ft.setToValue(isFocused ? highlightColor : nativeColor);
+                    ft.play();
+                }
             }
         });
 
@@ -307,7 +310,7 @@ public class TextField
      * Обновляет цвет текста в UI.
      * <p>
      * Ищет внутренний узел <code>.text</code>, разбиндит его свойство <code>fill</code>
-     * и устанавливает новый цвет в HEX-формате через {@link ColorProcessor#core#toHex(Color)}.
+     * и устанавливает новый цвет в HEX-формате через {@link ColorProcessor#core}.
      * </p>
      * <p>
      * Выполняется асинхронно. Бросает {@link NullPointerException}, если узел не найден.
@@ -328,6 +331,7 @@ public class TextField
             if(textNode != null) {
                 if (textNode instanceof Text text) {
                     text.fillProperty().unbind();
+                    text.setStyle("");
                     text.setFill(Color.valueOf(colorHex));
                 }
             } else {
