@@ -27,7 +27,9 @@ import rf.ebanina.UI.UI.Paint.ColorProcessor;
 
 import static rf.ebanina.utils.Math.clamp;
 
-public class ListView<T> extends javafx.scene.control.ListView<T> {
+public class ListView<T>
+        extends javafx.scene.control.ListView<T>
+{
     private ObjectProperty<Color> selectedColorProperty = new SimpleObjectProperty<>(ColorProcessor.core.getMainClr());
 
     public ObjectProperty<Color> getSelectedColorProperty() {
@@ -222,8 +224,10 @@ public class ListView<T> extends javafx.scene.control.ListView<T> {
             int cellCount = getItems().size();
             double delta = event.getDeltaY() * sensitivity * (1.0 / java.lang.Math.max(1, cellCount));
 
-            targetValue = clamp(targetValue - delta, vScrollBar.getMin(), vScrollBar.getMax());
+            if(vScrollBar == null)
+                return;
 
+            targetValue = clamp(targetValue - delta, vScrollBar.getMin(), vScrollBar.getMax());
 
             if (timeline == null || timeline.getStatus() != Animation.Status.RUNNING) {
                 timeline = new Timeline(

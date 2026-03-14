@@ -14,20 +14,19 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
-import rf.ebanina.ebanina.Player.Playlist;
-import rf.ebanina.ebanina.Player.Track;
 import rf.ebanina.File.FileManager;
 import rf.ebanina.File.Resources.ResourceManager;
+import rf.ebanina.Network.ISimilar;
+import rf.ebanina.Network.Info;
 import rf.ebanina.UI.UI.Element.Buttons.Playlist.NextPlaylistButton;
 import rf.ebanina.UI.UI.Element.Buttons.Playlist.PlaylistButton;
 import rf.ebanina.UI.UI.Element.Buttons.Playlist.PrevPlaylistButton;
 import rf.ebanina.UI.UI.Element.ListViews.ListCells.AnimatedListCell;
 import rf.ebanina.UI.UI.Element.ListViews.ListView;
 import rf.ebanina.UI.UI.Element.Text.TextField;
-import rf.ebanina.UI.UI.Paint.ColorProcessor;
-import rf.ebanina.Network.ISimilar;
-import rf.ebanina.Network.Info;
+import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
+import rf.ebanina.ebanina.Player.Playlist;
+import rf.ebanina.ebanina.Player.Track;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -45,7 +44,9 @@ import static java.nio.file.FileVisitOption.FOLLOW_LINKS;
 import static rf.ebanina.Network.Info.getTracks;
 import static rf.ebanina.Network.Info.similarList;
 
-public class PlayView<T extends Track, J extends Playlist> extends VBox {
+public class PlayView<T extends Track, J extends Playlist>
+        extends VBox
+{
     private StackPane centerStack;
     private ListView<T> trackListView;
     private ListView<J> playlistListView;
@@ -511,15 +512,10 @@ public class PlayView<T extends Track, J extends Playlist> extends VBox {
         playlistListView.disableProperty().bind(trackListView.disableProperty().not());
 
         currentPlaylistText = new TextField();
-        currentPlaylistText.setFocusColor(Color.TRANSPARENT);
-        currentPlaylistText.setUnFocusColor(Color.TRANSPARENT);
         currentPlaylistText.setAlignment(Pos.CENTER);
-        currentPlaylistText.setDisableAnimation(true);
 
         searchBar = new TextField();
         searchBar.setBackground(Background.EMPTY);
-        searchBar.setUnFocusColor(ColorProcessor.core.getMainClr());
-        searchBar.setFocusColor(Color.TRANSPARENT);
 
         topPane = new BorderPane();
         topPane.setTop(currentPlaylistText);

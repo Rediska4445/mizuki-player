@@ -13,7 +13,9 @@ import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import rf.ebanina.UI.UI.Element.Buttons.Button;
 
-public class ControlPane extends Pane {
+public class ControlPane
+        extends Pane
+{
     private static final double COLLAPSED_HEIGHT_RATIO = 0.035;
 
     private double expandedHeight = 80;
@@ -23,6 +25,8 @@ public class ControlPane extends Pane {
     private final Region hoverZone;
 
     private int hoverDimension = 25;
+
+    protected Button mainButton;
 
     public ControlPane(Pane root) {
         setPrefHeight(expandedHeight * COLLAPSED_HEIGHT_RATIO);
@@ -79,8 +83,6 @@ public class ControlPane extends Pane {
 
         root.getChildren().add(hoverZone);
     }
-
-    private Button mainButton;
 
     public void addCenteredButton(Button button) {
         if (!getChildren().contains(button)) {

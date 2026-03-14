@@ -9,16 +9,16 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
-import rf.ebanina.ebanina.Player.Playlist;
-import rf.ebanina.ebanina.Player.Track;
+import rf.ebanina.UI.Editors.Metadata.Track.Metadata;
+import rf.ebanina.UI.Editors.Statistics.Track.TrackStatistics;
+import rf.ebanina.UI.Editors.Tags.Tags;
 import rf.ebanina.UI.Root;
 import rf.ebanina.UI.UI.Context.Menu.ContextMenu;
 import rf.ebanina.UI.UI.Context.Menu.ContextMenuItem;
 import rf.ebanina.UI.UI.Element.ListViews.ListCells.Playlists.ListCellTrack;
-import rf.ebanina.UI.Editors.Metadata.Track.Metadata;
-import rf.ebanina.UI.Editors.Tags.Tags;
-import rf.ebanina.UI.Editors.Statistics.TrackStatistics;
+import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
+import rf.ebanina.ebanina.Player.Playlist;
+import rf.ebanina.ebanina.Player.Track;
 
 import java.awt.*;
 import java.io.File;
@@ -207,8 +207,7 @@ public class TrackContextMenu extends ContextMenu {
     }
 
     private void openStatistics() {
-        TrackStatistics statistics = new TrackStatistics(track);
-        statistics.open(stage);
+        TrackStatistics.instance.open(stage, this.track);
     }
 
     protected static Parent createNewPlaylist(Consumer<String> event) {

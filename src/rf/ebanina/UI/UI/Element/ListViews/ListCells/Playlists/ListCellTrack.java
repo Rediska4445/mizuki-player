@@ -2,18 +2,20 @@ package rf.ebanina.UI.UI.Element.ListViews.ListCells.Playlists;
 
 import javafx.application.Platform;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
+import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.UI.UI.Context.Menu.Playlist.SimilarContextMenu;
 import rf.ebanina.UI.UI.Context.Menu.Playlist.TrackContextMenu;
-import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
-import rf.ebanina.ebanina.Player.Track;
-import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.UI.UI.Element.ListViews.ListCells.AnimatedListCell;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
+import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
+import rf.ebanina.ebanina.Player.Track;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -38,7 +40,7 @@ public class ListCellTrack<T> extends AnimatedListCell<Track> {
         this(ColorProcessor.core.getMainClr(), saveFactoryTime, defaultLogo);
     }
 
-    Label label;
+    protected Label mainLabelOfTrack;
 
     public ListCellTrack(Color color, boolean saveFactoryTime, Image defaultLogo) {
         super(color);
@@ -54,12 +56,12 @@ public class ListCellTrack<T> extends AnimatedListCell<Track> {
             cover = setCoverIcon(img);
             cover.setEffect(shadow);
 
-            label = new Label();
-            label.setFont(ResourceManager.Instance.loadFont("main_font", 12));
-            label.setLayoutY(2.5);
-            label.setLayoutX(cover.getWidth() + 10);
+            mainLabelOfTrack = new Label();
+            mainLabelOfTrack.setFont(ResourceManager.Instance.loadFont("main_font", 12));
+            mainLabelOfTrack.setLayoutY(2.5);
+            mainLabelOfTrack.setLayoutX(cover.getWidth() + 10);
 
-            pane.getChildren().addAll(cover, label);
+            pane.getChildren().addAll(cover, mainLabelOfTrack);
             setPadding(new Insets(0));
         }
     }
@@ -178,6 +180,13 @@ public class ListCellTrack<T> extends AnimatedListCell<Track> {
         }
 
         return item.viewName() + " - " + (getIndex() + 1) + " - " + item.getExtension();
+    }
+
+    @Override
+    protected Node createExtraInfoContent() {
+        VBox info = new VBox(1);
+
+        return info;
     }
 
     @Override

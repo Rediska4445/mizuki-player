@@ -8,6 +8,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import rf.ebanina.UI.Editors.Player.AudioHost;
 import rf.ebanina.UI.Editors.Player.Tabs.AudioPlugins.Vst.VstParamsWindow;
+import rf.ebanina.UI.UI.Paint.ColorProcessor;
 import rf.ebanina.ebanina.Music;
 import rf.ebanina.ebanina.Player.AudioPlugins.PluginWrapper;
 
@@ -113,8 +114,27 @@ public class VstPluginListCell<T> extends ListCell<PluginWrapper> {
             setText(null);
             setGraphic(null);
         } else {
-            type.setText(item.getSdkVersion());
-            name.setText(item.getVendorName() + " - " + item.getProductString());
+            Color mainClr = ColorProcessor.core.getMainClr();
+            String hex = String.format("#%02X%02X%02X",
+                    (int) (mainClr.getRed() * 255),
+                    (int) (mainClr.getGreen() * 255),
+                    (int) (mainClr.getBlue() * 255));
+
+            type.setText(getItem().getSdkVersion());
+            type.setTextFill(mainClr);
+
+            name.setText(getItem().getVendorName() + " - " + getItem().getProductString());
+            name.setTextFill(mainClr);
+
+            String accentStyle = "-fx-accent: " + hex + ";";
+            mixSlider.setStyle(accentStyle);
+
+            String btnStyle = "-fx-border-color: " + hex + "; -fx-text-fill: white; -fx-background-color: #252525; -fx-background-radius: 4; -fx-border-radius: 4;";
+            openGuiBtn.setStyle(btnStyle);
+            reOpenGuiBtn.setStyle(btnStyle);
+            paramsBtn.setStyle(btnStyle);
+            up.setStyle(btnStyle);
+            down.setStyle(btnStyle);
 
             try {
                 mixSlider.setValue(item.getMix());

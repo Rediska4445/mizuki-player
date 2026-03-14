@@ -10,10 +10,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-import rf.ebanina.ebanina.Player.AudioEffect.IAudioEffect;
-import rf.ebanina.ebanina.Player.AudioEffect.Effector;
-import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
 import rf.ebanina.UI.Root;
+import rf.ebanina.UI.UI.Paint.ColorProcessor;
+import rf.ebanina.ebanina.Player.AudioEffect.Effector;
+import rf.ebanina.ebanina.Player.AudioEffect.IAudioEffect;
+import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
 
 import static rf.ebanina.File.Localization.LocalizationManager.getLocaleString;
 
@@ -34,8 +35,27 @@ public class PluginListCell<T> extends ListCell<IAudioEffect> {
 
             Label name = new Label(item.getName());
             name.setFont(Font.font(Font.getDefault().getName(), FontWeight.BOLD, 14));
-            name.setTextFill(Color.web("#4a6ca8"));
             name.setMinWidth(220);
+
+            Color mainClr = ColorProcessor.core.getMainClr();
+            String hex = String.format("#%02X%02X%02X",
+                    (int) (mainClr.getRed() * 255),
+                    (int) (mainClr.getGreen() * 255),
+                    (int) (mainClr.getBlue() * 255));
+
+            name.setText(item.getName());
+            name.setTextFill(mainClr);
+
+            String btnStyle = "-fx-background-color: #252525; " +
+                    "-fx-border-color: " + hex + "; " +
+                    "-fx-text-fill: white; " +
+                    "-fx-background-radius: 4; " +
+                    "-fx-border-radius: 4; " +
+                    "-fx-cursor: hand;";
+
+            openGuiBtn.setStyle(btnStyle);
+            up.setStyle(btnStyle);
+            down.setStyle(btnStyle);
 
             openGuiBtn.setOnAction(e -> {
                 try {
