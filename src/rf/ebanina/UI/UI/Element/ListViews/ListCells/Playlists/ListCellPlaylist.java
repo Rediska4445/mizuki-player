@@ -6,15 +6,15 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
-import rf.ebanina.ebanina.Player.Playlist;
-import rf.ebanina.ebanina.Player.Track;
 import rf.ebanina.File.FileManager;
 import rf.ebanina.File.Metadata.MetadataOfFile;
 import rf.ebanina.UI.UI.Context.Menu.Playlist.PlaylistContextMenu;
 import rf.ebanina.UI.UI.Element.ListViews.ListCells.AnimatedListCell;
 import rf.ebanina.UI.UI.Element.Text.Label;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
+import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
+import rf.ebanina.ebanina.Player.Playlist;
+import rf.ebanina.ebanina.Player.Track;
 
 import java.io.File;
 import java.io.IOException;
@@ -60,7 +60,7 @@ public class ListCellPlaylist<T> extends AnimatedListCell<Playlist> {
 
             HBox root = new HBox();
             root.setSpacing(6);
-            root.setPadding(new Insets(5, 0, 5, 3.5));
+            root.setPadding(new Insets(0));
 
             pane.getChildren().add(root);
 
