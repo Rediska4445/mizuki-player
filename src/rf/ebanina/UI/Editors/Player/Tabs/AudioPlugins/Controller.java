@@ -7,12 +7,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
+import javafx.scene.shape.SVGPath;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import rf.ebanina.File.Configuration.ConfigurationManager;
 import rf.ebanina.File.Localization.LocalizationManager;
 import rf.ebanina.UI.Editors.Player.AudioHost;
 import rf.ebanina.UI.UI.Element.ListViews.ListCells.AudioHost.VstPluginListCell;
+import rf.ebanina.UI.UI.Paint.ColorProcessor;
 import rf.ebanina.ebanina.Music;
 import rf.ebanina.ebanina.Player.AudioPlugins.IPluginWrapper;
 import rf.ebanina.ebanina.Player.AudioPlugins.PluginWrapper;
@@ -66,7 +68,33 @@ public class Controller {
 
         tab.setText(LocalizationManager.getLocaleString("vst_editor_tab_vst", "VST"));
 
-        addBtn.setOnAction(e -> shoFileChooserAndAddPlugin());
+        String hexColor = ColorProcessor.core.toHex(ColorProcessor.core.getMainClr());
+        String bgDark = "#1E1E1E";
+
+        pluginListView.setStyle(
+                "-fx-background-color: " + bgDark + "; " +
+                        "-fx-control-inner-background: " + bgDark + "; " +
+                        "-fx-border-color: #333333; " +
+                        "-fx-border-radius: 8; -fx-background-radius: 8;"
+        );
+
+        String accentStyle = "-fx-background-color: " + hexColor + "; -fx-text-fill: white; -fx-background-radius: 6;";
+        addBtn.setStyle(accentStyle);
+        removeBtn.setStyle(accentStyle);
+        removeAllPluginsBtn.setStyle(accentStyle);
+
+        String ioBtnStyle = "-fx-background-color: #333333; -fx-border-color: " + hexColor + "; -fx-border-radius: 6; -fx-background-radius: 6;";
+        serialize.setStyle(ioBtnStyle);
+        deserialize.setStyle(ioBtnStyle);
+
+        if (serialize.getGraphic() instanceof SVGPath) {
+            ((SVGPath) serialize.getGraphic()).setFill(javafx.scene.paint.Color.web(hexColor));
+        }
+        if (deserialize.getGraphic() instanceof SVGPath) {
+            ((SVGPath) deserialize.getGraphic()).setFill(javafx.scene.paint.Color.web(hexColor));
+        }
+
+        addBtn.setOnAction(e -> showFileChooserAndAddPlugin());
         removeBtn.setOnAction(e -> removeSelectedPlugin());
         removeAllPluginsBtn.setOnAction(e -> removeAllPlugins());
         serialize.setOnAction(e -> savePlugin());
@@ -103,7 +131,7 @@ public class Controller {
         selected.saveState(file.toPath());
     }
 
-    protected void shoFileChooserAndAddPlugin() {
+    protected void showFileChooserAndAddPlugin() {
         FileChooser fc = new FileChooser();
         File file = fc.showOpenDialog(stage);
 
@@ -157,39 +185,36 @@ public class Controller {
         return path.substring(path.lastIndexOf(".") + 1);
     }
 
-    protected void addPlugin(File file) {
+    public void addPlugin(File file) {
         if (file == null) return;
 
-        new Thread(() -> {
-            try {
-                PluginWrapper plugin = loadPlugin
-                        .get(getExtension(file.getAbsolutePath()))
-                        .apply(file);
+        try {
+            PluginWrapper plugin = loadPlugin
+                    .get(getExtension(file.getAbsolutePath()))
+                    .apply(file);
 
-                if (plugin == null) {
-                    Music.mainLogger.severe("PluginWrapper is null after loadPlugin");
-                    return;
-                }
-
-                javafx.application.Platform.runLater(() -> {
-                    addToList(plugin);
-                    plugin.openEditor();
-                });
-            } catch (Throwable ex) {
-                Music.mainLogger.severe("loadPlugin failed: " + ex.getClass().getName() + ": " + ex.getMessage());
-                ex.printStackTrace();
+            if (plugin == null) {
+                Music.mainLogger.severe("PluginWrapper is null after loadPlugin");
+                return;
             }
-        }, "AddPluginThread").start();
+
+            javafx.application.Platform.runLater(() -> {
+                addToList(plugin);
+            });
+        } catch (Throwable ex) {
+            Music.mainLogger.severe("loadPlugin failed: " + ex.getClass().getName() + ": " + ex.getMessage());
+            ex.printStackTrace();
+        }
     }
 
-    protected void addToList(PluginWrapper plugin) {
+    public void addToList(PluginWrapper plugin) {
         plugin.turnOn();
         AudioHost.instance.vstPlugins.add(plugin);
         pluginListView.getItems().add(plugin);
         rf.ebanina.UI.Editors.Player.Controller.updateMediaPlayerPlugins();
     }
 
-    protected void removeSelectedPlugin() {
+    public void removeSelectedPlugin() {
         PluginWrapper selected = pluginListView.getSelectionModel().getSelectedItem();
 
         if (selected != null) {
@@ -200,7 +225,7 @@ public class Controller {
         }
     }
 
-    protected void removeAllPlugins() {
+    public void removeAllPlugins() {
         List<PluginWrapper> pointer = MediaProcessor.mediaProcessor.mediaPlayer.getPlugins();
 
         MediaProcessor.mediaProcessor.mediaPlayer.getPlugins().clear();
