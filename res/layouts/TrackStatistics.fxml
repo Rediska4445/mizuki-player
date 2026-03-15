@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<BorderPane style="-fx-background-color: #1E1E1E;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rf.ebanina.UI.Editors.Statistics.Track.Controller">
+
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+
+    <!-- Заголовок трека -->
+    <top>
+        <VBox alignment="CENTER" spacing="15.0" style="-fx-background-color: #1E1E1E;">
+            <VBox.margin>
+                <Insets bottom="20.0" />
+            </VBox.margin>
+            <children>
+                <Label fx:id="titleLabel" alignment="CENTER" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: #7092be; -fx-font-size: 20px;" text="Track Title" BorderPane.alignment="CENTER">
+                    <font>
+                        <Font name="main_font" size="20.0" />
+                    </font>
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+                </Label>
+            </children>
+        </VBox>
+    </top>
+
+    <!-- Табы со статистикой -->
+    <center>
+        <VBox spacing="10.0" style="-fx-background-color: #1E1E1E;">
+            <TabPane fx:id="tabPane" style="-fx-background-color: #1E1E1E; -fx-tab-pane-background: #1E1E1E;" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+                <tabs>
+                    <!-- Local Stats -->
+                    <Tab fx:id="localTab" text="local">
+                        <VBox spacing="15.0">
+                            <padding>
+                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                            </padding>
+                            <children>
+                                <TableView fx:id="localStatsTable" style="-fx-background-color: #333333; -fx-table-cell-border-color: #444444;" VBox.vgrow="ALWAYS">
+                                    <columns>
+                                        <TableColumn fx:id="localNameColumn" prefWidth="200.0" text="Key" />
+                                        <TableColumn fx:id="localValueColumn" prefWidth="300.0" text="Value" />
+                                    </columns>
+                                </TableView>
+                            </children>
+                        </VBox>
+                    </Tab>
+
+                    <!-- Spotify -->
+                    <Tab fx:id="spotifyTab" text="Spotify">
+                        <TableView fx:id="spotifyTable" style="-fx-background-color: #333333; -fx-table-cell-border-color: #444444;">
+                            <columns>
+                                <TableColumn fx:id="spotifyNameColumn" prefWidth="200.0" text="Key" />
+                                <TableColumn fx:id="spotifyValueColumn" prefWidth="300.0" text="Value" />
+                            </columns>
+                        </TableView>
+                    </Tab>
+
+                    <!-- SoundCloud -->
+                    <Tab fx:id="soundcloudTab" text="SoundCloud">
+                        <TableView fx:id="soundcloudTable" style="-fx-background-color: #333333; -fx-table-cell-border-color: #444444;">
+                            <columns>
+                                <TableColumn fx:id="soundcloudNameColumn" prefWidth="200.0" text="Key" />
+                                <TableColumn fx:id="soundcloudValueColumn" prefWidth="300.0" text="Value" />
+                            </columns>
+                        </TableView>
+                    </Tab>
+
+                    <!-- LastFM -->
+                    <Tab fx:id="lastfmTab" text="LastFM">
+                        <TableView fx:id="lastfmTable" style="-fx-background-color: #333333; -fx-table-cell-border-color: #444444;">
+                            <columns>
+                                <TableColumn fx:id="lastfmNameColumn" prefWidth="200.0" text="Key" />
+                                <TableColumn fx:id="lastfmValueColumn" prefWidth="300.0" text="Value" />
+                            </columns>
+                        </TableView>
+                    </Tab>
+
+                    <!-- iTunes -->
+                    <Tab fx:id="itunesTab" text="ITunes">
+                        <TableView fx:id="itunesTable" style="-fx-background-color: #333333; -fx-table-cell-border-color: #444444;">
+                            <columns>
+                                <TableColumn fx:id="itunesNameColumn" prefWidth="200.0" text="Key" />
+                                <TableColumn fx:id="itunesValueColumn" prefWidth="300.0" text="Value" />
+                            </columns>
+                        </TableView>
+                    </Tab>
+                </tabs>
+            </TabPane>
+        </VBox>
+    </center>
+</BorderPane>
