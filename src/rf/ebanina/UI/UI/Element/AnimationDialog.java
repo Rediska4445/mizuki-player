@@ -11,14 +11,93 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import rf.ebanina.UI.Root;
 
+/**
+ * Анимированный модальный диалог с расширенными визуальными эффектами и коллбэками жизненного цикла.
+ * <p>
+ * Класс расширяет базовый {@code Dialog}, добавляя сложные анимации показа/скрытия,
+ * динамическую верхнюю рамку с тенью и события {@link #onShowProperty()} / {@link #onHideProperty()}
+ * для интеграции с бизнес-логикой приложения.
+ * </p>
+ *
+ * <h3>Визуальные эффекты</h3>
+ * <ul>
+ *   <li><b>Показ</b>: одновременная анимация затухания затемнения, подъёма снизу, масштабирования и прозрачности диалога.</li>
+ *   <li><b>Скрытие</b>: плавное уменьшение, смещение вниз и исчезновение с полным сбросом состояния.</li>
+ *   <li><b>Динамическая рамка</b>: анимированная тень и цвет верхней границы через {@link #animationTopBorder(Color)}.</li>
+ * </ul>
+ *
+ * <h3>Сценарии использования</h3>
+ * <ul>
+ *   <li>Модальные окна редактирования/настроек с премиум-анимациями.</li>
+ *   <li>Диалоги подтверждения с кастомными цветами брендинга.</li>
+ *   <li>Информационные попапы, требующие плавного появления/исчезновения.</li>
+ * </ul>
+ *
+ * <h3>Пример использования</h3>
+ * <pre>{@code
+ * AnimationDialog dialog = new AnimationDialog(primaryStage, rootPane);
+ * dialog.setOnShow(e -> loadDataForDialog());
+ * dialog.setOnHide(e -> saveDialogData());
+ * dialog.setTopBorder(Color.web("#4A90E2"));
+ * dialog.show();
+ * }</pre>
+ *
+ * Диалог автоматически привязывается к размеру родительского контейнера и полностью
+ * управляет своим жизненным циклом через переопределённые {@link #show()} и {@link #hide()}.
+ *
+ * @author Ebanina Std
+ * @since 0.1.4.4
+ * @see Dialog
+ * @see ParallelTransition
+ * @see DropShadow
+ */
 public class AnimationDialog
         extends Dialog
 {
+    /**
+     * Активная анимация изменения радиуса тени верхней рамки.
+     */
+    private Timeline activeBorderAnim;
+    /**
+     * Текущий эффект тени, применённый к dialogBox.
+     */
+    private DropShadow activeShadow;
+    /**
+     * Обработчик события показа диалога.
+     * <p>
+     * Вызывается после завершения полной анимации появления. Полезно для асинхронной
+     * загрузки данных или фокусировки на элементах управления.
+     * </p>
+     */
+    private final ObjectProperty<EventHandler<Event>> onShow = new SimpleObjectProperty<>();
+    /**
+     * Обработчик события скрытия диалога.
+     * <p>
+     * Вызывается после завершения анимации скрытия и сброса состояния. Идеально
+     * подходит для сохранения данных или разблокировки UI.
+     * </p>
+     */
+    private final ObjectProperty<EventHandler<Event>> onHide = new SimpleObjectProperty<>();
+    /**
+     * Создаёт диалог, привязанный к владельцу {@link Stage}.
+     *
+     * @param ownerStage родительское окно, блокирующее взаимодействие при показе
+     */
     public AnimationDialog(Stage ownerStage) {
         super(ownerStage);
     }
-
+    /**
+     * Создаёт диалог, автоматически привязанный к размеру родительского контейнера.
+     * <p>
+     * Диалог добавляется в {@code root.getChildren()} и синхронизирует размеры
+     * через двустороннее связывание {@code prefWidth/HeightProperty}.
+     * </p>
+     *
+     * @param ownerStage родительское окно
+     * @param root родительский контейнер (обычно {@link Pane}), определяющий размер диалога
+     */
     public AnimationDialog(Stage ownerStage, Pane root) {
         super(ownerStage);
 
@@ -27,7 +106,15 @@ public class AnimationDialog
         prefHeightProperty().bind(root.heightProperty());
         prefWidthProperty().bind(root.widthProperty());
     }
-
+    /**
+     * Устанавливает статическую верхнюю рамку с тенью заданного цвета.
+     * <p>
+     * Применяет {@link Border} только к верхней границе с радиусом скругления 14px
+     * и создаёт статическую {@link DropShadow} с радиусом 25px.
+     * </p>
+     *
+     * @param color цвет рамки и тени
+     */
     public void setTopBorder(Color color) {
         dialogBox.setBorder(new Border(
                 new BorderStroke(color,
@@ -45,10 +132,16 @@ public class AnimationDialog
 
         dialogBox.setEffect(shadow);
     }
-
-    private Timeline activeBorderAnim;
-    private DropShadow activeShadow;
-
+    /**
+     * Запускает анимацию изменения цвета и размера тени верхней рамки.
+     * <p>
+     * Останавливает предыдущую анимацию, обновляет цвет активной тени и запускает
+     * плавное изменение радиуса от текущего значения до 25px за 800мс.
+     * </p>
+     *
+     * @param color целевой цвет тени
+     * @return запущенная {@link Timeline} для возможного управления (остановка, пауза)
+     */
     public Timeline animationTopBorder(Color color) {
         if (activeBorderAnim != null) {
             activeBorderAnim.stop();
@@ -70,101 +163,135 @@ public class AnimationDialog
 
         return activeBorderAnim;
     }
+    /**
+     * Устанавливает обработчик события показа диалога.
+     *
+     * @param value новый обработчик
+     */
+    public final void setOnShow(EventHandler<Event> value) {
+        onShow.set(value);
 
-    private final ObjectProperty<EventHandler<Event>> onShow = new SimpleObjectProperty<>();
-    private final ObjectProperty<EventHandler<Event>> onHide = new SimpleObjectProperty<>();
-
-    public final void setOnShow(EventHandler<Event> value) { onShow.set(value); }
-    public final EventHandler<Event> getOnShow() { return onShow.get(); }
-    public final ObjectProperty<EventHandler<Event>> onShowProperty() { return onShow; }
-
-    public final void setOnHide(EventHandler<Event> value) { onHide.set(value); }
-    public final EventHandler<Event> getOnHide() { return onHide.get(); }
-    public final ObjectProperty<EventHandler<Event>> onHideProperty() { return onHide; }
-
+    }
+    /**
+     * Возвращает текущий обработчик события показа.
+     *
+     * @return обработчик или {@code null}
+     */
+    public final EventHandler<Event> getOnShow() {
+        return onShow.get();
+    }
+    /**
+     * Свойство обработчика события показа.
+     *
+     * @return свойство для биндинга
+     */
+    public final ObjectProperty<EventHandler<Event>> onShowProperty() {
+        return onShow;
+    }
+    /**
+     * Устанавливает обработчик события скрытия диалога.
+     *
+     * @param value новый обработчик
+     */
+    public final void setOnHide(EventHandler<Event> value) {
+        onHide.set(value);
+    }
+    /**
+     * Возвращает текущий обработчик события скрытия.
+     *
+     * @return обработчик или {@code null}
+     */
+    public final EventHandler<Event> getOnHide() {
+        return onHide.get();
+    }
+    /**
+     * Свойство обработчика события скрытия.
+     *
+     * @return свойство для биндинга
+     */
+    public final ObjectProperty<EventHandler<Event>> onHideProperty() {
+        return onHide;
+    }
+    /**
+     * Анимация показа диалога (параллельная композиция переходов).
+     */
     private ParallelTransition showAnimation;
-
+    /**
+     * Возвращает объект анимации показа для ручного управления.
+     *
+     * @return последняя созданная анимация показа
+     */
     public ParallelTransition getShowAnimation() {
         return showAnimation;
     }
-
+    /**
+     * Переопределённый метод показа с упрощённой анимацией скольжения.
+     * <p>
+     * Выполняет параллельную анимацию:
+     * <ul>
+     *   <li>Скольжение снизу вверх (700→0px, 650мс, {@link Root#iceInterpolator}).</li>
+     *   <li>Появление диалога (200мс).</li>
+     *   <li>Затемнение фона (350мс).</li>
+     * </ul>
+     * </p>
+     */
     @Override
     public void show() {
-        dialogBox.setTranslateY(120);
-        dialogBox.setScaleX(0.7);
-        dialogBox.setScaleY(0.7);
+        dialogBox.setTranslateY(700);
         dialogBox.setOpacity(0);
-
         this.setVisible(true);
 
-        FadeTransition fadeInDim = new FadeTransition(Duration.millis(250), backgroundDim);
-        fadeInDim.setToValue(1.0);
+        TranslateTransition slideIn = new TranslateTransition(Duration.millis(650), dialogBox);
+        slideIn.setToY(0);
+        slideIn.setInterpolator(Root.iceInterpolator);
 
-        TranslateTransition translateIn = new TranslateTransition(Duration.millis(450), dialogBox);
-        translateIn.setToY(0);
-        translateIn.setInterpolator(Interpolator.SPLINE(0.16, 1, 0.3, 1));
-
-        ScaleTransition scaleIn = new ScaleTransition(Duration.millis(450), dialogBox);
-        scaleIn.setToX(1.0);
-        scaleIn.setToY(1.0);
-        scaleIn.setInterpolator(Interpolator.SPLINE(0.16, 1, 0.3, 1));
-
-        FadeTransition fadeInBox = new FadeTransition(Duration.millis(400), dialogBox);
+        FadeTransition fadeInBox = new FadeTransition(Duration.millis(200), dialogBox);
         fadeInBox.setToValue(1.0);
 
-        ParallelTransition showAnim = new ParallelTransition(
-                fadeInDim, translateIn, scaleIn, fadeInBox
-        );
+        FadeTransition fadeInDim = new FadeTransition(Duration.millis(350), backgroundDim);
+        fadeInDim.setToValue(1.0);
 
-        showAnim.setOnFinished(e -> {
-            if (getOnShow() != null) {
-                getOnShow().handle(new Event(Event.ANY));
-            }
-        });
-
-        showAnim.play();
+        new ParallelTransition(slideIn, fadeInBox, fadeInDim).play();
     }
-
+    /**
+     * Переопределённый метод скрытия с bounce-эффектом.
+     * <p>
+     * Выполняет параллельную анимацию:
+     * <ul>
+     *   <li>Скольжение вниз (0→800px, 450мс, кастомный экспоненциальный bounce).</li>
+     *   <li>Задержанное исчезновение диалога (250мс + 150мс delay).</li>
+     *   <li>Исчезновение затемнения (400мс).</li>
+     * </ul>
+     * После завершения вызывает {@link #getOnHide()} и {@code onAction}.
+     * </p>
+     */
     @Override
     public void hide() {
-        FadeTransition fadeOutDim = new FadeTransition(Duration.millis(200), backgroundDim);
-        fadeOutDim.setToValue(0);
-
-        TranslateTransition translateOut = new TranslateTransition(Duration.millis(350), dialogBox);
-        translateOut.setToY(80);
-        translateOut.setInterpolator(Interpolator.SPLINE(0.16, 1, 0.3, 1));
-
-        ScaleTransition scaleOut = new ScaleTransition(Duration.millis(350), dialogBox);
-        scaleOut.setToX(0.88);
-        scaleOut.setToY(0.88);
+        TranslateTransition slideOut = new TranslateTransition(Duration.millis(450), dialogBox);
+        slideOut.setToY(800);
+        slideOut.setInterpolator(new Interpolator() {
+            @Override
+            protected double curve(double t) {
+                return (t == 0) ? 0 : Math.pow(2.0, 10.0 * (t - 1.0));
+            }
+        });
 
         FadeTransition fadeOutBox = new FadeTransition(Duration.millis(250), dialogBox);
+        fadeOutBox.setDelay(Duration.millis(150));
         fadeOutBox.setToValue(0);
 
-        ParallelTransition hideAnim = new ParallelTransition(fadeOutDim, translateOut, scaleOut, fadeOutBox);
-        hideAnim.setOnFinished(e -> {
-            this.setVisible(false);
-            this.setOpacity(1.0);
-            dialogBox.setTranslateY(0);
-            dialogBox.setScaleX(1.0);
-            dialogBox.setScaleY(1.0);
-            if (onAction != null) onAction.run();
-        });
+        FadeTransition fadeOutDim = new FadeTransition(Duration.millis(400), backgroundDim);
+        fadeOutDim.setToValue(0);
+
+        ParallelTransition hideAnim = new ParallelTransition(slideOut, fadeOutBox, fadeOutDim);
 
         hideAnim.setOnFinished(e -> {
             this.setVisible(false);
-            this.setOpacity(1.0);
             dialogBox.setTranslateY(0);
-            dialogBox.setScaleX(1.0);
-            dialogBox.setScaleY(1.0);
-
-            if (getOnHide() != null) {
-                getOnHide().handle(new Event(Event.ANY));
-            }
-
+            dialogBox.setOpacity(1.0);
+            if (getOnHide() != null) getOnHide().handle(new Event(Event.ANY));
             if (onAction != null) onAction.run();
         });
-        hideAnim.play();
 
         hideAnim.play();
     }
