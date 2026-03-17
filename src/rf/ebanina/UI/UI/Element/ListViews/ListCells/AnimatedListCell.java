@@ -2,7 +2,6 @@ package rf.ebanina.UI.UI.Element.ListViews.ListCells;
 
 import javafx.animation.*;
 import javafx.css.PseudoClass;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -20,27 +19,129 @@ import rf.ebanina.UI.Root;
 import rf.ebanina.UI.UI.Element.ListViews.ListView;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
 
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import static rf.ebanina.UI.Root.general_interpolator;
 
 //FIXME: Пофиксить баги
+public abstract class AnimatedListCell<T>
+        extends ListCell<T>
+{
+    protected final int corners = (int) (Root.corners * 0.5);
 
-public abstract class AnimatedListCell<T> extends ListCell<T> {
     public Pane pane;
     protected Rectangle background;
-    protected DropShadow shadow;
     protected Rectangle cover;
+    protected DropShadow shadow;
 
-    public static void setBackgroundImageCentered(Image image, double width, Rectangle background) {
+    protected static int maxCacheSize = 50;
+    protected static final java.util.Map<String, ImagePattern> patternsCache =
+            new java.util.LinkedHashMap<>(maxCacheSize, 0.75f, true) {
+                @Override
+                protected boolean removeEldestEntry(java.util.Map.Entry<String, ImagePattern> eldest) {
+                    return size() > maxCacheSize;
+                }
+            };
+
+    protected static final java.util.Map<String, ImagePattern> patternsMipmapCache =
+            new java.util.LinkedHashMap<>(maxCacheSize, 0.75f, true) {
+                @Override
+                protected boolean removeEldestEntry(java.util.Map.Entry<String, ImagePattern> eldest) {
+                    return size() > maxCacheSize;
+                }
+            };
+
+    protected static final Map<String, Color> colorsCache = Collections.synchronizedMap(new LinkedHashMap<>(100, 0.75f, true) {
+        protected boolean removeEldestEntry(Map.Entry eldest) {
+            return size() > maxCacheSize;
+        }
+    });
+
+    protected java.util.concurrent.Future<?> currentTask = null;
+    protected java.util.concurrent.Future<?> currentBgTask = null;
+
+    protected Timeline currentTimeline;
+    protected FadeTransition showFadeAnimation;
+    protected PauseTransition delayTimer;
+    protected Timeline expansionTimeline;
+
+    protected StackPane extraInfoPane;
+    private double baseHeight = 24;
+    private boolean isPinned = false;
+
+    @Override
+    protected void updateItem(T item, boolean empty) {
+        super.updateItem(item, empty);
+
+        if(background != null) {
+            background.setWidth(0);
+        }
+
+        if (currentTask != null)
+            currentTask.cancel(true);
+        if (currentBgTask != null)
+            currentBgTask.cancel(true);
+
+        if (currentTimeline != null) {
+            currentTimeline.stop();
+        }
+
+        if (delayTimer != null)
+            delayTimer.stop();
+
+        if (empty || item == null) {
+            setGraphic(null);
+
+            return;
+        }
+
+        checkOnSelected();
+
+        showFadeAnimation().play();
+
+        if (extraInfoPane != null) {
+            extraInfoPane.setOpacity(0);
+            extraInfoPane.getChildren().clear();
+
+            setPrefHeight(baseHeight);
+            isPinned = false;
+        }
+    }
+
+    public AnimatedListCell() {
+        this(Color.BLACK);
+    }
+
+    public AnimatedListCell(Color mainClr) {
+        bindDragAndDrop();
+
+        setAlignment(javafx.geometry.Pos.CENTER);
+        setPadding(new Insets(0));
+
+        this.hoverProperty().addListener((obs, wasHover, isNowHover) -> {
+            if (getItem() != null) {
+                playAnimation(isNowHover);
+            }
+        });
+    }
+
+    protected void setBackgroundImageCentered(Image image, double width, Rectangle background) {
         if(image != null) {
             background.setFill(new ImagePattern(image, 0, image.getHeight() * 0.7, Math.min(width, image.getWidth()), image.getHeight(), false));
+        }
+    }
+
+    protected void setBackgroundImageCentered(ImagePattern image,  Rectangle background) {
+        if(image != null) {
+            background.setFill(image);
         }
     }
 
     protected Pane createBackgroundPane() {
         return createBackgroundPane(24);
     }
-
-    protected FadeTransition showFadeAnimation;
 
     public FadeTransition showFadeAnimation() {
         if(showFadeAnimation == null) {
@@ -57,20 +158,6 @@ public abstract class AnimatedListCell<T> extends ListCell<T> {
         }
 
         return showFadeAnimation;
-    }
-
-    @Override
-    protected void updateItem(T item, boolean empty) {
-        super.updateItem(item, empty);
-
-        checkOnSelected();
-
-        showFadeAnimation().play();
-
-        if (extraInfoPane != null) {
-            extraInfoPane.setOpacity(0);
-            extraInfoPane.getChildren().clear();
-        }
     }
 
     public void setSelectedBackground(Border border) {
@@ -94,12 +181,6 @@ public abstract class AnimatedListCell<T> extends ListCell<T> {
 
             pseudoClassStateChanged(PseudoClass.getPseudoClass("selected"), false);
         }
-    }
-
-    public AnimatedListCell(Color mainClr) {
-        setPadding(new Insets(0));
-
-        bindDragAndDrop();
     }
 
     protected Pane createBackgroundPane(int prefHeight) {
@@ -134,7 +215,7 @@ public abstract class AnimatedListCell<T> extends ListCell<T> {
         mainLayout.getChildren().addAll(pane, extraInfoPane);
 
         // FIXME: Доработать от лишних срабатываний
-        // initHoverDetails();
+        initHoverDetails();
 
         pane.widthProperty().addListener((obs, oldVal, newVal) -> {
             if (background.getWidth() > 0 && !isSelected()) {
@@ -150,16 +231,10 @@ public abstract class AnimatedListCell<T> extends ListCell<T> {
 
         pane.getChildren().addAll(background, extraInfoPane);
 
-        bindAnimationWithBackground();
-
-        setAlignment(javafx.geometry.Pos.CENTER);
-        setPadding(new Insets(0));
         setGraphic(pane);
 
         return pane;
     }
-
-    protected final int corners = (int) (Root.corners * 0.5);
 
     protected Rectangle setCoverIcon(Image imgRes) {
         cover = new Rectangle();
@@ -174,18 +249,25 @@ public abstract class AnimatedListCell<T> extends ListCell<T> {
         return cover;
     }
 
-    protected Timeline currentTimeline;
+    protected void initCoverIcon() {
+        cover = new Rectangle();
+        cover.setArcWidth(corners);
+        cover.setArcHeight(corners);
+        cover.setHeight(pane.getPrefHeight() * 0.8);
+        cover.setWidth(cover.getHeight());
+        cover.setLayoutX(2);
+        cover.setLayoutY(pane.getPrefHeight() / 8);
+    }
 
-    protected void bindAnimationWithBackground() {
+    private void playAnimation(boolean isShow) {
+        if (currentTimeline != null)
+            currentTimeline.stop();
+
         Interpolator interpolator = Interpolator.SPLINE(0.15, 1, 0.25, 1);
 
-        EventHandler<MouseEvent> mouseEntered = event -> {
-            if (currentTimeline != null) {
-                currentTimeline.stop();
-            }
+        double fullWidth = getWidth();
 
-            double fullWidth = getWidth();
-
+        if(isShow) {
             currentTimeline = new Timeline(
                     new KeyFrame(Duration.ZERO,
                             new KeyValue(background.widthProperty(), background.getWidth(), interpolator)
@@ -196,9 +278,7 @@ public abstract class AnimatedListCell<T> extends ListCell<T> {
             );
 
             currentTimeline.play();
-        };
-
-        EventHandler<MouseEvent> mouseExited = event -> {
+        } else {
             if (currentTimeline != null) {
                 currentTimeline.stop();
             }
@@ -213,10 +293,7 @@ public abstract class AnimatedListCell<T> extends ListCell<T> {
             );
 
             currentTimeline.play();
-        };
-
-        setOnMouseEntered(mouseEntered);
-        setOnMouseExited(mouseExited);
+        }
     }
 
     private void bindDragAndDrop() {
@@ -261,20 +338,11 @@ public abstract class AnimatedListCell<T> extends ListCell<T> {
         setOnDragDone(DragEvent::consume);
     }
 
-    protected StackPane extraInfoPane;
-
-    protected PauseTransition delayTimer;
-
-    private double baseHeight = 24;
-    private Timeline expansionTimeline;
-
-    private boolean isPinned = false;
-
     protected void initHoverDetails() {
         delayTimer = new PauseTransition(Duration.millis(1500));
 
         delayTimer.setOnFinished(e -> {
-            if (!isEmpty() && !isPinned) {
+            if (!isEmpty() && !isPinned && isHover()) {
                 Node content = createExtraInfoContent();
                 if (content != null) {
                     extraInfoPane.getChildren().setAll(content);
@@ -283,15 +351,25 @@ public abstract class AnimatedListCell<T> extends ListCell<T> {
             }
         });
 
+        this.addEventHandler(MouseEvent.DRAG_DETECTED, e -> {
+            delayTimer.stop();
+            isPinned = false;
+            playSquish(1.0);
+            animateCell(baseHeight, 0);
+        });
+
         this.addEventHandler(MouseEvent.MOUSE_ENTERED, event -> {
-            if (!isEmpty()) delayTimer.playFromStart();
+            if (!isEmpty())
+                delayTimer.playFromStart();
         });
 
         this.addEventHandler(MouseEvent.MOUSE_EXITED, event -> {
             delayTimer.stop();
+
             if (isPinned) {
                 isPinned = false;
             }
+
             animateCell(baseHeight, 0);
         });
 
@@ -300,10 +378,20 @@ public abstract class AnimatedListCell<T> extends ListCell<T> {
                 isPinned = true;
             }
 
-            playSquish(0.96);
+            playSquish(0.95);
         });
 
-        this.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> playSquish(1.0));
+        this.addEventHandler(DragEvent.DRAG_DONE, e -> {
+            playSquish(1.0);
+            animateCell(baseHeight, 0);
+        });
+
+        this.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> {
+            playSquish(1.0);
+            if (!isHover()) {
+                animateCell(baseHeight, 0);
+            }
+        });
 
         this.addEventHandler(DragEvent.DRAG_ENTERED, e -> {
             delayTimer.stop();
@@ -312,24 +400,25 @@ public abstract class AnimatedListCell<T> extends ListCell<T> {
         });
     }
 
-    private void playSquish(double scale) {
+    protected void playSquish(double scale) {
         ScaleTransition st = new ScaleTransition(Duration.millis(150), pane);
         st.setToX(scale);
         st.setToY(scale);
         st.play();
     }
 
-    protected void animateCell(double targetHeight, double opacity) {
-        if (expansionTimeline != null) expansionTimeline.stop();
+    protected static Interpolator INTERPOLATOR_ANIMATE_CELL = new Interpolator() {
+        @Override protected double curve(double t) {
+            double s = 1.70158; t -= 1.0;
+            return t * t * ((s + 1) * t + s) + 1.0;
+        }
+    };
 
-        Interpolator googleBackOut = new Interpolator() {
-            @Override
-            protected double curve(double t) {
-                double s = 1.70158;
-                t -= 1.0;
-                return t * t * ((s + 1) * t + s) + 1.0;
-            }
-        };
+    protected void animateCell(double targetHeight, double opacity) {
+        if (expansionTimeline != null)
+            expansionTimeline.stop();
+
+        Interpolator googleBackOut = INTERPOLATOR_ANIMATE_CELL;
 
         expansionTimeline = new Timeline(
                 new KeyFrame(Duration.millis(450),
@@ -343,6 +432,7 @@ public abstract class AnimatedListCell<T> extends ListCell<T> {
         expansionTimeline.setOnFinished(e -> {
             if (getListView() != null) getListView().requestLayout();
         });
+
         expansionTimeline.play();
     }
 

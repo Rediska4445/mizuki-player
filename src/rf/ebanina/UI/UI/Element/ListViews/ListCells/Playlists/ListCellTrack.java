@@ -1,14 +1,15 @@
 package rf.ebanina.UI.UI.Element.ListViews.ListCells.Playlists;
 
+import javafx.animation.*;
 import javafx.application.Platform;
-import javafx.geometry.Insets;
+import javafx.scene.CacheHint;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
+import javafx.util.Duration;
 import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.UI.UI.Context.Menu.Playlist.SimilarContextMenu;
 import rf.ebanina.UI.UI.Context.Menu.Playlist.TrackContextMenu;
@@ -24,46 +25,45 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static rf.ebanina.UI.UI.Paint.ColorProcessor.size;
 
 // FIXME: Эта хуйня потребляет память ОЗУ
-
-public class ListCellTrack<T> extends AnimatedListCell<Track> {
-    private final boolean saveFactoryTime;
-    private final Image logo;
+// FIXME: Эта хуйня лагает по CPU
+public class ListCellTrack<T>
+        extends AnimatedListCell<Track>
+{
+    protected Label mainLabelOfTrack;
 
     private volatile Track current = null;
 
-    private static final ExecutorService dataLoadService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-    private static final ExecutorService backgroundAlbumArtService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    private static final ExecutorService dataLoadService = Executors.newFixedThreadPool(2);
+    private static final ExecutorService backgroundAlbumArtService = Executors.newFixedThreadPool(2);
 
     private static final AtomicInteger albumArtCounter = new AtomicInteger(0);
 
-    public ListCellTrack(boolean saveFactoryTime, Image defaultLogo) {
-        this(ColorProcessor.core.getMainClr(), saveFactoryTime, defaultLogo);
+    public ListCellTrack() {
+        this(ColorProcessor.core.getMainClr());
     }
 
-    protected Label mainLabelOfTrack;
-
-    public ListCellTrack(Color color, boolean saveFactoryTime, Image defaultLogo) {
+    public ListCellTrack(Color color) {
         super(color);
 
-        this.saveFactoryTime = saveFactoryTime;
-        this.logo = defaultLogo;
-
         pane = createBackgroundPane(28);
+        pane.setLayoutY(getLayoutY());
+        pane.setLayoutX(getLayoutX());
+        pane.toFront();
+        pane.setCache(true);
+        pane.setCacheHint(CacheHint.SPEED);
 
-        if(getItem() != null) {
-            final Image img = getItem().mipmap == null ? logo : getItem().mipmap;
+        initCoverIcon();
 
-            cover = setCoverIcon(img);
-            cover.setEffect(shadow);
+        cover.setEffect(shadow);
 
-            mainLabelOfTrack = new Label();
-            mainLabelOfTrack.setFont(ResourceManager.Instance.loadFont("main_font", 12));
-            mainLabelOfTrack.setLayoutY(2.5);
-            mainLabelOfTrack.setLayoutX(cover.getWidth() + 10);
+        mainLabelOfTrack = new Label();
+        mainLabelOfTrack.setFont(ResourceManager.Instance.loadFont("main_font", 12));
+        mainLabelOfTrack.setLayoutY(2.5);
+        mainLabelOfTrack.setLayoutX(cover.getWidth() + 10);
 
-            pane.getChildren().addAll(cover, mainLabelOfTrack);
-            setPadding(new Insets(0));
-        }
+        pane.getChildren().addAll(cover, mainLabelOfTrack);
+
+        setText(null);
     }
 
     @Override
@@ -77,65 +77,71 @@ public class ListCellTrack<T> extends AnimatedListCell<Track> {
             return;
         }
 
+        pane.setOpacity(1.0);
+        mainLabelOfTrack.setText(null);
+        shadow.setColor(Color.TRANSPARENT);
+
         current = item;
 
-        pane = createBackgroundPane(28);
-        pane.toFront();
-        pane.setLayoutY(getLayoutY());
-        pane.setLayoutX(getLayoutX());
+        String path = item.getPath();
 
-        final Image img = item.mipmap == null ? logo : item.mipmap;
+        ImagePattern cachedThumb = patternsMipmapCache.get(path);
+        Color cachedColor = colorsCache.get(path);
 
-        cover = setCoverIcon(img);
-        cover.setEffect(shadow);
+        if (cachedThumb != null) {
+            cover.setFill(cachedThumb);
 
-        pane.getChildren().add(cover);
-
-        Label label = new Label();
-        label.setLayoutX(cover.getLayoutX() + cover.getWidth() + 10);
-        label.setLayoutY(2.5);
-
-        loadDataAsync(item, label);
-
-        label.setFont(ResourceManager.Instance.loadFont("main_font", 12));
-
-        pane.getChildren().add(label);
-
-        if (item.isPhantom()) {
-            pane.setOpacity(0.75);
-            pane.setEffect(new InnerShadow());
-        }
-
-        if(item.isNetty()) {
-            setContextMenu(new SimilarContextMenu(item));
+            if (cachedColor != null) {
+                mainLabelOfTrack.setTextFill(cachedColor);
+                shadow.setColor(cachedColor);
+            }
         } else {
-            setContextMenu(new TrackContextMenu(item, this));
+            cover.setFill(ColorProcessor.logoPattern);
         }
 
-        setPadding(new Insets(0));
+        loadDataAsync(item, mainLabelOfTrack);
+
+        if (getContextMenu() == null || !getContextMenu().getUserData().equals(item)) {
+            var menu = item.isNetty() ? new SimilarContextMenu(item) : new TrackContextMenu(item, this);
+            menu.setUserData(item);
+
+            setContextMenu(menu);
+        }
+
+        if (item.isPhantom())
+            pane.setOpacity(0.25);
+
         setGraphic(pane);
-        setText(null);
     }
 
     private void loadDataAsync(Track item, Label label) {
-        backgroundAlbumArtService.submit(() -> {
-            Image img1 = !item.isNetty() ? item.getAlbumArt() : null;
+        super.currentBgTask = backgroundAlbumArtService.submit(() -> {
+            ImagePattern mipmapCachedPattern;
+            synchronized (patternsCache) {
+                mipmapCachedPattern = patternsCache.get(item.getPath());
+            }
+
+            if (mipmapCachedPattern == null) {
+                Image img1 = !item.isNetty() ? item.getAlbumArt() : null;
+
+                if (img1 != null) {
+                    mipmapCachedPattern = new ImagePattern(img1, 0, img1.getHeight() * 0.7, Math.min(getWidth(), img1.getWidth()), img1.getHeight(), false);
+
+                    synchronized (patternsCache) {
+                        patternsCache.put(item.getPath(), mipmapCachedPattern);
+                    }
+                }
+            }
 
             if (item.equals(getItem()) && item.equals(current) && getItem().equals(current)) {
-                Platform.runLater(() -> setBackgroundImageCentered(img1, getWidth(), background));
+                ImagePattern finalMipmapCachedPattern = mipmapCachedPattern;
+
+                Platform.runLater(() -> super.setBackgroundImageCentered(finalMipmapCachedPattern, background));
             }
         });
 
-        dataLoadService.submit(() -> {
-            String temp = getTopLabelText(item);
-
-            Platform.runLater(() -> {
-                if (item.equals(getItem()) && item.equals(current) && getItem().equals(current)) {
-                    label.setText(temp);
-                }
-            });
-
-            Image buff = item.getMipmap(40);
+        super.currentTask = dataLoadService.submit(() -> {
+            String topLabelText = getTopLabelText(item);
 
             if(albumArtCounter.addAndGet(1) > Track.CACHE_SIZE) {
                 Track.albumArtCleaner(getListView().getItems());
@@ -143,17 +149,41 @@ public class ListCellTrack<T> extends AnimatedListCell<Track> {
                 albumArtCounter.set(0);
             }
 
-            Color colorRes = ColorProcessor.core.getGeneralColorFromImage(buff);
+            ImagePattern mipmapCachedPattern;
+            synchronized (patternsMipmapCache) {
+                mipmapCachedPattern = patternsMipmapCache.get(item.getPath());
+            }
+
+            if (mipmapCachedPattern == null) {
+                Image thumb = item.getIndependentMipmap(40);
+
+                if (thumb != null) {
+                    mipmapCachedPattern = new ImagePattern(thumb);
+
+                    synchronized (patternsMipmapCache) {
+                        patternsMipmapCache.put(item.getPath(), mipmapCachedPattern);
+                    }
+                }
+            }
+
+            Color colorRes = colorsCache.get(item.getPath());
+
+            if (colorRes == null) {
+                Image imgMipMap = mipmapCachedPattern.getImage();
+
+                if(imgMipMap != null)
+                    colorRes = ColorProcessor.core.getGeneralColorFromImage(imgMipMap);
+
+                if (colorRes != null)
+                    colorsCache.put(item.getPath(), colorRes);
+            }
+
+            final Color finalColor = colorRes;
+            final ImagePattern finalMipmapCachedPattern = mipmapCachedPattern;
 
             Platform.runLater(() -> {
                 if (item.equals(getItem()) && item.equals(current) && getItem().equals(current)) {
-                    label.setTextFill(colorRes);
-
-                    shadow.setColor(colorRes);
-
-                    if(buff != null) {
-                        cover.setFill(new ImagePattern(buff));
-                    }
+                    animateDataArrival(finalColor, finalMipmapCachedPattern, topLabelText);
                 }
             });
 
@@ -163,30 +193,66 @@ public class ListCellTrack<T> extends AnimatedListCell<Track> {
         });
     }
 
-    private String getTopLabelText(Track item) {
-        StringBuilder duration = new StringBuilder();
-
-        if (saveFactoryTime) {
-            return duration
-                    .append(Track.getFormattedTotalDuration(Float.parseFloat(item.getLastTimeTrack())))
-                    .append(" / ")
-                    .append(Track.getFormattedTotalDuration(item.getTotalDurationInSeconds()))
-                    .append(" ")
-                    .append(item.viewName())
-                    .append(" - ")
-                    .append((getIndex() + 1))
-                    .append(" - ")
-                    .append(item.getExtension()).toString();
+    protected void animateDataArrival(Color targetColor, ImagePattern targetPattern, String targetText) {
+        if (targetText.equals(mainLabelOfTrack.getText()) && targetColor.equals(mainLabelOfTrack.getTextFill())) {
+            return;
         }
 
-        return item.viewName() + " - " + (getIndex() + 1) + " - " + item.getExtension();
+        if (expansionTimeline != null) expansionTimeline.stop();
+
+        pane.setOpacity(0.5);
+        mainLabelOfTrack.setOpacity(0.0);
+        cover.setScaleX(0.9);
+        cover.setScaleY(0.9);
+
+        mainLabelOfTrack.setText(targetText);
+        mainLabelOfTrack.setTextFill(targetColor);
+        cover.setFill(targetPattern);
+
+        ParallelTransition pt = new ParallelTransition();
+
+        FadeTransition fadePane = new FadeTransition(Duration.millis(300), pane);
+        fadePane.setToValue(1.0);
+
+        FadeTransition fadeLabel = new FadeTransition(Duration.millis(400), mainLabelOfTrack);
+        fadeLabel.setToValue(1.0);
+
+        ScaleTransition scaleCover = new ScaleTransition(Duration.millis(400), cover);
+        scaleCover.setToX(1.0);
+        scaleCover.setToY(1.0);
+        scaleCover.setInterpolator(Interpolator.EASE_OUT);
+
+        Timeline colorTimeline = new Timeline(
+                new KeyFrame(Duration.millis(400),
+                        new KeyValue(shadow.colorProperty(), targetColor, Interpolator.EASE_OUT)
+                )
+        );
+
+        pt.getChildren().addAll(fadePane, fadeLabel, scaleCover, colorTimeline);
+        pt.play();
+    }
+
+    private String getTopLabelText(Track item) {
+        String fullInfo = item.metadata.get("fullInfoInCellTrack", String.class);
+
+        if(fullInfo == null) {
+            fullInfo = Track.getFormattedTotalDuration(Float.parseFloat(item.getLastTimeTrack())) +
+                    " / " +
+                    Track.getFormattedTotalDuration(item.getTotalDurationInSeconds()) +
+                    " " +
+                    item.viewName() +
+                    " - " +
+                    item.getExtension();
+
+            item.metadata.put("fullInfoInCellTrack", fullInfo, String.class);
+        }
+
+        return fullInfo;
     }
 
     @Override
     protected Node createExtraInfoContent() {
-        VBox info = new VBox(1);
-
-        return info;
+        return new VBox(1);
     }
 
     @Override
