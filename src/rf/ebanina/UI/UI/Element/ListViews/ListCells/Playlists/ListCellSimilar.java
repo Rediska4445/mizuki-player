@@ -6,14 +6,14 @@ import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
-import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
-import rf.ebanina.ebanina.Player.Track;
 import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.UI.Root;
 import rf.ebanina.UI.UI.Context.Menu.Playlist.SimilarContextMenu;
 import rf.ebanina.UI.UI.Element.ListViews.ListCells.AnimatedListCell;
 import rf.ebanina.UI.UI.Element.Text.Label;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
+import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
+import rf.ebanina.ebanina.Player.Track;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -21,6 +21,7 @@ import java.util.concurrent.Executors;
 import static rf.ebanina.UI.UI.Paint.ColorProcessor.*;
 
 //TODO: Merge with ListCellTrack
+//TODO: Merge with ListCellTrack!!! - 17.03.2026
 @Deprecated
 public class ListCellSimilar extends AnimatedListCell<Track> {
     private static final ExecutorService exec = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
@@ -90,7 +91,7 @@ public class ListCellSimilar extends AnimatedListCell<Track> {
 
                 if (buff != null) {
                     if (item.equals(getItem()) && item.equals(current) && getItem().equals(current)) {
-                        Platform.runLater(() -> setBackgroundImageCentered(buff, getWidth(), background));
+                        Platform.runLater(() -> super.setBackgroundImageCentered(buff, getWidth(), background));
                     }
                 }
             } catch (Exception e) {

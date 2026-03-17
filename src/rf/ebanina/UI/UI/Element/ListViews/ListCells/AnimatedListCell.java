@@ -75,6 +75,10 @@ public abstract class AnimatedListCell<T>
     protected void updateItem(T item, boolean empty) {
         super.updateItem(item, empty);
 
+        checkOnSelected();
+
+        showFadeAnimation().play();
+
         if(background != null) {
             background.setWidth(0);
         }
@@ -96,10 +100,6 @@ public abstract class AnimatedListCell<T>
 
             return;
         }
-
-        checkOnSelected();
-
-        showFadeAnimation().play();
 
         if (extraInfoPane != null) {
             extraInfoPane.setOpacity(0);
@@ -139,10 +139,6 @@ public abstract class AnimatedListCell<T>
         }
     }
 
-    protected Pane createBackgroundPane() {
-        return createBackgroundPane(24);
-    }
-
     public FadeTransition showFadeAnimation() {
         if(showFadeAnimation == null) {
             showFadeAnimation = new FadeTransition();
@@ -171,7 +167,7 @@ public abstract class AnimatedListCell<T>
         );
     }
 
-    private void checkOnSelected() {
+    protected void checkOnSelected() {
         if (isSelected()) {
             setSelectedBackground(borderFactory(((ListView<?>) getListView()).getSelectedColor()));
 
@@ -272,7 +268,7 @@ public abstract class AnimatedListCell<T>
                     new KeyFrame(Duration.ZERO,
                             new KeyValue(background.widthProperty(), background.getWidth(), interpolator)
                     ),
-                    new KeyFrame(Duration.millis(1000),
+                    new KeyFrame(Duration.millis(800),
                             new KeyValue(background.widthProperty(), fullWidth, interpolator)
                     )
             );
@@ -378,7 +374,7 @@ public abstract class AnimatedListCell<T>
                 isPinned = true;
             }
 
-            playSquish(0.95);
+            playSquish(0.98);
         });
 
         this.addEventHandler(DragEvent.DRAG_DONE, e -> {

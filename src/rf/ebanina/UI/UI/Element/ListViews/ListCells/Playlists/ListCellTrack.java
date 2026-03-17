@@ -2,7 +2,6 @@ package rf.ebanina.UI.UI.Element.ListViews.ListCells.Playlists;
 
 import javafx.animation.*;
 import javafx.application.Platform;
-import javafx.scene.CacheHint;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -11,6 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.util.Duration;
 import rf.ebanina.File.Resources.ResourceManager;
+import rf.ebanina.UI.Root;
 import rf.ebanina.UI.UI.Context.Menu.Playlist.SimilarContextMenu;
 import rf.ebanina.UI.UI.Context.Menu.Playlist.TrackContextMenu;
 import rf.ebanina.UI.UI.Element.ListViews.ListCells.AnimatedListCell;
@@ -49,8 +49,9 @@ public class ListCellTrack<T>
         pane.setLayoutY(getLayoutY());
         pane.setLayoutX(getLayoutX());
         pane.toFront();
-        pane.setCache(true);
-        pane.setCacheHint(CacheHint.SPEED);
+        // Мылит
+//        pane.setCache(true);
+//        pane.setCacheHint(CacheHint.SPEED);
 
         initCoverIcon();
 
@@ -114,7 +115,7 @@ public class ListCellTrack<T>
         setGraphic(pane);
     }
 
-    private void loadDataAsync(Track item, Label label) {
+    protected void loadDataAsync(Track item, Label label) {
         super.currentBgTask = backgroundAlbumArtService.submit(() -> {
             ImagePattern mipmapCachedPattern;
             synchronized (patternsCache) {
@@ -198,7 +199,8 @@ public class ListCellTrack<T>
             return;
         }
 
-        if (expansionTimeline != null) expansionTimeline.stop();
+        if (expansionTimeline != null)
+            expansionTimeline.stop();
 
         pane.setOpacity(0.5);
         mainLabelOfTrack.setOpacity(0.0);
@@ -220,11 +222,11 @@ public class ListCellTrack<T>
         ScaleTransition scaleCover = new ScaleTransition(Duration.millis(400), cover);
         scaleCover.setToX(1.0);
         scaleCover.setToY(1.0);
-        scaleCover.setInterpolator(Interpolator.EASE_OUT);
+        scaleCover.setInterpolator(Root.iceInterpolator);
 
         Timeline colorTimeline = new Timeline(
                 new KeyFrame(Duration.millis(400),
-                        new KeyValue(shadow.colorProperty(), targetColor, Interpolator.EASE_OUT)
+                        new KeyValue(shadow.colorProperty(), targetColor, Root.iceInterpolator)
                 )
         );
 
@@ -232,7 +234,7 @@ public class ListCellTrack<T>
         pt.play();
     }
 
-    private String getTopLabelText(Track item) {
+    protected String getTopLabelText(Track item) {
         String fullInfo = item.metadata.get("fullInfoInCellTrack", String.class);
 
         if(fullInfo == null) {
@@ -240,9 +242,7 @@ public class ListCellTrack<T>
                     " / " +
                     Track.getFormattedTotalDuration(item.getTotalDurationInSeconds()) +
                     " " +
-                    item.viewName() +
-                    " - " +
-                    item.getExtension();
+                    item.viewName();
 
             item.metadata.put("fullInfoInCellTrack", fullInfo, String.class);
         }
