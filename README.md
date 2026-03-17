@@ -1,7 +1,3 @@
-<div align="center" style="margin-bottom: 16px; margin-top: 48px;">
-  <img src="res/visual/gui/logo.png" width="200" height="200" alt="Ebanina Logo"/>
-</div>
-
 <div align="center" style="margin-bottom: 22px;">
   <img src="https://img.shields.io/badge/Java-19-orange?style=for-the-badge&logo=java&logoColor=white" alt="Java 19"/>
   <img src="https://img.shields.io/badge/JavaFX-21-blue?style=for-the-badge&logo=javafx&logoColor=white" alt="JavaFX"/>
@@ -10,7 +6,7 @@
 
 <div align="center">
 <span style="font-size: 36px; font-weight: bold;">Ebanina (Mizuki)</span><br>
-<sup style="font-size: 18px;">v1.4.7</sup>
+<sup style="font-size: 18px;">v1.4.8-2d</sup>
 </div>
 
 ---
@@ -130,9 +126,9 @@
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
-### With your hands 🛠️
+### With your hands
 
 1. Create project and move code into it
 2. Add all dependencies per file structure
@@ -155,10 +151,10 @@ javafx.graphics/com.sun.javafx.tk.quantum=ALL-UNNAMED
 junit.platform.console.standalone/org.hamcrest.internal=ALL-UNNAMED
 ```
 
-### Intellij Idea 💡
+### Intellij Idea
 To build, simply open the project in IntelliJ IDEA.
 
-### Eclipse ☕
+### Eclipse
 For Eclipse:
 1) Create a project and move the code there.
 2) Add local dependencies.
@@ -166,19 +162,19 @@ For Eclipse:
 
 ---
 
-## Maven & Gradle ⚙️
+## Maven & Gradle
 
 Automatic Maven/Gradle dependency download and workspace preparation is not available yet, but everything is possible!
 
-| Tool          | Description                                                                                                                                                               |
-|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 🪶 **Maven**  | Use **Maven-Space** — a standalone self-contained Maven project for builds.<br>**Out version implemented** for JAR packaging.<br>Not ideal, but that's how it's designed! |
- | 🐘 **Gradle** | Support planned.                                                                                                                                                          |
+| Tool       | Description                                                                                                                                                               |
+|------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Maven**  | Use **Maven-Space** — a standalone self-contained Maven project for builds.<br>**Out version implemented** for JAR packaging.<br>Not ideal, but that's how it's designed! |
+ | **Gradle** | Support planned.                                                                                                                                                          |
 ---
 
 ## Prerequisites
 
-### ☕ Java 19+
+### Java 19+
 | Provider                               | Download    | Recommended     |
 |----------------------------------------|-------------|-----------------|
 | [Adoptium](https://adoptium.net/)      | **OpenJDK** | **Best choice** |
@@ -188,7 +184,7 @@ Automatic Maven/Gradle dependency download and workspace preparation is not avai
 
 ---
 
-### 🔧 C++ Runtime
+### C++ Runtime
 | Platform                                                  | Download                          | Recommended              |
 |-----------------------------------------------------------|-----------------------------------|--------------------------|
 | [Windows](https://aka.ms/vs/17/release/vc_redist.x64.exe) | **Visual C++ Redistributable**    | **Required**             |
@@ -199,7 +195,7 @@ Automatic Maven/Gradle dependency download and workspace preparation is not avai
 
 ---
 
-## 🛠️ Built With
+## Built With
 
 | Framework/Library                                            | Description                    |
 |--------------------------------------------------------------|--------------------------------|
@@ -220,7 +216,7 @@ Automatic Maven/Gradle dependency download and workspace preparation is not avai
 
 ---
 
-## 💻 System Requirements
+## System Requirements
 
 ### Supported Platforms
 | OS             | Architecture     |
@@ -264,14 +260,14 @@ public class mod implements AudioMod {
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
-**Currently a solo project**<br>
+**Solo project**<br>
 Your contributions are welcome! Open an issue or submit a PR to help grow this project.
 
 ---
 
-## 📄 License
+## License
 
 **Free for open-source use with restrictions:**
 
