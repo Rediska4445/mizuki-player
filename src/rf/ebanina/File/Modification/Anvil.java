@@ -7,12 +7,12 @@ import java.io.File;
 import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.jar.JarFile;
 import java.util.Enumeration;
 import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 @logging(tag = "Mod Loader")
-public final class Anvil {
+public class Anvil {
     public static Anvil anvil = new Anvil();
 
     public void loadAllModsFromFolder(String modsFolderPath) {
