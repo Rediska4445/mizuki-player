@@ -1,0 +1,10 @@
+{
+  "version": "1.4.9",
+  "subversion": "0.0",
+  "fullVersion": "1.4.9",
+  "name": "Mizuka",
+  "build": "18.03.2026",
+  "releaseDate": "18-03-2026",
+  "javaVersion": "21",
+  "platforms": ["Windows x64"]
+}
