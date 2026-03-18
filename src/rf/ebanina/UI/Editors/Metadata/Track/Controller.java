@@ -1,21 +1,23 @@
 package rf.ebanina.UI.Editors.Metadata.Track;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 import me.API.Info;
 import org.json.simple.parser.ParseException;
 import rf.ebanina.File.Metadata.MetadataOfFile;
@@ -34,30 +36,66 @@ import java.util.concurrent.Executors;
 
 import static rf.ebanina.File.Localization.LocalizationManager.getLocaleString;
 
-public class Controller implements
-        Initializable
+public class Controller
+        implements Initializable
 {
-    public TextField command_field;
-    public Button remove;
-    public Button save;
-    public TextArea lyrics;
-    public VBox metadata;
-    public TextField author;
-    public TextField title;
-    public Rectangle album_art;
-
     private Track track;
 
+    @FXML
+    public TextField command_field;
+    @FXML
+    public TextField author;
+    @FXML
+    public TextField title;
+    @FXML
+    public Rectangle album_art;
+
+    @FXML
+    public Button remove;
+    @FXML
+    public Button save;
+
+    @FXML
+    public TextArea lyrics;
+
+    @FXML
+    protected ScrollPane mainScrollPane;
+    @FXML
+    public VBox metadata;
     @FXML
     protected VBox mainBox;
 
     private static final ExecutorService serv = Executors.newFixedThreadPool(1);
+
+    private double scrollTarget = 0;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if (track == null) {
             throw new IllegalStateException("Track не был установлен до вызова initialize()");
         }
+
+        scrollTarget = mainScrollPane.getVvalue();
+
+        mainScrollPane.addEventFilter(ScrollEvent.SCROLL, ev -> {
+            double deltaY = ev.getDeltaY();
+            double contentHeight = mainBox.getBoundsInLocal().getHeight();
+            double scrollStep = (deltaY / contentHeight) * 4;
+
+            scrollTarget -= scrollStep;
+
+            if (scrollTarget < 0) scrollTarget = 0;
+            if (scrollTarget > 1) scrollTarget = 1;
+
+            Timeline timeline = new Timeline(
+                    new KeyFrame(Duration.millis(700),
+                            new KeyValue(mainScrollPane.vvalueProperty(), scrollTarget, Root.iceInterpolator)
+                    )
+            );
+            timeline.play();
+
+            ev.consume();
+        });
 
         final Set<String> isActived = new HashSet<>();
 

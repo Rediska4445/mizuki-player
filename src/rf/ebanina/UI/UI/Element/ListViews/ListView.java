@@ -27,31 +27,114 @@ import rf.ebanina.UI.UI.Paint.ColorProcessor;
 
 import static rf.ebanina.utils.Math.clamp;
 
+/**
+ * Расширенная версия {@link javafx.scene.control.ListView} с поддержкой плавной прокрутки,
+ * улучшенной подсветки скроллбаров и настраиваемого цвета выбора элементов.
+ * <p>
+ * Класс инкапсулирует типичные визуальные улучшения стандартного списка:
+ * анимацию прокрутки, плавное появление/затухание полос прокрутки и единый контроль
+ * за цветом выделения через свойство {@link #selectedColorProperty}. Это позволяет
+ * использовать компонент как "готовый" виджет списка в тематике приложения без
+ * дублирования однотипного кода в разных местах.
+ * </p>
+ *
+ * <h3>Основные возможности</h3>
+ * <ul>
+ *   <li>Плавная прокрутка при использовании колёсика мыши (анимация через {@link Timeline}).</li>
+ *   <li>Анимированная подсветка полос прокрутки при наведении и нажатии (на базе {@link FadeTransition}).</li>
+ *   <li>Поддержка кастомного цвета выделения элементов списка через {@link #selectedColorProperty} и {@link AnimatedListCell}.</li>
+ *   <li>Централизованное применение CSS-оформления скроллбаров через {@link ResourceManager}.</li>
+ * </ul>
+ *
+ * <h3>Сценарии использования</h3>
+ * <ul>
+ *   <li>Списки треков, плейлистов, коллекций, где важен плавный и приятный UX.</li>
+ *   <li>Интерфейсы с тёмной/кастомной темой, требующие точного контроля над цветами и стилем скроллбаров.</li>
+ *   <li>Списки с анимированными ячейками, использующими {@link AnimatedListCell} как cellFactory.</li>
+ * </ul>
+ *
+ * <h3>Пример использования</h3>
+ * <pre>{@code
+ * ObservableList<MyItem> items = FXCollections.observableArrayList(...);
+ * ListView<MyItem> listView = new ListView<>(items);
+ *
+ * listView.setCellFactory(lv -> new AnimatedListCell<>(listView.getSelectedColorProperty()));
+ * listView.updateBorderColor(Color.GRAY);
+ * listView.updateSelectedBackground(Color.web("#FF6600"));
+ * }</pre>
+ *
+ * Класс не меняет поведение выбора элементов и работы модели данных стандартного {@code ListView},
+ * а лишь добавляет визуальные и анимационные улучшения поверх существующего API.
+ *
+ * @param <T> тип элементов, отображаемых в списке
+ * @author
+ *      Ebanina Std
+ * @since 0.1.4.4
+ * @see javafx.scene.control.ListView
+ * @see AnimatedListCell
+ * @see ScrollBar
+ * @see Timeline
+ */
 public class ListView<T>
         extends javafx.scene.control.ListView<T>
 {
+    /**
+     * Свойство, определяющее цвет выделения элементов списка.
+     * <p>
+     * Используется для стилизации границ и фона выбранных {@link ListCell} в соответствии
+     * с общей цветовой схемой приложения.
+     * </p>
+     */
     private ObjectProperty<Color> selectedColorProperty = new SimpleObjectProperty<>(ColorProcessor.core.getMainClr());
-
+    /**
+     * Возвращает свойство цвета выделения.
+     *
+     * @return свойство с текущим цветом выделения
+     */
     public ObjectProperty<Color> getSelectedColorProperty() {
         return selectedColorProperty;
     }
-
+    /**
+     * Свойство цвета выделения для биндинга.
+     *
+     * @return свойство цвета выделения
+     */
     public ObjectProperty<Color> selectedColorPropertyProperty() {
         return selectedColorProperty;
     }
-
+    /**
+     * Заменяет объект свойства цвета выделения.
+     *
+     * @param selectedColorProperty новое свойство цвета выделения
+     */
     public void setSelectedColorProperty(ObjectProperty<Color> selectedColorProperty) {
         this.selectedColorProperty = selectedColorProperty;
     }
-
+    /**
+     * Устанавливает цвет выделения.
+     *
+     * @param selectedColor новый цвет выделения для ячеек списка
+     */
     public void setSelectedColor(Color selectedColor) {
         selectedColorProperty.set(selectedColor);
     }
-
+    /**
+     * Возвращает текущий цвет выделения.
+     *
+     * @return активный цвет выделения
+     */
     public Color getSelectedColor() {
         return selectedColorProperty.get();
     }
-
+    /**
+     * Обновляет цвет рамки списка.
+     * <p>
+     * Применяет inline-стиль с заданным цветом границы, радиусом скругления и шириной.
+     * Полезно для динамического изменения обводки при смене темы или состояния.
+     * </p>
+     *
+     * @param color цвет рамки, который будет использован в стиле
+     */
     public void updateBorderColor(Color color) {
         setStyle(null);
         setStyle(
@@ -63,6 +146,15 @@ public class ListView<T>
         );
     }
 
+    /**
+     * Обновляет цвет фона и границ выбранных ячеек согласно новому цвету выделения.
+     * <p>
+     * Метод проходит по всем {@code .list-cell} и для выделенных элементов устанавливает
+     * рамку, создаваемую фабрикой {@link AnimatedListCell#borderFactory(Color)}.
+     * </p>
+     *
+     * @param newColor новый цвет для оформления выделения
+     */
     public void updateSelectedBackground(Color newColor) {
         setSelectedColor(newColor);
 
@@ -78,11 +170,18 @@ public class ListView<T>
             }
         }
     }
-
+    /**
+     * Создаёт пустой список с включёнными анимациями прокрутки и подсветкой скроллбаров.
+     */
     public ListView() {
         this(FXCollections.observableArrayList());
     }
-
+    /**
+     * Создаёт список с заданными начальными элементами и включает анимации прокрутки
+     * и подсветку скроллбаров.
+     *
+     * @param tracks начальная коллекция элементов списка
+     */
     public ListView(ObservableList<T> tracks) {
         super(tracks);
 
@@ -91,23 +190,51 @@ public class ListView<T>
         addSmoothScroll();
         addSmoothHighlightOnScrollBars();
     }
-
+    /**
+     * Вертикальный скроллбар списка, используемый для организации анимированной прокрутки.
+     */
     private ScrollBar vScrollBar;
+    /**
+     * Таймлайн, управляющий анимацией плавной прокрутки.
+     */
     private Timeline timeline;
+    /**
+     * Коэффициент чувствительности к колесику мыши при прокрутке.
+     */
     private double sensitivity = 0.25;
 
+    /**
+     * Целевое значение позиции скролла, к которому стремится анимация.
+     */
     private double targetValue = 0;
 
+    /**
+     * Флаг, показывающий, перетаскивает ли пользователь ползунок скроллбара вручную.
+     */
     private boolean userIsDragging = false;
 
+    /**
+     * Включает обработчик плавной прокрутки колёсиком мыши.
+     */
     public void addSmoothScroll() {
         addEventFilter(ScrollEvent.SCROLL, smoothScrollEventHandler);
     }
 
+    /**
+     * Отключает обработчик плавной прокрутки колёсиком мыши.
+     */
     public void removeSmoothScroll() {
         removeEventFilter(ScrollEvent.SCROLL, smoothScrollEventHandler);
     }
 
+    /**
+     * Инициализирует поддержку анимированной прокрутки, находя вертикальный скроллбар
+     * и подготавливая его к управлению через анимацию.
+     * <p>
+     * Вызов выполняется отложенно через {@link Platform#runLater(Runnable)}, так как
+     * скроллбар доступен только после построения сцены.
+     * </p>
+     */
     private void prepareToScrollAnimation() {
         Platform.runLater(() -> {
             vScrollBar = findScrollBar(this, Orientation.VERTICAL);
@@ -141,6 +268,14 @@ public class ListView<T>
         });
     }
 
+    /**
+     * Включает оформление и анимацию подсветки для вертикального и горизонтального скроллбаров.
+     * <p>
+     * Загружает фиксированный стиль скроллбаров через {@link ResourceManager}, делает
+     * горизонтальный скроллбар всегда видимым и настраивает анимацию появления/исчезновения
+     * для обоих скроллбаров.
+     * </p>
+     */
     public void addSmoothHighlightOnScrollBars() {
         Platform.runLater(() -> {
             getStylesheets().add(ResourceManager.Instance.loadStylesheet("scrollbar-fixed-width"));
@@ -178,6 +313,11 @@ public class ListView<T>
         });
     }
 
+    /**
+     * Настраивает анимации плавного появления, исчезновения и реакции на нажатие для заданного скроллбара.
+     *
+     * @param scrollBar скроллбар, для которого настраиваются анимации
+     */
     private void setupFadeAndPressTransition(ScrollBar scrollBar) {
         scrollBar.setOpacity(0.3);
 
@@ -212,6 +352,10 @@ public class ListView<T>
         });
     }
 
+    /**
+     * Обработчик событий прокрутки, реализующий плавное смещение содержимого списка
+     * с учётом количества элементов и выбранной чувствительности.
+     */
     private EventHandler<? super ScrollEvent> smoothScrollEventHandler = new EventHandler<>() {
         @Override
         public void handle(ScrollEvent event) {
@@ -251,6 +395,13 @@ public class ListView<T>
         }
     };
 
+    /**
+     * Ищет скроллбар заданной ориентации внутри указанного {@link javafx.scene.control.ListView}.
+     *
+     * @param listView    список, внутри которого производится поиск
+     * @param orientation требуемая ориентация скроллбара (вертикальная или горизонтальная)
+     * @return найденный {@link ScrollBar} или {@code null}, если подходящий экземпляр не обнаружен
+     */
     private ScrollBar findScrollBar(javafx.scene.control.ListView<?> listView, Orientation orientation) {
         for (var node : listView.lookupAll(".scroll-bar")) {
             if (node instanceof ScrollBar sb && sb.getOrientation() == orientation) {
@@ -261,6 +412,15 @@ public class ListView<T>
         return null;
     }
 
+    /**
+     * Делает указанный скроллбар всегда видимым и применяет к нему базовый стиль.
+     * <p>
+     * Настраивает прозрачность, фон и отступы, чтобы скроллбар аккуратно вписывался
+     * в общий дизайн приложения.
+     * </p>
+     *
+     * @param scrollBar скроллбар, к которому применяется оформление
+     */
     private void makeScrollBarAlwaysVisibleAndStyled(ScrollBar scrollBar) {
         scrollBar.setVisible(true);
         scrollBar.setOpacity(0.5);

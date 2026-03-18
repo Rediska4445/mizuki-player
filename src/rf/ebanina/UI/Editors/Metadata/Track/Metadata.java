@@ -14,7 +14,9 @@ import rf.ebanina.ebanina.Player.Track;
 
 import java.io.IOException;
 
-public class Metadata implements IEditor {
+public class Metadata
+        implements IEditor
+{
     private static Metadata instance;
 
     private Metadata() {}

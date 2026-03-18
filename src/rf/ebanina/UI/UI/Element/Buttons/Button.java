@@ -14,7 +14,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
 import javafx.util.Duration;
 
-public abstract class Button extends javafx.scene.control.Button {
+public class Button
+        extends javafx.scene.control.Button
+{
     private static final Color COLOR_BG_NORMAL_DEFAULT = Color.web("#212121");
     private static final Color COLOR_BG_HOVER_DEFAULT = Color.web("#333333");
     private static final Color COLOR_BG_PRESSED_DEFAULT = Color.web("#FDD835");
@@ -40,7 +42,7 @@ public abstract class Button extends javafx.scene.control.Button {
     private Color colorIconHover = COLOR_ICON_HOVER_DEFAULT;
     private Color colorIconPressed = COLOR_ICON_PRESSED_DEFAULT;
 
-    private CornerRadii cornerRadii = new CornerRadii(25); // по умолчанию скругление
+    private CornerRadii cornerRadii = new CornerRadii(25);
 
     public Button() {
         icon = new SVGPath();

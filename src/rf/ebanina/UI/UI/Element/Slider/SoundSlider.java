@@ -31,6 +31,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.*;
 import java.io.*;
+import java.net.URL;
 
 import static rf.ebanina.UI.Root.stage;
 
@@ -201,10 +202,10 @@ public class SoundSlider
         getStylesheets().add(ResourceManager.Instance.loadStylesheet("slider-custom"));
         valueProperty().addListener((observableValue, number, t1) -> updateSlider());
 
+        setOpacity(0);
+
         colorProperty = new SimpleObjectProperty<>();
         colorProperty.set(Color.BLACK);
-
-        setVisible(false);
 
         sliderBackground = new Pane();
         sliderBackground.setMouseTransparent(true);
@@ -676,7 +677,7 @@ public class SoundSlider
      * <p>
      * <b>Поддерживаемые форматы:</b>
      * <ul>
-     *   <li><b>WAV:</b> {@link AudioSystem#getAudioInputStream()} → PCM</li>
+     *   <li><b>WAV:</b> {@link AudioSystem#getAudioInputStream(URL)} ()} → PCM</li>
      *   <li><b>MP3:</b> {@link Mp3File} → {@link Bitstream} → {@link Mp3PcmStream} → PCM 16-bit</li>
      *   <li><b>Плагины:</b> {@link AudioDecoder} из {@link MediaProcessor#mediaPlayer#getDecoders()}</li>
      * </ul>
@@ -694,7 +695,7 @@ public class SoundSlider
      * Буфер: {@code channels * bytesPerSample * 8192} фреймов.
      * </p>
      * <p>
-     * <b>Последовательность:</b> {@link #clearSamples()} → парсинг → {@link #readSamples()} → {@link #setSamples()}.
+     * <b>Последовательность:</b> {@link #clearSamples()} → парсинг → {@link SoundSlider#readSamples(int, AudioInputStream, byte[], int, boolean, int)} ()} → {@link SoundSlider#readSamples(int, AudioInputStream, byte[], int, boolean, int)} ()}.
      * </p>
      *
      * @param file аудиофайл (WAV/MP3/поддерживаемые плагинами)

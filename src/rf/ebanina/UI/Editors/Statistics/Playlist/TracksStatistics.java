@@ -1,4 +1,4 @@
-package rf.ebanina.UI.Editors.Statistics;
+package rf.ebanina.UI.Editors.Statistics.Playlist;
 
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
@@ -11,9 +11,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import rf.ebanina.File.Field;
+import rf.ebanina.UI.Editors.Statistics.Track.TrackStatistics;
 import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
 import rf.ebanina.ebanina.Player.Track;
-import rf.ebanina.File.Field;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,9 @@ import java.util.List;
 import static rf.ebanina.File.Field.getStat;
 import static rf.ebanina.UI.Root.stage;
 
-public class TracksStatistics extends Stage {
+public class TracksStatistics
+        extends Stage
+{
     private TableView<TrackData> table;
     private final String[] allStatsColumns = {
             Field.fields.get(Field.DataTypes.COUNT_STREAM.code).getEternalName()
@@ -59,7 +62,7 @@ public class TracksStatistics extends Stage {
                 int row = pos.getRow();
                 TrackData rowData = table.getItems().get(row);
 
-                new TrackStatistics(rowData.track).open(stage);
+                TrackStatistics.instance.open(stage, rowData.track);
             }
         });
 

@@ -491,13 +491,13 @@ public class PlayView<T extends Track, J extends Playlist>
         trackListView = new ListView<>();
         playlistListView = new ListView<>();
 
-        trackListView.setCellFactory((e) -> new AnimatedListCell<>(Color.BLACK) {
+        trackListView.setCellFactory((e) -> new AnimatedListCell<>() {
             @Override protected void onItemDropped(int draggedIndex, int targetIndex) {
 
             }
         });
 
-        playlistListView.setCellFactory((e) -> new AnimatedListCell<>(Color.BLACK) {
+        playlistListView.setCellFactory((e) -> new AnimatedListCell<>() {
             @Override protected void onItemDropped(int draggedIndex, int targetIndex) {
 
             }

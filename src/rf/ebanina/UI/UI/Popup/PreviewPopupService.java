@@ -3,17 +3,15 @@ package rf.ebanina.UI.UI.Popup;
 import javafx.application.Platform;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import rf.ebanina.UI.UI.Paint.ColorProcessor;
 import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
 import rf.ebanina.ebanina.Player.Track;
-import rf.ebanina.UI.UI.Paint.ColorProcessor;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static rf.ebanina.UI.Root.*;
 import static rf.ebanina.UI.UI.Paint.ColorProcessor.size;
-
-// FIXME: Текст прикреплён к левой стороне
 
 //TODO: Интегрировать в Preview.java
 @Deprecated(since = "1.0.4.4")

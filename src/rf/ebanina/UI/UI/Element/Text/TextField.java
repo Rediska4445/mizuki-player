@@ -15,6 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import rf.ebanina.File.Resources.ResourceManager;
+import rf.ebanina.UI.Root;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
 
 /**
@@ -146,22 +147,25 @@ public class TextField
                         : nativeColor.deriveColor(0, 1.0, 1.5, 1.0);
 
                 if (!t.fillProperty().isBound()) {
-                    FillTransition ft = new FillTransition(Duration.millis(200), t);
+                    FillTransition ft = new FillTransition(Duration.millis(400), t);
                     ft.setToValue(isFocused ? highlightColor : nativeColor);
+                    ft.setInterpolator(Root.iceInterpolator);
                     ft.play();
                 }
             }
         });
 
         setOnMouseEntered(e -> {
-            ScaleTransition st = new ScaleTransition(Duration.millis(150), this);
+            ScaleTransition st = new ScaleTransition(Duration.millis(250), this);
+            st.setInterpolator(Root.iceInterpolator);
             st.setToX(1.05);
             st.setToY(1.05);
             st.play();
         });
 
         setOnMouseExited(e -> {
-            ScaleTransition st = new ScaleTransition(Duration.millis(150), this);
+            ScaleTransition st = new ScaleTransition(Duration.millis(250), this);
+            st.setInterpolator(Root.iceInterpolator);
             st.setToX(1.0);
             st.setToY(1.0);
             st.play();
@@ -172,6 +176,8 @@ public class TextField
             fade.setToValue(1.0);
             fade.play();
         });
+
+        setSkin(new IceTextFieldSkin(this));
     }
 
     /**

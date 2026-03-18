@@ -14,7 +14,9 @@ import rf.ebanina.UI.UI.Element.Text.Label;
 
 import static rf.ebanina.UI.Root.corners;
 
-public class Preview extends Popup {
+public class Preview
+        extends Popup
+{
     private javafx.scene.layout.BorderPane top;
     private javafx.scene.image.Image image;
     private Label artist;

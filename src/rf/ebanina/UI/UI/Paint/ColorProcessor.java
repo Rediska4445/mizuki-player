@@ -7,6 +7,7 @@ import javafx.scene.image.PixelReader;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import rf.ebanina.File.Configuration.ConfigurationManager;
 import rf.ebanina.File.Resources.ResourceManager;
@@ -19,7 +20,8 @@ import static rf.ebanina.utils.Math.scale;
 
 public class ColorProcessor {
     public static final boolean album_art_parsed_set_in_tags = ConfigurationManager.instance.getBooleanItem("album_art_parsed_set_in_tags", "false");
-    private final String color_type = ConfigurationManager.instance.getItem("album_art_get_color_type", "average");
+
+    protected String color_type = ConfigurationManager.instance.getItem("album_art_get_color_type", "average");
 
     public SimpleIntegerProperty hueProperty = new SimpleIntegerProperty(0);
 
@@ -38,11 +40,13 @@ public class ColorProcessor {
     public static final int size = ConfigurationManager.instance.getIntItem("album_art_image_size", "200");
     public static final boolean isSmooth = true;
     public static final boolean isPreserveRatio = false;
+
     public static final javafx.scene.image.Image logo = ResourceManager.Instance.loadImage("album_art_logo", size, size, isPreserveRatio, isSmooth);
+    public static final ImagePattern logoPattern = new ImagePattern(logo);
 
     public static ColorProcessor core = new ColorProcessor();
 
-    public final ObjectProperty<Paint> mainClr = new SimpleObjectProperty<>();
+    public ObjectProperty<Paint> mainClr = new SimpleObjectProperty<>();
 
     public ObjectProperty<Paint> mainClrProperty() {
         return mainClr;
