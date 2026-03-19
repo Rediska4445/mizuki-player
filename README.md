@@ -38,7 +38,7 @@
 
 ---
 
-# ✨ Features 
+# Features 
 
 ### Overview
 
