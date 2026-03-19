@@ -29,6 +29,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import rf.ebanina.File.Configuration.ConfigurableField;
@@ -42,6 +43,7 @@ import rf.ebanina.File.Resources.Resources;
 import rf.ebanina.Network.Info;
 import rf.ebanina.UI.Editors.Metadata.Track.Metadata;
 import rf.ebanina.UI.UI.Context.Tooltip.ContextTooltip;
+import rf.ebanina.UI.UI.Element.AnimationDialog;
 import rf.ebanina.UI.UI.Element.Art;
 import rf.ebanina.UI.UI.Element.Buttons.Commons;
 import rf.ebanina.UI.UI.Element.Buttons.Player.NextButton;
@@ -50,7 +52,7 @@ import rf.ebanina.UI.UI.Element.Buttons.Player.PrevButton;
 import rf.ebanina.UI.UI.Element.Buttons.Playlist.HideLeft;
 import rf.ebanina.UI.UI.Element.Buttons.Playlist.HideRight;
 import rf.ebanina.UI.UI.Element.ControlPane;
-import rf.ebanina.UI.UI.Element.Dialog;
+import rf.ebanina.UI.UI.Element.LicenseDialog;
 import rf.ebanina.UI.UI.Element.ListViews.ListCells.Playlists.ListCellPlaylist;
 import rf.ebanina.UI.UI.Element.ListViews.ListCells.Playlists.ListCellSimilar;
 import rf.ebanina.UI.UI.Element.ListViews.ListCells.Playlists.ListCellTrack;
@@ -84,17 +86,18 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Objects;
 import java.util.WeakHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static rf.ebanina.File.Resources.ResourceManager.BIN_LIBRARIES_PATH;
 import static rf.ebanina.Network.Info.updateSimilarListAsync;
 import static rf.ebanina.UI.Root.PlaylistHandler.playlistSelected;
-import static rf.ebanina.UI.UI.Paint.ColorProcessor.logo;
 import static rf.ebanina.ebanina.KeyBindings.KeyBindingController.isKeyPressed;
 import static rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor.playProcessor;
 
@@ -133,8 +136,6 @@ public class Root
     public static TextField beginTime;
     public static TextField endTime;
 
-    public static rf.ebanina.UI.UI.Element.Buttons.Button btnDownloadInet;
-    public static rf.ebanina.UI.UI.Element.Buttons.Button refreshPlaylist;
     public static rf.ebanina.UI.UI.Element.Buttons.Button hideControlRight;
     public static rf.ebanina.UI.UI.Element.Buttons.Button hideControlLeft;
     public static rf.ebanina.UI.UI.Element.Buttons.Button tracksHistory;
@@ -449,6 +450,15 @@ public class Root
 
     public static IArtProcessor artProcessor = new ArtProcessor();
 
+    public static double ICE_FRICTION = 14.0;
+
+    public static Interpolator iceInterpolator = new Interpolator() {
+        @Override
+        protected double curve(double t) {
+            return (t == 1.0) ? 1.0 : 1.0 - Math.pow(2.0, -ICE_FRICTION * t);
+        }
+    };
+
     private static void loadDwmApiLibrary(String path) {
         File file = new File(path);
 
@@ -632,20 +642,38 @@ public class Root
         SimilarListView.set();
 
         tracksListView.getCurrentPlaylistText().setFont(ResourceManager.Instance.loadFont("main_font", 11));
-        tracksListView.getCurrentPlaylistText().setFocusColor(Color.TRANSPARENT);
-        tracksListView.getCurrentPlaylistText().setUnFocusColor(Color.TRANSPARENT);
         tracksListView.getCurrentPlaylistText().setAlignment(Pos.CENTER);
         tracksListView.getCurrentPlaylistText().updateColor(ColorProcessor.core.getMainClr());
-        tracksListView.getCurrentPlaylistText().setDisableAnimation(true);
 
         tracksListView.getSearchBar().setBackground(Background.EMPTY);
-        tracksListView.getSearchBar().setUnFocusColor(ColorProcessor.core.getMainClr());
-        tracksListView.getSearchBar().setFocusColor(Color.TRANSPARENT);
         tracksListView.getSearchBar().setFont(ResourceManager.Instance.loadFont("main_font", 11));
 
         mainFunctions.addCenteredButton(new Commons());
         mainFunctions.getMainButton().setOnAction(e -> {
+            AnimationDialog agreementDialog = new AnimationDialog(
+                    stage, root
+            );
 
+            VBox content = new VBox(20);
+            content.setAlignment(Pos.CENTER);
+            content.setPadding(new Insets(30));
+
+            rf.ebanina.UI.UI.Element.Text.Label title = new rf.ebanina.UI.UI.Element.Text.Label("Пользовательское соглашение");
+            title.setStyle("-fx-font-size: 24px; -fx-text-fill: white; -fx-font-weight: bold;");
+
+            Text terms = new Text("Здесь должен быть очень длинный и важный текст " +
+                    "о том, что пользователь согласен на всё...");
+            terms.setFill(Color.LIGHTGRAY);
+            terms.setWrappingWidth(400);
+
+            javafx.scene.control.Button closeBtn = new javafx.scene.control.Button("ПРИНЯТЬ");
+
+            content.getChildren().addAll(title, terms, closeBtn);
+
+            agreementDialog.getChildren().add(content);
+            agreementDialog.setDialogMaxSize(0.7, 0.85);
+            agreementDialog.animationTopBorder(ColorProcessor.core.getMainClr()).play();
+            agreementDialog.show();
         });
 
         root.getChildren().add(mainFunctions);
@@ -749,26 +777,25 @@ public class Root
         }
 
         if(!Boolean.parseBoolean(FileManager.instance.readSharedData().getOrDefault("license_agreed", "false"))) {
-            Dialog agreementDialog = new Dialog(stage, LocalizationManager.getLocaleString("license_agree", "Agree"), readAllLicensesRecursively(
-                    "license", LocalizationManager.instance.lang.split("_")[1]
-            ));
-            agreementDialog.setOnAgree(() -> {
+            LicenseDialog agreementDialog = new LicenseDialog(
+                    stage,
+                    LocalizationManager.getLocaleString("license_title", "License Agreement"),
+                    readAllLicensesRecursively("license", LocalizationManager.instance.lang.split("_")[1]),
+                    LocalizationManager.getLocaleString("license_agree", "Agree")
+            );
+
+            agreementDialog.setOnAction(() -> {
                 FileManager.instance.saveSharedData.add(
                         new FileManager.SharedDataEntry("app", "license_agreed", () -> "true", "false")
                 );
 
-                Platform.runLater(() -> agreementDialog.hide().setOnFinished((e) -> {
-                    agreementDialog.setVisible(false);
-                    agreementDialog.setOpacity(1.0);
-
-                    root.getChildren().remove(agreementDialog);
-                }));
+                Platform.runLater(() -> root.getChildren().remove(agreementDialog));
             });
+
+            root.getChildren().add(agreementDialog);
 
             agreementDialog.prefHeightProperty().bind(stage.heightProperty());
             agreementDialog.prefWidthProperty().bind(stage.widthProperty());
-
-            root.getChildren().add(agreementDialog);
 
             agreementDialog.show();
         }
@@ -895,35 +922,33 @@ public class Root
         hideControlRight.setTooltip(new ContextTooltip(LocalizationManager.getLocaleString(Locales.TOOLTIP_OPEN_LOCAL_PLAYLIST)));
 
         PlayProcessor.playProcessor.getTrackIterProperty().addListener((observableValue, number, t1) -> {
-            Track current = PlayProcessor.playProcessor.getOrNonNullDefault(PlayProcessor.playProcessor.getTrackIter(),
-                    new Track("unk").setTitle("").setArtist(""));
+            Platform.runLater(() -> {
+                Track current = PlayProcessor.playProcessor.getOrNonNullDefault(PlayProcessor.playProcessor.getTrackIter(),
+                        new Track("unk").setTitle("").setArtist(""));
 
-            Track next = PlayProcessor.playProcessor.getOrNonNullDefault(PlayProcessor.playProcessor.getTrackIter() + 1,
-                    new Track("unk").setTitle("").setArtist(""));
+                Track next = PlayProcessor.playProcessor.getOrNonNullDefault(PlayProcessor.playProcessor.getTrackIter() + 1,
+                        new Track("unk").setTitle("").setArtist(""));
 
-            Track prev = PlayProcessor.playProcessor.getOrNonNullDefault(PlayProcessor.playProcessor.getTrackIter() - 1,
-                    new Track("unk").setTitle("").setArtist(""));
+                Track prev = PlayProcessor.playProcessor.getOrNonNullDefault(PlayProcessor.playProcessor.getTrackIter() - 1,
+                        new Track("unk").setTitle("").setArtist(""));
 
-            btnNext.setTooltip(new ContextTooltip(LocalizationManager.getLocaleString(Locales.TOOLTIP_MAIN_NEXT) + ": "
-                    + (next != null ? next.viewName() : "") + "\n* " + LocalizationManager.getLocaleString(Locales.SKIP_INTRO) + ": "
-                    + "\n\t - " + Keys.instance.getHotKeysStringCodes("ebanina_skip_audio_intro_hotkey")
-                    + "\n\t - Shift + Click on Button"));
+                btnNext.setTooltip(new ContextTooltip(LocalizationManager.getLocaleString(Locales.TOOLTIP_MAIN_NEXT) + ": "
+                        + (next != null ? next.viewName() : "") + "\n* " + LocalizationManager.getLocaleString(Locales.SKIP_INTRO) + ": "
+                        + "\n\t - " + Keys.instance.getHotKeysStringCodes("ebanina_skip_audio_intro_hotkey")
+                        + "\n\t - Shift + Click on Button"));
 
-            btnDown.setTooltip(new ContextTooltip(LocalizationManager.getLocaleString(Locales.TOOLTIP_MAIN_PREV) + ": "
-                    + (prev != null ? prev.viewName() : "") + "\n* " + LocalizationManager.getLocaleString(Locales.SKIP_PIT) + ": "
-                    + "\n\t - " + Keys.instance.getHotKeysStringCodes("ebanina_skip_pit")));
+                btnDown.setTooltip(new ContextTooltip(LocalizationManager.getLocaleString(Locales.TOOLTIP_MAIN_PREV) + ": "
+                        + (prev != null ? prev.viewName() : "") + "\n* " + LocalizationManager.getLocaleString(Locales.SKIP_PIT) + ": "
+                        + "\n\t - " + Keys.instance.getHotKeysStringCodes("ebanina_skip_pit")));
 
-            currentTrackName.setTooltip(new ContextTooltip(current.getTitle()));
-            currentArtist.setTooltip(new ContextTooltip(current.getArtist()));
+                currentTrackName.setTooltip(new ContextTooltip(current.getTitle()));
+                currentArtist.setTooltip(new ContextTooltip(current.getArtist()));
+            });
         });
     }
 
     public Pane getRoot() {
-        if(root == null) {
-            return root = new Pane();
-        } else {
-            return root;
-        }
+        return Objects.requireNonNullElseGet(root, () -> root = new Pane());
     }
 
     public WeakConst<Long> HWND = new WeakConst<>();
@@ -974,9 +999,17 @@ public class Root
         return background;
     }
 
-    private void toFront(Node... a) {
+    public void nodesIter(Consumer<Node> supplier, Node... a) {
         for(Node n : a)
-            n.toFront();
+            supplier.accept(n);
+    }
+
+    public void toFront(Node... a) {
+        nodesIter(Node::toFront, a);
+    }
+
+    public void toBack(Node... a) {
+        nodesIter(Node::toBack, a);
     }
 
     private static void resizeBackground(ImageView background) {
@@ -1314,7 +1347,7 @@ public class Root
         public static void set() {
             root.getChildren().add(tracksListView);
 
-            tracksListView.getTrackListView().setCellFactory(lv -> new ListCellTrack<>(true, logo));
+            tracksListView.getTrackListView().setCellFactory(lv -> new ListCellTrack<>());
             tracksListView.getPlaylistListView().setCellFactory(lv -> new ListCellPlaylist<>(ResourceManager.Instance.loadImage("playlistIcon",
                     40, 40, ColorProcessor.isPreserveRatio, ColorProcessor.isSmooth)));
             tracksListView.setPlayProcessor(PlayProcessor.playProcessor);
