@@ -236,7 +236,7 @@ Automatic Maven/Gradle dependency download and workspace preparation is not avai
 ---
 <div id='300'/>
 
-## 🔧 Modifications
+## Modifications
   
 ### **Extend app with custom mods!**
 
