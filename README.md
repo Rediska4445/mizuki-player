@@ -6,7 +6,7 @@
 
 <div align="center">
 <span style="font-size: 36px; font-weight: bold;">Ebanina (Mizuki)</span><br>
-<sup style="font-size: 18px;">v1.4.8-2d</sup>
+<sup style="font-size: 18px;">v1.4.9</sup>
 </div>
 
 ---
@@ -38,7 +38,7 @@
 
 ---
 
-# ✨ Features 
+# Features 
 
 ### Overview
 
@@ -236,7 +236,7 @@ Automatic Maven/Gradle dependency download and workspace preparation is not avai
 ---
 <div id='300'/>
 
-## 🔧 Modifications
+## Modifications
   
 ### **Extend app with custom mods!**
 
