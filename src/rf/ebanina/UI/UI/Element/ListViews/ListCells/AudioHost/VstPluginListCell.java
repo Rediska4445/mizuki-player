@@ -17,7 +17,6 @@ import static rf.ebanina.UI.Root.showError;
 
 public class VstPluginListCell<T> extends ListCell<PluginWrapper> {
     private final Button openGuiBtn = new Button(getLocaleString("vst_editor_open_gui", "GUI"));
-    private final Button reOpenGuiBtn = new Button(getLocaleString("vst_editor_re_open_gui", "Re-open GUI"));
     private final Button up = new Button("↑");
     private final Button down = new Button("↓");
     private final Button paramsBtn = new Button(getLocaleString("vst_editor_parameters", "Parameters"));
@@ -44,7 +43,7 @@ public class VstPluginListCell<T> extends ListCell<PluginWrapper> {
         mixSlider.setShowTickMarks(false);
         mixSlider.setShowTickLabels(false);
 
-        container.getChildren().addAll(type, openGuiBtn, reOpenGuiBtn, name, mixSlider, up, down, paramsBtn);
+        container.getChildren().addAll(type, openGuiBtn, name, mixSlider, up, down, paramsBtn);
 
         openGuiBtn.setOnAction(e -> {
             PluginWrapper item = getItem();
@@ -54,18 +53,6 @@ public class VstPluginListCell<T> extends ListCell<PluginWrapper> {
                     Platform.runLater(item::openEditor);
                 } catch (Exception ex) {
                     showError("Error open GUI", ex.getMessage());
-                }
-            }
-        });
-
-        reOpenGuiBtn.setOnAction(e -> {
-            PluginWrapper item = getItem();
-
-            if (item != null) {
-                try {
-                    item.reOpenVst3GUI();
-                } catch (Exception ex) {
-                    showError("Ошибка пере-открытия GUI", ex.getMessage());
                 }
             }
         });
@@ -131,7 +118,6 @@ public class VstPluginListCell<T> extends ListCell<PluginWrapper> {
 
             String btnStyle = "-fx-border-color: " + hex + "; -fx-text-fill: white; -fx-background-color: #252525; -fx-background-radius: 4; -fx-border-radius: 4;";
             openGuiBtn.setStyle(btnStyle);
-            reOpenGuiBtn.setStyle(btnStyle);
             paramsBtn.setStyle(btnStyle);
             up.setStyle(btnStyle);
             down.setStyle(btnStyle);
