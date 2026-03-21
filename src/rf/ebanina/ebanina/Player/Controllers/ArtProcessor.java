@@ -14,22 +14,22 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.util.Duration;
-import rf.ebanina.ebanina.Music;
-import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
-import rf.ebanina.ebanina.Player.Track;
 import rf.ebanina.File.Configuration.ConfigurationManager;
 import rf.ebanina.UI.Root;
 import rf.ebanina.UI.UI.Animations;
 import rf.ebanina.UI.UI.Element.Buttons.Button;
 import rf.ebanina.UI.UI.Element.ListViews.Playlist.PlayView;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
+import rf.ebanina.ebanina.Music;
+import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
+import rf.ebanina.ebanina.Player.Track;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static rf.ebanina.UI.Root.PlaylistHandler.playlistSelected;
 import static rf.ebanina.UI.Root.*;
 import static rf.ebanina.UI.UI.Paint.ColorProcessor.*;
-import static rf.ebanina.UI.Root.PlaylistHandler.playlistSelected;
 
 public class ArtProcessor
         implements IArtProcessor
@@ -75,22 +75,24 @@ public class ArtProcessor
         ((Button) tracksListView.getBtnPlaylistNext()).setColorBgPressed(color);
         ((Button) tracksListView.getBtnPlaylistDown()).setColorBgPressed(color);
 
-        ((Button) similar.getBtnPlaylist()).setColorIconHover(color);
+        similar.getBtnPlaylist().setColorIconHover(color);
         ((Button) similar.getBtnPlaylistNext()).setColorIconHover(color);
         ((Button) similar.getBtnPlaylistDown()).setColorIconHover(color);
 
-        ((Button) similar.getBtnPlaylist()).setColorBgPressed(color);
+        similar.getBtnPlaylist().setColorBgPressed(color);
         ((Button) similar.getBtnPlaylistNext()).setColorBgPressed(color);
         ((Button) similar.getBtnPlaylistDown()).setColorBgPressed(color);
 
-        Root.mainFunctions.getMainButton().setColorIconHover(color);
-        Root.mainFunctions.getMainButton().setColorBgPressed(color);
+        if(Root.mainFunctions.getMainButton() instanceof Button i) {
+            i.setColorIconHover(color);
+            i.setColorBgPressed(color);
+        }
 
-        ((Button) hideControlLeft).setColorIconHover(color);
-        ((Button) hideControlRight).setColorIconHover(color);
+        hideControlLeft.setColorIconHover(color);
+        hideControlRight.setColorIconHover(color);
 
-        ((Button) hideControlLeft).setColorBgPressed(color);
-        ((Button) hideControlRight).setColorBgPressed(color);
+        hideControlLeft.setColorBgPressed(color);
+        hideControlRight.setColorBgPressed(color);
     }
 
     public void updateCheckBoxColors(Color color) {
@@ -111,10 +113,8 @@ public class ArtProcessor
             soundSlider.setColor(color);
 
             tracksListView.getCurrentPlaylistText().updateColor(color);
-            tracksListView.getSearchBar().setUnFocusColor(color);
 
             similar.getCurrentPlaylistText().updateColor(color);
-            similar.getSearchBar().setUnFocusColor(color);
         } else {
             animateColorChange(soundSlider.getColorProperty().get(), color, soundSlider.getColorProperty());
             animateColorChange(currentArtist.getColorProperty().get(), color, currentArtist.getColorProperty());
@@ -123,11 +123,9 @@ public class ArtProcessor
             animateColorChange(endTime.getColorProperty().get(), color, endTime.getColorProperty());
 
             animateColorChange(tracksListView.getSearchBar().getColorProperty().get(), color, tracksListView.getSearchBar().getColorProperty());
-            animateColorChange(tracksListView.getSearchBar().getUnFocusColor(), color, tracksListView.getSearchBar().unFocusColorProperty());
             animateColorChange(tracksListView.getCurrentPlaylistText().getColorProperty().get(), color, tracksListView.getCurrentPlaylistText().getColorProperty());
 
             animateColorChange(similar.getSearchBar().getColorProperty().get(), color, similar.getSearchBar().getColorProperty());
-            animateColorChange(similar.getSearchBar().getUnFocusColor(), color, similar.getSearchBar().unFocusColorProperty());
             animateColorChange(similar.getCurrentPlaylistText().getColorProperty().get(), color, similar.getCurrentPlaylistText().getColorProperty());
         }
     }

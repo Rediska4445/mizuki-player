@@ -1,6 +1,7 @@
 package rf.ebanina.ebanina.KeyBindings;
 
 import com.github.kwhat.jnativehook.GlobalScreen;
+import com.github.kwhat.jnativehook.NativeHookException;
 import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
 import com.github.kwhat.jnativehook.keyboard.NativeKeyListener;
 import com.github.kwhat.jnativehook.mouse.NativeMouseEvent;
@@ -10,11 +11,11 @@ import com.github.kwhat.jnativehook.mouse.NativeMouseWheelListener;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import rf.ebanina.UI.Root;
 import rf.ebanina.ebanina.Music;
 import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
 import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
 import rf.ebanina.ebanina.Player.Track;
-import rf.ebanina.UI.Root;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -195,7 +196,7 @@ public final class KeyBindingController
     }
 
     /**
-     * Регистрирует JavaFX-слушатели клавиш для сцены.
+     * Регистрирует слушатели клавиш.
      * <p>
      * Дополняет нативные хуки локальной обработкой:
      * <ul>
@@ -208,6 +209,30 @@ public final class KeyBindingController
      * @param scene JavaFX-сцена для регистрации
      */
     public static void setupKeyListeners(Scene scene) {
+        // Хуйня
+        KeyBindingController c = new KeyBindingController();
+
+        // Регистрация нативного кода, для отлова горячих клавиш
+        try {
+            GlobalScreen.registerNativeHook();
+
+            Music.mainLogger.info("GlobalScreen native hook registered successfully");
+        } catch (NativeHookException ex) {
+            Music.mainLogger.err(ex);
+
+            Music.mainLogger.severe("Failed to register GlobalScreen hook: %s", ex.getMessage());
+        }
+
+        Music.mainLogger.info("KeyBindingController initialized and listeners registered");
+
+        // Загрузка собственных горячих клавиш
+        Keys.instance.loadBindings();
+
+        // Инициализация слушателей горячих клавиш
+        GlobalScreen.addNativeKeyListener(c);
+        GlobalScreen.addNativeMouseListener(c);
+        GlobalScreen.addNativeMouseWheelListener(c);
+
         scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
             pressed_keys.add(event.getCode().getCode());
             Keys.instance.sceneKeys();

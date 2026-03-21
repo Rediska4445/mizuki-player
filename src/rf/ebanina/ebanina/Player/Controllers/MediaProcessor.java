@@ -49,7 +49,6 @@ import java.util.function.Consumer;
 
 import static rf.ebanina.File.Field.fields;
 import static rf.ebanina.Network.Info.playersMap;
-import static rf.ebanina.UI.Root.PlaylistHandler.playlistExit;
 import static rf.ebanina.UI.Root.endTime;
 import static rf.ebanina.UI.Root.soundSlider;
 import static rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor.playProcessor;
@@ -221,12 +220,10 @@ public class MediaProcessor {
 
             // Фокус ячейки
             Platform.runLater(() -> {
-                if (!playlistExit /* - Хуй знает что это, удалять боюсь */) {
-                    if(track.isNetty()) {
-                        Root.similar.getTrackListView().getSelectionModel().select(playProcessor.getTrackIter());
-                    } else {
-                        Root.tracksListView.getTrackListView().getSelectionModel().select(playProcessor.getTrackIter());
-                    }
+                if(track.isNetty()) {
+                    Root.similar.getTrackListView().getSelectionModel().select(playProcessor.getTrackIter());
+                } else {
+                    Root.tracksListView.getTrackListView().getSelectionModel().select(playProcessor.getTrackIter());
                 }
             });
 
@@ -258,17 +255,17 @@ public class MediaProcessor {
         } else {
             Root.rootImpl.loadRectangleOfGainVolumeSlider(new File(track.getPath()));
 
-            String a = track.getFormattedTotalDuration();
+            String endTime = track.getFormattedTotalDuration();
             String author = new String(track.getArtist().getBytes(), StandardCharsets.UTF_8);
             String title = new String(track.getTitle().getBytes(), StandardCharsets.UTF_8);
-            String a3 = Track.getFormattedTotalDuration((int) mediaPlayer.getCurrentTime().toSeconds());
+            String startTime = Track.getFormattedTotalDuration((int) mediaPlayer.getCurrentTime().toSeconds());
 
             playProcessor.getTracks().get(playProcessor.getTrackIter()).setArtist(author);
             playProcessor.getTracks().get(playProcessor.getTrackIter()).setTitle(title);
 
             Platform.runLater(() -> {
-                Root.endTime.setText(a);
-                Root.beginTime.setText(a3);
+                Root.endTime.setText(endTime);
+                Root.beginTime.setText(startTime);
                 Root.currentArtist.setText(author);
                 Root.currentTrackName.setText(title);
             });
@@ -645,15 +642,9 @@ public class MediaProcessor {
                     }
                 }
             }
-            case "skip_intro" -> soundSlider.onLoadedSliderBackground = () -> {
-                setCurrentTime(Duration.seconds(getSkipIntroPoint(track.getPath())));
-            };
-            case "skip_pit" -> soundSlider.onLoadedSliderBackground = () -> {
-                setCurrentTime(Duration.seconds(getSkipPitPoint(track.getPath(), mediaPlayer.getCurrentTime().toSeconds(), mediaPlayer.getOverDuration().toSeconds())));
-            };
-            case "skip_drop" -> soundSlider.onLoadedSliderBackground = () -> {
-                setCurrentTime(Duration.seconds(getSkipDropPoint(track.getPath(), mediaPlayer.getCurrentTime().toSeconds(), mediaPlayer.getOverDuration().toSeconds())));
-            };
+            case "skip_intro" -> soundSlider.setOnLoadedSliderBackground(() -> setCurrentTime(Duration.seconds(getSkipIntroPoint(track.getPath()))));
+            case "skip_pit" -> soundSlider.setOnLoadedSliderBackground(() -> setCurrentTime(Duration.seconds(getSkipPitPoint(track.getPath(), mediaPlayer.getCurrentTime().toSeconds(), mediaPlayer.getOverDuration().toSeconds()))));
+            case "skip_drop" -> soundSlider.setOnLoadedSliderBackground(() -> setCurrentTime(Duration.seconds(getSkipDropPoint(track.getPath(), mediaPlayer.getCurrentTime().toSeconds(), mediaPlayer.getOverDuration().toSeconds()))));
             case "like_moment" -> {
                 Duration dura = Duration.seconds(Double.parseDouble(
                         FileManager.instance.read(path.toString(), playProcessor.getTracks().get(playProcessor.getTrackIter()).toString(), "like_moment_start", String.valueOf(soundSlider.getValue()))

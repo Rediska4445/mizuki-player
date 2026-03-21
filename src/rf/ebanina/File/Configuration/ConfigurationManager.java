@@ -1,9 +1,9 @@
 package rf.ebanina.File.Configuration;
 
-import rf.ebanina.ebanina.Music;
 import rf.ebanina.File.FileManager;
 import rf.ebanina.File.Localization.LocalizationManager;
 import rf.ebanina.File.Resources.ResourceManager;
+import rf.ebanina.ebanina.Music;
 import rf.ebanina.utils.loggining.logging;
 
 import java.io.IOException;
@@ -781,7 +781,8 @@ public class ConfigurationManager
                 out.println("<?import javafx.geometry.Insets?>");
                 out.println();
 
-                out.println("<AnchorPane xmlns:fx=\"http://javafx.com/fxml\" prefWidth=\"600\" prefHeight=\"600\" fx:controller=\"rf.ebanina.file.Configuration.GuiController\"");
+                // TOOO: Сделать через аннотации
+                out.println("<AnchorPane xmlns:fx=\"http://javafx.com/fxml\" prefWidth=\"600\" prefHeight=\"600\" fx:controller=\"rf.ebanina.File.Configuration.GuiController\"");
                 out.println("            style=\"-fx-background-color: #f7f7f7;\">");
                 out.println("    <children>");
                 out.println("        <TabPane fx:id=\"tabPane\" AnchorPane.topAnchor=\"10\" AnchorPane.leftAnchor=\"10\" AnchorPane.rightAnchor=\"10\" AnchorPane.bottomAnchor=\"50\">");

@@ -9,8 +9,8 @@ import rf.ebanina.File.Configuration.ConfigurationManager;
 import rf.ebanina.UI.Editors.Network.NetworkHost;
 import rf.ebanina.UI.Editors.Player.AudioHost;
 import rf.ebanina.UI.Editors.Settings.Settings;
-import rf.ebanina.UI.Editors.Statistics.TrackStatistics;
-import rf.ebanina.UI.Editors.Statistics.TracksStatistics;
+import rf.ebanina.UI.Editors.Statistics.Playlist.TracksStatistics;
+import rf.ebanina.UI.Editors.Statistics.Track.TrackStatistics;
 import rf.ebanina.ebanina.Music;
 import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
 import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
@@ -199,11 +199,6 @@ public class Keys {
      */
     private final List<HotKey> sceneHotKeys = new ArrayList<>(List.of(
             new HotKey(
-                    "ebanina_config_open_hotkey",
-                    new int[] {NativeKeyEvent.VC_SHIFT, NativeKeyEvent.VC_ALT, NativeKeyEvent.VC_S},
-                    () -> settings.fire()
-            ),
-            new HotKey(
                     "ebanina_open_genius_lyrics_hotkey",
                     new int[] {NativeKeyEvent.VC_SHIFT, NativeKeyEvent.VC_CONTROL, NativeKeyEvent.VC_L},
                     () -> openGeniusLyrics(currentArtist.getText() + " - " + currentTrackName.getText())
@@ -214,7 +209,7 @@ public class Keys {
                     () -> Platform.runLater(() -> PlayProcessor.playProcessor.getTrackHistoryGlobal().getTrackHistoryContextMenu().show(stage.getScene().getWindow()))
             ),
             new HotKey(
-                    "ebanina_open_playlist_statictics",
+                    "ebanina_open_playlist_statistics",
                     new int[] {NativeKeyEvent.VC_SHIFT, NativeKeyEvent.VC_ALT, NativeKeyEvent.VC_A},
                     () -> Platform.runLater(() -> new TracksStatistics().show())
             ),
@@ -263,7 +258,7 @@ public class Keys {
             ),
             new HotKey(
                     "ebanina_get_debug_info",
-                    new int[] {NativeKeyEvent.VC_SHIFT, NativeKeyEvent.VC_ALT, NativeKeyEvent.VC_B},
+                    new int[] {NativeKeyEvent.VC_SHIFT, NativeKeyEvent.VC_ALT, NativeKeyEvent.VC_J},
                     () -> Platform.runLater(() -> MediaProcessor.mediaProcessor.skipPit(playProcessor.getTracks().get(playProcessor.getTrackIter()).getPath()))
             )
     ));
@@ -349,7 +344,7 @@ public class Keys {
         }
 
         if(isKeyPressed(NativeKeyEvent.VC_SHIFT) && isKeyPressed(NativeKeyEvent.VC_CONTROL) && isKeyPressed(NativeKeyEvent.VC_Y)) {
-            new TrackStatistics().open(stage);
+            TrackStatistics.instance.open(stage);
         }
 
         if(isKeyPressed(NativeKeyEvent.VC_ALT) && isKeyPressed(NativeKeyEvent.VC_SHIFT) && isKeyPressed(NativeKeyEvent.VC_S)) {

@@ -1,14 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Tab?>
-<?import javafx.scene.layout.VBox?>
-<Tab text="Аудио плагины" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
-     fx:id="tab"
-     fx:controller="rf.ebanina.UI.Editors.Player.Tabs.AudioEffects.Controller">
-    <VBox>
-        <children>
-            <ListView fx:id="ownPluginsListView" prefHeight="325.0" prefWidth="760.0" VBox.vgrow="ALWAYS" />
-        </children>
+<?import javafx.scene.layout.*?>
+
+<Tab fx:id="tab" text="Аудио плагины" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rf.ebanina.UI.Editors.Player.Tabs.AudioEffects.Controller">
+
+    <!-- Основной контейнер с заливкой фона -->
+    <VBox style="-fx-background-color: #1E1E1E;">
+        <padding>
+            <Insets bottom="15" left="15" right="15" top="15" />
+        </padding>
+
+        <!-- Список плагинов с бесшовной интеграцией в темную тему -->
+        <ListView fx:id="ownPluginsListView"
+                  VBox.vgrow="ALWAYS"
+                  style="-fx-background-color: #1E1E1E;
+                         -fx-control-inner-background: #1E1E1E;
+                         -fx-background-insets: 0;
+                         -fx-border-color: #333333;
+                         -fx-border-radius: 8;
+                         -fx-background-radius: 8;" />
     </VBox>
 </Tab>

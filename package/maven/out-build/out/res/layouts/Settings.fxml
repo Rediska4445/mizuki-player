@@ -19,9 +19,27 @@
                                             <Label text="mod_load (mod_load)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
                                                 <tooltip><Tooltip text="mod_load -  равен нулю"/></tooltip>
                                             </Label>
-                                            <CheckBox fx:id="mod_load" mnemonicParsing="false" selected="true" />
+                                            <CheckBox fx:id="mod_load" mnemonicParsing="false" selected="false" />
         </HBox>
         <TextArea fx:id="mod_loadDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="ipc_host_vst_enableVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="ipc_host_vst_enable (ipc_host_vst_enable)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="ipc_host_vst_enable -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <CheckBox fx:id="ipc_host_vst_enable" mnemonicParsing="false" selected="false" />
+        </HBox>
+        <TextArea fx:id="ipc_host_vst_enableDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
+    </VBox>
+                                    <VBox fx:id="ipc_host_vst3_enableVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Label text="ipc_host_vst3_enable (ipc_host_vst3_enable)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
+                                                <tooltip><Tooltip text="ipc_host_vst3_enable -  равен нулю"/></tooltip>
+                                            </Label>
+                                            <CheckBox fx:id="ipc_host_vst3_enable" mnemonicParsing="false" selected="false" />
+        </HBox>
+        <TextArea fx:id="ipc_host_vst3_enableDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
     </VBox>
                                     <VBox fx:id="animationVBox" spacing="2" alignment="CENTER_LEFT" style="-fx-padding: 6 0 6 0;" onMouseEntered="#showDetail" onMouseExited="#hideDetail">
                                         <HBox spacing="10" alignment="CENTER_LEFT">
@@ -147,7 +165,7 @@
                                             <Label text="background_css_style (background_css_style)" style="-fx-text-fill: #7092be; -fx-font-weight: bold;">
                                                 <tooltip><Tooltip text="background_css_style -  равен нулю"/></tooltip>
                                             </Label>
-                                            <TextField fx:id="background_css_style" text="-fx-background-image: url(&apos;file:C:/Users/2022/Desktop/YXvyeYZsASGiXGgXpcJR3ELsuaoH5iQ51XAcTzP7kLvHZkAHhkvlGlVqoTBCHv9fWHO2XpE_wEZ2HjGiEoCjPHEl.jpg&apos;); -fx-background-size: cover;" style="-fx-background-color: white; -fx-border-color: #7092be; -fx-text-fill: black; -fx-background-radius: 5; -fx-border-radius: 5;" />
+                                            <TextField fx:id="background_css_style" text="; -fx-background-image: url(&apos;file:C:/Users/2022/Desktop/YXvyeYZsASGiXGgXpcJR3ELsuaoH5iQ51XAcTzP7kLvHZkAHhkvlGlVqoTBCHv9fWHO2XpE_wEZ2HjGiEoCjPHEl.jpg&apos;); -fx-background-size: cover;" style="-fx-background-color: white; -fx-border-color: #7092be; -fx-text-fill: black; -fx-background-radius: 5; -fx-border-radius: 5;" />
         </HBox>
         <TextArea fx:id="background_css_styleDetail" text="Подробная информация отсутствует" visible="false" managed="false" editable="false" wrapText="true" style="-fx-font-style: italic; -fx-text-fill: gray; -fx-padding: 0 0 0 20;" prefRowCount="3" />
     </VBox>

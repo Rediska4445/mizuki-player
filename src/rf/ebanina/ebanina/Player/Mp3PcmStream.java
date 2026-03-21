@@ -58,7 +58,9 @@ import java.io.InputStream;
  * @see InputStream
  * @see <a href="https://github.com/umjammer/jlayer">JLayer (javazoom) Project</a>
  */
-public class Mp3PcmStream extends InputStream {
+public class Mp3PcmStream
+        extends InputStream
+{
     /**
      * Битовый поток, содержащий сжатые MP3-данные.
      * <p>

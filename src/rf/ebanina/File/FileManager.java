@@ -2,15 +2,15 @@ package rf.ebanina.File;
 
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import rf.ebanina.File.Resources.ResourceManager;
+import rf.ebanina.File.Resources.Resources;
+import rf.ebanina.UI.Root;
 import rf.ebanina.ebanina.Music;
 import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
 import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
 import rf.ebanina.ebanina.Player.MediaPlayer;
 import rf.ebanina.ebanina.Player.Playlist;
 import rf.ebanina.ebanina.Player.Track;
-import rf.ebanina.File.Resources.ResourceManager;
-import rf.ebanina.File.Resources.Resources;
-import rf.ebanina.UI.Root;
 
 import java.io.*;
 import java.lang.reflect.Array;
@@ -28,9 +28,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.nio.file.FileVisitOption.FOLLOW_LINKS;
-import static rf.ebanina.ebanina.Music.*;
 import static rf.ebanina.UI.Root.similar;
 import static rf.ebanina.UI.Root.tracksListView;
+import static rf.ebanina.ebanina.Music.*;
 
 public class FileManager
         implements rf.ebanina.File.IDataFiles, IFileProcessor
@@ -305,7 +305,6 @@ public class FileManager
                 Map.entry("user.name", System.getProperty("user.name")),
                 Map.entry("application.name", appName),
                 Map.entry("version", version),
-                Map.entry("version.name", versionName),
                 Map.entry("starting.time", LocalDateTime.now().toString())
         ));
 
@@ -456,26 +455,6 @@ public class FileManager
         }
 
         return lines;
-    }
-
-    public Properties readProperties(String filePath) {
-        Properties props = new Properties();
-
-        try (FileInputStream fis = new FileInputStream(filePath)) {
-            props.load(fis);
-            String tmpDir = System.getProperty("java.io.tmpdir");
-
-            for (String key : props.stringPropertyNames()) {
-                String value = props.getProperty(key);
-                if (value != null) {
-                    props.setProperty(key, value.replace("java.io.tmpdir", tmpDir).replace("/", File.separator));
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return props;
     }
 
     public Map<String, String> parseArray(String arrayString, Map<String, String> ifEmpty) {

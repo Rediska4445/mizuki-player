@@ -94,7 +94,9 @@ import java.util.Properties;
  * @see javafx.fxml.FXMLLoader
  * @see java.util.Properties
  */
-public class ResourceManager {
+public class ResourceManager
+    implements IResourceManager
+{
     /**
      * Абсолютный путь к директории, содержащей бинарные библиотеки, необходимые для работы приложения.
      * <p>Данный путь используется для загрузки нативных модулей и расширений.</p>

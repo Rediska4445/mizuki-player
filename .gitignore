@@ -13,3 +13,8 @@ mods/
 /libraries/classes/ebanina-vst-ipc-host.jargit
 /libraries/classes/ebanina-vst-ipc-host.jar
 /libraries/classes/bin/
+/package/maven/out-build/out/
+/libraries/classes/ebanina-std-utils.jar
+session.ini
+/logs/
+/docs/

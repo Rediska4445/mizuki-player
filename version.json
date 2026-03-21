@@ -1,10 +1,18 @@
 {
-  "version": "1.4.9",
-  "subversion": "0.0",
-  "fullVersion": "1.4.9",
   "name": "Mizuka",
-  "build": "18.03.2026",
-  "releaseDate": "18-03-2026",
-  "javaVersion": "21",
-  "platforms": ["Windows x64"]
+  "subscription": "Fix",
+  "version": {
+    "serial": "1.4.9",
+    "subSerial": "0.1",
+    "fullSerial": "1.4.9-0.1"
+  },
+  "date": {
+    "build": "18.03.2026",
+    "releaseDate": "18-03-2026"
+  },
+  "environment": {
+    "javaVersion": "21",
+    "platforms": ["Windows x64"]
+  },
+  "inherit": true
 }

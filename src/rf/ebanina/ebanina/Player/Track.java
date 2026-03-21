@@ -2,13 +2,13 @@ package rf.ebanina.ebanina.Player;
 
 import javafx.scene.image.Image;
 import javafx.util.Duration;
-import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
 import rf.ebanina.File.Configuration.ConfigurationManager;
 import rf.ebanina.File.Field;
 import rf.ebanina.File.FileManager;
 import rf.ebanina.File.Metadata.MetadataOfFile;
 import rf.ebanina.File.Resources.Resources;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
+import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
 import rf.ebanina.utils.collections.TypicalMapWrapper;
 
 import java.io.File;
@@ -23,6 +23,7 @@ import java.util.*;
 import static rf.ebanina.UI.UI.Paint.ColorProcessor.size;
 
 /**
+ * <h1>Track</h1>
  * Универсальное представление трека — локального или сетевого.
  * <p>
  * <h2>Ключевые возможности:</h2>
@@ -155,7 +156,7 @@ public class Track
      * По умолчанию: 25 треков.
      * </p>
      */
-    public static final int CACHE_SIZE = ConfigurationManager.instance.getItem(int.class, "track_cache_size", 25);
+    public static int CACHE_SIZE = ConfigurationManager.instance.getItem(int.class, "track_cache_size", 25);
 
     /**
      * Список пользовательских тегов для классификации трека.
@@ -548,7 +549,7 @@ public class Track
 
     /**
      * <h3>Ленивая загрузка мипмапа</h3>
-     * Минималистичная обложка для списков (экономия памяти).
+     * Минималистичная обложка для списков.
      * <p>
      * <b>Логика:</b>
      * <ul>
@@ -561,7 +562,18 @@ public class Track
      * @return готовый Image
      */
     public Image getMipmap(int size) {
-        return mipmap == null ? mipmap = getIndependentAlbumArt(size, size, ColorProcessor.isPreserveRatio, ColorProcessor.isSmooth) : mipmap;
+        return mipmap == null ? mipmap = getIndependentMipmap(size) : mipmap;
+    }
+
+    /**
+     * <h3>Загрузка мипмапа</h3>
+     * Минималистичная обложка для списков.
+     *
+     * @param size размер мипмапа (квадратный)
+     * @return готовый Image
+     */
+    public Image getIndependentMipmap(int size) {
+        return getIndependentAlbumArt(size, size, ColorProcessor.isPreserveRatio, ColorProcessor.isSmooth);
     }
 
     /**
@@ -800,7 +812,7 @@ public class Track
     }
 
     /**
-     * <h1>Стандартная миниатюра обложки</h1>
+     * <h3>Стандартная миниатюра обложки</h3>
      * Лениво создает мипмап заданного размера {@link ColorProcessor#size}.
      * <p>
      * <b>Логика:</b>

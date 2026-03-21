@@ -23,7 +23,7 @@ public class ColorProcessor {
 
     protected String color_type = ConfigurationManager.instance.getItem("album_art_get_color_type", "average");
 
-    public SimpleIntegerProperty hueProperty = new SimpleIntegerProperty(0);
+    protected SimpleIntegerProperty hueProperty = new SimpleIntegerProperty(0);
 
     public int getHue() {
         return hueProperty.get();
@@ -46,7 +46,7 @@ public class ColorProcessor {
 
     public static ColorProcessor core = new ColorProcessor();
 
-    public ObjectProperty<Paint> mainClr = new SimpleObjectProperty<>();
+    protected ObjectProperty<Paint> mainClr = new SimpleObjectProperty<>();
 
     public ObjectProperty<Paint> mainClrProperty() {
         return mainClr;

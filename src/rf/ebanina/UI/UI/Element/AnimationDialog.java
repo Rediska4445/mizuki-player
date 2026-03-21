@@ -5,6 +5,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.scene.CacheHint;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.*;
@@ -56,6 +57,22 @@ import rf.ebanina.UI.Root;
 public class AnimationDialog
         extends Dialog
 {
+    private final TranslateTransition slideInTransition;
+    private final TranslateTransition slideOutTransition;
+    private final FadeTransition fadeInBox;
+    private final FadeTransition fadeOutBox;
+    private final FadeTransition fadeInDim;
+    private final FadeTransition fadeOutDim;
+    private final ParallelTransition showTransition;
+    private final ParallelTransition hideTransition;
+
+    private final Interpolator bounceInterpolator = new Interpolator() {
+        @Override
+        protected double curve(double t) {
+            return (t == 0) ? 0 : Math.pow(2.0, 10.0 * (t - 1.0));
+        }
+    };
+
     /**
      * Активная анимация изменения радиуса тени верхней рамки.
      */
@@ -81,14 +98,6 @@ public class AnimationDialog
      */
     private final ObjectProperty<EventHandler<Event>> onHide = new SimpleObjectProperty<>();
     /**
-     * Создаёт диалог, привязанный к владельцу {@link Stage}.
-     *
-     * @param ownerStage родительское окно, блокирующее взаимодействие при показе
-     */
-    public AnimationDialog(Stage ownerStage) {
-        super(ownerStage);
-    }
-    /**
      * Создаёт диалог, автоматически привязанный к размеру родительского контейнера.
      * <p>
      * Диалог добавляется в {@code root.getChildren()} и синхронизирует размеры
@@ -105,6 +114,38 @@ public class AnimationDialog
 
         prefHeightProperty().bind(root.heightProperty());
         prefWidthProperty().bind(root.widthProperty());
+
+        slideInTransition = new TranslateTransition(Duration.millis(650), dialogBox);
+        slideInTransition.setToY(0);
+        slideInTransition.setInterpolator(Root.iceInterpolator);
+
+        fadeInBox = new FadeTransition(Duration.millis(200), dialogBox);
+        fadeInBox.setToValue(1.0);
+
+        fadeInDim = new FadeTransition(Duration.millis(350), backgroundDim);
+        fadeInDim.setToValue(1.0);
+
+        showTransition = new ParallelTransition(slideInTransition, fadeInBox, fadeInDim);
+
+        slideOutTransition = new TranslateTransition(Duration.millis(450), dialogBox);
+        slideOutTransition.setInterpolator(bounceInterpolator);
+
+        fadeOutBox = new FadeTransition(Duration.millis(250), dialogBox);
+        fadeOutBox.setDelay(Duration.millis(150));
+        fadeOutBox.setToValue(0);
+
+        fadeOutDim = new FadeTransition(Duration.millis(400), backgroundDim);
+        fadeOutDim.setToValue(0);
+
+        hideTransition = new ParallelTransition(slideOutTransition, fadeOutBox, fadeOutDim);
+
+        hideTransition.setOnFinished(e -> {
+            this.setVisible(false);
+            dialogBox.setTranslateY(0);
+            dialogBox.setOpacity(1.0);
+            if (getOnHide() != null) getOnHide().handle(new Event(Event.ANY));
+            if (onAction != null) onAction.run();
+        });
     }
     /**
      * Устанавливает статическую верхнюю рамку с тенью заданного цвета.
@@ -237,21 +278,17 @@ public class AnimationDialog
      */
     @Override
     public void show() {
+        dialogBox.setCache(true);
+        dialogBox.setCacheHint(CacheHint.QUALITY);
+
         dialogBox.setTranslateY(700);
         dialogBox.setOpacity(0);
         this.setVisible(true);
 
-        TranslateTransition slideIn = new TranslateTransition(Duration.millis(650), dialogBox);
-        slideIn.setToY(0);
-        slideIn.setInterpolator(Root.iceInterpolator);
+        showTransition.setOnFinished(e -> dialogBox.setCache(false));
 
-        FadeTransition fadeInBox = new FadeTransition(Duration.millis(200), dialogBox);
-        fadeInBox.setToValue(1.0);
-
-        FadeTransition fadeInDim = new FadeTransition(Duration.millis(350), backgroundDim);
-        fadeInDim.setToValue(1.0);
-
-        new ParallelTransition(slideIn, fadeInBox, fadeInDim).play();
+        showTransition.stop();
+        showTransition.play();
     }
     /**
      * Переопределённый метод скрытия с bounce-эффектом.
@@ -267,32 +304,18 @@ public class AnimationDialog
      */
     @Override
     public void hide() {
-        TranslateTransition slideOut = new TranslateTransition(Duration.millis(450), dialogBox);
-        slideOut.setToY(800);
-        slideOut.setInterpolator(new Interpolator() {
-            @Override
-            protected double curve(double t) {
-                return (t == 0) ? 0 : Math.pow(2.0, 10.0 * (t - 1.0));
-            }
-        });
+        if (activeBorderAnim != null) {
+            activeBorderAnim.stop();
+            activeBorderAnim = null;
+        }
 
-        FadeTransition fadeOutBox = new FadeTransition(Duration.millis(250), dialogBox);
-        fadeOutBox.setDelay(Duration.millis(150));
-        fadeOutBox.setToValue(0);
+        double dialogHeight = dialogBox.localToScene(dialogBox.getBoundsInLocal()).getHeight();
+        double hideOffset = Math.max(800, dialogHeight + 200);
 
-        FadeTransition fadeOutDim = new FadeTransition(Duration.millis(400), backgroundDim);
-        fadeOutDim.setToValue(0);
+        slideOutTransition.setToY(hideOffset);
+        hideTransition.stop();
+        hideTransition.play();
 
-        ParallelTransition hideAnim = new ParallelTransition(slideOut, fadeOutBox, fadeOutDim);
-
-        hideAnim.setOnFinished(e -> {
-            this.setVisible(false);
-            dialogBox.setTranslateY(0);
-            dialogBox.setOpacity(1.0);
-            if (getOnHide() != null) getOnHide().handle(new Event(Event.ANY));
-            if (onAction != null) onAction.run();
-        });
-
-        hideAnim.play();
+        dialogBox.setCache(false);
     }
 }

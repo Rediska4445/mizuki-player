@@ -343,6 +343,18 @@ public class PlayProcessor<T extends Track, J extends Playlist>
                             Map.of()
                     );
 
+                    String timestamp = LocalDateTime.now()
+                            .truncatedTo(java.time.temporal.ChronoUnit.MINUTES)
+                            .format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+
+                    Map<String, String> timestampMap = new HashMap<>(Map.ofEntries(
+                            Map.entry(fields.get(Field.DataTypes.TEMPO.code).getLocalName(), String.valueOf((double) MediaProcessor.mediaProcessor.mediaPlayer.getTempo())),
+                            Map.entry(fields.get(Field.DataTypes.PAN.code).getLocalName(), String.valueOf((double) MediaProcessor.mediaProcessor.mediaPlayer.getPan())),
+                            Map.entry(fields.get(Field.DataTypes.VOLUME.code).getLocalName(), String.valueOf(MediaProcessor.mediaProcessor.mediaPlayer.getVolume())),
+                            Map.entry(Field.DataTypes.COUNT_STREAM.code, "1"),
+                            Map.entry("timestamp", timestamp)
+                    ));
+
                     Map<String, String> save = new HashMap<>(Map.ofEntries(
                             Map.entry(fields.get(Field.DataTypes.TEMPO.code).getLocalName(), String.valueOf((double) MediaProcessor.mediaProcessor.mediaPlayer.getTempo())),
                             Map.entry(fields.get(Field.DataTypes.PAN.code).getLocalName(), String.valueOf((double) MediaProcessor.mediaProcessor.mediaPlayer.getPan())),
@@ -356,17 +368,30 @@ public class PlayProcessor<T extends Track, J extends Playlist>
 
                     if(MediaProcessor.mediaProcessor.mediaPlayer.getCurrentTime().toSeconds() < MediaProcessor.mediaProcessor.mediaPlayer.getOverDuration().toSeconds() - 30) {
                         save.put(fields.get(Field.DataTypes.TIME.code).getLocalName(), String.valueOf((int) MediaProcessor.mediaProcessor.mediaPlayer.getCurrentTime().toSeconds()));
+
+                        timestampMap.put("is full play", "false");
                     } else {
                         save.put(Field.DataTypes.COUNT_FULLY_PLAY.code, String.valueOf(Integer.parseInt(
                                 read.getOrDefault(Field.DataTypes.COUNT_FULLY_PLAY.code, "0")) + 1));
+
+                        timestampMap.put("is full play", "true");
                     }
 
                     save.put(Field.DataTypes.TOTAL_TIME_PLAYED.code, String.valueOf(Float.parseFloat(read.getOrDefault(Field.DataTypes.TOTAL_TIME_PLAYED.code, "0")) + MediaProcessor.mediaProcessor.mediaPlayer.getCurrentTime().toSeconds()));
+
+                    timestampMap.put(fields.get(Field.DataTypes.TIME.code).getLocalName(), String.valueOf((int) MediaProcessor.mediaProcessor.mediaPlayer.getCurrentTime().toSeconds()));
 
                     FileManager.instance.saveArray(
                             p,
                             trackType,
                             save
+                    );
+
+                    FileManager.instance.saveCollection(
+                            p,
+                            "time_array",
+                            System.currentTimeMillis() + " - " + trackType,
+                            timestampMap
                     );
 
                     previousIndex.set(currentTrackIter.get());
@@ -513,7 +538,7 @@ public class PlayProcessor<T extends Track, J extends Playlist>
 
         if(!playbackTrack.get()) {
             if (!configurationManager.getBooleanItem("use_mood_matching_algorithm", "false")) {
-                if (mixRand.get()) {
+                if (MediaProcessor.mediaProcessor.mediaParameters.get(MediaProcessor.MediaParameters.IS_PLAY_RANDOM.code).getValue().equals(true)) {
                     currentTrackIter.set(trackRandomizer.nextInt(0, currentTracksList.size() - 1));
                 } else {
                     currentTrackIter.set(currentTrackIter.get() + 1);

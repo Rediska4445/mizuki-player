@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.Rectangle?>
-<ScrollPane hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="436.0" style="-fx-background-color: #1e1e1e;" vbarPolicy="NEVER" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+<ScrollPane fx:id="mainScrollPane" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="436.0" style="-fx-background-color: #1e1e1e;" vbarPolicy="NEVER" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
    <content>
       <VBox fx:id="mainBox" prefHeight="518.0" prefWidth="434.0" style="-fx-background-color: #1e1e1e">
          <children>
@@ -56,7 +56,7 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" />
                      </VBox.margin>
                   </Rectangle>
-                  <TextField fx:id="command_field" prefHeight="40.0" prefWidth="404.0" style="-fx-background-color: #333333; -fx-text-fill: white; -fx-prompt-text-fill: #AAAAAA;" VBox.vgrow="ALWAYS">
+                  <TextField xmlns:fx="http://javafx.com" fx:id="command_field" prefHeight="40.0" prefWidth="404.0" style="-fx-background-color: #333333; -fx-text-fill: white; -fx-prompt-text-fill: #AAAAAA;" VBox.vgrow="ALWAYS">
                      <VBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </VBox.margin>

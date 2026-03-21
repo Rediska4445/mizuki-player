@@ -1,8 +1,0 @@
-.root {
-    -fx-background-image:
-        linear-gradient(to right, rgba(${color_start}), rgba(${color_stop})),
-        url(${background_image});
-    -fx-background-repeat: no-repeat, no-repeat;
-    -fx-background-size: cover, cover;
-    -fx-background-position: center center, center center;
-}

@@ -1,14 +1,15 @@
 package rf.ebanina.ebanina.Player.Controllers.Playlist;
 
 import javafx.application.Platform;
-import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
-import rf.ebanina.ebanina.Player.Playlist;
-import rf.ebanina.ebanina.Player.Track;
 import rf.ebanina.File.Configuration.ConfigurationManager;
 import rf.ebanina.File.Field;
 import rf.ebanina.File.FileManager;
 import rf.ebanina.File.Resources.Resources;
 import rf.ebanina.UI.Root;
+import rf.ebanina.ebanina.Music;
+import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
+import rf.ebanina.ebanina.Player.Playlist;
+import rf.ebanina.ebanina.Player.Track;
 import rf.ebanina.utils.loggining.logging;
 
 import java.io.File;
@@ -18,6 +19,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import static rf.ebanina.UI.Root.tracksListView;
 
 /**
  * <h1>PlaylistController</h1>
@@ -129,7 +132,7 @@ public class PlaylistController
 
         checkIndexOutOfBoundPlaylist();
 
-        Root.tracksListView.getCurrentPlaylistText().setText(PlayProcessor.playProcessor.getCurrentPlaylist().get(PlayProcessor.playProcessor.getCurrentPlaylistIter()).getPath());
+        tracksListView.getCurrentPlaylistText().setText(PlayProcessor.playProcessor.getCurrentPlaylist().get(PlayProcessor.playProcessor.getCurrentPlaylistIter()).getPath());
     };
 
     /**
@@ -149,7 +152,7 @@ public class PlaylistController
      * @see FileManager#getMusic(Path)
      */
     public static void _refreshPlaylist() {
-        Root.tracksListView.getTrackListView().getItems().clear();
+        tracksListView.getTrackListView().getItems().clear();
 
         try {
             PlayProcessor.playProcessor.getTracks().clear();
@@ -160,7 +163,7 @@ public class PlaylistController
 
         Platform.runLater(() -> {
             for (Track track : PlayProcessor.playProcessor.getTracks())
-                Root.tracksListView.getTrackListView().getItems().add(new Track(track.toString()));
+                tracksListView.getTrackListView().getItems().add(new Track(track.toString()));
 
             Root.trackSelectionModel.select(PlayProcessor.playProcessor.getTrackIter());
         });
@@ -351,7 +354,6 @@ public class PlaylistController
 
             if (ConfigurationManager.instance.getBooleanItem("playlist_track_auto_select_from_current", "false")) {
                 //TODO: Сменить на Stream API
-
                 Track curr = new Track(MediaProcessor.mediaProcessor.mediaPlayer.getMedia().getSource());
 
                 boolean isFound = false;
@@ -391,14 +393,19 @@ public class PlaylistController
             PlayProcessor.playProcessor.setCurrentMusicDir(path);
 
             Platform.runLater(() -> {
-                Root.tracksListView.getTrackListView().getItems().clear();
+                tracksListView.getTrackListView().getItems().clear();
 
                 for(Track track : newList) {
-                    Root.tracksListView.getTrackListView().getItems().add(track);
+                    tracksListView.getTrackListView().getItems().add(track);
                 }
 
-                Root.tracksListView.getTrackListView().getSelectionModel().select(PlayProcessor.playProcessor.getTrackIter());
-                Root.tracksListView.getCurrentPlaylistText().setText(PlayProcessor.playProcessor.getCurrentPlaylist().get(PlayProcessor.playProcessor.getCurrentPlaylistIter()).getPath());
+                Music.mainLogger.info(PlayProcessor.playProcessor.getTrackIter());
+
+                tracksListView.getTrackListView().getSelectionModel().select(PlayProcessor.playProcessor.getTrackIter());
+
+                Music.mainLogger.info(tracksListView.getTrackListView().getSelectionModel().getSelectedIndex());
+
+                tracksListView.getCurrentPlaylistText().setText(PlayProcessor.playProcessor.getCurrentPlaylist().get(PlayProcessor.playProcessor.getCurrentPlaylistIter()).getPath());
             });
         }
     }

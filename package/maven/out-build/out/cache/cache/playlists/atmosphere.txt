@@ -1,1 +1,1 @@
-last index of (C:\Users\2022\Music\atmosphere) = 1;
+last index of (C:\Users\2022\Music\atmosphere) = 0;

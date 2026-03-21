@@ -4,6 +4,7 @@ import com.synthbot.audioplugin.vst.JVstLoadException;
 import com.synthbot.audioplugin.vst.vst2.JVstHost2;
 import javafx.beans.property.SimpleObjectProperty;
 import rf.ebanina.File.FileManager;
+import rf.ebanina.ebanina.Music;
 import rf.ebanina.ebanina.Player.AudioPlugins.VST.VST;
 import rf.ebanina.ebanina.Player.AudioPlugins.VST.VST3;
 
@@ -134,6 +135,8 @@ public class PluginWrapper {
     }
 
     public void openEditor() {
+        Music.mainLogger.info(getPluginPath() + ": " + isEnable.get());
+
         if(isEnable.get()) {
             plugin.openEditor();
         }

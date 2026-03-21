@@ -1,1 +1,1 @@
-last index of (C:\Users\2022\Music\crypee) = 6;
+last index of (C:\Users\2022\Music\crypee) = 4;

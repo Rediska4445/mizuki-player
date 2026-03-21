@@ -1,2 +1,1 @@
-last index of (C:\Users\2022\Music\fuckinSHit) = 8;
-last index of (C:\Users\2022\Music\27VbyГрустногоФонка) = 0;
+last index of (C:\Users\2022\Music\fuckinSHit) = 0;

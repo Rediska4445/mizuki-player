@@ -120,7 +120,7 @@ public class Root
 
     public static Pane root;
 
-    public static Scene scene;
+    public Scene scene;
     public static SoundSlider soundSlider;
     public static MultipleSelectionModel<Track> trackSelectionModel;
     public static MultipleSelectionModel<Playlist> playlistSelectionModel;
@@ -139,7 +139,6 @@ public class Root
     public static rf.ebanina.UI.UI.Element.Buttons.Button hideControlRight;
     public static rf.ebanina.UI.UI.Element.Buttons.Button hideControlLeft;
     public static rf.ebanina.UI.UI.Element.Buttons.Button tracksHistory;
-    public static rf.ebanina.UI.UI.Element.Buttons.Button settings;
 
     public static BorderPane topDataPane;
 

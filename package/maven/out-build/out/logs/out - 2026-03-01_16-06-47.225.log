@@ -1,6 +1,0 @@
-мар. 01, 2026 4:06:48 PM com.sun.javafx.css.StyleManager$ImageCache getCachedImage
-WARNING: Error loading image: file:C:/Users/2022/Desktop/YXvyeYZsASGiXGgXpcJR3ELsuaoH5iQ51XAcTzP7kLvHZkAHhkvlGlVqoTBCHv9fWHO2XpE_wEZ2HjGiEoCjPHEl.jpg
-мар. 01, 2026 5:04:34 PM de.umass.lastfm.Caller openConnection
-INFO: Open connection: http://ws.audioscrobbler.com/2.0/
-мар. 01, 2026 5:04:34 PM de.umass.lastfm.Caller openPostConnection
-INFO: Post body: method=track.getInfo&track=9mm&artist=Memphis+Cult%2C+Groove+Dealers%2C+SPLYXER&api_key=52ad98fbc4ea0816d852a1ce0598b740

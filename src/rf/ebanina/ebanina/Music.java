@@ -1,11 +1,14 @@
+// -----------------------------------------------
+// Основной пакет приложения - rf.ebanina.ebanina.
 package rf.ebanina.ebanina;
 
+// -----------------------------------------------------------------
+// Пакеты для регистрации глобальных нажатий клавиш (вне приложения).
+
 import com.github.kwhat.jnativehook.GlobalScreen;
-import com.github.kwhat.jnativehook.NativeHookException;
 import com.sun.jna.platform.win32.Kernel32;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import rf.ebanina.File.Configuration.ConfigurationManager;
 import rf.ebanina.File.FileManager;
@@ -16,7 +19,6 @@ import rf.ebanina.UI.Root;
 import rf.ebanina.UI.UI.Animations;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
 import rf.ebanina.ebanina.KeyBindings.KeyBindingController;
-import rf.ebanina.ebanina.KeyBindings.Keys;
 import rf.ebanina.ebanina.Player.AudioPlugins.PluginWrapper;
 import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
 import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
@@ -29,8 +31,6 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
-
-import static rf.ebanina.UI.Root.scene;
 
 /**
  * <h1>Music</h1>
@@ -60,7 +60,6 @@ import static rf.ebanina.UI.Root.scene;
  * <h2>Жизненный цикл</h2>
  * <pre>{@code
  * Start.main() → Application.launch() → Music.start() → Root.rootImpl.init() → UI готово
- * Закрытие: stage.setOnCloseRequest({@link #exitEvent}) → save → System.exit()
  * }</pre>
  *
  * <h2>Состояние при запуске</h2>
@@ -90,43 +89,55 @@ import static rf.ebanina.UI.Root.scene;
  * @see Root
  */
 @logging(tag = "Main Loader Class", fileOut = true)
+// Тег логирования - Main Loader Class.
+// Вывод в файл включён (выключен по умолчанию).
+// ---------------------------------------------
+//
+// Класс финализирован - так как он не является часть архитектуры модулей,
+// он просто инициализирует приложение, его использовать извне не подразумевается (может измениться).
+// --------------------------------------------------------------------------------------------------
+//
+// Название Music ничего не означает, оно оставлено по исторической причине.
 public final class Music
-        extends Application
+    // ----------------------------------------------------------------------------
+    // Application - класс из JavaFX, который заставляет переопределить метод start.
+    // Это необходимо для того, чтобы запустить приложение (см. доки JavaFX).
+    // ----------------------------------------------------
+    extends Application
 {
     /**
-     * Версия приложения в формате <strong>SemVer</strong> (Semantic Versioning): {@code MAJOR.MINOR.PATCH}.
+     * Версия приложения в формате <strong>SemVer</strong> (Semantic Versioning): {@code MAJOR.MINOR.PATCH-PRE}.
      *
      * <h3>Правила версионирования</h3>
      *
      * <ul>
-     *   <li><strong>MAJOR</strong> ↑ — несовместимые изменения API<br>
+     *   <li><strong>MAJOR</strong> — несовместимые изменения API<br>
      *       <em>Пример: смена формата данных, удаление методов</em></li>
      *
-     *   <li><strong>MINOR</strong> ↑ — новый функционал (совместимо)<br>
+     *   <li><strong>MINOR</strong> — новый функционал (совместимо)<br>
      *       <em>Пример: добавление новых методов, улучшение UI</em></li>
      *
-     *   <li><strong>PATCH</strong> ↑ — исправления багов<br>
+     *   <li><strong>PATCH</strong> — исправления багов<br>
      *       <em>Пример: фиксы ошибок, мелкие улучшения</em></li>
      * </ul>
      *
-     * <p><strong>Пример:</strong> {@code 2.3.1} = MAJOR 2 + MINOR 3 + 1 багфикс</p>
+     * <h3>Постфикс после черты ({@code -PRE}):</h3>
      *
-     * <p><em><strong>Название приложения меняется с MINOR версиями</strong></em></p>
+     * <p><strong>Формат:</strong> {@code vMAJOR.MINOR.PATCH-PRE1.PRE2}</p>
      *
-     * @since 1.0.0
+     * <ul>
+     *   <li><strong>PRE1 (0-9)</strong> — версия <em>внутренних</em> локальных изменений<br>
+     *       <em>Пример: медиаплеер, IPC механизмы, VST хостинг логика</em></li>
+     *
+     *   <li><strong>PRE2 (0-9)</strong> — версия <em>внешних</em> локальных изменений<br>
+     *       <em>Пример: графика JavaFX, UI компоненты, внешний API</em></li>
+     * </ul>
+     *
+     * <p><strong>Пример:</strong> {@code v1.4.8-0.1} = MAJOR 1 + MINOR 4 + PATCH 8 + <em>внутренние изменения v0, внешние v1</em></p>
+     *
+     * @since -1.0.0
      */
-    public static final String version = "v1.4.7";
-    // next - -Momoka-, or -Noewa-, or -Teveo-, or Tsunuma, or Dozuki, or Naomi, or Tsurukawa, or Casumi, or Tsunawi, or Tovokado, or -Natachi-, or Nanami
-
-    /**
-     * Название версии.
-     *
-     * <p>
-     *     Название версии ничего не значит, и может быть выведено.
-     * </p>
-     */
-    public static final String versionName = "Mizuki";
-
+    public static String version = "v1.4.9";
     /**
      * Официальное название приложения.
      *
@@ -137,7 +148,10 @@ public final class Music
      * <p>
      * После этого, я потратил около 5-6 часов, на то, чтобы просто вернуться туда, откуда начал
      */
-    public static final String appName = "Ebanina (Mizuki)";
+    // Другие японские имена:
+    // -Momoka-, or -Noewa-, or -Teveo-, or Tsunuma, or Dozuki, or Naomi,
+    // or Tsurukawa, or Casumi, or Tsunawi, or Tovokado, or -Natachi-, or Nanami
+    public static final String appName = "Mizuki";
 
     /**
      * Название приложение, которое будет отображаться в заголовке окна.
@@ -148,86 +162,27 @@ public final class Music
      *     - Название - {@link Music#appName};
      *     <p>
      *     - Версию - {@link Music#version};
-     *     <p>
-     *     - Название версии - {@link Music#versionName};
      * </p>
      *
      */
-    public static final String name = appName + ": " + version + " - " + versionName;
-
-    /**
-     * Событие вызывающийся при закрытии приложения.
-     *
-     * <p>
-     *     Внутри происходит следующее:
-     *     <p>
-     *     - Закрытие плеера {@link MediaProcessor#mediaPlayer};
-     *     <p>
-     *     - Остановка слайдера {@link Root#soundSlider};
-     *     <p>
-     *     - Очистка кеша {@link FileManager#clearCacheData(String)};
-     *     <p>
-     *     - Сохранение общих данных {@link FileManager#saveSharedData()};
-     *     <p>
-     *     - Сохранение истории в файл {@link rf.ebanina.ebanina.Player.TrackHistory#saveToFile(File)};
-     *     <p>
-     *     - Выход из приложения (закрытие процесса) {@link Kernel32#ExitProcess(int)};
-     * </p>
-     *
-     * <p>
-     * <h3>
-     *     Эта переменная должна быть изменена или удалена.
-     * </h3>
-     * </p>
-     */
-    public static javafx.event.EventHandler<javafx.stage.WindowEvent> exitEvent = windowEvent -> {
-        // Закрытие плеера
-        for (PluginWrapper p : MediaProcessor.mediaProcessor.mediaPlayer.getPlugins()) {
-            p.destroy();
-        }
-
-        if (MediaProcessor.mediaProcessor.mediaPlayer != null)
-            MediaProcessor.mediaProcessor.mediaPlayer.close();
-
-        // Закрытие графического слайдера плеера
-        Root.SliderHandler.stop();
-
-        // Очистка кеша из inet папки
-        FileManager.instance.clearCacheData(Resources.Properties.DEFAULT_INET_CACHE_PATH.getKey());
-
-        // Сохранение общих данных о приложении
-        FileManager.instance.saveSharedData();
-
-        // Сохранение истории в файл
-        if(PlayProcessor.playProcessor.getTrackHistoryGlobal() != null) {
-            PlayProcessor.playProcessor.getTrackHistoryGlobal().saveToFile(new File(Resources.Properties.HISTORY_FILE_PATH.getKey()));
-        }
-
-        //TODO: Выяснить, почему оно вызывает лаг
-        //      System.exit(130);
-        Kernel32.INSTANCE.ExitProcess(130);
-    };
-
+    public static final String name = appName + ": " + version;
     /**
      * Константа, которая фиксирует точку времени для определения длительности использования.
      * <p>
      * Слабая константа ({@link WeakConst}) так как она не требует конструктор.
-     *
      * <p>
      * <h3>Эта переменная не должна изменяться.</h3>
-     *
      * <p>
      * Для времени используется UNIX-время, которое вызывается через {@link System#currentTimeMillis()}.
      */
     public static WeakConst<Long> startTimeMs = new WeakConst<>();
-
     /**
      * Основной логгер приложения Ebanina.
      *
      * <p>Используется для структурированного логирования жизненного цикла приложения,
      * инициализации компонентов, ошибок и профилирования производительности.</p>
      *
-     * <h3>Уровни логирования:</h3>
+     * <h3>Типы логирования:</h3>
      * <ul>
      *   <li>{@code mainLogger.info()} — ключевые этапы инициализации</li>
      *   <li>{@code mainLogger.warn()} — некритичные проблемы</li>
@@ -247,7 +202,6 @@ public final class Music
      * @see Log
      */
     public static Log mainLogger = new Log();
-
     /**
      * Основной метод запуска GUI-приложения.
      *
@@ -265,53 +219,46 @@ public final class Music
      */
     @Override
     public void start(Stage stage) throws IOException {
-        mainLogger.info("Application v%s (%s) STARTUP\n", version, versionName);
+        // Вывод лога о версии и названии версии
+        mainLogger.println("Application version: " + version);
 
+        // Создать все недостающие папки для кэша
         FileManager.createCacheDirectoryIfNotExist();
 
         // Установка времени при старте.
         // Это будет определять временную точку для дельты времени.
         startTimeMs.set(System.currentTimeMillis());
 
-        mainLogger.printf("Application start timestamp: %d ms\n", startTimeMs.get());
+        // Вывод лога про точку времени на старте
+        mainLogger.println("Application start timestamp: ", startTimeMs.get() + " ms");
 
         // Инициализация файлового вывода логов.
         // Без вызова этого метода, логи не будут выводится в файл.
         mainLogger.init_file_log();
 
+        // Файловый лог инициализирован
         mainLogger.info("File logging initialized");
-
-        // Перехват всех исключений из потоков.
-        // Это сделано для отслеживания NPE из JavaFX.
-        // Это вряд-ли поможет, но хоть может.
-        Thread.setDefaultUncaughtExceptionHandler((thread, e) -> {
-            mainLogger.severe("Uncaught exception in thread '%s': %s", thread.getName(), e.getMessage());
-            e.printStackTrace();
-
-            if (e instanceof IllegalStateException ise) {
-                mainLogger.severe("FX THREAD VIOLATION on: %s", thread.getName());
-
-                stage.close();
-                System.exit(1);
-            }
-        });
 
         // Ссылка на объект приложения.
         // Используется во всём приложении, не должно меняться по идеи.
         Root.stage = stage;
 
+        // Окно приложения инициализировано
         mainLogger.info("Root stage reference set");
 
         // Ссылка на сцену приложения.
-        // Не должно меняться, используется во всем приложении, хотя не должно.
-        scene = new Scene(Root.rootImpl.getRoot());
+        Root.rootImpl.scene = new Scene(Root.rootImpl.getRoot());
 
+        // Сцена приложения инициализировано
         mainLogger.info("Main scene created with root node");
 
-        // Параметры приложение
+        // Параметры приложения
+        // Название
         stage.setTitle(name);
-        stage.setScene(scene);
+        // Сцена
+        stage.setScene(Root.rootImpl.scene);
 
+        // Вывод названия приложения
         mainLogger.info("Stage configured with title: %s", name);
 
         // Последние данные о положении и размерах
@@ -324,33 +271,86 @@ public final class Music
             mainLogger.warn("Failed to restore window geometry: %s", e.getMessage());
         }
 
+        // Геометрия окна восстановлена
         mainLogger.info("Window geometry restored from session");
 
-        // Это будет так!
-        // Мне реально похуй!
-        stage.setMaxWidth((int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth()*2/3));
-        stage.setMaxHeight((int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth()*2/3*9/16));
-        stage.show();
+        // Вычисление максимальных размеров окна на основе размера экрана
+        double screenWidth = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+        double screenHeight = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 
-        mainLogger.info("Stage displayed with max constraints");
+        // Максимальная ширина: 2/3 от ширины экрана (оставляем место для таскбара/декораций)
+        double maxWidth = screenWidth * 2.0 / 3.0;
+        mainLogger.printf("Screen width: {%d}px, calculated maxWidth: {%d}px (2/3)",
+                (int)screenWidth, (int)maxWidth);
+
+        // Максимальная высота: квадратное соотношение 16:9 от максимальной ширины
+        // (предотвращает чрезмерную вертикальную растяжку на широких экранах)
+        double maxHeight = maxWidth * 9.0 / 16.0;
+        mainLogger.printf("\nCalculated maxHeight: {%d}px (16:9 from maxWidth)", (int)maxHeight);
+
+        // Установка максимальных размеров с приведением к int (JavaFX Stage API)
+        stage.setMaxWidth((int)maxWidth);
+        stage.setMaxHeight((int)maxHeight);
+
+        // Отображение окна
+        stage.show();
+        mainLogger.printf("\nStage displayed - maxSize: {%d}x{%d}px (screen: {%d}x{%d}px, ratio 16:9)",
+                (int)maxWidth, (int)maxHeight, (int)screenWidth, (int)screenHeight);
 
         // Инициализировать контроллер анимаций.
         // В частности, эта хуйня оптимизирует работу анимаций (см. класс)
         Animations.init(stage);
 
+        // Контроллер анимаций инициализирован
         mainLogger.info("Animations controller initialized");
 
         // При закрытии закрыть все потоки и записать кеш.
-        stage.setOnCloseRequest(exitEvent);
+        stage.setOnCloseRequest(windowEvent -> {
+            // Закрытие плеера.
+            // Здесь происходит убийство всех VST плагинов из плеера.
+            // Это в принципе необязательно, но желательно.
+            for (PluginWrapper p : MediaProcessor.mediaProcessor.mediaPlayer.getPlugins()) {
+                // Убить плагин (для подробностей см. доки)
+                // Здесь операция блокирующая (если не учитывать действия плагина)
+                p.destroy();
+            }
 
+            // Закрыть медиа-плеер.
+            // Плеер может быть нулевым в некоторых предсказуемых ситуациях,
+            // поэтому проверка необходимо и намеренна.
+            if (MediaProcessor.mediaProcessor.mediaPlayer != null)
+                MediaProcessor.mediaProcessor.mediaPlayer.close();
+
+            // Закрытие графического слайдера плеера
+            Root.SliderHandler.stop();
+
+            // Очистка кеша из inet папки
+            FileManager.instance.clearCacheData(Resources.Properties.DEFAULT_INET_CACHE_PATH.getKey());
+
+            // Сохранение общих данных о приложении
+            FileManager.instance.saveSharedData();
+
+            // Сохранение истории в файл
+            if(PlayProcessor.playProcessor.getTrackHistoryGlobal() != null) {
+                PlayProcessor.playProcessor.getTrackHistoryGlobal().saveToFile(new File(Resources.Properties.HISTORY_FILE_PATH.getKey()));
+            }
+
+            //TODO: Выяснить, почему оно вызывает лаг
+            //      System.exit(130);
+            Kernel32.INSTANCE.ExitProcess(130);
+        });
+
+        // Обработчик событий выхода инициализирован
         mainLogger.info("Exit event handler registered");
 
         // Иконка меняется, в соответствии с текущей обложкой трека.
         // Прикольная идея возникла ещё в 2022 году.
         stage.focusedProperty().addListener((ov, onHidden, onShown) -> {
             try {
+                // Удалить предыдущие иконки
                 stage.getIcons().clear();
 
+                // Смена иконки
                 if (onHidden /* Если хуйня скрыта */) {
                     stage.setTitle(Root.currentArtist.getText() + " - " + Root.currentTrackName.getText());
                     stage.getIcons().setAll(Root.art.getImage());
@@ -387,6 +387,7 @@ public final class Music
 
         // Курсор на текущий плейлист
         PlayProcessor.playProcessor.setCurrentPlaylistIter(Integer.parseInt(FileManager.instance.readSharedData().get("last_track_index_playlist_local")));
+
         // Курсор на текущий трек
         PlayProcessor.playProcessor.setTrackIter(Integer.parseInt(FileManager.instance.readSharedData().get("last_track_index_local")));
 
@@ -424,43 +425,22 @@ public final class Music
 
         //<-------------------------------------------------------------------------------->//
 
-        // Регистрация нативного кода, для отлова горячих клавиш
-        try {
-            GlobalScreen.registerNativeHook();
-
-            mainLogger.info("GlobalScreen native hook registered successfully");
-        } catch (NativeHookException ex) {
-            Music.mainLogger.err(ex);
-
-            mainLogger.severe("Failed to register GlobalScreen hook: %s", ex.getMessage());
-        }
-
-        // Хуйня
-        KeyBindingController c = new KeyBindingController();
-
-        mainLogger.info("KeyBindingController initialized and listeners registered");
-
-        // Загрузка собственных горячих клавиш
-        Keys.instance.loadBindings();
-
-        // Инициализация слушателей горячих клавиш
-        GlobalScreen.addNativeKeyListener(c);
-        GlobalScreen.addNativeMouseListener(c);
-        GlobalScreen.addNativeMouseWheelListener(c);
-
-        // Инициализация графических компонентов
+        // Инициализация графических компонентов.
+        // Начало профилирования инициализации Root.rootImpl.init()
         mainLogger.profiler("Root UI initialization start");
 
+        // Инициализация графических компонентов приложения.
         Root.rootImpl.init(); // <- ~290 ms
 
+        // Конец профилирования инициализации Root.rootImpl.init()
         mainLogger.profiler("Root UI initialization complete");
 
-        // Загрузка кеша
+        // Загрузка общего кеша для плеера (громкость, темп и т.д.).
         MediaProcessor.mediaProcessor.initGlobalMap();
 
         mainLogger.info("Media cache (global map) initialized");
 
-        // Установка новой медиа
+        // Установка новой медиа.
         MediaProcessor.mediaProcessor.setNewMedia(
                 new Media(new File(PlayProcessor.playProcessor.getTracks().get(PlayProcessor.playProcessor.getTrackIter()).getPath()).toURI().toString())
         );
@@ -490,24 +470,25 @@ public final class Music
 
         mainLogger.info("MediaProcessor fully initialized");
 
-        // Нужно для чего то
-        scene.setFill(Color.TRANSPARENT);
-
-        mainLogger.info("Scene finalized and key listeners setup");
-
-        // Горячие клавиши
+        // Инициализация контроллера горячих клавиш.
         KeyBindingController.setupKeyListeners(stage.getScene());
 
-        // Сессия
+        // Создание сессии.
+        // Сессия - это файл загружающий обобщённый данные для внешней отладки.
+        // Сессия не используется в самом приложении.
         FileManager.instance.loadSession();
 
+        // Сессия загружена
         mainLogger.info("User session loaded");
 
-        // Моды
+        // Моды и их загрузка.
+        // Здесь происходит проверка на то, включена ли загрузка модов в настройках.
         if(ConfigurationManager.instance.getBooleanItem("mod_load", "false")) {
+            // Здесь происходит загрузка модов из папки указанной в resources.properties.
             Anvil.anvil.loadAllModsFromFolder(ResourceManager.Instance.resourcesPaths.get(Resources.Properties.MODS.getKey()));
         }
 
+        // Приложение инициализировано и запущенно
         mainLogger.info("All mods loaded from folder");
         mainLogger.profiler("Application ENDUP Time");
     }

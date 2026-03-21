@@ -5,7 +5,6 @@ import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.util.Duration;
@@ -49,9 +48,6 @@ public class ListCellTrack<T>
         pane.setLayoutY(getLayoutY());
         pane.setLayoutX(getLayoutX());
         pane.toFront();
-        // Мылит
-//        pane.setCache(true);
-//        pane.setCacheHint(CacheHint.SPEED);
 
         initCoverIcon();
 
@@ -235,24 +231,16 @@ public class ListCellTrack<T>
     }
 
     protected String getTopLabelText(Track item) {
-        String fullInfo = item.metadata.get("fullInfoInCellTrack", String.class);
-
-        if(fullInfo == null) {
-            fullInfo = Track.getFormattedTotalDuration(Float.parseFloat(item.getLastTimeTrack())) +
-                    " / " +
-                    Track.getFormattedTotalDuration(item.getTotalDurationInSeconds()) +
-                    " " +
-                    item.viewName();
-
-            item.metadata.put("fullInfoInCellTrack", fullInfo, String.class);
-        }
-
-        return fullInfo;
+        return Track.getFormattedTotalDuration(Float.parseFloat(item.getLastTimeTrack())) +
+                " / " +
+                Track.getFormattedTotalDuration(item.getTotalDurationInSeconds()) +
+                " " +
+                item.viewName();
     }
 
     @Override
     protected Node createExtraInfoContent() {
-        return new VBox(1);
+        return null;
     }
 
     @Override

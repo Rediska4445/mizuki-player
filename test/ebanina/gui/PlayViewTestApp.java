@@ -4,12 +4,11 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import rf.ebanina.UI.UI.Element.ListViews.ListCells.Playlists.ListCellPlaylist;
+import rf.ebanina.UI.UI.Element.ListViews.Playlist.PlayView;
 import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
 import rf.ebanina.ebanina.Player.Playlist;
 import rf.ebanina.ebanina.Player.Track;
-import rf.ebanina.UI.UI.Element.ListViews.ListCells.Playlists.ListCellPlaylist;
-import rf.ebanina.UI.UI.Element.ListViews.ListCells.Playlists.ListCellTrack;
-import rf.ebanina.UI.UI.Element.ListViews.Playlist.PlayView;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -72,9 +71,9 @@ public class PlayViewTestApp extends Application {
 
         playView.getTrackListView().getItems().addAll(playProcessor.getTracks());
 
-        playView.getTrackListView().setCellFactory(e -> new ListCellTrack<>(false,
-                new Image(Paths.get(new File("C:\\Users\\2022\\Desktop\\программы\\Ebanina-Test\\Ebanina\\Ebanina-VST\\res\\visual\\gui\\logo.jpg")
-                        .getAbsolutePath()).toUri().toString())));
+//        playView.getTrackListView().setCellFactory(e -> new ListCellTrack<>(
+//                new Image(Paths.get(new File("C:\\Users\\2022\\Desktop\\программы\\Ebanina-Test\\Ebanina\\Ebanina-VST\\res\\visual\\gui\\logo.jpg")
+//                        .getAbsolutePath()).toUri().toString())));
 
         playView.getPlaylistListView().setCellFactory(e -> new ListCellPlaylist<>(
                 new Image(Paths.get(new File("C:\\Users\\2022\\Desktop\\программы\\Ebanina-Test\\Ebanina\\Ebanina-VST\\res\\visual\\gui\\logo.jpg")

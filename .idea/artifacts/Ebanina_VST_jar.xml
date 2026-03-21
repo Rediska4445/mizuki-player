@@ -8,7 +8,6 @@
         </element>
         <element id="module-output" name="Ebanina-VST" />
       </element>
-      <element id="library" level="project" name="classes" />
       <element id="library" level="project" name="modules" />
     </root>
   </artifact>

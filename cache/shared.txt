@@ -1,5 +1,5 @@
-array of (app) = [license_agreed=false, full_time=0];
-array of (main_window) = [right_list_open=true, left_list_open=true, width=800.0, layout_x=200.0, layout_y=200.0, height=720.0];
-array of (mediaPlayer) = [volume=1.0, tempo=0.0, pitch=1.0, pan=0.0, pause=true];
-array of (player) = [last_track_index_playlist_local=0, last_track_index_local=0, last_track_time=0.0];
-array of (history) = [];
+array of (app) = [license_agreed=true, full_time=119291.40000000001];
+array of (main_window) = [right_list_open=false, left_list_open=false, width=1217.0, layout_x=152.0, layout_y=152.0, height=720.0];
+array of (mediaPlayer) = [volume=1.0, tempo=0.63999987, pitch=1.0, pan=0.05, pause=false];
+array of (player) = [last_track_index_playlist_local=2, last_track_index_local=5, last_track_time=0.0];
+array of (history) = [tracks=[C:\Users\2022\Music\b\Pharmacist -  - HIT LIST.mp3, C:\Users\2022\Music\b\Pharmacist -  - PARANÖYA.mp3, C:\Users\2022\Music\b\OFFL1NX -  - MIRAGE.mp3, C:\Users\2022\Music\b\ONIMXRU, scxrd - GET IT.mp3, C:\Users\2022\Music\b\GraveChill - Twilight.mp3, C:\Users\2022\Music\b\Ghostemane - Plagues.mp3, C:\Users\2022\Music\b\Ghostemane - Wretched (feat. Rozz Dyliams).mp3, C:\Users\2022\Music\b\GHOSTYPLAYA - Behind You.mp3, C:\Users\2022\Music\b\GRAVECHILL, JXXPSINNXR - ENDLESS VOID .mp3, C:\Users\2022\Music\b\Hxvsage - YOURE ALIVE.mp3, C:\Users\2022\Music\b\REDZED - Dead Bodies Everywhere.mp3, C:\Users\2022\Music\b\scarlxrd - Heart Attack.mp3, C:\Users\2022\Music\b\SCXR SOUL -  - DARKSIDE.mp3, C:\Users\2022\Music\b\SCXR SOUL - BRUTALITY.mp3, C:\Users\2022\Music\b\SHADXWBXRN - GUNSHOT.mp3, C:\Users\2022\Music\b\SHADXWBXRN - KNIGHT.mp3, C:\Users\2022\Music\b\Shakewell, Mikey The Magician - Sleeping Bag.mp3, C:\Users\2022\Music\b\SHPACKYOU$ -  - KILL ME.mp3, C:\Users\2022\Music\b\SHPACKYOU$ -  - Me Against the World.mp3, C:\Users\2022\Music\b\SHPACKYOU$ -  - Paradise.mp3, C:\Users\2022\Music\b\4WHEEL - I'M ALWAYS COME BACK.mp3]];

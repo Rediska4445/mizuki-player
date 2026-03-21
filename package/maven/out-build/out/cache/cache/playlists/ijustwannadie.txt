@@ -1,1 +1,1 @@
-last index of (C:\Users\2022\Music\ijustwannadie) = 9;
+last index of (C:\Users\2022\Music\ijustwannadie) = 8;

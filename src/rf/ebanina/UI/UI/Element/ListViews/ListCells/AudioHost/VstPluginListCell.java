@@ -43,7 +43,7 @@ public class VstPluginListCell<T> extends ListCell<PluginWrapper> {
         mixSlider.setShowTickMarks(false);
         mixSlider.setShowTickLabels(false);
 
-        container.getChildren().addAll(type, openGuiBtn, name, mixSlider, up, down, paramsBtn);
+        container.getChildren().addAll(openGuiBtn, type, name, mixSlider, up, down, paramsBtn);
 
         openGuiBtn.setOnAction(e -> {
             PluginWrapper item = getItem();

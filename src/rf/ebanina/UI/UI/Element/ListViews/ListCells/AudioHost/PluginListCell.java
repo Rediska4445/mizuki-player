@@ -18,7 +18,9 @@ import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
 
 import static rf.ebanina.File.Localization.LocalizationManager.getLocaleString;
 
-public class PluginListCell<T> extends ListCell<IAudioEffect> {
+public class PluginListCell<T>
+        extends ListCell<IAudioEffect>
+{
     @Override
     protected void updateItem(IAudioEffect item, boolean empty) {
         super.updateItem(item, empty);

@@ -1,6 +1,0 @@
-time of (C:\Users\2022\Music\atmosphere\ZALU — Drifting Ace (www.lightaudio.ru).mp3) = 7;
-array of (C:\Users\2022\Music\atmosphere\Aega -  - Ruction.mp3) = [last tempo=0.7899999618530273, volume=1.0, count streams=1, total time played=0, tempo=1.1899998188018799, last date=2025-11-19T09:40:02.194715300, time=1, pan=0.05000000074505806];
-array of (C:\Users\2022\Music\atmosphere\akiaura, Portwave -  - deep black sea.mp3) = [last tempo=0.7899999618530273, volume=1.0, count streams=5, total time played=37.195419530760404, tempo=1.0, last date=2026-02-22T06:30:35.257209100, time=31, pan=0.05000000074505806];
-array of (C:\Users\2022\Music\atmosphere\Anymars - Anastacia.mp3) = [last tempo=0.9900000095367432, time=46];
-array of (C:\Users\2022\Music\atmosphere\CYPARISS -  - GLASS WXRLD.mp3) = [volume=1.0, count streams=1, total time played=0, count full play=1, last date=2025-11-15T15:36:52.028943300, tempo=1.0199999809265137, pan=0.05000000074505806];
-array of (C:\Users\2022\Music\atmosphere\DVRST -  - WALK IN PARADISE.mp3) = [volume=1.0, count streams=2, total time played=38.98312925170068, count full play=1, last date=2025-12-07T23:17:02.857791200, tempo=1.0, time=38, pan=0.05000000074505806];

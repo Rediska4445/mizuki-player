@@ -1,2 +1,0 @@
-array of (C:\Users\2022\Music\claPhonk\Isolate.exe - Crystals.mp3) = [volume=1.0, count streams=1, total time played=135.17721088435374, count full play=1, tempo=0.9899999499320984, last date=2026-02-22T08:41:42.607117200, pan=0.0];
-array of (C:\Users\2022\Music\claPhonk\JOINTMANE_JaySos_-_Toyo_Killers_74618613.mp3) = [volume=1.0, count streams=1, total time played=74.85362811791383, tempo=0.9899999499320984, last date=2026-02-22T08:51:10.860978800, time=74, pan=0.0];

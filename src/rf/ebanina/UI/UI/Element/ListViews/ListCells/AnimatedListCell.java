@@ -26,6 +26,7 @@ import java.util.Map;
 import static rf.ebanina.UI.Root.general_interpolator;
 
 //FIXME: Пофиксить баги
+//FIXME: Редко, но фон не прогружается (дефолтный цвет вместо него)
 public abstract class AnimatedListCell<T>
         extends ListCell<T>
 {
@@ -133,7 +134,7 @@ public abstract class AnimatedListCell<T>
         }
     }
 
-    protected void setBackgroundImageCentered(ImagePattern image,  Rectangle background) {
+    protected void setBackgroundImageCentered(ImagePattern image, Rectangle background) {
         if(image != null) {
             background.setFill(image);
         }
@@ -340,6 +341,7 @@ public abstract class AnimatedListCell<T>
         delayTimer.setOnFinished(e -> {
             if (!isEmpty() && !isPinned && isHover()) {
                 Node content = createExtraInfoContent();
+
                 if (content != null) {
                     extraInfoPane.getChildren().setAll(content);
                     animateCell(baseHeight + 40, 1.0);

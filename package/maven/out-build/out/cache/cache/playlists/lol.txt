@@ -1,1 +1,1 @@
-last index of (C:\Users\2022\Music\lol) = 29;
+last index of (C:\Users\2022\Music\lol) = 10;

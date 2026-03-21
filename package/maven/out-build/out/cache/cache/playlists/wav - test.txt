@@ -1,2 +1,0 @@
-last index of (C:\Users\2022\Music\wav - test) = 23;
-last index of (C:\Users\2022\Music\27VbyГрустногоФонка) = 0;
