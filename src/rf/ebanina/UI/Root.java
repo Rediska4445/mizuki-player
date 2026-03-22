@@ -779,6 +779,7 @@ public class Root
         if(!Boolean.parseBoolean(FileManager.instance.readSharedData().getOrDefault("license_agreed", "false"))) {
             LicenseDialog agreementDialog = new LicenseDialog(
                     stage,
+                    root,
                     LocalizationManager.getLocaleString("license_title", "License Agreement"),
                     readAllLicensesRecursively("license", LocalizationManager.instance.lang.split("_")[1]),
                     LocalizationManager.getLocaleString("license_agree", "Agree")
@@ -792,11 +793,8 @@ public class Root
                 Platform.runLater(() -> root.getChildren().remove(agreementDialog));
             });
 
-            root.getChildren().add(agreementDialog);
-
-            agreementDialog.prefHeightProperty().bind(stage.heightProperty());
-            agreementDialog.prefWidthProperty().bind(stage.widthProperty());
-
+            agreementDialog.setDialogMaxSize(0.7, 0.85);
+            agreementDialog.animationTopBorder(ColorProcessor.core.getMainClr()).play();
             agreementDialog.show();
         }
     }
