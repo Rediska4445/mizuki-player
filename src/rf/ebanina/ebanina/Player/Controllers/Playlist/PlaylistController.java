@@ -86,12 +86,12 @@ import static rf.ebanina.UI.Root.tracksListView;
  * @since 0.1.0.x
  * @see PlayProcessor
  * @see FileManager
- * @see IPlaylistProcessor
+ * @see IPlaylistController
  * @see Root#tracksListView
  */
 @logging(tag = "playlist controller", isActive = false)
 public class PlaylistController
-        implements IPlaylistProcessor
+        implements IPlaylistController
 {
     /**
      * Единственный глобальный экземпляр контроллера плейлистов.

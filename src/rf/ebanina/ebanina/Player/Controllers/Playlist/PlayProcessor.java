@@ -75,7 +75,7 @@ import static rf.ebanina.UI.Root.tracksListView;
  * @author Ebanina Std.
  */
 public class PlayProcessor<T extends Track, J extends Playlist>
-        implements IPlayProcessor
+        implements IPlayController
 {
     /**
      * Создаёт экземпляр {@code PlayProcessor} с путём по умолчанию из конфигурации.

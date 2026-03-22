@@ -86,8 +86,8 @@ public abstract class AnimatedListCell<T>
 
         if (currentTask != null)
             currentTask.cancel(true);
-        if (currentBgTask != null)
-            currentBgTask.cancel(true);
+//        if (currentBgTask != null) // Возможно из за этого иногда фон не прогружается
+//            currentBgTask.cancel(true);
 
         if (currentTimeline != null) {
             currentTimeline.stop();
