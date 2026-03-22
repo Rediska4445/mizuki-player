@@ -218,7 +218,7 @@ public class Controller {
         PluginWrapper selected = pluginListView.getSelectionModel().getSelectedItem();
 
         if (selected != null) {
-            selected.destroy();
+            //selected.destroy();
             pluginListView.getItems().remove(selected);
             AudioHost.instance.vstPlugins.remove(selected);
             rf.ebanina.UI.Editors.Player.Controller.updateMediaPlayerPlugins();

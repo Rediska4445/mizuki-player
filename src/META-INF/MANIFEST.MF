@@ -1,9 +1,67 @@
-Manifest-Version: 1.4.7-1.0.0
+Manifest-Version: 1.4.x
 Main-Class: rf.ebanina.Start
 Implementation-Title: Ebanina
-Implementation-Version: 1.4.7-1.0.0
+Implementation-Version: 1.4.x
 Implementation-Vendor: Std
 Created-By: rediska
+Class-Path: libraries\classes\ebanina-std-utils.jar
+                    
+             libraries/classes/JVstHost.jar libraries/classes/vst3host.j
+ ar
+                                libraries/classes/jlayer-1.0.1.4.jar
+  libraries/classes/mp3spi-1.9.5.4.jar
+                                l
+ ibraries/classes/ebanina-mod-api.jar libraries/classes/jorbis-0.0.17.4.
+ jar
+                                libraries/classes/lastfm-java-0.1.2
+ .jar libraries/classes/vorbisspi-1.0.3.3.jar
+                          
+       libraries/classes/ebanina-audio-player.jar libraries/classes/trit
+ onus-share-0.3.7.4.jar
+                                libraries/module
+ s/javafx-swt.jar libraries/modules/javafx.web.jar
+                     
+            libraries/modules/jna-5.14.0.jar libraries/modules/untitled1
+ 0.jar
+                                libraries/modules/javafx.base.jar
+  libraries/modules/javafx.fxml.jar
+                                libr
+ aries/modules/javafx.media.jar libraries/modules/javafx.swing.jar
+     
+                            libraries/modules/jsoup-1.10.1.jar libraries
+ /modules/mp3agic-0.9.1.jar
+                                libraries/mo
+ dules/commons-io-2.6.jar libraries/modules/jfoenix-9.0.10.jar
+         
+                        libraries/modules/javafx.controls.jar libraries/
+ modules/javafx.graphics.jar
+                                libraries/m
+ odules/jave-core-2.4.2.jar libraries/modules/byte-buddy-1.17.8.jar
+    
+                             libraries/modules/controlsfx-11.1.2.jar lib
+ raries/modules/jnativehook-2.2.2.jar
+                                li
+ braries/modules/lastfm-java-0.1.2.jar libraries/modules/testfx-core-4.0
+ .18.jar
+                                libraries/modules/assertj-core-
+ 3.27.6.jar libraries/modules/jna-platform-5.14.0.jar
+                  
+               libraries/modules/mockito-core-5.20.0.jar libraries/modul
+ es/testfx-junit-4.0.18.jar
+                                libraries/mo
+ dules/mockito-inline-5.2.0.jar libraries/modules/testfx-junit5-4.0.18.j
+ ar
+                                libraries/modules/commons-logging-1.
+ 3.4.jar libraries/modules/junit-jupiter-6.0.0-M2.jar
+                  
+               libraries/modules/byte-buddy-agent-1.17.8.jar libraries/m
+ odules/junit-jupiter-api-6.0.0-M2.jar
+                                l
+ ibraries/modules/mockito-junit-jupiter-5.20.0.jar libraries/modules/jun
+ it-jupiter-engine-6.0.0-M2.jar
+                                librarie
+ s/modules/junit-jupiter-params-6.0.0-M2.jar libraries/modules/junit-pla
+ tform-console-standalone-1.10.0.jar
 Specification-Title: Audio-Player
 Specification-Version: 1.4
 Specification-Vendor: Std

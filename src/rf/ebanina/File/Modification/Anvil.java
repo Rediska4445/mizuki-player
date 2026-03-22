@@ -34,7 +34,7 @@ public class Anvil {
                 };
 
                 try (URLClassLoader loader = new URLClassLoader(urls, Anvil.class.getClassLoader());
-                     JarFile jar = new JarFile(jarFile)) {
+                    JarFile jar = new JarFile(jarFile)) {
 
                     Enumeration<JarEntry> entries = jar.entries();
                     while (entries.hasMoreElements()) {

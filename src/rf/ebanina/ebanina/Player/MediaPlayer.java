@@ -7,7 +7,6 @@ import javafx.util.Duration;
 import javazoom.jl.decoder.Bitstream;
 import javazoom.jl.decoder.BitstreamException;
 import javazoom.jl.decoder.Header;
-
 import rf.ebanina.ebanina.Player.AudioEffect.Effector;
 import rf.ebanina.ebanina.Player.AudioEffect.IAudioEffect;
 import rf.ebanina.ebanina.Player.AudioEffect.Tempo.ITempoShifter;
@@ -1513,7 +1512,6 @@ public class MediaPlayer
         return totalDuration.get();
     }
 
-    @Deprecated
     public ITempoShifter iTempoShifter = new TempoShifter();
     /**
      * Устанавливает список VST-плагинов для обработки аудиосигнала.
@@ -2370,7 +2368,7 @@ public class MediaPlayer
 
                 // Применение темпа через определённый алгоритм
                 if(iTempoShifter != null && tempo != 1.000) {
-                    processedBlock = iTempoShifter.applyTempoAndPitchCubic(processedBlock, framesRead, processedBlock.length, tempo);
+                    processedBlock = iTempoShifter.applyTempo(processedBlock, framesRead, processedBlock.length, tempo);
                 }
 
                 int processedFrames = processedBlock[0].length;

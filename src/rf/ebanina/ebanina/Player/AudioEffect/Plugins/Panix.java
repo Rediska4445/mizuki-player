@@ -12,29 +12,81 @@ import rf.ebanina.ebanina.Player.AudioEffect.IAudioEffect;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * Стерео панорамирующий эффект (Panix) для аудиоплеера.
+ * <p>
+ * Создает эффект панорамирования между левым и правым каналами,
+ * изменяя баланс громкости каналов по синусоидальной кривой.
+ * Предназначен для создания пространственных эффектов и стерео-расширения.
+ * </p>
+ *
+ * <h3>Диапазон панорамы:</h3>
+ * <ul>
+ *   <li><strong>-1.0</strong> = полностью правый канал</li>
+ *   <li><strong>0.0</strong> = центр (равная громкость L/R)</li>
+ *   <li><strong>+1.0</strong> = полностью левый канал</li>
+ * </ul>
+ *
+ * <h3>Формула панорамирования:</h3>
+ * <pre>{@code
+ * leftMul  = cos((pan + 1) * π/4)
+ * rightMul = cos((1 - pan) * π/4)
+ * }</pre>
+ *
+ * <p>Косинусная кривая обеспечивает плавный переход без "дыр" в середине.</p>
+ *
+ * <h3>Применение:</h3>
+ * <ul>
+ *   <li>Создание эффекта движения звука L→R или R→L</li>
+ *   <li>Стерео-расширение инструментов</li>
+ *   <li>Позиционирование вокала/инструментов в панораме</li>
+ * </ul>
+ *
+ * @author Ebanina
+ * @version 1.0
+ * @since 1.0
+ */
 public class Panix implements IAudioEffect {
+    /** Текущее значение панорамы (-1.0...+1.0), потокобезопасное */
     private AtomicReference<Float> currentPan = new AtomicReference<>(0.0f);
-
+    /** Состояние активности эффекта */
     private boolean isActive = true;
-
+    /**
+     * Возвращает название плагина для интерфейса.
+     *
+     * @return "Panix"
+     */
     @Override
     public String getName() {
         return "Panix";
     }
-
+    /**
+     * Включает/выключает эффект панорамирования.
+     *
+     * @param isActive true - эффект активен, false - байпас (оригинальный сигнал)
+     */
     @Override
     public void setActive(boolean isActive) {
         this.isActive = isActive;
     }
-
+    /**
+     * Проверяет активность эффекта.
+     *
+     * @return true если панорамирование активно
+     */
     @Override
     public boolean isActive() {
         return isActive;
     }
-
+    /** Слайдер панорамы для GUI */
     private Slider panSlider;
+    /** Метка отображения текущего значения панорамы */
     private Label panLabel;
-
+    /**
+     * Открывает редактор настроек панорамирования.
+     *
+     * @param parent родительское окно JavaFX Stage
+     */
     @Override
     public void openEditor(Stage parent) {
         VBox root = new VBox(10);
@@ -70,7 +122,14 @@ public class Panix implements IAudioEffect {
         parent.setResizable(false);
         parent.show();
     }
-
+    /**
+     * Обрабатывает стерео аудио буфер, применяя панорамирование.
+     * Работает только со стерео (2 канала).
+     *
+     * @param in входной аудио буфер (L, R, ...)
+     * @param frames количество сэмплов в каждом канале
+     * @return панорамированный стерео буфер
+     */
     @Override
     public float[][] process(float[][] in, int frames) {
         if(isActive) {
@@ -93,7 +152,15 @@ public class Panix implements IAudioEffect {
             return in;
         }
     }
-
+    /**
+     * Сохраняет настройки плагина в Map для персистентности.
+     *
+     * @return Map с параметрами:
+     * <ul>
+     *   <li>"plugin.panix.enable" - состояние активности</li>
+     *   <li>"plugin.panix.pan" - текущее значение панорамы</li>
+     * </ul>
+     */
     @Override
     public Map<String, String> load() {
         return Map.of(

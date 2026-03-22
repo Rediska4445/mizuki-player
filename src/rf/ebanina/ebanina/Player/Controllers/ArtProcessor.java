@@ -31,33 +31,154 @@ import static rf.ebanina.UI.Root.PlaylistHandler.playlistSelected;
 import static rf.ebanina.UI.Root.*;
 import static rf.ebanina.UI.UI.Paint.ColorProcessor.*;
 
+/**
+ * <h1>ArtProcessor</h1>
+ * Реализация IArtProcessor для динамической синхронизации цветовой схемы UI с обложками треков.
+ * <p>
+ * Управляет полной анимацией смены обложек: slide/fade/scale эффекты + плавное изменение цветов.
+ * Использует ColorProcessor для извлечения доминирующих цветов и Animations для thread-safe анимаций.
+ * </p>
+ *
+ * <h3>Основной цикл работы:</h3>
+ * <pre>
+ * Track → getAlbumArt() → ColorProcessor → extract colors →
+ * update UI colors → slide/fade/scale animation → setIcon()
+ * </pre>
+ *
+ * <h3>Анимационные параметры:</h3>
+ * <table border="1">
+ *   <tr><th>Параметр</th><th>Значение</th><th>Назначение</th></tr>
+ *   <tr><td>durationIn/Out</td><td>250ms</td><td>Скорость slide анимации</td></tr>
+ *   <tr><td>scaleOutTarget</td><td>0.7</td><td>Масштаб при выезде</td></tr>
+ *   <tr><td>acceleratingInterpolator</td><td>SPLINE(0,0,0.4,1)</td><td>Material Design easing</td></tr>
+ * </table>
+ *
+ * <h3>Threading модель:</h3>
+ * <ul>
+ *   <li>Color analysis: ExecutorService (single thread)</li>
+ *   <li>UI updates: Platform.runLater()</li>
+ *   <li>Animations: Animations.play() (focus-aware)</li>
+ * </ul>
+ *
+ * @author Ebanina Std
+ * @since 1.4.9
+ * @implements IArtProcessor
+ * @see ColorProcessor
+ * @see Animations
+ * @see Track
+ */
 public class ArtProcessor
         implements IArtProcessor
 {
+    /**
+     * Длительность анимации выезда обложки (slide/fade/scale).
+     * <p>
+     * Стандартное значение Material Design: 250ms.
+     * </p>
+     */
     public Duration durationIn = Duration.millis(250);
+    /**
+     * Длительность анимации заезда обложки (slide/fade/scale).
+     * <p>
+     * Стандартное значение Material Design: 250ms.
+     * </p>
+     */
     public Duration durationOut = Duration.millis(250);
-    public final Duration animateColorChangeDura = Duration.millis(250);
-
+    /**
+     * Длительность плавного изменения цветов UI элементов.
+     * <p>
+     * Используется в {@link #animateColorChange}.
+     * </p>
+     */
+    public Duration animateColorChangeDura = Duration.millis(250);
+    /**
+     * Целевой масштаб обложки при выезде (slide out).
+     * <p>
+     * 70% от исходного размера создает эффект "сжатия" при уходе.
+     * </p>
+     */
     public double scaleOutTarget = 0.7;
+    /**
+     * Начальный масштаб обложки при заезде (slide in).
+     * <p>
+     * Синхронизирован с {@link #scaleOutTarget} для плавного перехода.
+     * </p>
+     */
     public double scaleInStart = 0.7;
+    /**
+     * Конечный масштаб обложки (нормальный размер).
+     */
     public double scaleInEnd = 1.0;
-
+    /**
+     * Material Design ускоряющий интерполятор для slide анимаций.
+     * <p>
+     * SPLINE(0.0, 0.0, 0.4, 1.0) — стандартная кривая Material Design:
+     * </p>
+     * <ul>
+     *   <li>Начало: медленное (ease-in)</li>
+     *   <li>Конец: быстрое (ease-out)</li>
+     * </ul>
+     * <p>Используется во всех slide/fade/scale переходах обложек.</p>
+     */
     public Interpolator acceleratingInterpolator = Interpolator.SPLINE(0.0, 0.0, 0.4, 1.0);
-
+    /**
+     * Комплексная анимация выезда обложки.
+     * <p>
+     * Содержит: TranslateTransition + FadeTransition + ScaleTransition.
+     * </p>
+     */
     protected ParallelTransition outTransition;
+    /**
+     * Комплексная анимация заезда обложки.
+     * <p>
+     * Содержит: TranslateTransition + FadeTransition + ScaleTransition.
+     * </p>
+     */
     protected ParallelTransition inTransition;
+    /**
+     * Анимация тени при заезде обложки (inDropShadow).
+     */
     protected Animation inDropShadowAnimation;
+    /**
+     * Анимация тени при выезде обложки (outDropShadow).
+     */
     protected Animation outDropShadowAnimation;
-
-    private final Object imageLock = new Object();
-
+    /**
+     * Мьютекс для thread-safe работы с изображениями обложек.
+     * <p>
+     * Синхронизирует доступ между ExecutorService (color analysis) и FX Platform thread.
+     * </p>
+     * <p>Используется в {@link #initColor} и {@link #initArt}.</p>
+     */
+    protected final Object imageLock = new Object();
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Координирует полное обновление цветовой схемы UI:
+     * тексты → чекбоксы → кнопки.
+     * </p>
+     */
     @Override
     public void updateColors(Color color) {
         updateTextsColors(color);
         updateCheckBoxColors(color);
         updateButtonsColors(color);
     }
-
+    /**
+     * Обновляет цвета hover/pressed состояний всех кнопок приложения.
+     * <p>
+     * <b>Группы кнопок:</b>
+     * </p>
+     * <ul>
+     *   <li>Основные транспортные кнопки (play/pause, next, down)</li>
+     *   <li>Кнопки плейлистов в TrackListView и Similar</li>
+     *   <li>MainButton (если Button)</li>
+     *   <li>Кнопки скрытия панелей (hideControlLeft/Right)</li>
+     * </ul>
+     * <p>
+     * Устанавливает <code>iconHover</code> и <code>bgPressed</code> цвета.
+     * </p>
+     */
     public void updateButtonsColors(Color color) {
         btn.setColorIconHover(color);
         btnNext.setColorIconHover(color);
@@ -94,7 +215,16 @@ public class ArtProcessor
         hideControlLeft.setColorBgPressed(color);
         hideControlRight.setColorBgPressed(color);
     }
-
+    /**
+     * Обновляет цвет текста чекбокса плейлиста с учетом фокуса окна.
+     * <p>
+     * <b>Логика:</b>
+     * </p>
+     * <ul>
+     *   <li>Без фокуса: мгновенная замена цвета</li>
+     *   <li>С фокусом: плавная анимация {@link #animateColorChange}</li>
+     * </ul>
+     */
     public void updateCheckBoxColors(Color color) {
         if(!stage.isFocused()) {
             tracksListView.getBtnPlaylist().setTextFill(color);
@@ -102,9 +232,21 @@ public class ArtProcessor
             animateColorChange(tracksListView.getBtnPlaylist().getTextFill(), color, tracksListView.getBtnPlaylist().textFillProperty());
         }
     }
-
-    // FIXME: Перевести в Animations класс для унифицированного контроля
-    private void updateTextsColors(Color color) {
+    /**
+     * Обновляет цвета текстовых элементов UI.
+     * <p>
+     * <b>FIXME:</b> Требует рефакторинга в класс Animations для унификации.
+     * </p>
+     * <p><b>Элементы:</b></p>
+     * <ul>
+     *   <li>currentArtist, currentTrackName (текущий трек)</li>
+     *   <li>beginTime, endTime (таймеры)</li>
+     *   <li>soundSlider</li>
+     *   <li>SearchBar и PlaylistText в TrackListView/Similar</li>
+     * </ul>
+     * <p><b>Логика:</b> мгновенно (без фокуса) / анимировано (с фокусом)</p>
+     */
+    protected void updateTextsColors(Color color) {
         if(!stage.isFocused()) {
             currentArtist.updateColor(color);
             currentTrackName.updateColor(color);
@@ -129,7 +271,18 @@ public class ArtProcessor
             animateColorChange(similar.getCurrentPlaylistText().getColorProperty().get(), color, similar.getCurrentPlaylistText().getColorProperty());
         }
     }
-
+    /**
+     * Создает плавную анимацию изменения цвета (250ms).
+     * <p>
+     * Thread-safe: запускается через {@link Platform#runLater}.
+     * Гарантирует финальное значение цвета через onFinished.
+     * </p>
+     *
+     * @param startColor начальный цвет
+     * @param endColor целевой цвет
+     * @param colorProperty свойство для анимации
+     * @return Timeline объект анимации
+     */
     protected Timeline animateColorChange(Color startColor, Color endColor, ObjectProperty<Color> colorProperty) {
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.ZERO, new KeyValue(colorProperty, startColor)),
@@ -142,7 +295,17 @@ public class ArtProcessor
 
         return timeline;
     }
-
+    /**
+     * Создает плавную анимацию изменения Paint (Color/LinearGradient).
+     * <p>
+     * Не thread-safe: вызывается только из FX Platform thread.
+     * Используется для stroke/fill анимаций.
+     * </p>
+     *
+     * @param startColor начальный Paint
+     * @param endColor целевой Paint
+     * @param colorProperty свойство для анимации
+     */
     protected void animateColorChange(Paint startColor, Paint endColor, ObjectProperty<Paint> colorProperty) {
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.ZERO, new KeyValue(colorProperty, startColor)),
@@ -151,11 +314,31 @@ public class ArtProcessor
 
         timeline.play();
     }
-
+    /**
+     * Устанавливает цвет фона root Pane с crossfade переходом.
+     * <p>
+     * <b>Логика:</b>
+     * </p>
+     * <ul>
+     *   <li>Устанавливает BackgroundFill для Pane</li>
+     *   <li>Crossfade между background/background_under ImageView</li>
+     * </ul>
+     * <p>Используется при смене обложки альбома.</p>
+     */
     public void setRootColor(Pane pane, Color r, Image image) {
         setRootColor(pane, r, /* previousImageArt */ art != null ? art.getPreviousImage() : image, image);
     }
-
+    /**
+     * {@link #setRootColor(Pane, Color, Image)} с явным previous/current изображениями.
+     * <p>
+     * <b>Crossfade алгоритм:</b>
+     * </p>
+     * <ul>
+     *   <li>background.opacity = 0 → 1 (fade in)</li>
+     *   <li>background_under.opacity = 1 → 0 (fade out)</li>
+     * </ul>
+     * <p>Параллельная анимация длительностью {@code durationIn}.</p>
+     */
     public void setRootColor(Pane pane, Color r, Image previous, Image image) {
         pane.setBackground(new Background(new BackgroundFill(r, CornerRadii.EMPTY, Insets.EMPTY)));
 
@@ -180,7 +363,21 @@ public class ArtProcessor
             parallelTransition.play();
         }
     }
-
+    /**
+     * Создает Timeline для мгновенной установки цвета тени обложки.
+     * <p>
+     * <b>Особенности:</b>
+     * </p>
+     * <ul>
+     *   <li>Длительность: {@code durationIn}</li>
+     *   <li>Однократное выполнение (cycleCount=1)</li>
+     *   <li>Без авто-повтора</li>
+     * </ul>
+     * <p>Используется в {@link #initColor} через {@code Animations.play()}.</p>
+     *
+     * @param c целевой цвет тени
+     * @return Timeline объект
+     */
     public Timeline dropShadowColor(Color c) {
         Timeline timeline = new Timeline(
                 new KeyFrame(durationIn,
@@ -193,9 +390,31 @@ public class ArtProcessor
 
         return timeline;
     }
-
+    /**
+     * Single-thread ExecutorService для анализа цветов изображений.
+     * <p>
+     * Гарантирует последовательную обработку обложек (одна за раз).
+     * </p>
+     */
     protected final ExecutorService service = Executors.newSingleThreadExecutor();
-
+    /**
+     * Инициализация цветовой схемы из обложки альбома (асинхронно).
+     * <p>
+     * <b>Алгоритм:</b>
+     * </p>
+     * <ul>
+     *   <li>Background: ColorProcessor.core.getGeneralColorFromImage</li>
+     *   <li>Thread-safe: imageLock + Platform.runLater</li>
+     *   <li>UI обновления: dropShadow → colors → listViews → background → caption</li>
+     * </ul>
+     * <p>
+     *   <b>Условные блоки:</b>
+     * </p>
+     * <ul>
+     *   <li>"rainbow": updateColors + initListViews</li>
+     *   <li>"is_blur_background": setRootColor crossfade</li>
+     * </ul>
+     */
     public void initColor(Image image) {
         service.submit(() -> {
             synchronized (imageLock) {
@@ -221,8 +440,25 @@ public class ArtProcessor
             }
         });
     }
-
-    private Animation dropShadowTimeLine(Node node, int dura, int newProperties, Interpolator interpolator) {
+    /**
+     * Создает анимацию изменения размера DropShadow эффекта.
+     * <p>
+     * <b>Параметры анимации:</b>
+     * </p>
+     * <ul>
+     *   <li>Анимирует <code>width</code> и <code>height</code> тени одновременно</li>
+     *   <li>От текущих значений → <code>newProperties</code></li>
+     *   <li>Длительность: <code>dura</code> миллисекунд</li>
+     *   <li>Interpolator: произвольный</li>
+     * </ul>
+     *
+     * @param node узел с DropShadow эффектом
+     * @param dura длительность анимации (мс)
+     * @param newProperties новое значение width/height тени
+     * @param interpolator кривая ускорения
+     * @return Timeline анимация
+     */
+    protected Animation dropShadowTimeLine(Node node, int dura, int newProperties, Interpolator interpolator) {
         DropShadow shadow = (DropShadow) node.getEffect();
         Timeline timeline = new Timeline();
         timeline.getKeyFrames().setAll(
@@ -238,12 +474,43 @@ public class ArtProcessor
 
         return timeline;
     }
-
+    /**
+     * Обновляет иконку и заголовок окна Stage в зависимости от фокуса.
+     * <p>
+     * <b>Без фокуса:</b>
+     * </p>
+     * <ul>
+     *   <li>Иконка: обложка альбома {@code art.getImage()}</li>
+     *   <li>Заголовок: "Артист - Трек"</li>
+     * </ul>
+     * <p>
+     *   <b>С фокусом:</b>
+     * </p>
+     * <ul>
+     *   <li>Иконка: логотип приложения {@code logo}</li>
+     *   <li>Заголовок: название приложения {@code Music.name}</li>
+     * </ul>
+     */
     public void setIcon() {
         stage.getIcons().setAll(!stage.isFocused() ? art.getImage() : logo);
         stage.setTitle(!stage.isFocused() ? currentArtist.getText() + " - " + currentTrackName.getText() : Music.name);
     }
-
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Комплексная анимация смены обложки трека с Material Design эффектами.
+     * </p>
+     * <p><b>Этапы анимации:</b></p>
+     * <ol>
+     *   <li>Остановка всех активных анимаций</li>
+     *   <li>Вычисление направления slide (горизонталь/вертикаль)</li>
+     *   <li><b>outTransition:</b> Translate + FadeOut + ScaleOut</li>
+     *   <li><b>inDropShadow:</b> тень → 0px (подготовка)</li>
+     *   <li><b>outTransition.finished:</b> setImage → initColor → inTransition</li>
+     *   <li><b>inTransition:</b> Translate + FadeIn + ScaleIn</li>
+     *   <li><b>outDropShadow:</b> тень → size px</li>
+     * </ol>
+     */
     @Override
     public void initArt(Track track) {
         if (outTransition != null)
@@ -257,8 +524,6 @@ public class ArtProcessor
 
         if (outDropShadowAnimation != null)
             outDropShadowAnimation.stop();
-
-        //previousImageArt = art.getImage();
 
         double width = art.getBoundsInParent().getWidth();
         double height = art.getBoundsInParent().getHeight();
@@ -425,14 +690,40 @@ public class ArtProcessor
             }
         }).start());
     }
-
+    /**
+     * Устанавливает новое изображение обложки с опциональной цветокоррекцией.
+     * <p>
+     * <b>Алгоритм:</b>
+     * </p>
+     * <ul>
+     *   <li>Если <code>core.getHue() != 0</code> и <code>"is_hue_change" = true</code>:
+     *       применяет {@link ColorProcessor#changeHue} с текущим hue значением</li>
+     *   <li>Иначе: использует оригинальное изображение</li>
+     * </ul>
+     * <p>Обновляет {@code art.setImage(img)}.</p>
+     *
+     * @param img оригинальное изображение обложки
+     */
     public void setImage(Image img) {
         if (ColorProcessor.core.getHue() != 0)
             img = ColorProcessor.core.changeHue(img, ConfigurationManager.instance.getBooleanItem("is_hue_change", "true") ? ColorProcessor.core.getHue() : 0);
 
         art.setImage(img);
     }
-
+    /**
+     * Обновляет цветовые схемы всех PlayView в root.
+     * <p>
+     * <b>Итерация:</b> перебор всех дочерних Node root.getChildren()
+     * </p>
+     * <p><b>Обновляемые элементы:</b></p>
+     * <ul>
+     *   <li><code>TrackListView:</code> selectedBackground + borderColor</li>
+     *   <li><code>PlaylistListView:</code> selectedBackground + borderColor</li>
+     * </ul>
+     * <p>Цвет берется из <code>core.getMainClr()</code>.</p>
+     *
+     * <p>Вызывается из {@link #initColor} при <code>"rainbow" = true</code>.</p>
+     */
     public void initListViews() {
           for(Node n : root.getChildren()) {
               if(n instanceof PlayView<?, ?> listView) {

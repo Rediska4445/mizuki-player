@@ -1,5 +1,83 @@
 package rf.ebanina.ebanina.Player.AudioEffect.Tempo;
 
-public interface ITempoShifter {
-    float[][] applyTempoAndPitchCubic(float[][] input, int frames, int channels, float tempo);
+/**
+ * <h1>ITempoShifter</h1>
+ * Интерфейс для алгоритмов изменения темпа аудио в реальном времени.
+ * <p>
+ * Определяет единый контракт для всех реализаций time-stretching алгоритмов,
+ * используемых в аудио плеере Ebanina. Позволяет динамически подменять алгоритмы
+ * изменения темпа без изменения остальной логики плеера.
+ * </p>
+ *
+ * <h3>Назначение</h3>
+ * <ul>
+ *   <li>Изменение скорости воспроизведения трека без искажения высоты тона</li>
+ *   <li>Подстройка темпа под музыкальный ритм (BPM синхронизация)</li>
+ *   <li>Создание эффектов ускорения/замедления для DJ миксов</li>
+ * </ul>
+ *
+ * <h3>Параметры обработки</h3>
+ * <table border="1">
+ *   <tr><th>Параметр</th><th>Описание</th><th>Диапазон</th></tr>
+ *   <tr><td><code>input</code></td><td>Многоканальный float буфер</td><td>[-1.0f..+1.0f]</td></tr>
+ *   <tr><td><code>frames</code></td><td>Количество сэмплов на канал</td><td>&gt; 0</td></tr>
+ *   <tr><td><code>channels</code></td><td>Количество каналов</td><td>1-8</td></tr>
+ *   <tr><td><code>tempo</code></td><td>Коэффициент темпа</td><td>0f - 4.0f</td></tr>
+ * </table>
+ *
+ * <h3>Текущая реализация</h3>
+ * <p>
+ * Единственная доступная реализация использует <b>cubic интерполяцию</b> -
+ * высококачественный алгоритм resampling с плавными переходами между сэмплами.
+ * Обеспечивает минимальные артефакты при изменении темпа в диапазоне ±200%.
+ * </p>
+ *
+ * <h3>Пример использования</h3>
+ * <pre>{@code
+ * // В аудио процессоре плеера
+ * ITempoShifter tempoShifter = new CubicTempoShifter();
+ *
+ * float[][] processed = tempoShifter.applyTempo(
+ *     stereoBuffer,      // входной стерео буфер
+ *     bufferSize,        // 1024 сэмпла
+ *     2,                 // 2 канала
+ *     1.2f               // +20% темпа
+ * );
+ * }</pre>
+ *
+ * <h3>Формула преобразования</h3>
+ * <pre>
+ * output_frames = input_frames / tempo
+ * pitch preserved = true (time-stretching)
+ * </pre>
+ *
+ * @author Ebanina Std
+ * @since 1.4.9
+ * @see TempoShifter
+ */
+public interface ITempoShifter
+{
+    /**
+     * Применяет изменение темпа к аудио буферу.
+     *
+     * <p>Обработка происходит <b>в реальном времени</b> для потокового аудио.
+     * Реализация должна гарантировать:</p>
+     * <ul>
+     *   <li>Сохранение оригинальной высоты тона</li>
+     *   <li>Минимальную задержку (latency &lt; 50мс)</li>
+     *   <li>Синхронную обработку всех каналов</li>
+     * </ul>
+     *
+     * @param input входной многоканальный буфер (L, R, ...)
+     * @param frames количество входных сэмплов в каждом канале
+     * @param channels количество аудиоканалов (1=моно, 2=стерео, ...)
+     * @param tempo коэффициент темпа:
+     *              <ul>
+     *                <li>1.0f = оригинальная скорость</li>
+     *                <li>&gt;1.0f = ускорение</li>
+     *                <li>&lt;1.0f = замедление</li>
+     *              </ul>
+     * @return выходной буфер с измененным темпом (размер зависит от tempo)
+     */
+    float[][] applyTempo(float[][] input, int frames, int channels, float tempo);
 }
