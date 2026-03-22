@@ -27,7 +27,7 @@ public class TracksStatistics
 {
     private TableView<TrackData> table;
     private final String[] allStatsColumns = {
-            Field.fields.get(Field.DataTypes.COUNT_STREAM.code).getEternalName()
+            Field.DataTypes.COUNT_STREAM.code
     };
 
     private ObservableList<TrackData> trackData = FXCollections.observableArrayList();

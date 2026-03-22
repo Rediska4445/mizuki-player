@@ -108,6 +108,7 @@ public class Root
     public static final Map<String, Map.Entry<Point, Dimension>> windowsSizes = new WeakHashMap<>();
 
     public static native void setCaptionColor(long wid, int color);
+    public static native void addJumpListTask(long wid, int color);
 
     public static Root rootImpl = new Root();
 

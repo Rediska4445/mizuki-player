@@ -33,9 +33,6 @@ package rf.ebanina.ebanina.Player.AudioEffect.Tempo;
  * <h3>Преимущества реализации</h3>
  * <ul>
  *   <li><b>Высокое качество</b>: кубическая интерполяция лучше линейной</li>
- *   <li><b>Безопасность</b>: метод {@link #getSampleSafe(float[], int, int)} предотвращает
- *       выход за границы буфера</li>
- *   <li><b>Эффективность</b>: нет дополнительных выделений памяти во время обработки</li>
  *   <li><b>Многоканальность</b>: синхронная обработка всех каналов</li>
  * </ul>
  *
@@ -61,13 +58,13 @@ package rf.ebanina.ebanina.Player.AudioEffect.Tempo;
  * @author Ebanina Std
  * @since 1.4.9
  * @see ITempoShifter
- * @see #cubicInterpolate(float, float, float, float, float)
- * @see #getSampleSafe(float[], int, int)
  * @implements ITempoShifter
  */
 public class TempoShifter
         implements ITempoShifter
 {
+    private static final boolean isNativeProcessing = true;
+
     /**
      * {@inheritDoc}
      * <p>
@@ -88,25 +85,29 @@ public class TempoShifter
      */
     @Override
     public float[][] applyTempo(float[][] input, int frames, int channels, float tempo) {
-        int newFrames = Math.round(frames / tempo);
-        float[][] output = new float[channels][newFrames];
+        if(!isNativeProcessing) {
+            int newFrames = Math.round(frames / tempo);
+            float[][] output = new float[channels][newFrames];
 
-        for (int ch = 0; ch < channels; ch++) {
-            for (int i = 0; i < newFrames; i++) {
-                float srcIndex = i * tempo;
-                int i0 = (int) Math.floor(srcIndex) - 1;
-                float t = srcIndex - (i0 + 1);
+            for (int ch = 0; ch < channels; ch++) {
+                for (int i = 0; i < newFrames; i++) {
+                    float srcIndex = i * tempo;
+                    int i0 = (int) Math.floor(srcIndex) - 1;
+                    float t = srcIndex - (i0 + 1);
 
-                float s0 = getSampleSafe(input[ch], i0, frames);
-                float s1 = getSampleSafe(input[ch], i0 + 1, frames);
-                float s2 = getSampleSafe(input[ch], i0 + 2, frames);
-                float s3 = getSampleSafe(input[ch], i0 + 3, frames);
+                    float s0 = getSampleSafe(input[ch], i0, frames);
+                    float s1 = getSampleSafe(input[ch], i0 + 1, frames);
+                    float s2 = getSampleSafe(input[ch], i0 + 2, frames);
+                    float s3 = getSampleSafe(input[ch], i0 + 3, frames);
 
-                output[ch][i] = cubicInterpolate(s0, s1, s2, s3, t);
+                    output[ch][i] = cubicInterpolate(s0, s1, s2, s3, t);
+                }
             }
-        }
 
-        return output;
+            return output;
+        } else {
+            return nativeShifter.applyTempo(input, frames, channels, tempo);
+        }
     }
     /**
      * Безопасный доступ к сэмплу с обработкой граничных случаев.
@@ -165,4 +166,6 @@ public class TempoShifter
 
         return (a0 * t * t * t) + (a1 * t * t) + (a2 * t) + a3;
     }
+
+    protected static NativeTempoShifter nativeShifter = new NativeTempoShifter();
 }

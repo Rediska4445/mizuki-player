@@ -1,1 +1,0 @@
-last index of (C:\Users\2022\Music\fuckinSHit) = 0;

@@ -1,0 +1,148 @@
+plugins {
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.9.20'
+    id 'maven-publish'
+}
+
+group 'rf.ebanina'
+version '1.4.9'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+    sourceSets {
+        main(({
+            java.srcDirs '../../../src'
+            resources.srcDirs '../../../test'
+        } as String))
+    }
+}
+
+repositories {
+    flatDir dirs: ['../../libraries/modules', '../../libraries/classes']
+}
+
+def libsModulesPath = '../../libraries/modules'
+def libsClassesPath = '../../libraries/classes'
+
+dependencies {
+    // System dependencies (аналог Maven scope=system)
+    implementation files("$libsModulesPath/commons-io-2.6.jar")
+    implementation files("$libsModulesPath/commons-logging-1.3.4.jar")
+    implementation files("$libsClassesPath/jlayer-1.0.1.4.jar")
+    implementation files("$libsModulesPath/controlsfx-11.1.2.jar")
+
+    // JavaFX
+    implementation files("$libsModulesPath/javafx-swt.jar")
+    implementation files("$libsModulesPath/javafx-base.jar")
+    implementation files("$libsModulesPath/javafx-controls.jar")
+    implementation files("$libsModulesPath/javafx-fxml.jar")
+    implementation files("$libsModulesPath/javafx-graphics.jar")
+    implementation files("$libsModulesPath/javafx-media.jar")
+    implementation files("$libsModulesPath/javafx-swing.jar")
+    implementation files("$libsModulesPath/javafx-web.jar")
+
+    // Остальные модули
+    implementation files("$libsModulesPath/jfoenix-9.0.10.jar")
+    implementation files("$libsModulesPath/jna-5.14.0.jar")
+    implementation files("$libsModulesPath/jna-platform-5.14.0.jar")
+    implementation files("$libsModulesPath/jnativehook-2.2.2.jar")
+    implementation files("$libsModulesPath/jsoup-1.10.1.jar")
+    implementation files("$libsModulesPath/lastfm-java-0.1.2.jar")
+    implementation files("$libsModulesPath/mp3agic-0.9.1.jar")
+    implementation files("$libsModulesPath/untitled10.jar")
+
+    // Classes
+    implementation files("$libsClassesPath/ebanina-audio-player.jar")
+    implementation files("$libsClassesPath/ebanina-mod-api.jar")
+    implementation files("$libsClassesPath/jorbis-0.0.17.4.jar")
+    implementation files("$libsClassesPath/JVstHost.jar")
+    implementation files("$libsClassesPath/mp3spi-1.9.5.4.jar")
+    implementation files("$libsClassesPath/tritonus-share-0.3.7.4.jar")
+    implementation files("$libsClassesPath/vorbisspi-1.0.3.3.jar")
+    implementation files("$libsClassesPath/vst3host.jar")
+    implementation files("$libsClassesPath/ebanina-std-utils.jar")
+}
+
+// Пути к ресурсам
+def paths = [
+        license: '../../../license',
+        cache: '../../../cache',
+        config: '../../../config',
+        resources: '../../../res',
+        libs: '../../../libraries'
+]
+
+def buildOutput = 'out'
+
+// JAR с манифестом
+jar {
+    archiveBaseName = 'ebanina'
+    archiveVersion = '1.4.9'
+    destinationDirectory = file(buildOutput)
+
+    manifest {
+        attributes(
+                'Main-Class': 'rf.ebanina.Start',
+                'Class-Path': '''libraries/classes/ebanina-std-utils.jar 
+                libraries/classes/JVstHost.jar libraries/classes/vst3host.jar
+                libraries/classes/jlayer-1.0.1.4.jar libraries/classes/mp3spi-1.9.5.4.jar
+                libraries/classes/ebanina-mod-api.jar libraries/classes/jorbis-0.0.17.4.jar
+                libraries/classes/lastfm-java-0.1.2.jar libraries/classes/vorbisspi-1.0.3.3.jar
+                libraries/classes/ebanina-audio-player.jar libraries/classes/tritonus-share-0.3.7.4.jar
+                libraries/modules/javafx-swt.jar libraries/modules/javafx.web.jar
+                libraries/modules/jna-5.14.0.jar libraries/modules/untitled10.jar
+                libraries/modules/javafx.base.jar libraries/modules/javafx.fxml.jar
+                libraries/modules/javafx.media.jar libraries/modules/javafx.swing.jar
+                libraries/modules/jsoup-1.10.1.jar libraries/modules/mp3agic-0.9.1.jar
+                libraries/modules/commons-io-2.6.jar libraries/modules/jfoenix-9.0.10.jar
+                libraries/modules/javafx.controls.jar libraries/modules/javafx.graphics.jar'''.trim()
+        )
+    }
+}
+
+// Копирование ресурсов (аналог maven-resources-plugin)
+task copyLibraries(type: Copy) {
+    from paths.libs
+    into "$buildOutput/libraries"
+    exclude '**/*test*.jar', '**/testfx*.jar', '**/mockito*.jar',
+            '**/junit*.jar', '**/assertj*.jar', '**/byte*.jar'
+}
+
+task copyResources(type: Copy) {
+    from paths.resources
+    into "$buildOutput/res"
+}
+
+task copyConfig(type: Copy) {
+    from paths.config
+    into "$buildOutput/config"
+}
+
+task copyLicense(type: Copy) {
+    from paths.license
+    into "$buildOutput/license"
+}
+
+task copyLaunchBat(type: Copy) {
+    from 'script/win'
+    include 'launch.bat'
+    into buildOutput
+}
+
+task copyCache(type: Copy) {
+    from paths.cache
+    into "$buildOutput/cache"
+}
+
+// Финальная задача
+task copyAllResources {
+    dependsOn copyLibraries, copyResources, copyConfig, copyLicense, copyLaunchBat, copyCache
+}
+
+build.finalizedBy copyAllResources
+
+// Отключение тестов
+test.enabled = false
+
+compileJava.options.encoding = 'UTF-8'

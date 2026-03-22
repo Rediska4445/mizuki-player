@@ -1,0 +1,4 @@
+array of (app) = [license_agreed=false, full_time=0];
+array of (main_window) = [right_list_open=true, left_list_open=true, width=800.0, layout_x=0.0, layout_y=0.0, height=600.0];
+array of (mediaPlayer) = [volume=1.0, tempo=1.0, pitch=1.0, pan=0.0, pause=false];
+array of (player) = [last_track_index_playlist_local=0, last_track_index_local=0, last_track_time=0.0];

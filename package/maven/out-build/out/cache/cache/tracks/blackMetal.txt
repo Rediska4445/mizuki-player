@@ -1,5 +1,0 @@
-array of (C:\Users\2022\Music\blackMetal\Mayhem - Carnage.mp3) = [volume=1.0, count streams=3, total time played=130.581700107289, tempo=0.9899999499320984, last date=2026-03-10T22:23:59.115704400, time=98, pan=0.0];
-array of (C:\Users\2022\Music\blackMetal\Mayhem - Freezing Moon.mp3) = [volume=1.0, count streams=2, total time played=27.86993202222448, tempo=0.8899999260902405, last date=2026-03-10T22:24:14.541926, time=21, pan=0.0];
-array of (C:\Users\2022\Music\blackMetal\Burzum - Spell Of Destruction.mp3) = [volume=1.0, count streams=1, total time played=2.7198185941043085, tempo=0.9899999499320984, last date=2026-03-10T22:12:25.095764800, time=2, pan=0.0];
-array of (C:\Users\2022\Music\blackMetal\Burzum - War.mp3) = [volume=1.0, count streams=1, total time played=118.5582993197279, tempo=0.9899999499320984, last date=2026-03-10T22:17:57.613096500, time=118, pan=0.0];
-array of (C:\Users\2022\Music\blackMetal\Burzum - Ea, Lord Of The Depths.mp3) = [volume=1.0, count streams=1, total time played=295.4549433106576, count full play=1, tempo=0.9899999499320984, last date=2026-03-10T22:22:53.153450300, pan=0.0];

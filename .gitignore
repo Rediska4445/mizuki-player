@@ -18,3 +18,5 @@ mods/
 session.ini
 /logs/
 /docs/
+/src/rf/ebanina/UI/Editors/Window/
+/test/jfx/jumpList/
