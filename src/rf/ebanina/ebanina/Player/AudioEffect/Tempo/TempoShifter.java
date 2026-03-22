@@ -63,25 +63,60 @@ package rf.ebanina.ebanina.Player.AudioEffect.Tempo;
 public class TempoShifter
         implements ITempoShifter
 {
+    /**
+     * Статический экземпляр нативного процессора темпа.
+     * <p>
+     * Используется для ускоренной обработки аудио через JNI, когда включён флаг
+     * {@link #isNativeProcessing}. Реализация на C++ обеспечивает оптимальную
+     * производительность за счёт прямой работы с памятью и отсутствия накладных
+     * расходов Java-объектов.
+     * </p>
+     */
+    protected static NativeTempoShifter nativeShifter = new NativeTempoShifter();
+    /**
+     * Флаг, определяющий режим обработки темпа.
+     * <p>
+     * <b>{@code true}</b> — используется нативная реализация через JNI
+     * ({@link NativeTempoShifter#applyTempoNative}), что рекомендуется для
+     * продакшена и обеспечивает максимальную производительность.<br>
+     * <b>{@code false}</b> — используется чистая Java-реализация с кубической
+     * интерполяцией (для отладки или платформ без нативной библиотеки).
+     * </p>
+     * <p>По умолчанию: {@code true}</p>
+     */
     private static final boolean isNativeProcessing = true;
-
     /**
      * {@inheritDoc}
      * <p>
      * <b>Алгоритм обработки:</b>
      * </p>
+     * <p>
+     * В зависимости от флага {@code isNativeProcessing} используется один из двух режимов:
+     * </p>
      * <ol>
-     *   <li>Вычисляется количество выходных сэмплов: <code>newFrames = frames / tempo</code></li>
-     *   <li>Для каждого канала и каждого выходного сэмпла:
+     *   <li><b>Нативный режим ({@code isNativeProcessing = true}):</b>
      *     <ul>
-     *       <li>Определяется дробная позиция в исходном буфере</li>
-     *       <li>Берутся 4 соседних сэмпла с защитой от выхода за границы</li>
-     *       <li>Применяется кубическая интерполяция</li>
+     *       <li>Обработка делегируется экземпляру {@link NativeTempoShifter}</li>
+     *       <li>Реализация на JNI обеспечивает оптимальную производительность</li>
+     *       <li>Рекомендуется для продакшена</li>
+     *     </ul>
+     *   </li>
+     *   <li><b>Java-режим ({@code isNativeProcessing = false}):</b>
+     *     <ul>
+     *       <li>Вычисляется количество выходных сэмплов: {@code newFrames = frames / tempo}</li>
+     *       <li>Для каждого канала и каждого выходного сэмпла:
+     *         <ul>
+     *           <li>Определяется дробная позиция в исходном буфере</li>
+     *           <li>Берутся 4 соседних сэмпла с защитой от выхода за границы</li>
+     *           <li>Применяется кубическая интерполяция</li>
+     *         </ul>
+     *       </li>
      *     </ul>
      *   </li>
      * </ol>
      *
-     * <p><b>Сложность:</b> O(channels × newFrames × 4) = линейная</p>
+     * <p><b>Сложность (Java-режим):</b> O(channels × newFrames × 4) = линейная</p>
+     * <p><b>Примечание:</b> по умолчанию активен нативный режим</p>
      */
     @Override
     public float[][] applyTempo(float[][] input, int frames, int channels, float tempo) {
@@ -135,6 +170,7 @@ public class TempoShifter
             return data[maxIndex];
         return data[index];
     }
+
     /**
      * Кубическая интерполяция Catmull-Rom между 4 соседними сэмплами.
      * <p>
@@ -166,6 +202,4 @@ public class TempoShifter
 
         return (a0 * t * t * t) + (a1 * t * t) + (a2 * t) + a3;
     }
-
-    protected static NativeTempoShifter nativeShifter = new NativeTempoShifter();
 }

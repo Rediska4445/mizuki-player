@@ -107,6 +107,40 @@ extern "C" {
         return a0 * t * t * t + a1 * t * t + a2 * t + a3;
     }
 
+    /**
+    * Нативная реализация изменения темпа аудио через JNI.
+    *
+    * <p><b>Алгоритм:</b></p>
+    * <ol>
+    *   <li>Вычисляется количество выходных сэмплов: {@code newFrames = round(frames / tempo)}</li>
+    *   <li>Для каждого канала:
+    *     <ul>
+    *       <li>Получаются указатели на данные входного и выходного Java-массивов через JNI</li>
+    *       <li>Для каждого выходного сэмпла вычисляется дробная позиция в исходном буфере</li>
+    *       <li>Берутся 4 соседних сэмпла с защитой от выхода за границы ({@code getSampleSafe})</li>
+    *       <li>Применяется кубическая интерполяция ({@code cubicInterpolate})</li>
+    *       <li>Результат записывается в выходной массив</li>
+    *     </ul>
+    *   </li>
+    *   <li>Освобождаются JNI-ссылки и массивы</li>
+    * </ol>
+    *
+    * <p><b>Параметры:</b></p>
+    * <ul>
+    *   <li>{@code input} — Java 2D-массив {@code float[][]} со входными данными [channels][frames]</li>
+    *   <li>{@code frames} — количество входных сэмплов на канал</li>
+    *   <li>{@code channels} — количество каналов</li>
+    *   <li>{@code tempo} — коэффициент темпа (>1 ускорение, <1 замедление)</li>
+    *   <li>{@code output} — Java 2D-массив {@code float[][]} для выходных данных (должен быть выделен заранее)</li>
+    * </ul>
+    *
+    * <p><b>Возвращает:</b> количество выходных сэмплов ({@code newFrames})</p>
+    *
+    * <p><b>Сложность:</b> O(channels × newFrames × 4) = линейная</p>
+    *
+    * <p><b>Примечание:</b> функция использует {@code JNI_ABORT} для входных массивов,
+    * чтобы избежать лишнего копирования данных обратно в Java.</p>
+    */
     JNIEXPORT jint JNICALL
     Java_rf_ebanina_ebanina_Player_AudioEffect_Tempo_NativeTempoShifter_applyTempoNative(
         JNIEnv *env, jobject thiz, jobjectArray input, jint frames, jint channels,
@@ -117,13 +151,11 @@ extern "C" {
             jfloatArray inputChannel = (jfloatArray)env->GetObjectArrayElement(input, ch);
             jfloatArray outputChannel = (jfloatArray)env->GetObjectArrayElement(output, ch);
 
-            // ← ИСПРАВЛЕНИЕ 2:
             jboolean isCopyIn;
             jfloat *inData = env->GetFloatArrayElements(inputChannel, &isCopyIn);
             jfloat *outData = env->GetFloatArrayElements(outputChannel, nullptr);
             jsize inputLength = env->GetArrayLength(inputChannel);
 
-            // ← ИСПРАВЛЕНИЕ 1 применяется здесь:
             for (int i = 0; i < newFrames; i++) {
                 float srcIndex = i * tempo;
                 int i0 = (int)std::floor(srcIndex) - 1;
@@ -142,6 +174,7 @@ extern "C" {
             env->DeleteLocalRef(inputChannel);
             env->DeleteLocalRef(outputChannel);
         }
+
         return newFrames;
     }
 }
