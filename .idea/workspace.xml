@@ -13,355 +13,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6c0e77de-da29-42b4-b2d8-b57043699344" name="Changes" comment="Readme updated">
-      <change afterPath="$PROJECT_DIR$/modules/native/JumpList/JumpList.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/package/build/raw/win/build.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/package/build/raw/win/clear/shared.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/package/cache/shared.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/build/build_mizuka.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/build/download_mizuki.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/build/lin/zip_out.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/build/win/zip_out.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/build/zip_out.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/utility/get_lines.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/rf/ebanina/ebanina/Player/AudioEffect/Tempo/NativeTempoShifter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="6c0e77de-da29-42b4-b2d8-b57043699344" name="Changes" comment="Root: LicenseDialog updated to AnimationDialog">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cache/cache/history.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cache/cache/history.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cache/shared.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cache/shared.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/Руководство пользователя.docx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/modules/ebanina-std-utils" beforeDir="false" afterPath="$PROJECT_DIR$/modules/ebanina-std-utils" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modules/ebanina-vst-ipc-host" beforeDir="false" afterPath="$PROJECT_DIR$/modules/ebanina-vst-ipc-host" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/native/DWM/dwm.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/native/DWM/dwm.exp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/native/DWM/dwm.lib" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Configuration/Configurations.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Modification/Anvil.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Modification/Anvil.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/META-INF/MANIFEST.MF" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$ButtonHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$ButtonHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$Layout.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$Layout.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$PlaylistHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$PlaylistHandler.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$SimilarListView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$SimilarListView.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$SliderHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$SliderHandler.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$TrackListView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$TrackListView.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/ListViews/ListCells/AnimatedListCell.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/ListViews/ListCells/AnimatedListCell.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/AudioEffect/Tempo/TempoShifter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/AudioEffect/Tempo/TempoShifter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/Controllers/MediaProcessor$MediaParameters.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/Controllers/MediaProcessor$MediaParameters.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/Controllers/MediaProcessor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/Controllers/MediaProcessor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/Controllers/Playlist/IPlayProcessor.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/Controllers/Playlist/IPlaylistProcessor.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/Controllers/Playlist/IProcessor.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/Controllers/Playlist/PlayProcessor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/Controllers/Playlist/PlayProcessor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/Ebanina-VST/ebanina/gui/PlayViewTestApp.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/Ebanina-VST/ebanina/gui/PlayViewTestApp.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/gradle/out-build/.gradle/7.5.1/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/package/build/gradle/.gradle/7.5.1/checksums/checksums.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/gradle/out-build/.gradle/7.5.1/fileChanges/last-build.bin" beforeDir="false" afterPath="$PROJECT_DIR$/package/build/gradle/.gradle/7.5.1/fileChanges/last-build.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/gradle/out-build/.gradle/7.5.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/package/build/gradle/.gradle/7.5.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/gradle/out-build/.gradle/7.5.1/gc.properties" beforeDir="false" afterPath="$PROJECT_DIR$/modules/native/TempoShifter/tempo_shifter.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/gradle/out-build/.gradle/vcs-1/gc.properties" beforeDir="false" afterPath="$PROJECT_DIR$/package/build/gradle/.gradle/7.5.1/gc.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/gradle/out-build/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/package/build/gradle/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/in-build/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/package/build/maven/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/launch.bat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/history.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/playlists/27VbyГрустногоФонка.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/playlists/Minor.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/playlists/Music.txt" beforeDir="false" afterPath="$PROJECT_DIR$/package/build/gradle/.gradle/vcs-1/gc.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/playlists/MusicEnded.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/playlists/Musica.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/playlists/Musics.txt" beforeDir="false" afterPath="$PROJECT_DIR$/package/build/raw/win/clear/history.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/playlists/PostPunk.txt" beforeDir="false" afterPath="$PROJECT_DIR$/package/cache/cache/history.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/playlists/atmosphere.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/playlists/b.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/playlists/blackMetal.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/playlists/chill.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/playlists/claPhonk.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/playlists/crypee.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/playlists/formats-test.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/playlists/fuckinSHit.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/playlists/ijustwannadie.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/playlists/inet - test.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/playlists/lol.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/playlists/memphis.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/playlists/new PLaylist.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/playlists/newPlaylist1.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/playlists/new_playlist.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/playlists/old memphis.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/playlists/older.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/playlists/pitcher.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/playlists/plenka.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/playlists/rap.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/playlists/south side.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/playlists/ssshiiiiiiiiiiiii.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/playlists/trap metal.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/playlists/wav - test.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/playlists/Новая.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/tracks/27VbyГрустногоФонка.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/tracks/Minor.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/tracks/Music.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/tracks/MusicEnded.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/tracks/Musica.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/tracks/Musics.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/tracks/PostPunk.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/tracks/atmosphere.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/tracks/b.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/tracks/blackMetal.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/tracks/chill.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/tracks/claPhonk.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/tracks/crypee.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/tracks/fuckinSHit.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/tracks/ijustwannadie.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/tracks/inet - test.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/tracks/lol.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/tracks/memphis.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/tracks/new PLaylist.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/tracks/newPlaylist1.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/tracks/old memphis.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/tracks/older.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/tracks/pitcher.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/tracks/plenka.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/tracks/rap.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/tracks/south side.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/tracks/ssshiiiiiiiiiiiii.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/tracks/tags/C__Users_2022_Music_27VbyГрустногоФонка_FORGOTTENAGE_-_End_of_the_World_(musmore.com).mp3.tags" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/tracks/trap metal.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/tracks/wav - test.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/cache/tracks/Новая.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/cache/shared.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/config/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/config/host/ipc.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/config/log/log.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/config/media.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/config/settings.cfg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/config/ui.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/launch.bat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/JumpListDll.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-core-console-l1-1-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-core-console-l1-2-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-core-datetime-l1-1-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-core-debug-l1-1-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-core-errorhandling-l1-1-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-core-file-l1-1-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-core-file-l1-2-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-core-file-l2-1-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-core-handle-l1-1-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-core-heap-l1-1-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-core-interlocked-l1-1-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-core-libraryloader-l1-1-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-core-localization-l1-2-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-core-memory-l1-1-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-core-namedpipe-l1-1-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-core-processenvironment-l1-1-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-core-processthreads-l1-1-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-core-processthreads-l1-1-1.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-core-profile-l1-1-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-core-rtlsupport-l1-1-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-core-string-l1-1-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-core-synch-l1-1-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-core-synch-l1-2-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-core-sysinfo-l1-1-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-core-timezone-l1-1-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-core-util-l1-1-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-crt-conio-l1-1-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-crt-convert-l1-1-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-crt-environment-l1-1-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-crt-filesystem-l1-1-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-crt-heap-l1-1-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-crt-locale-l1-1-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-crt-math-l1-1-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-crt-multibyte-l1-1-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-crt-private-l1-1-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-crt-process-l1-1-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-crt-runtime-l1-1-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-crt-stdio-l1-1-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-crt-string-l1-1-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-crt-time-l1-1-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/api-ms-win-crt-utility-l1-1-0.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/decora_sse.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/dwm.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/fxplugins.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/glass.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/glib-lite.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/gstreamer-lite.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/javafx_font.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/javafx_iio.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/jfxmedia.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/msvcp140.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/msvcp140_1.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/msvcp140_2.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/prism_common.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/prism_d3d.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/prism_sw.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/ucrtbase.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/vcruntime140.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/vcruntime140_1.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/bin/vst3/editorhost.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/classes/JVstHost.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/classes/ebanina-audio-player.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/classes/ebanina-mod-api.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/classes/ebanina-std-utils.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/classes/jlayer-1.0.1.4.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/classes/jorbis-0.0.17.4.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/classes/jvsthost2.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/classes/lastfm-java-0.1.2.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/classes/mp3spi-1.9.5.4.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/classes/tritonus-share-0.3.7.4.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/classes/vorbisspi-1.0.3.3.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/classes/vst3host.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/modules/JNativeHook.x86_64.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/modules/commons-io-2.6.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/modules/commons-logging-1.3.4.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/modules/controlsfx-11.1.2.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/modules/javafx-swt.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/modules/javafx.base.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/modules/javafx.controls.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/modules/javafx.fxml.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/modules/javafx.graphics.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/modules/javafx.media.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/modules/javafx.swing.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/modules/javafx.web.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/modules/jfoenix-9.0.10.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/modules/jna-5.14.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/modules/jna-platform-5.14.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/modules/jnativehook-2.2.2.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/modules/jsoup-1.10.1.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/modules/lastfm-java-0.1.2.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/modules/mp3agic-0.9.1.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/libraries/modules/untitled10.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/license/LICENSE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/license/en/LICENSE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/license/en/java/LICENSE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/license/en/java/javafx/LICENSE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/license/en/similar/apple/LICENSE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/license/en/similar/lastfm/LICENSE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/license/en/similar/soundcloud/LICENSE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/license/en/similar/spotify/LICENSE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/license/en/steinberg/LICENSE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/license/ru/LICENSE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/license/ru/java/LICENSE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/license/ru/java/javafx/LICENSE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/license/ru/similar/apple/LICENSE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/license/ru/similar/lastfm/LICENSE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/license/ru/similar/soundcloud/LICENSE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/license/ru/similar/spotify/LICENSE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/license/ru/steinberg/LICENSE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/META-INF/MANIFEST.MF" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/audio/intro_cassette.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/lang/win/DE_de.locale" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/lang/win/EN_en.locale" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/lang/win/ES_es.locale" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/lang/win/FI_fi.locale" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/lang/win/FR_fr.locale" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/lang/win/GA_ga.locale" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/lang/win/JP_jp.locale" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/lang/win/KO_ko.locale" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/lang/win/NB_nb.locale" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/lang/win/PL_pl.locale" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/lang/win/RU_ru.locale" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/lang/win/SV_sv.locale" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/lang/win/TR_tr.locale" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/lang/win/ZH_zh.locale" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/lang/win/ar_SA.locale" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/lang/win/hi_IN.locale" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/lang/win/vi_VN.locale" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/layouts/DownloadInet.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/layouts/Metadata.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/layouts/MetadataPlaylist.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/layouts/Settings.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/layouts/TagEditor.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/layouts/host/AudioHost.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/layouts/host/tabs/AudioEffects.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/layouts/host/tabs/AudioPlugins.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/layouts/host/tabs/Automation.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/layouts/host/tabs/Settings.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/mods/ebanina-std-mod-controller.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/mods/mizuka-std-images/75049c81a01f04e853e11fe3c1cb3b56_3598286243574336159.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/mods/mizuka-std-images/7gvO4ktCQ5o7KIIk9OykGwTT6YThFbYPxyzlcnxQch83pXoBEiLKdGle1fZiGHh8rkdoe9ubwYGcH56iOkA24y7a.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/mods/mizuka-std-images/A759cdrceT4f-WDvLC4-gEK1z6pbqZI9ljUOZid_uAgio0hsjzRbtBVByULWrMEsWPR5kEg4cXsVVBAePcVTAkVw.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/mods/mizuka-std-images/Kafka-(Honkai-Star-Rail)-Honkai-Star-Rail-Игры-9108451.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/mods/mizuka-std-images/YXvyeYZsASGiXGgXpcJR3ELsuaoH5iQ51XAcTzP7kLvHZkAHhkvlGlVqoTBCHv9fWHO2XpE_wEZ2HjGiEoCjPHEl.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/mods/mizuka-std-images/_1hnboanX3Y-Askk0mbSOXoh7fVn4HVLFpkO-G8IBf3ZHa6QmRue6DH_dGCdw3lbm58mtb_LUtdGWbizNa3hoNt9.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/mods/mizuka-std-images/azu9t29x7q9b1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/mods/mizuka-std-images/frgr.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/mods/mizuka-std-images/images.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/mods/mizuka-std-images/kafka-s-little-pet.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/mods/mizuka-std-images/kec0qrioI-PaZiUqm7M-h3GxH-2yOB3ESx8iAKFNvpSadvUG6YGwCZ_i16iDGcenh6wgNOFiG4eQi8OecUQzX6yt.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/mods/mizuka-std-images/miss-kafka-s-pet.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/mods/mizuka-std-images/n9ls8blxkxeb1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/mods/mizuka-std-images/p5LSPlg7_Nk6hlq32KfYkVvb9nZkRxcN-8SITFPB_sSHouVB2zFMt13d9O9U7x97p8wMt4dkyB8KeuQ-t0GyAczh.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/mods/mizuka-std-images/photo_2026-02-06_20-18-48.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/mods/mizuka-std-images/photo_2026-02-07_02-02-22.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/mods/mizuka-std-images/photo_2026-02-09_01-22-07.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/mods/mizuka-std-images/photo_2026-02-13_00-33-56.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/mods/mizuka-std-images/photo_2026-02-13_00-34-12.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/mods/mizuka-std-images/qe7exton.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/mods/mizuka-std-images/real_seks.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/mods/mizuka-std-images/rt.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/mods/mizuka-std-images/wdn2spm73zeb1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/mods/mizuka-std-images/xeDhiBrJ-Zu7zB_r0kYi_efEUTlH8b9Rg20M5STGt_GcukwbtpMhbzSAjFEQpP3hgsFQmi8tnnXljjB9odDo68Px.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/mods/mizuka-std-images/Без названия.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/resources.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/styles/button-2.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/styles/button.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/styles/context-menu-style.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/styles/listview.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/styles/pantyhose/context-menu-style.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/styles/root.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/styles/scrollbar-fixed-width.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/styles/scrollpane-scroll-bar.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/styles/slider-custom.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/styles/tabpane.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/styles/textfield.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/styles/vsthost.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/styles/windows-11/context-menu.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/visual/fonts/AbismoSangriento-Regular.otf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/visual/fonts/Blackcraft.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/visual/fonts/Comfortaa/Comfortaa-VariableFont_wght.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/visual/fonts/Comfortaa/OFL.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/visual/fonts/Comfortaa/README.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/visual/fonts/Comfortaa/static/Comfortaa-Bold.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/visual/fonts/Comfortaa/static/Comfortaa-Light.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/visual/fonts/Comfortaa/static/Comfortaa-Medium.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/visual/fonts/Comfortaa/static/Comfortaa-Regular.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/visual/fonts/Comfortaa/static/Comfortaa-SemiBold.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/visual/fonts/Darkness-Regular.otf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/visual/fonts/main_fonta.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/visual/fonts/onimsi.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/visual/gui/icons/apple.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/visual/gui/icons/hitmos.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/visual/gui/icons/lastfm.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/visual/gui/icons/lastfm_icon.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/visual/gui/icons/lightaudio.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/visual/gui/icons/musmore.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/visual/gui/icons/playlist.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/visual/gui/icons/sound_cloud.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/visual/gui/icons/spotify.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/visual/gui/icons/spotify_icon.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/visual/gui/logo.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/visual/gui/svgs/buttons/commons.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/visual/gui/svgs/buttons/hide_left.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/visual/gui/svgs/buttons/hide_right.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/visual/gui/svgs/buttons/next.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/visual/gui/svgs/buttons/next_playlist.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/visual/gui/svgs/buttons/pause.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/visual/gui/svgs/buttons/play.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/visual/gui/svgs/buttons/playlist.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/visual/gui/svgs/buttons/playlist_delete_from_app.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/visual/gui/svgs/buttons/playlist_delete_from_disk.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/visual/gui/svgs/buttons/prev.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/res/visual/gui/svgs/buttons/prev_playlist.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/out/session.ini" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/package/build/maven/target/maven-archiver/pom.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/package/build/maven/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/package/build/maven/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/wrapper/maven-wrapper.jar" beforeDir="false" afterPath="$PROJECT_DIR$/package/build/maven/wrapper/maven-wrapper.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package/maven/out-build/wrapper/maven-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/package/build/maven/wrapper/maven-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/launch.bat" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/launch.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/File/Configuration/Configurations.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/File/Modification/Anvil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/File/Modification/Anvil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Statistics/Playlist/TracksStatistics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Statistics/Playlist/TracksStatistics.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/Root.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/Root.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/ebanina/Player/AudioEffect/Tempo/TempoShifter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/ebanina/Player/AudioEffect/Tempo/TempoShifter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/build/zip_out.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/build/zip_out.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/LicenseDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/LicenseDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/ListViews/Playlist/Query.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/ListViews/Playlist/Query.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/ebanina/Player/AudioEffect/Tempo/NativeTempoShifter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/ebanina/Player/AudioEffect/Tempo/NativeTempoShifter.java" afterDir="false" />
     </list>
     <list id="5ed49a8f-afa2-4524-ad67-e8d465af08df" name="Add" comment="TextField: Simply animations added, JavaDocs added." />
     <option name="SHOW_DIALOG" value="false" />
@@ -791,27 +460,6 @@
       <option name="presentableId" value="Default" />
       <updated>1751373119676</updated>
     </task>
-    <task id="LOCAL-00082" summary="Java-Docs added">
-      <created>1767389735971</created>
-      <option name="number" value="00082" />
-      <option name="presentableId" value="LOCAL-00082" />
-      <option name="project" value="LOCAL" />
-      <updated>1767389735972</updated>
-    </task>
-    <task id="LOCAL-00083" summary="Java-Docs added">
-      <created>1767736849525</created>
-      <option name="number" value="00083" />
-      <option name="presentableId" value="LOCAL-00083" />
-      <option name="project" value="LOCAL" />
-      <updated>1767736849525</updated>
-    </task>
-    <task id="LOCAL-00084" summary="Java-Docs added">
-      <created>1767741252562</created>
-      <option name="number" value="00084" />
-      <option name="presentableId" value="LOCAL-00084" />
-      <option name="project" value="LOCAL" />
-      <updated>1767741252563</updated>
-    </task>
     <task id="LOCAL-00085" summary="Minor bugs fixed">
       <created>1767744077796</created>
       <option name="number" value="00085" />
@@ -1134,7 +782,28 @@
       <option name="project" value="LOCAL" />
       <updated>1774200710773</updated>
     </task>
-    <option name="localTasksCounter" value="131" />
+    <task id="LOCAL-00131" summary="Updates Scripts, Added new Java-Docs.">
+      <created>1774219708703</created>
+      <option name="number" value="00131" />
+      <option name="presentableId" value="LOCAL-00131" />
+      <option name="project" value="LOCAL" />
+      <updated>1774219708703</updated>
+    </task>
+    <task id="LOCAL-00132" summary="Minor refactor in TempoShifter.java and tempo_shifter.cpp">
+      <created>1774220298354</created>
+      <option name="number" value="00132" />
+      <option name="presentableId" value="LOCAL-00132" />
+      <option name="project" value="LOCAL" />
+      <updated>1774220298354</updated>
+    </task>
+    <task id="LOCAL-00133" summary="Root: LicenseDialog updated to AnimationDialog">
+      <created>1774221458280</created>
+      <option name="number" value="00133" />
+      <option name="presentableId" value="LOCAL-00133" />
+      <option name="project" value="LOCAL" />
+      <updated>1774221458280</updated>
+    </task>
+    <option name="localTasksCounter" value="134" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -1260,9 +929,6 @@
       <path value="$PROJECT_DIR$/modules/ebanina-vst-ipc-host" />
       <path value="$PROJECT_DIR$/modules/untitled10" />
     </ignored-roots>
-    <MESSAGE value="NetworkHost: New view from Dialog.java" />
-    <MESSAGE value="Tags: New view from Dialog.java" />
-    <MESSAGE value="TextField: Fix exception which thrown in updateColor" />
     <MESSAGE value="Dialog: JavaDocs" />
     <MESSAGE value="TextField: Null bind exception fixed" />
     <MESSAGE value="Track Metadata View: New view type of window" />
@@ -1285,7 +951,10 @@
     <MESSAGE value="Minor updates in all project" />
     <MESSAGE value="New Java-Docs and minor update in all project (scripts, src, tests, etc.)" />
     <MESSAGE value="Readme updated" />
-    <option name="LAST_COMMIT_MESSAGE" value="Readme updated" />
+    <MESSAGE value="Updates Scripts, Added new Java-Docs." />
+    <MESSAGE value="Minor refactor in TempoShifter.java and tempo_shifter.cpp" />
+    <MESSAGE value="Root: LicenseDialog updated to AnimationDialog" />
+    <option name="LAST_COMMIT_MESSAGE" value="Root: LicenseDialog updated to AnimationDialog" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">

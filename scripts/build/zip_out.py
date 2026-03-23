@@ -26,7 +26,7 @@ def zip_out_folder():
                 file_path = Path(root) / file
                 arcname = file_path.relative_to(out_dir.parent)
                 zf.write(file_path, arcname)
-                print(f"  📄 {arcname}")
+                print(f"  {arcname}")
 
     print(f"ГОТОВО: {zip_name} ({os.path.getsize(zip_name)/1024/1024:.1f} MB)")
     return 0

@@ -3,7 +3,7 @@ Main-Class: rf.ebanina.Start
 Implementation-Title: Ebanina
 Implementation-Version: 1.4.x
 Implementation-Vendor: Std
-Created-By: rediska
+Created-By: Ebanina Std.
 Class-Path: libraries\classes\ebanina-std-utils.jar
                     
              libraries/classes/JVstHost.jar libraries/classes/vst3host.j

@@ -5,6 +5,7 @@ import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -54,7 +55,7 @@ import rf.ebanina.File.Resources.ResourceManager;
  * @see TextFlow
  */
 public class LicenseDialog
-        extends Dialog
+        extends AnimationDialog
 {
     /**
      * Прокручиваемая область с текстом лицензии (фиксированная высота 400px).
@@ -81,8 +82,8 @@ public class LicenseDialog
      * @param licenseText полный текст лицензии для отображения
      * @param btnText текст на кнопке принятия
      */
-    public LicenseDialog(Stage ownerStage, String title, String licenseText, String btnText) {
-        super(ownerStage);
+    public LicenseDialog(Stage ownerStage, Pane root, String title, String licenseText, String btnText) {
+        super(ownerStage, root);
 
         Label titleLabel = new Label(title.toUpperCase());
         titleLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: white; -fx-font-size: 16px;");
