@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mizuka — Введение</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<div class="layout">
+    <aside id="sidebar">
+        <button class="mobile-toggle" onclick="toggleSidebar()">☰ Меню</button>
+
+        <!-- КНОПКИ -->
+        <div class="sidebar-buttons">
+            <button class="sidebar-btn" data-page="pages/home.html">
+                <span class="btn-icon">🏠</span> О проекте
+            </button>
+            <button class="sidebar-btn" data-page="pages/changelog.html">
+                <span class="btn-icon">📝</span> Changelog
+            </button>
+            <button class="sidebar-btn" data-page="pages/contributing.html">
+                <span class="btn-icon">🤝</span> Вклад
+            </button>
+        </div>
+
+        <!-- ДЕРЕВО -->
+        <div class="tree-section">
+            <div class="tree-group-title">Введение</div>
+            <ul class="tree-nav">
+                <li>
+                    <div class="tree-node expanded" onclick="toggleTreeNode(this)">
+                        <span class="tree-marker"></span>
+                        <span class="tree-link">Введение</span>
+                    </div>
+                    <ul class="open">
+                        <li><a href="pages/introduction.html" class="tree-node tree-link" data-page="pages/introduction.html">Обзор</a></li>
+                        <li><a href="pages/quickstart.html" class="tree-node tree-link" data-page="pages/quickstart.html">Быстрый старт</a></li>
+                        <li><a href="pages/introduction.html#architecture" class="tree-node tree-link" data-page="pages/introduction.html#architecture">Архитектура</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="tree-section">
+            <div class="tree-group-title">Компоненты</div>
+            <ul class="tree-nav">
+                <li>
+                    <div class="tree-node" onclick="toggleTreeNode(this)">
+                        <span class="tree-marker"></span>
+                        <span class="tree-link">Компоненты</span>
+                    </div>
+                    <ul>
+                        <li><a href="pages/components.html#dialog" class="tree-node tree-link" data-page="pages/components.html#dialog">AnimationDialog</a></li>
+                        <li><a href="pages/components.html#root" class="tree-node tree-link" data-page="pages/components.html#root">Root</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="tree-section">
+            <div class="tree-group-title">Анимации</div>
+            <ul class="tree-nav">
+                <li>
+                    <div class="tree-node" onclick="toggleTreeNode(this)">
+                        <span class="tree-marker"></span>
+                        <span class="tree-link">Анимации</span>
+                    </div>
+                    <ul>
+                        <li><a href="pages/animations.html#transitions" class="tree-node tree-link" data-page="pages/animations.html#transitions">Переходы</a></li>
+                        <li><a href="pages/animations.html#lifecycle" class="tree-node tree-link" data-page="pages/animations.html#lifecycle">Жизненный цикл</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="tree-section">
+            <div class="tree-group-title">API Reference</div>
+            <ul class="tree-nav">
+                <li>
+                    <div class="tree-node" onclick="toggleTreeNode(this)">
+                        <span class="tree-marker"></span>
+                        <span class="tree-link">API</span>
+                    </div>
+                    <ul>
+                        <li><a href="pages/api.html#properties" class="tree-node tree-link" data-page="pages/api.html#properties">Свойства</a></li>
+                        <li><a href="pages/api.html#methods" class="tree-node tree-link" data-page="pages/api.html#methods">Методы</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </aside>
+
+    <main id="content-area">
+        <section id="intro">
+            <h1>Введение в Mizuka</h1>
+            <p>
+                <strong>Mizuka</strong> — это высокопроизводительный фреймворк на базе <strong>JavaFX</strong>, разработанный для создания современных десктопных приложений с премиальным пользовательским интерфейсом.
+            </p>
+            <p>
+                В отличие от стандартных подходов к разработке UI на JavaFX, Mizuka делает акцент на:
+            </p>
+            <ul>
+                <li><strong>Сложных анимациях</strong>: плавные переходы, bounce-эффекты, параллельные переходы (ParallelTransition).</li>
+                <li><strong>Кастомных визуальных эффектах</strong>: динамические тени, границы с градиентом, полупрозрачные оверлеи.</li>
+                <li><strong>Строгом жизненном цикле</strong>: четкая система коллбэков <code>onShow</code> и <code>onHide</code> для интеграции бизнес-логики.</li>
+                <li><strong>Темной теме</strong>: встроенные стили по умолчанию (цвет фона <code>#1E1E1E</code>).</li>
+            </ul>
+
+            <div class="note">
+                <strong>Версия:</strong> 0.1.4.4 | <strong>Автор:</strong> Ebanina Std | <strong>Требования:</strong> Java 17+
+            </div>
+
+            <h2 id="architecture">Архитектура</h2>
+            <p>
+                Фреймворк построен по модульному принципу, напоминающему архитектуру Spring Framework. Основные компоненты:
+            </p>
+            <ol>
+                <li><strong>Root</strong>: Базовый класс корневой панели, управляющий глобальными интерполяторами (например, <code>iceInterpolator</code>).</li>
+                <li><strong>UI Elements</strong>: Набор готовых компонентов (в первую очередь <code>AnimationDialog</code>), инкапсулирующих сложную логику анимации.</li>
+                <li><strong>Events</strong>: Система событий для развязки отображения и логики (Event-Driven Architecture).</li>
+            </ol>
+
+            <h3>Пример инициализации</h3>
+            <pre><code><span class="kw">import</span> rf.ebanina.UI.Root;
+            <span class="kw">import</span> rf.ebanina.UI.UI.Element.AnimationDialog;
+            <span class="kw">import</span> javafx.scene.paint.Color;
+
+            <span class="kw">public class</span> <span class="type">MainApp</span> <span class="kw">extends</span> <span class="type">Application</span> {
+            <span class="kw">@Override</span>
+            <span class="kw">public void</span> <span class="func">start</span>(<span class="type">Stage</span> stage) {
+                <span class="type">Pane</span> root = <span class="kw">new</span> <span class="type">BorderPane</span>();
+
+                <span class="com">// Создание анимированного диалога</span>
+                <span class="type">AnimationDialog</span> dialog = <span class="kw">new</span> <span class="type">AnimationDialog</span>(stage, root);
+
+                <span class="com">// Настройка визуального стиля</span>
+                dialog.<span class="func">setTopBorder</span>(Color.web(<span class="str">"#7092be"</span>));
+
+                <span class="com">// Подписка на жизненный цикл</span>
+                dialog.<span class="func">setOnShow</span>(e -> <span class="type">System</span>.out.println(<span class="str">"Диалог полностью показан"</span>));
+                dialog.<span class="func">setOnHide</span>(e -> <span class="type">System</span>.out.println(<span class="str">"Диалог закрыт, сохраняем данные"</span>));
+
+                <span class="com">// Показ с анимацией</span>
+                dialog.<span class="func">show</span>();
+            }
+            }</code></pre>
+
+            <p>
+                Далее в документации мы рассмотрим каждый компонент подробнее, начиная с <a href="pages/quickstart.html" style="color:var(--primary);">Быстрого старта</a>.
+            </p>
+        </section>
+    </main>
+</div>
+
+<script src="../js/main.js"></script>
+</body>
+</html>

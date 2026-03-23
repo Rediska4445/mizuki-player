@@ -1,0 +1,28 @@
+<main>
+    <section id="home">
+        <h1>Mizuka Framework</h1>
+        <p>
+            <strong>Mizuka</strong> — это высокопроизводительный фреймворк на базе <strong>JavaFX</strong> для создания десктопных приложений с премиальной анимацией, сложными визуальными эффектами и строгим управлением жизненным циклом UI.
+        </p>
+
+        <div class="note">
+            <strong>Author:</strong> Ebanina Std<br>
+            <strong>Version:</strong> 0.1.4.4<br>
+            <strong>License:</strong> Proprietary
+        </div>
+
+        <h2>Ключевые особенности</h2>
+        <ul>
+            <li>Анимированные модальные диалоги с <code>AnimationDialog</code></li>
+            <li>Кастомные интерполятор <code>iceInterpolator</code> для плавных переходов</li>
+            <li>Динамические тени и верхние рамки</li>
+            <li>Декларативная модель жизненного цикла (<code>onShow</code>, <code>onHide</code>)</li>
+            <li>Тёмная тема по умолчанию (#1E1E1E)</li>
+        </ul>
+
+        <h2>Быстрый пример</h2>
+        <pre><code><span class="kw">import</span> rf.ebanina.UI.UI.Element.AnimationDialog;<br><br><span class="type">AnimationDialog</span> dialog = <span class="kw">new</span> <span class="type">AnimationDialog</span>(stage, root);<br>dialog.<span class="func">setTopBorder</span>(Color.web(<span class="str">"#7092be"</span>));<br>dialog.<span class="func">setOnShow</span>(e -> <span class="func">loadData</span>());<br>dialog.<span class="func">show</span>();</code></pre>
+
+        <p>Навигация по документации доступна в левой панели (кнопки и дерево).</p>
+    </section>
+</main>

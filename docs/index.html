@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mizuka Framework</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+    <div class="header-content">
+        <div class="logo">
+            Mizuka <span class="version">v1.4.X</span>
+        </div>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Поиск...">
+        </div>
+    </div>
+</header>
+
+<div class="layout">
+    <aside id="sidebar">
+        <button class="mobile-toggle" onclick="toggleSidebar()">☰ Меню</button>
+
+        <ul class="tree-nav">
+            <li>
+                <div class="tree-node expanded" onclick="toggleTreeNode(this)">
+                    <span class="tree-marker"></span>
+                    <a href="pages/introduction.html" class="tree-link active" data-page="pages/introduction.html">Введение</a>
+                </div>
+                <ul class="open">
+                    <li><a href="pages/introduction.html" class="tree-node tree-link" data-page="pages/introduction.html">О проекте</a></li>
+                    <li><a href="pages/quickstart.html" class="tree-node tree-link" data-page="pages/quickstart.html">Быстрый старт</a></li>
+                    <li><a href="pages/introduction.html#architecture" class="tree-node tree-link" data-page="pages/introduction.html#architecture">Архитектура</a></li>
+                </ul>
+            </li>
+        </ul>
+    </aside>
+
+    <main id="content-area">
+        <div style="display:flex;align-items:center;justify-content:center;height:100%;color:#666;">
+            Загрузка...
+        </div>
+    </main>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
