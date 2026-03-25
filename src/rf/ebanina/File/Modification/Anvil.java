@@ -1,13 +1,17 @@
 package rf.ebanina.File.Modification;
 
 import api.AudioMod;
+import rf.ebanina.ebanina.Music;
 import rf.ebanina.utils.loggining.logging;
 
 import java.io.File;
 import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -68,7 +72,7 @@ public class Anvil
     /**
      * Глобальный синглтон-инстанс загрузчика модулей.
      * <p>
-     * Позволяет вызывать {@link #loadAllModsFromFolder(String)} из любого места приложения
+     * Позволяет вызывать {@link #loadAllModsFromFolder(String, String)} из любого места приложения
      * без создания новых экземпляров: <code>Anvil.anvil.loadAllModsFromFolder(path)</code>.
      * </p>
      * <p>
@@ -107,12 +111,24 @@ public class Anvil
      *
      * @param modsFolderPath путь к папке с JAR-модулями (например, <code>"mods/"</code>)
      */
-    public void loadAllModsFromFolder(String modsFolderPath) {
+    public void loadAllModsFromFolder(String modsFolderPath, String ignoredModsCsv) {
         File modsDir = new File(modsFolderPath);
 
         if (!modsDir.exists() || !modsDir.isDirectory()) {
             return;
         }
+
+        Music.mainLogger.info("Ignored list: " + ignoredModsCsv);
+
+        Set<String> ignoredMods = new HashSet<>();
+        if (ignoredModsCsv != null && !ignoredModsCsv.trim().isEmpty()) {
+            Arrays.stream(ignoredModsCsv.split(","))
+                    .map(String::trim)
+                    .filter(s -> !s.isEmpty())
+                    .forEach(ignoredMods::add);
+        }
+
+        Music.mainLogger.info(ignoredMods);
 
         File[] files = modsDir.listFiles((dir, name) -> name.toLowerCase().endsWith(".jar"));
         if (files == null) {
@@ -124,6 +140,16 @@ public class Anvil
                 URL[] urls = {
                         jarFile.toURI().toURL()
                 };
+
+                String modFileName = jarFile.getName().toLowerCase();
+                String modNameFromFile = modFileName.substring(0, modFileName.lastIndexOf(".jar"));
+
+                Music.mainLogger.info(modNameFromFile);
+
+                if (ignoredMods.contains(modNameFromFile)) {
+                    Music.mainLogger.println("[Mods] Skipped (ignored): " + jarFile.getName());
+                    continue;
+                }
 
                 try (URLClassLoader loader = new URLClassLoader(urls, Anvil.class.getClassLoader());
                     JarFile jar = new JarFile(jarFile)) {
