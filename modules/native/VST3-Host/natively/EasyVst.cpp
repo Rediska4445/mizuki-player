@@ -107,7 +107,6 @@ bool EasyVst::init(const std::string& path, int sampleRate, int maxBlockSize, in
 				return false;
 			}
 
-			// Получаем IAudioProcessor через queryInterface
 			_audioEffect = nullptr;
 			tresult res = _vstPlug->queryInterface(Steinberg::Vst::IAudioProcessor::iid, (void**)&_audioEffect);
 			if (res != Steinberg::kResultOk || !_audioEffect) {
@@ -117,7 +116,6 @@ bool EasyVst::init(const std::string& path, int sampleRate, int maxBlockSize, in
 			_audioEffect->addRef();
 			_printDebug("IAudioProcessor interface acquired and addRef'd");
 
-			// Получаем IEditController
 			_editController = nullptr;
 			res = _plugProvider->getController()->queryInterface(Steinberg::Vst::IEditController::iid, (void**)&_editController);
 			if (res != Steinberg::kResultOk || !_editController) {
@@ -130,18 +128,17 @@ bool EasyVst::init(const std::string& path, int sampleRate, int maxBlockSize, in
 			_editController = _plugProvider->getController();
 			_name = classInfo.name();
 
-			// New version
 			Steinberg::Vst::IConnectionPoint* processorCP = nullptr;
 			Steinberg::Vst::IConnectionPoint* controllerCP = nullptr;
 
 			res = _audioEffect->queryInterface(Steinberg::Vst::IConnectionPoint::iid, (void**)&processorCP);
 			if (res == Steinberg::kResultOk && processorCP) {
-				processorCP->addRef(); // Сохраняем ссылку
+				processorCP->addRef();
 			}
 
 			res = _editController->queryInterface(Steinberg::Vst::IConnectionPoint::iid, (void**)&controllerCP);
 			if (res == Steinberg::kResultOk && controllerCP) {
-				controllerCP->addRef(); // Сохраняем ссылку
+				controllerCP->addRef();
 			}
 
 			if (processorCP && controllerCP) {
@@ -157,12 +154,8 @@ bool EasyVst::init(const std::string& path, int sampleRate, int maxBlockSize, in
 				_printDebug("IConnectionPoint interface not supported by processor or controller.");
 			}
 
-			// Освобождаем временные указатели (refCount уже учтён)
 			if (processorCP) processorCP->release();
 			if (controllerCP) controllerCP->release();
-
-
-			// New version
 
 			_numInAudioBuses = _vstPlug->getBusCount(MediaTypes::kAudio, BusDirections::kInput);
 			_numOutAudioBuses = _vstPlug->getBusCount(MediaTypes::kAudio, BusDirections::kOutput);
@@ -179,7 +172,7 @@ bool EasyVst::init(const std::string& path, int sampleRate, int maxBlockSize, in
 				auto result = _vstPlug->getBusInfo(kAudio, kInput, i, info);
 				if (result == kResultOk) {
 					_inAudioBusInfos.push_back(info);
-					_vstPlug->activateBus(kAudio, kInput, i, true); // Активируем ДО setup
+					_vstPlug->activateBus(kAudio, kInput, i, true);
 					SpeakerArrangement arr;
 					if (_audioEffect->getBusArrangement(kInput, i, arr) == kResultOk) {
 						_inSpeakerArrs.push_back(arr);
@@ -192,7 +185,7 @@ bool EasyVst::init(const std::string& path, int sampleRate, int maxBlockSize, in
 				auto result = _vstPlug->getBusInfo(kAudio, kOutput, i, info);
 				if (result == kResultOk) {
 					_outAudioBusInfos.push_back(info);
-					_vstPlug->activateBus(kAudio, kOutput, i, true); // Активируем ДО setup
+					_vstPlug->activateBus(kAudio, kOutput, i, true);
 					SpeakerArrangement arr;
 					if (_audioEffect->getBusArrangement(kOutput, i, arr) == kResultOk) {
 						_outSpeakerArrs.push_back(arr);
@@ -204,7 +197,6 @@ bool EasyVst::init(const std::string& path, int sampleRate, int maxBlockSize, in
 				_inSpeakerArrs.data(), static_cast<uint32>(_numInAudioBuses),
 				_outSpeakerArrs.data(), static_cast<uint32>(_numOutAudioBuses));
 
-			// === Ключевое: setActive ДО setupProcessing ===
 			_vstPlug->setActive(true);
 
 			tresult res1 = _audioEffect->setupProcessing(_processSetup);
@@ -213,12 +205,10 @@ bool EasyVst::init(const std::string& path, int sampleRate, int maxBlockSize, in
 				return false;
 			}
 
-			// === unprepare + prepare processData ===
 			_processData.unprepare();
 			_processData = {};
 			_processData.prepare(*_vstPlug, _maxBlockSize, _processSetup.symbolicSampleSize);
 
-			// === Выделение буферов (один раз) ===
 			if (!_processData.inputs) {
 				_processData.inputs = new AudioBusBuffers[_numInAudioBuses];
 				for (int i = 0; i < _numInAudioBuses; ++i) {
@@ -242,10 +232,8 @@ bool EasyVst::init(const std::string& path, int sampleRate, int maxBlockSize, in
 				}
 			}
 
-			// === setProcessing ПОСЛЕ setup ===
 			_audioEffect->setProcessing(true);
 			_printDebug("setProcessing(true) called.");
-
 
 			isDestroyed = false;
 			_printDebug("Plugin '" + _name + "' initialized successfully.");
@@ -563,8 +551,7 @@ void EasyVst::_destroy(bool decrementRefCount)
 		_vstPlug = nullptr;
 	}
 
-	// Освобождаем интерфейсы
-	_audioEffect = nullptr;  // Уже освобождён через release()
+	_audioEffect = nullptr;
 	_plugProvider = nullptr;
 	_module = nullptr;
 
@@ -625,7 +612,7 @@ void EasyVst::destroyView()
 
 	if (_view)
 	{
-		_view->removed();  // Добавить вызов onClosed перед релизом
+		_view->removed();
 		_view->release();
 		_view = nullptr;
 	}
@@ -643,7 +630,7 @@ LRESULT CALLBACK EasyVst::WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lP
 	switch (uMsg)
 	{
 	case WM_CLOSE:
-		PostQuitMessage(0);  // Корректное завершение редактора
+		PostQuitMessage(0);
 		return 0;
 	case WM_DESTROY:
 		return DefWindowProc(hwnd, uMsg, wParam, lParam);

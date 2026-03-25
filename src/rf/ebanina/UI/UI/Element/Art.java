@@ -66,7 +66,7 @@ public class Art
      * быть прочитано через {@link #getImage()} или свойство {@link #imageProperty()}.
      * </p>
      */
-    private SimpleObjectProperty<Image> image = new SimpleObjectProperty<>();
+    protected SimpleObjectProperty<Image> image = new SimpleObjectProperty<>();
     /**
      * Предыдущее изображение, использовавшееся до последнего вызова {@link #setImage(Image)}.
      * <p>
@@ -74,7 +74,7 @@ public class Art
      * для анимаций перехода между артом или для отката к старому состоянию.
      * </p>
      */
-    private SimpleObjectProperty<Image> previousImage = new SimpleObjectProperty<>();
+    protected SimpleObjectProperty<Image> previousImage = new SimpleObjectProperty<>();
     /**
      * Создаёт новый элемент {@code Art} с указанным радиусом закругления углов.
      * <p>

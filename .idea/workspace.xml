@@ -13,24 +13,44 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6c0e77de-da29-42b4-b2d8-b57043699344" name="Changes" comment="Root: LicenseDialog updated to AnimationDialog">
+    <list default="true" id="6c0e77de-da29-42b4-b2d8-b57043699344" name="Changes" comment="TempoShifter update to more optimize">
+      <change afterPath="$PROJECT_DIR$/docs/pages/core.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/pages/modification.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/libraries/bin/tempoShifter.dll" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/modules/ebanina-spotify-api-wrapper" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/modules/native/TempoShifter/build.bat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cache/cache/history.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cache/cache/history.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cache/shared.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cache/shared.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/Руководство пользователя.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/pages/home.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/pages/introduction.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/pages/overview.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modules/ebanina-std-utils" beforeDir="false" afterPath="$PROJECT_DIR$/modules/ebanina-std-utils" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modules/ebanina-vst-ipc-host" beforeDir="false" afterPath="$PROJECT_DIR$/modules/ebanina-vst-ipc-host" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/native/VST3-Host/natively/EasyVst.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/modules/native/VST3-Host/natively/EasyVst.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/untitled10" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$ButtonHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$ButtonHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$Layout.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$Layout.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$PlaylistHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$PlaylistHandler.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$SimilarListView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$SimilarListView.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$SliderHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$SliderHandler.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$TrackListView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$TrackListView.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/AudioEffect/Tempo/TempoShifter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/AudioEffect/Tempo/TempoShifter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/build/zip_out.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/build/zip_out.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/LicenseDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/LicenseDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/ListViews/Playlist/Query.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/ListViews/Playlist/Query.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/ebanina/Player/AudioEffect/Tempo/NativeTempoShifter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/ebanina/Player/AudioEffect/Tempo/NativeTempoShifter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/Art.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/Art.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/ControlPane.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/ControlPane.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/ListViews/ListCells/AnimatedListCell.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/ListViews/ListCells/AnimatedListCell.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/ListViews/ListCells/Playlists/ListCellTrack.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/ListViews/ListCells/Playlists/ListCellTrack.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/MediaPlayer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/MediaPlayer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/build/win/download_mizuki.bat" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/build/win/download_mizuki.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/Root.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/Root.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/Art.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/Art.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/ControlPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/ControlPane.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/Dialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/Dialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/ListViews/ListCells/AnimatedListCell.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/ListViews/ListCells/AnimatedListCell.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/ListViews/ListCells/Playlists/ListCellTrack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/ListViews/ListCells/Playlists/ListCellTrack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/ebanina/Music.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/ebanina/Music.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/ebanina/Player/MediaPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/ebanina/Player/MediaPlayer.java" afterDir="false" />
     </list>
     <list id="5ed49a8f-afa2-4524-ad67-e8d465af08df" name="Add" comment="TextField: Simply animations added, JavaDocs added." />
     <option name="SHOW_DIALOG" value="false" />
@@ -68,6 +88,7 @@
         <option value="FxmlFile" />
         <option value="Interface" />
         <option value="Class" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -157,20 +178,21 @@
     <option name="showMembers" value="true" />
     <option name="showVisibilityIcons" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/2022/Desktop/программы/Ebanina-Test/Ebanina/Ebanina-VST/package/maven/in-build&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15332031&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.28361857&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "DefaultHtmlFileTemplate": "HTML File",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/Users/2022/Desktop/mizuka-docs-editor",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15332031",
+    "project.structure.side.proportion": "0.28361857",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\2022\Desktop\программы\Ebanina-Test\Ebanina\Ebanina-VST\package\maven\in-build" />
@@ -216,6 +238,15 @@
       <command value="gradle wrapper" />
       <command value="mvn site:run" />
       <command value="mvn clean package" />
+    </option>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="Application" />
+        <option value="GradleRunConfiguration" />
+        <option value="MavenRunConfiguration" />
+      </set>
     </option>
   </component>
   <component name="RunManager" selected="Application.Start">
@@ -459,20 +490,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1751373119676</updated>
-    </task>
-    <task id="LOCAL-00085" summary="Minor bugs fixed">
-      <created>1767744077796</created>
-      <option name="number" value="00085" />
-      <option name="presentableId" value="LOCAL-00085" />
-      <option name="project" value="LOCAL" />
-      <updated>1767744077796</updated>
-    </task>
-    <task id="LOCAL-00086" summary="Test minor fix's">
-      <created>1768119056261</created>
-      <option name="number" value="00086" />
-      <option name="presentableId" value="LOCAL-00086" />
-      <option name="project" value="LOCAL" />
-      <updated>1768119056261</updated>
     </task>
     <task id="LOCAL-00087" summary="TypicalMapWrapper update">
       <created>1768132350335</created>
@@ -803,7 +820,21 @@
       <option name="project" value="LOCAL" />
       <updated>1774221458280</updated>
     </task>
-    <option name="localTasksCounter" value="134" />
+    <task id="LOCAL-00134" summary="Documentation html page created">
+      <created>1774224563264</created>
+      <option name="number" value="00134" />
+      <option name="presentableId" value="LOCAL-00134" />
+      <option name="project" value="LOCAL" />
+      <updated>1774224563264</updated>
+    </task>
+    <task id="LOCAL-00135" summary="TempoShifter update to more optimize">
+      <created>1774427218530</created>
+      <option name="number" value="00135" />
+      <option name="presentableId" value="LOCAL-00135" />
+      <option name="project" value="LOCAL" />
+      <updated>1774427218531</updated>
+    </task>
+    <option name="localTasksCounter" value="136" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -929,8 +960,6 @@
       <path value="$PROJECT_DIR$/modules/ebanina-vst-ipc-host" />
       <path value="$PROJECT_DIR$/modules/untitled10" />
     </ignored-roots>
-    <MESSAGE value="Dialog: JavaDocs" />
-    <MESSAGE value="TextField: Null bind exception fixed" />
     <MESSAGE value="Track Metadata View: New view type of window" />
     <MESSAGE value="UI Package: New style window. Migrate from native window to inside application form (Dialog.class)" />
     <MESSAGE value="Scripts: Minor updates in bat script. Added bash script for launch and build DWM1.dll" />
@@ -954,7 +983,9 @@
     <MESSAGE value="Updates Scripts, Added new Java-Docs." />
     <MESSAGE value="Minor refactor in TempoShifter.java and tempo_shifter.cpp" />
     <MESSAGE value="Root: LicenseDialog updated to AnimationDialog" />
-    <option name="LAST_COMMIT_MESSAGE" value="Root: LicenseDialog updated to AnimationDialog" />
+    <MESSAGE value="Documentation html page created" />
+    <MESSAGE value="TempoShifter update to more optimize" />
+    <option name="LAST_COMMIT_MESSAGE" value="TempoShifter update to more optimize" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">

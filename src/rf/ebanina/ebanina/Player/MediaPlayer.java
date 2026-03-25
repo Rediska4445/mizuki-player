@@ -180,7 +180,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * @see #closeResources()
  * @see #decoders
  */
-@logging(isActive = true, fileOut = false)
+@logging(isActive = false, fileOut = false)
 public class MediaPlayer
         implements AutoCloseable, Serializable, Cloneable, Comparable<MediaPlayer>
 {

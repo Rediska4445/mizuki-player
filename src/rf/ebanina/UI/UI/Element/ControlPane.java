@@ -292,7 +292,7 @@ public class ControlPane
      * @param targetHeight целевая высота
      * @param event коллбэк для синхронизации (например, анимация кнопки)
      */
-    private void animateHeight(double targetHeight, Runnable event) {
+    protected void animateHeight(double targetHeight, Runnable event) {
         if(heightTimeline != null) {
             heightTimeline.stop();
         }

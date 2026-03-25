@@ -170,7 +170,7 @@ public abstract class Dialog
      * Вызывается автоматически в конструкторе. Предназначен только для внутреннего использования.
      * </p>
      */
-    private void bindBackgroundToStage() {
+    protected void bindBackgroundToStage() {
         backgroundDim.prefWidthProperty().bind(ownerStage.widthProperty());
         backgroundDim.prefHeightProperty().bind(ownerStage.heightProperty());
         backgroundDim.minWidthProperty().bind(ownerStage.widthProperty());
@@ -324,7 +324,7 @@ public abstract class Dialog
      *
      * @param event событие мыши
      */
-    private void hideOnBackgroundClick(MouseEvent event) {
+    protected void hideOnBackgroundClick(MouseEvent event) {
         if (event.getTarget() == backgroundDim) {
             hide();
         }

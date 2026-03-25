@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ядро</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<div class="layout">
+  <main id="content-area">
+    <section id="intro">
+      <h1>Mizuka Core</h1>
+
+      <p>
+        Главным компонентом является само приложение, которое подключает другие свои внутренние модули.
+      </p>
+
+      <hr>
+
+      <h2>Внешняя структура: зависимости и ресурсы</h2>
+      <p>
+        С внешней точки зрения приложение использует сторонние файлы для работы, а именно:
+      </p>
+
+      <h3>Библиотеки (<code>libraries/</code>)</h3>
+      <p>Разделяются на 3 типа для чёткой структуры:</p>
+      <ul>
+        <li>
+          <code>classes/</code> — содержит библиотеки, которые подключаются через классовую систему.
+        </li>
+        <li>
+          <code>modules/</code> — содержит библиотеки, которые подключаются через модульную систему.
+        </li>
+        <li>
+          <code>bin/</code> — содержит бинарные файлы (в том числе JavaFX).
+        </li>
+      </ul>
+
+      <h3>Ресурсы (<code>res/</code>)</h3>
+      <p>
+        Ресурсы определяются приложением через файл <code>resources.properties</code>
+        (формат свойств с использованием переменных).
+      </p>
+      <ul>
+        <li><strong>audio</strong> — аудиофайлы</li>
+        <li><strong>lang</strong> — локализация</li>
+        <li><strong>mods</strong> — моды (необязательно)</li>
+        <li><strong>styles</strong> — стили</li>
+        <li><strong>visual</strong> — UI-элементы</li>
+      </ul>
+
+      <h3>Кэш (<code>cache/</code>)</h3>
+      <p>Содержит данные, сохранённые плеером:</p>
+      <ul>
+        <li>
+          <strong>Локальный (<code>cache/</code>)</strong>:
+          <ul>
+            <li>плейлисты (<code>playlists/</code>)</li>
+            <li>теги (<code>tags/</code>)</li>
+            <li>треки (<code>tracks/</code>)</li>
+          </ul>
+        </li>
+        <li><strong>Сетевой (<code>inet/</code>)</strong></li>
+        <li><strong>Общий кэш (<code>shared/</code>)</strong></li>
+      </ul>
+
+      <h3>Конфигурация (<code>config/</code>)</h3>
+      <p>Содержит файлы для внешней конфигурации приложения:</p>
+      <ul>
+        <li>горячие клавиши (<code>bindings/</code>)</li>
+        <li>логирование (<code>log/</code>)</li>
+        <li>файл конфигурации <code>settings.cfg</code></li>
+      </ul>
+
+      <h3>Лицензии (<code>license/</code>)</h3>
+      <p>
+        Содержит файлы лицензий использованных в приложении инструментов.
+      </p>
+
+      <hr>
+
+      <h2>Внутренняя структура: модули</h2>
+      <p>
+        С внутренней точки зрения приложение использует следующие модули:
+      </p>
+      <ul>
+        <li><strong>Spotify API Wrapper</strong> — интеграция со Spotify (подр. см. соот. документацию)</li>
+        <li><strong>VST-3 Host</strong> — поддержка VST-плагинов (подр. см. соот. документацию)</li>
+        <li><strong>DWM API</strong> — интеграция с Desktop Window Manager</li>
+        <li><strong>Mizuka Std Utils</strong> — стандартные утилиты (подр. см. соот. документацию)</li>
+        <li><strong>TempoShifter</strong> — изменение темпа аудио</li>
+      </ul>
+
+      <div class="note">
+        <strong>Версия:</strong> 1.0.0 &nbsp;|&nbsp;
+        <strong>Автор:</strong> Rediska4445
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="../js/main.js"></script>
+</body>
+</html>

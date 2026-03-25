@@ -108,7 +108,6 @@ public class Root
     public static final Map<String, Map.Entry<Point, Dimension>> windowsSizes = new WeakHashMap<>();
 
     public static native void setCaptionColor(long wid, int color);
-    public static native void addJumpListTask(long wid, int color);
 
     public static Root rootImpl = new Root();
 
@@ -900,7 +899,6 @@ public class Root
         }
     }
 
-    // FIXME: Не всегда правильно отслеживает
     private void initTooltips() {
         btn.setTooltip(new ContextTooltip(LocalizationManager.getLocaleString(Locales.TOOLTIP_MAIN_PLAY)));
         soundSlider.setTooltip(new ContextTooltip(LocalizationManager.getLocaleString(Locales.TOOLTIP_MAIN_SLIDER)));

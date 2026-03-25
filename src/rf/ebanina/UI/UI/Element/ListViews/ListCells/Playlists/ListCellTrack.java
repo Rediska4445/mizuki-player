@@ -5,6 +5,7 @@ import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.util.Duration;
@@ -16,15 +17,14 @@ import rf.ebanina.UI.UI.Element.ListViews.ListCells.AnimatedListCell;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
 import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
 import rf.ebanina.ebanina.Player.Track;
+import rf.ebanina.utils.concurrency.PriorityThreadFactory;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import static rf.ebanina.UI.UI.Paint.ColorProcessor.size;
 
 // FIXME: Эта хуйня потребляет память ОЗУ
 // FIXME: Эта хуйня лагает по CPU
+// FIXME: Эта хуйня иногда не прогружает фон (не из за отмены задач и ограничения пула)
 public class ListCellTrack<T>
         extends AnimatedListCell<Track>
 {
@@ -32,8 +32,36 @@ public class ListCellTrack<T>
 
     private volatile Track current = null;
 
-    private static final ExecutorService dataLoadService = Executors.newFixedThreadPool(2);
-    private static final ExecutorService backgroundAlbumArtService = Executors.newFixedThreadPool(2);
+    private static final int CORE_POOL_SIZE_DATA = Runtime.getRuntime().availableProcessors();
+    private static final int CPU_COUNT = Runtime.getRuntime().availableProcessors();
+    private static final int BG_POOL_CORE = Math.max(4, CPU_COUNT);
+    private static final int BG_POOL_MAX = Math.max(8, CPU_COUNT * 2);
+
+    private static final ExecutorService dataLoadService = new ThreadPoolExecutor(
+            CORE_POOL_SIZE_DATA,
+            CORE_POOL_SIZE_DATA,
+            0L, TimeUnit.MILLISECONDS,
+            new LinkedBlockingQueue<>(100),
+            new PriorityThreadFactory(
+                    "cell-data-loader",
+                    Thread.NORM_PRIORITY + 1,
+                    true
+            ),
+            new ThreadPoolExecutor.DiscardOldestPolicy()
+    );
+
+    private static final ExecutorService backgroundAlbumArtService = new ThreadPoolExecutor(
+            BG_POOL_CORE,
+            BG_POOL_MAX,
+            60L, TimeUnit.SECONDS,
+            new SynchronousQueue<>(),
+            new PriorityThreadFactory(
+                    "cell-bg-art-loader",
+                    Thread.NORM_PRIORITY - 1,
+                    true
+            ),
+            new ThreadPoolExecutor.CallerRunsPolicy()
+    );
 
     private static final AtomicInteger albumArtCounter = new AtomicInteger(0);
 
@@ -74,14 +102,18 @@ public class ListCellTrack<T>
             return;
         }
 
+        // Поставить дефолтные эффекты и данные для нормального вида
         pane.setOpacity(1.0);
         mainLabelOfTrack.setText(null);
         shadow.setColor(Color.TRANSPARENT);
 
+        // Нужно для проверки на текущую ячейку
         current = item;
 
+        // Путь к треку
         String path = item.getPath();
 
+        // Если паттерн уже кэширован - поставить
         ImagePattern cachedThumb = patternsMipmapCache.get(path);
         Color cachedColor = colorsCache.get(path);
 
@@ -96,7 +128,7 @@ public class ListCellTrack<T>
             cover.setFill(ColorProcessor.logoPattern);
         }
 
-        loadDataAsync(item, mainLabelOfTrack);
+        loadDataAsync(item);
 
         if (getContextMenu() == null || !getContextMenu().getUserData().equals(item)) {
             var menu = item.isNetty() ? new SimilarContextMenu(item) : new TrackContextMenu(item, this);
@@ -111,29 +143,31 @@ public class ListCellTrack<T>
         setGraphic(pane);
     }
 
-    protected void loadDataAsync(Track item, Label label) {
+    protected void loadDataAsync(Track item) {
         super.currentBgTask = backgroundAlbumArtService.submit(() -> {
-            ImagePattern mipmapCachedPattern;
+            ImagePattern cachedPattern;
             synchronized (patternsCache) {
-                mipmapCachedPattern = patternsCache.get(item.getPath());
+                cachedPattern = patternsCache.get(item.getPath());
             }
 
-            if (mipmapCachedPattern == null) {
-                Image img1 = !item.isNetty() ? item.getAlbumArt() : null;
+            if (cachedPattern == null) {
+                Image img1 = item.getAlbumArt();
 
                 if (img1 != null) {
-                    mipmapCachedPattern = new ImagePattern(img1, 0, img1.getHeight() * 0.7, Math.min(getWidth(), img1.getWidth()), img1.getHeight(), false);
+                    cachedPattern = new ImagePattern(img1, 0, img1.getHeight() * 0.7, Math.min(getWidth(), img1.getWidth()), img1.getHeight(), false);
 
                     synchronized (patternsCache) {
-                        patternsCache.put(item.getPath(), mipmapCachedPattern);
+                        patternsCache.put(item.getPath(), cachedPattern);
                     }
                 }
             }
 
             if (item.equals(getItem()) && item.equals(current) && getItem().equals(current)) {
-                ImagePattern finalMipmapCachedPattern = mipmapCachedPattern;
+                ImagePattern finalCachedPattern = cachedPattern;
 
-                Platform.runLater(() -> super.setBackgroundImageCentered(finalMipmapCachedPattern, background));
+                Platform.runLater(() -> {
+                    super.setBackgroundImageCentered(finalCachedPattern, background);
+                });
             }
         });
 
@@ -183,10 +217,6 @@ public class ListCellTrack<T>
                     animateDataArrival(finalColor, finalMipmapCachedPattern, topLabelText);
                 }
             });
-
-            if (item.isNetty() && item.equals(getItem()) && item.equals(current) && getItem().equals(current) && !isEmpty()) {
-                item.setAlbumArt(item.getAlbumArt(size, size, ColorProcessor.isPreserveRatio, ColorProcessor.isSmooth));
-            }
         });
     }
 
@@ -240,7 +270,7 @@ public class ListCellTrack<T>
 
     @Override
     protected Node createExtraInfoContent() {
-        return null;
+        return new VBox(3);
     }
 
     @Override

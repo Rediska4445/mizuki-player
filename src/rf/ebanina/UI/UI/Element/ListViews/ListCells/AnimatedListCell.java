@@ -17,7 +17,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import rf.ebanina.UI.Root;
 import rf.ebanina.UI.UI.Element.ListViews.ListView;
-import rf.ebanina.UI.UI.Paint.ColorProcessor;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -72,6 +71,13 @@ public abstract class AnimatedListCell<T>
     private double baseHeight = 24;
     private boolean isPinned = false;
 
+    protected void cleanUpTasks() {
+        if (currentTask != null)
+            currentTask.cancel(true);
+        if (currentBgTask != null)
+            currentBgTask.cancel(true);
+    }
+
     @Override
     protected void updateItem(T item, boolean empty) {
         super.updateItem(item, empty);
@@ -80,14 +86,11 @@ public abstract class AnimatedListCell<T>
 
         showFadeAnimation().play();
 
+        cleanUpTasks();
+
         if(background != null) {
             background.setWidth(0);
         }
-
-        if (currentTask != null)
-            currentTask.cancel(true);
-//        if (currentBgTask != null) // Возможно из за этого иногда фон не прогружается
-//            currentBgTask.cancel(true);
 
         if (currentTimeline != null) {
             currentTimeline.stop();
@@ -204,7 +207,7 @@ public abstract class AnimatedListCell<T>
         background.setLayoutX(0);
         background.setLayoutY(0);
         background.setWidth(0);
-        background.setFill(ColorProcessor.core.getMainClr());
+        background.setFill(Color.PINK);
         background.heightProperty().bind(pane.heightProperty());
 
         extraInfoPane = new StackPane();
