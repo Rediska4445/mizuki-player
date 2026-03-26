@@ -10,9 +10,8 @@
 </div>
 
 ---
-
-> <h4>This project wasn't created for consumer use, and none of the features it includes offer anything serious.</h4>
-> In fact, a README is also unnecessary, but writing one is a joy for the developers!
+<h4>This project wasn't created for consumer use, and none of the features it includes offer anything serious.</h4>
+In fact, a README is also unnecessary!
 
 ---
 
