@@ -37,6 +37,19 @@ In fact, a README is also unnecessary!
 
 ---
 
+# Easy start
+
+To open the app, you need to download it from the GitHub release page.
+The fastest way to do this is to run the `download_mizuka` script, which will download and unzip the latest release.
+
+### Windows:
+  - Launch [download_mizuka.bat](scripts/build/win/download_mizuka.bat) from directory: `scripts\build\win`
+
+### Linux:
+  - Launch [download_mizuka.sh](scripts/build/lin/download_mizuka.sh) from directory `scripts/build/lin`
+
+---
+
 # Features 
 
 ### Overview
