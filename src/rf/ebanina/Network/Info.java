@@ -1,7 +1,6 @@
 package rf.ebanina.Network;
 
 import javafx.application.Platform;
-import rf.ebanina.ebanina.Player.Track;
 import rf.ebanina.Network.Illegal.Download.Hitmos;
 import rf.ebanina.Network.Illegal.Download.LightAudio;
 import rf.ebanina.Network.Illegal.Download.MusMore;
@@ -9,6 +8,7 @@ import rf.ebanina.Network.Illegal.Similar.Apple;
 import rf.ebanina.Network.Illegal.Similar.LastFM;
 import rf.ebanina.Network.Illegal.Similar.SoundCloud;
 import rf.ebanina.Network.Illegal.Similar.Spotify;
+import rf.ebanina.ebanina.Player.Track;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,9 +26,32 @@ public class Info {
         Track getTrackFromDownloadLink(String track);
     }
 
+    public static Info instance = new Info();
+
     private static final ExecutorService exec = Executors.newSingleThreadExecutor();
 
     private static volatile boolean isSimilarUpdateState = true;
+
+    protected String activeAgentKey = "CHROME_WINDOWS";
+
+    public final Map<String, String> USER_AGENTS = new HashMap<>() {{
+        put("CHROME_WINDOWS", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36");
+        put("FIREFOX_WINDOWS", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0");
+        put("SAFARI_MAC", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2.1 Safari/605.1.15");
+    }};
+
+    private static final String DEFAULT_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36";
+
+    private String cachedUserAgent = null;
+
+    public String getActiveUserAgent() {
+        if (cachedUserAgent != null) {
+            return cachedUserAgent;
+        }
+
+        cachedUserAgent = USER_AGENTS.getOrDefault(activeAgentKey, DEFAULT_AGENT);
+        return cachedUserAgent;
+    }
 
     public static void similarStart() {
         isSimilarUpdateState = true;
