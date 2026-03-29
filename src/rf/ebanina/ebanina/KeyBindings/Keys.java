@@ -17,6 +17,7 @@ import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
 import rf.ebanina.utils.loggining.logging;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -142,14 +143,14 @@ public class Keys {
                     new int[] {NativeKeyEvent.VC_SHIFT, NativeKeyEvent.VC_ALT, NativeKeyEvent.VC_M},
                     () -> MediaProcessor.mediaProcessor.skipIntro(playProcessor.getTracks().get(playProcessor.getTrackIter()).getPath())
             ),
-            new HotKey(
-                    "ebanina_play_hotkey",
-                    new int[] {NativeKeyEvent.VC_NUM_LOCK}
-            ).setOnReleased(() -> MediaProcessor.mediaProcessor.pause_play()),
-            new HotKey(
-                    "ebanina_play_hotkey1",
-                    new int[] {NativeKeyEvent.VC_MEDIA_PLAY}
-            ).setOnReleased(() -> MediaProcessor.mediaProcessor.pause_play()),
+//            new HotKey(
+//                    "ebanina_play_hotkey",
+//                    new int[] {NativeKeyEvent.VC_NUM_LOCK}
+//            ).setOnReleased(() -> MediaProcessor.mediaProcessor.pause_play()),
+//            new HotKey(
+//                    "ebanina_play_hotkey1",
+//                    new int[] {NativeKeyEvent.VC_MEDIA_PLAY}
+//            ).setOnReleased(() -> MediaProcessor.mediaProcessor.pause_play()),
             new HotKey(
                     "ebanina_tempo_change",
                     new int[] {NativeKeyEvent.VC_SHIFT, NativeKeyEvent.VC_ALT, NativeKeyEvent.VC_PAGE_UP},
@@ -191,6 +192,8 @@ public class Keys {
             )
     ));
 
+    // TODO: Сделать горячие клавиши под аспектное
+
     /**
      * Список <b>контекстных</b> горячих клавиш (работают только при активном окне).
      * <p>
@@ -223,43 +226,9 @@ public class Keys {
             new HotKey(
                     "ebanina_playback_hotkey",
                     new int[] {NativeKeyEvent.VC_SHIFT, NativeKeyEvent.VC_ALT, NativeKeyEvent.VC_P},
-                    () -> {
-                        ((BooleanProperty) MediaProcessor.mediaProcessor.mediaParameters.get(MediaProcessor.MediaParameters.IS_AUTO_PLAYBACK.code)).setValue(
-                                (boolean) MediaProcessor.mediaProcessor.mediaParameters.get(MediaProcessor.MediaParameters.IS_AUTO_PLAYBACK.code).getValue()
-                        );
-                    }
-            ),
-            new HotKey(
-                    "ebanina_playlist_visible_only_hotkey",
-                    new int[] {NativeKeyEvent.VC_SHIFT, NativeKeyEvent.VC_ALT, NativeKeyEvent.VC_T},
-                    () -> {
-                        if(art.isVisible()) {
-                            tracksListView.layoutXProperty().unbind();
-                            tracksListView.prefWidthProperty().unbind();
-                            similar.layoutXProperty().unbind();
-                            similar.prefWidthProperty().unbind();
-
-                            tracksListView.setLayoutX(rootImpl.getRoot().getPrefWidth() * 0.5 + tracksListView.getPrefWidth() * 0.5);
-                        } else {
-                            rootImpl.initListViewsBinds();
-                        }
-
-                        art.setVisible(!art.isVisible());
-                        topDataPane.setVisible(!topDataPane.isVisible());
-                        soundSlider.setVisible(!soundSlider.isVisible());
-                        soundSlider.getSliderBackground().setVisible(!soundSlider.isVisible());
-                        sliderBlurBackground.setVisible(!sliderBlurBackground.isVisible());
-                        beginTime.setVisible(!beginTime.isVisible());
-                        endTime.setVisible(!endTime.isVisible());
-                        btnDown.setVisible(!btnDown.isVisible());
-                        btn.setVisible(!btn.isVisible());
-                        btnNext.setVisible(!btnNext.isVisible());
-                    }
-            ),
-            new HotKey(
-                    "ebanina_get_debug_info",
-                    new int[] {NativeKeyEvent.VC_SHIFT, NativeKeyEvent.VC_ALT, NativeKeyEvent.VC_J},
-                    () -> Platform.runLater(() -> MediaProcessor.mediaProcessor.skipPit(playProcessor.getTracks().get(playProcessor.getTrackIter()).getPath()))
+                    () -> ((BooleanProperty) MediaProcessor.mediaProcessor.mediaParameters.get(MediaProcessor.MediaParameters.IS_AUTO_PLAYBACK.code)).setValue(
+                            (boolean) MediaProcessor.mediaProcessor.mediaParameters.get(MediaProcessor.MediaParameters.IS_AUTO_PLAYBACK.code).getValue()
+                    )
             )
     ));
 
@@ -439,6 +408,60 @@ public class Keys {
             if(isDoKeyPointer) {
                 if(r != null) {
                     r.accept(hotKey);
+                }
+            }
+        }
+    }
+
+    /**
+     * Автоматически регистрирует все @KeyBind методы из переданных объектов.
+     *
+     * <h3>Пример:</h3>
+     * <pre>{@code
+     * collectKeyBindsFromObjects(
+     *     this,                    // MainController
+     *     MediaProcessor.mediaProcessor,
+     *     PlayProcessor.playProcessor
+     * );
+     * }</pre>
+     *
+     * <p><b>Преимущества:</b></p>
+     * <ul>
+     *   <li>Работает с любыми объектами (singleton, DI, this)</li>
+     *   <li>Без newInstance() — никаких ошибок конструкторов</li>
+     *   <li>Прямой invoke(target) — максимальная скорость</li>
+     * </ul>
+     *
+     * @param objects объекты с методами @KeyBind
+     */
+    public void collectKeyBindsFromObjects(Object... objects) {
+        for (Object target : objects) {
+            Class<?> clazz = target.getClass();
+
+            for (Method method : clazz.getDeclaredMethods()) {
+                KeyBind[] binds = method.getAnnotationsByType(KeyBind.class);
+
+                if (binds.length == 0) continue;
+
+                method.setAccessible(true);
+
+                Runnable action = () -> {
+                    try {
+                        method.invoke(target);
+                    } catch (Exception e) {
+                        System.err.println("KeyBind '" + method.getName() + "' failed: " + e.getMessage());
+                        e.printStackTrace();
+                    }
+                };
+
+                for (KeyBind bind : binds) {
+                    HotKey hotKey = new HotKey(bind.id(), bind.keys(), action);
+
+                    if (bind.global()) {
+                        hotKeys.add(hotKey);
+                    } else {
+                        sceneHotKeys.add(hotKey);
+                    }
                 }
             }
         }

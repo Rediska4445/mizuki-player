@@ -299,7 +299,7 @@ public final class Music
 
         // Инициализировать контроллер анимаций.
         // В частности, эта хуйня оптимизирует работу анимаций (см. класс)
-        Animations.init(stage);
+        Animations.instance.init(stage);
 
         // Контроллер анимаций инициализирован
         mainLogger.info("Animations controller initialized");
@@ -346,28 +346,22 @@ public final class Music
         // Иконка меняется, в соответствии с текущей обложкой трека.
         // Прикольная идея возникла ещё в 2022 году.
         stage.focusedProperty().addListener((ov, onHidden, onShown) -> {
-            try {
-                // Удалить предыдущие иконки
-                stage.getIcons().clear();
+            // Удалить предыдущие иконки
+            stage.getIcons().clear();
 
-                // Смена иконки
-                if (onHidden /* Если хуйня скрыта */) {
-                    stage.setTitle(Root.currentArtist.getText() + " - " + Root.currentTrackName.getText());
-                    stage.getIcons().setAll(Root.art.getImage());
+            // Смена иконки
+            if (
+                    onHidden /* Если приложение скрыто */
+            ) {
+                stage.setTitle(Root.currentArtist.getText() + " - " + Root.currentTrackName.getText());
+                stage.getIcons().setAll(Root.art.getImage());
 
-                    mainLogger.printf("Focus lost - Track title: %s", stage.getTitle());
-                } else {
-                    stage.setTitle(name);
-                    stage.getIcons().setAll(ColorProcessor.logo);
-
-                    mainLogger.info("Focus gained - App title restored");
-                }
-            } catch (Exception e) {
-                // Необязательно, но в случае исключения - выглядит некрасиво
-                mainLogger.warn("Focus listener error: %s", e.getMessage());
-
+                mainLogger.printf("Focus lost - Track title: %s", stage.getTitle());
+            } else {
                 stage.setTitle(name);
                 stage.getIcons().setAll(ColorProcessor.logo);
+
+                mainLogger.info("Focus gained - App title restored");
             }
         });
 
@@ -485,7 +479,8 @@ public final class Music
         // Здесь происходит проверка на то, включена ли загрузка модов в настройках.
         if(ConfigurationManager.instance.getBooleanItem("mod_load", "false")) {
             // Здесь происходит загрузка модов из папки указанной в resources.properties.
-            Anvil.anvil.loadAllModsFromFolder(ResourceManager.Instance.resourcesPaths.get(Resources.Properties.MODS.getKey()));
+            Anvil.anvil.loadAllModsFromFolder(ResourceManager.Instance.resourcesPaths.get(Resources.Properties.MODS.getKey()),
+                    ConfigurationManager.instance.getItem("disable_mods", ""));
         }
 
         // Приложение инициализировано и запущенно

@@ -9,6 +9,7 @@ import rf.ebanina.File.Field;
 import rf.ebanina.File.FileManager;
 import rf.ebanina.File.Resources.Resources;
 import rf.ebanina.Network.OnlineTrack;
+import rf.ebanina.ebanina.Player.AudioVolumer;
 import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
 import rf.ebanina.ebanina.Player.Playlist;
 import rf.ebanina.ebanina.Player.Track;
@@ -386,6 +387,8 @@ public class PlayProcessor<T extends Track, J extends Playlist>
                             trackType,
                             save
                     );
+
+                    timestampMap.put("pc_volume", String.valueOf(AudioVolumer.instance.getSystemVolume()));
 
                     FileManager.instance.saveCollection(
                             p,

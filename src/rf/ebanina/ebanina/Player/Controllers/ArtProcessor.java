@@ -423,7 +423,7 @@ public class ArtProcessor
                 Platform.runLater(() -> {
                     ColorProcessor.core.setMainClr(newColor);
 
-                    Animations.play(dropShadowColor(newColor), "dropShadowColor", () -> imgTrackShadow.setColor(newColor));
+                    Animations.instance.play(dropShadowColor(newColor), "dropShadowColor", () -> imgTrackShadow.setColor(newColor));
 
                     if (ConfigurationManager.instance.getBooleanItem("rainbow", "true")) {
                         updateColors(newColor);
@@ -600,7 +600,7 @@ public class ArtProcessor
                 0,
                 general_interpolator
         );
-        Animations.play(inDropShadowAnimation, "inDropShadowAnimation");
+        Animations.instance.play(inDropShadowAnimation, "inDropShadowAnimation");
 
         final double finalTranslateInFromY = translateInFromY;
         final double finalTranslateInFromX = translateInFromX;
@@ -629,7 +629,7 @@ public class ArtProcessor
                             general_interpolator
                     );
 
-                    Animations.play(outDropShadowAnimation, "outDropShadowAnimation", () -> {
+                    Animations.instance.play(outDropShadowAnimation, "outDropShadowAnimation", () -> {
                         if(art.getEffect() instanceof DropShadow dropShadow) {
                             dropShadow.setWidth(size);
                             dropShadow.setHeight(size);
@@ -658,7 +658,8 @@ public class ArtProcessor
                     );
 
                     inTransition = new ParallelTransition(moveIn, fadeIn, scaleIn);
-                    Animations.play(inTransition, "inTransition", () -> {
+
+                    Animations.instance.play(inTransition, "inTransition", () -> {
                         art.setTranslateX(0);
                         art.setTranslateY(0);
                         art.setOpacity(1);
@@ -672,7 +673,7 @@ public class ArtProcessor
         if (playlistSelected)
             playlistSelected = false;
 
-        Animations.play(outTransition, "outTransition", () -> new Thread(() -> {
+        Animations.instance.play(outTransition, "outTransition", () -> new Thread(() -> {
             synchronized (imageLock) {
                 Image img = track.getAlbumArt();
 

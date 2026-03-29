@@ -1,5 +1,6 @@
 package rf.ebanina.ebanina.Player.Controllers;
 
+import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
 import javafx.application.Platform;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -19,6 +20,7 @@ import rf.ebanina.UI.Root;
 import rf.ebanina.UI.UI.Element.Slider.SoundSlider;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
 import rf.ebanina.UI.UI.Popup.PreviewPopupService;
+import rf.ebanina.ebanina.KeyBindings.KeyBind;
 import rf.ebanina.ebanina.Music;
 import rf.ebanina.ebanina.Player.AudioDecoder;
 import rf.ebanina.ebanina.Player.AudioPlugins.PluginWrapper;
@@ -254,7 +256,7 @@ public class MediaProcessor
      */
     public HashMap<String, Property<?>> mediaParameters = new HashMap<>(Map.ofEntries(
             Map.entry("isAutoPlayback", new SimpleBooleanProperty(false)),
-            Map.entry("isPlaylistLoop", new SimpleBooleanProperty(true)),
+            Map.entry("isPlaylistLoop", new SimpleBooleanProperty(false)),
             Map.entry("isPlayRandom", new SimpleBooleanProperty(false))
     ));
     /**
@@ -396,7 +398,7 @@ public class MediaProcessor
     /**
      * Список кастомных аудио-декодеров для нестандартных форматов.
      * <p>
-     * <b>Поддержка:</b> FLAC, AAC, OGG, APE (помимо MP3/WAV).
+     * <b>Поддержка:</b> MP3, WAV.
      * </p>
      * <p>
      * <b>Алгоритм выбора:</b> MediaPlayer перебирает {@code decoderList} по
@@ -917,6 +919,8 @@ public class MediaProcessor
      *   <tr><td><code>PLAYING</code></td><td><code>pause()</code></td></tr>
      * </table>
      */
+    @KeyBind(id = "mizuka_play_hotkey", keys = {NativeKeyEvent.VC_MEDIA_PLAY}, global = true)
+    @KeyBind(id = "mizuka_play_hotkey1", keys = {NativeKeyEvent.VC_NUM_LOCK}, global = true)
     public void pause_play() {
         if(mediaPlayer.getStatus().equals(rf.ebanina.ebanina.Player.MediaPlayer.Status.PAUSED)
                 || mediaPlayer.getStatus().equals((rf.ebanina.ebanina.Player.MediaPlayer.Status.READY))) {
@@ -1686,6 +1690,7 @@ public class MediaProcessor
             }
         });
     }
+
     /**
      * Инициализация UI обработчиков истории треков.
      * <p>

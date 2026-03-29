@@ -194,7 +194,7 @@ public class TrackHistory implements
      * @see #updateContextMenu()
      * @since 0.1.2
      */
-    private final ContextMenu trackHistoryContextMenu;
+    private ContextMenu trackHistoryContextMenu;
 
     /**
      * Создаёт новую историю треков с заданным максимальным размером.
@@ -219,6 +219,11 @@ public class TrackHistory implements
         this.maxSize.set(maxSize);
         this.trackHistoryContextMenu = contextMenu;
         this.historyIterator = new HistoryIterator();
+    }
+
+    public TrackHistory setTrackHistoryContextMenu(ContextMenu trackHistoryContextMenu) {
+        this.trackHistoryContextMenu = trackHistoryContextMenu;
+        return this;
     }
 
     public int getMaxSize() {
@@ -275,6 +280,8 @@ public class TrackHistory implements
     public ObservableList<Track> getHistory() {
         return history;
     }
+
+
 
     /**
      * Удаляет указанный трек из истории, если он присутствует.

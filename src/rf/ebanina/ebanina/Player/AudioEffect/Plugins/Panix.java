@@ -46,7 +46,9 @@ import java.util.concurrent.atomic.AtomicReference;
  * @version 1.0
  * @since 1.0
  */
-public class Panix implements IAudioEffect {
+public class Panix
+        implements IAudioEffect
+{
     /** Текущее значение панорамы (-1.0...+1.0), потокобезопасное */
     private AtomicReference<Float> currentPan = new AtomicReference<>(0.0f);
     /** Состояние активности эффекта */

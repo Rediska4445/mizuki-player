@@ -228,6 +228,11 @@ public final class KeyBindingController
         // Загрузка собственных горячих клавиш
         Keys.instance.loadBindings();
 
+        // Загрузка дефолтных горячих клавиш
+        Keys.instance.collectKeyBindsFromObjects(
+                MediaProcessor.mediaProcessor
+        );
+
         // Инициализация слушателей горячих клавиш
         GlobalScreen.addNativeKeyListener(c);
         GlobalScreen.addNativeMouseListener(c);
@@ -241,6 +246,7 @@ public final class KeyBindingController
         scene.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
             pressed_keys.add(event.getCode().getCode());
         });
+
     }
 }
 
