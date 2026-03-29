@@ -5,16 +5,16 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
 import org.json.simple.parser.ParseException;
-import rf.ebanina.ebanina.Music;
-import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
-import rf.ebanina.ebanina.Player.Media;
-import rf.ebanina.ebanina.Player.Track;
 import rf.ebanina.File.Configuration.ConfigurationManager;
 import rf.ebanina.File.FileManager;
 import rf.ebanina.File.Metadata.MetadataOfFile;
 import rf.ebanina.File.Resources.Resources;
 import rf.ebanina.UI.Root;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
+import rf.ebanina.ebanina.Music;
+import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
+import rf.ebanina.ebanina.Player.Media;
+import rf.ebanina.ebanina.Player.Track;
 import rf.ebanina.utils.concurrency.LonelyThreadPool;
 import rf.ebanina.utils.loggining.Prefix;
 
@@ -34,9 +34,9 @@ import java.util.Objects;
 import java.util.concurrent.*;
 import java.util.function.Consumer;
 
+import static rf.ebanina.Network.Info.playersMap;
 import static rf.ebanina.UI.Root.soundSlider;
 import static rf.ebanina.UI.UI.Paint.ColorProcessor.logo;
-import static rf.ebanina.Network.Info.playersMap;
 
 @Deprecated(since = "1.4.7-1.1.4")
 public class OnlineTrack {
@@ -98,7 +98,7 @@ public class OnlineTrack {
 
     private static String media;
 
-    //TODO: Выяснить, почему при возможности быстрого прослушивания, треки автоматически скипаются
+    //FIXME: Выяснить, почему при возможности быстрого прослушивания, треки автоматически скипаются
     public static Track trackParseAsync(String track) throws IOException {
         try (ExecutorService executor = Executors.newSingleThreadExecutor()) {
             try {
@@ -111,8 +111,6 @@ public class OnlineTrack {
                         if (url == null) {
                             throw new IOException("Invalid URL");
                         }
-
-//                        Log.println(url);
 
                         return url;
                     });
