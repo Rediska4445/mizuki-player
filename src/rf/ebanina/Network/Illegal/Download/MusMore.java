@@ -3,9 +3,9 @@ package rf.ebanina.Network.Illegal.Download;
 import javafx.scene.image.Image;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import rf.ebanina.ebanina.Player.Track;
 import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.Network.Info;
+import rf.ebanina.ebanina.Player.Track;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -16,7 +16,7 @@ import static rf.ebanina.UI.UI.Paint.ColorProcessor.isPreserveRatio;
 import static rf.ebanina.UI.UI.Paint.ColorProcessor.isSmooth;
 
 public class MusMore implements Info.IInfo {
-    private final String mus_more_url = "https://ruo.morsmusic.org";
+    protected static String mus_more_url = "https://ruo.morsmusic.org";
 
     @Override
     public Track getTrackDownloadLink(String track) {
@@ -56,7 +56,8 @@ public class MusMore implements Info.IInfo {
         ArrayList<rf.ebanina.ebanina.Player.Track> tr = new ArrayList<>();
 
         try {
-            Document doc = Jsoup.connect(mus_more_url + "/" + addict + "/" + URLEncoder.encode(track, StandardCharsets.UTF_8)).get();
+            Document doc = Jsoup.connect(mus_more_url + "/" + addict + "/" + URLEncoder.encode(track, StandardCharsets.UTF_8))
+                    .userAgent(Info.instance.getActiveUserAgent()).get();
 
             for (int i = 0; i < doc.getElementsByClass("track-control").size(); i++) {
                 rf.ebanina.ebanina.Player.Track track1 = new rf.ebanina.ebanina.Player.Track(mus_more_url + doc.getElementsByClass("track-control").get(i).getElementsByClass("track-download").attr("href"));

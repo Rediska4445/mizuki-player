@@ -5,11 +5,11 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import rf.ebanina.ebanina.Music;
-import rf.ebanina.ebanina.Player.Track;
 import rf.ebanina.File.Configuration.ConfigurationManager;
 import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.Network.Info;
+import rf.ebanina.ebanina.Music;
+import rf.ebanina.ebanina.Player.Track;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -20,7 +20,7 @@ import static rf.ebanina.UI.UI.Paint.ColorProcessor.isPreserveRatio;
 import static rf.ebanina.UI.UI.Paint.ColorProcessor.isSmooth;
 
 public class Hitmos implements Info.IInfo {
-    private final String urlForDownload = "https://rus.hitmotop.com/search?q=";
+    protected static final String urlForDownload = "https://rus.hitmotop.com/search?q=";
 
     @Override
     public Track getTrackDownloadLink(String track) {
@@ -73,6 +73,7 @@ public class Hitmos implements Info.IInfo {
 
         try {
             Document doc = Jsoup.connect(urlForDownload + URLEncoder.encode(track, StandardCharsets.UTF_8))
+                    .userAgent(Info.instance.getActiveUserAgent())
                     .timeout(ConfigurationManager.instance.getIntItem("network_pre_download_timeout", "5000"))
                     .get();
 
