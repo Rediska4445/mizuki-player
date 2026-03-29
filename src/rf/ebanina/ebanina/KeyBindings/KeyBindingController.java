@@ -13,6 +13,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import rf.ebanina.UI.Root;
 import rf.ebanina.ebanina.Music;
+import rf.ebanina.ebanina.Player.AudioVolumer;
 import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
 import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
 import rf.ebanina.ebanina.Player.Track;
@@ -127,6 +128,10 @@ public final class KeyBindingController
     public void nativeMouseWheelMoved(NativeMouseWheelEvent e) {
         if(isKeyPressed(NativeKeyEvent.VC_ALT) && isKeyPressed(NativeKeyEvent.VC_SHIFT)) {
             MediaProcessor.mediaProcessor.setTempo((float) (MediaProcessor.mediaProcessor.mediaPlayer.getTempo() + (-e.getWheelRotation()) * 0.05));
+        }
+
+        if(isKeyPressed(NativeKeyEvent.VC_ALT) && isKeyPressed(NativeKeyEvent.VC_CONTROL)) {
+            AudioVolumer.instance.setSystemVolume((float) (AudioVolumer.instance.getSystemVolume() + (-e.getWheelRotation()) * 0.05));
         }
     }
 
