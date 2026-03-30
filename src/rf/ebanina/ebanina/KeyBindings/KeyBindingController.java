@@ -17,6 +17,10 @@ import rf.ebanina.ebanina.Player.AudioVolumer;
 import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
 import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
 import rf.ebanina.ebanina.Player.Track;
+import rf.ebanina.ebanina.Profiler.NodeMemoryTracker;
+import rf.ebanina.ebanina.Profiler.PulseProfiler;
+import rf.ebanina.ebanina.Profiler.SceneProfiler;
+import rf.ebanina.ebanina.Profiler.UITaskProfiler;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -235,7 +239,11 @@ public final class KeyBindingController
 
         // Загрузка дефолтных горячих клавиш
         Keys.instance.collectKeyBindsFromObjects(
-                MediaProcessor.mediaProcessor
+                MediaProcessor.mediaProcessor,
+                SceneProfiler.sceneProfiler,
+                PulseProfiler.pulseProfiler,
+                NodeMemoryTracker.instance,
+                UITaskProfiler.instance
         );
 
         // Инициализация слушателей горячих клавиш
