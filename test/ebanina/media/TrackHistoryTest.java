@@ -7,10 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 import rf.ebanina.ebanina.Player.Track;
 import rf.ebanina.ebanina.Player.TrackHistory;
-import rf.ebanina.utils.loggining.Log;
 
 import java.io.File;
-import java.util.NoSuchElementException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -71,21 +69,24 @@ public class TrackHistoryTest extends ApplicationTest {
         Track track1 = new Track("file:///music/one.mp3");
         Track track2 = new Track("file:///music/two.mp3");
         Track track3 = new Track("file:///music/three.mp3");
+        Track track4 = new Track("file:///music/four.mp3");
 
         history.add(track1);
         history.add(track2);
         history.add(track3);
 
-        assertEquals(track2, history.back());
-        assertEquals(track1, history.back());
-        assertEquals(track2, history.forward());
+        // Тестируем безопасную навигацию (без исключений)
+        assertEquals(track2, history.back());  // 2→1
+        assertEquals(track1, history.back());  // 1→0
+        assertEquals(track1, history.back());  // 0→0 (остановка)
 
-        assertThrows(NoSuchElementException.class, () -> {
-            while (true) history.forward();
-        });
+        assertEquals(track2, history.forward()); // 0→1
+        assertEquals(track3, history.forward()); // 1→2
+        assertEquals(track3, history.forward()); // 2→2 (остановка)
 
-        history.add(new Track("file:///music/four.mp3")); // добавление сбрасывает вперед
-        assertThrows(NoSuchElementException.class, () -> history.forward());
+        // Проверяем сброс итератора после add()
+        history.add(new Track("file:///music/four.mp3"));
+        assertEquals(track4, history.forward()); // новый итератор: 0→1
     }
 
     @Test
