@@ -5,10 +5,9 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import rf.ebanina.File.Configuration.ConfigurationManager;
-import rf.ebanina.File.Field;
+import rf.ebanina.File.DataTypes;
 import rf.ebanina.File.FileManager;
 import rf.ebanina.File.Resources.Resources;
-import rf.ebanina.Network.OnlineTrack;
 import rf.ebanina.ebanina.Player.AudioVolumer;
 import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
 import rf.ebanina.ebanina.Player.Playlist;
@@ -182,26 +181,6 @@ public class PlayProcessor<T extends Track, J extends Playlist>
     private final ConfigurationManager configurationManager;
 
     /**
-     * Режим случайного воспроизведения (shuffle/random).
-     * <p>
-     * <b>Влияние:</b>
-     * <ul>
-     *   <li>{@link #next()}: случайный трек вместо следующего.</li>
-     *   <li>{@link #down()}: последний из истории вместо предыдущего.</li>
-     * </ul>
-     * </p>
-     */
-    private final BooleanProperty mixRand = new SimpleBooleanProperty(false);
-
-    /**
-     * Флаг активного ручного воспроизведения.
-     * <p>
-     * Блокирует автоматический переход на следующий трек в {@link #next()}.
-     * </p>
-     */
-    private final BooleanProperty playbackTrack = new SimpleBooleanProperty(false);
-
-    /**
      * Конструктор с явной инжекцией ConfigurationManager.
      * <p>
      * Для DI-контейнеров или ручной настройки.
@@ -325,6 +304,8 @@ public class PlayProcessor<T extends Track, J extends Playlist>
                     String p;
                     String trackType = track.getPath();
 
+                    // FIXME: Время для сетевого трека
+
                     if(playProcessor.isNetwork()) {
                         p = Path.of(
                                 Resources.Properties.DEFAULT_INET_TRACKS_CACHE_PATH.getKey()
@@ -349,38 +330,38 @@ public class PlayProcessor<T extends Track, J extends Playlist>
                             .format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 
                     Map<String, String> timestampMap = new HashMap<>(Map.ofEntries(
-                            Map.entry(fields.get(Field.DataTypes.TEMPO.code).getLocalName(), String.valueOf((double) MediaProcessor.mediaProcessor.mediaPlayer.getTempo())),
-                            Map.entry(fields.get(Field.DataTypes.PAN.code).getLocalName(), String.valueOf((double) MediaProcessor.mediaProcessor.mediaPlayer.getPan())),
-                            Map.entry(fields.get(Field.DataTypes.VOLUME.code).getLocalName(), String.valueOf(MediaProcessor.mediaProcessor.mediaPlayer.getVolume())),
-                            Map.entry(Field.DataTypes.COUNT_STREAM.code, "1"),
+                            Map.entry(fields.get(DataTypes.TEMPO.code).getLocalName(), String.valueOf((double) MediaProcessor.mediaProcessor.mediaPlayer.getTempo())),
+                            Map.entry(fields.get(DataTypes.PAN.code).getLocalName(), String.valueOf((double) MediaProcessor.mediaProcessor.mediaPlayer.getPan())),
+                            Map.entry(fields.get(DataTypes.VOLUME.code).getLocalName(), String.valueOf(MediaProcessor.mediaProcessor.mediaPlayer.getVolume())),
+                            Map.entry(DataTypes.COUNT_STREAM.code, "1"),
                             Map.entry("timestamp", timestamp)
                     ));
 
                     Map<String, String> save = new HashMap<>(Map.ofEntries(
-                            Map.entry(fields.get(Field.DataTypes.TEMPO.code).getLocalName(), String.valueOf((double) MediaProcessor.mediaProcessor.mediaPlayer.getTempo())),
-                            Map.entry(fields.get(Field.DataTypes.PAN.code).getLocalName(), String.valueOf((double) MediaProcessor.mediaProcessor.mediaPlayer.getPan())),
-                            Map.entry(fields.get(Field.DataTypes.VOLUME.code).getLocalName(), String.valueOf(MediaProcessor.mediaProcessor.mediaPlayer.getVolume())),       
-                            Map.entry(Field.DataTypes.LAST_DATE.code, String.valueOf(
+                            Map.entry(fields.get(DataTypes.TEMPO.code).getLocalName(), String.valueOf((double) MediaProcessor.mediaProcessor.mediaPlayer.getTempo())),
+                            Map.entry(fields.get(DataTypes.PAN.code).getLocalName(), String.valueOf((double) MediaProcessor.mediaProcessor.mediaPlayer.getPan())),
+                            Map.entry(fields.get(DataTypes.VOLUME.code).getLocalName(), String.valueOf(MediaProcessor.mediaProcessor.mediaPlayer.getVolume())),
+                            Map.entry(DataTypes.LAST_DATE.code, String.valueOf(
                                     LocalDateTime.now()
                             )),
-                            Map.entry(Field.DataTypes.COUNT_STREAM.code, String.valueOf(Integer.parseInt(
-                                    read.getOrDefault(Field.DataTypes.COUNT_STREAM.code, "0")) + 1))
+                            Map.entry(DataTypes.COUNT_STREAM.code, String.valueOf(Integer.parseInt(
+                                    read.getOrDefault(DataTypes.COUNT_STREAM.code, "0")) + 1))
                     ));
 
                     if(MediaProcessor.mediaProcessor.mediaPlayer.getCurrentTime().toSeconds() < MediaProcessor.mediaProcessor.mediaPlayer.getOverDuration().toSeconds() - 30) {
-                        save.put(fields.get(Field.DataTypes.TIME.code).getLocalName(), String.valueOf((int) MediaProcessor.mediaProcessor.mediaPlayer.getCurrentTime().toSeconds()));
+                        save.put(fields.get(DataTypes.TIME.code).getLocalName(), String.valueOf((int) MediaProcessor.mediaProcessor.mediaPlayer.getCurrentTime().toSeconds()));
 
                         timestampMap.put("is full play", "false");
                     } else {
-                        save.put(Field.DataTypes.COUNT_FULLY_PLAY.code, String.valueOf(Integer.parseInt(
-                                read.getOrDefault(Field.DataTypes.COUNT_FULLY_PLAY.code, "0")) + 1));
+                        save.put(DataTypes.COUNT_FULLY_PLAY.code, String.valueOf(Integer.parseInt(
+                                read.getOrDefault(DataTypes.COUNT_FULLY_PLAY.code, "0")) + 1));
 
                         timestampMap.put("is full play", "true");
                     }
 
-                    save.put(Field.DataTypes.TOTAL_TIME_PLAYED.code, String.valueOf(Float.parseFloat(read.getOrDefault(Field.DataTypes.TOTAL_TIME_PLAYED.code, "0")) + MediaProcessor.mediaProcessor.mediaPlayer.getCurrentTime().toSeconds()));
+                    save.put(DataTypes.TOTAL_TIME_PLAYED.code, String.valueOf(Float.parseFloat(read.getOrDefault(DataTypes.TOTAL_TIME_PLAYED.code, "0")) + MediaProcessor.mediaProcessor.mediaPlayer.getCurrentTime().toSeconds()));
 
-                    timestampMap.put(fields.get(Field.DataTypes.TIME.code).getLocalName(), String.valueOf((int) MediaProcessor.mediaProcessor.mediaPlayer.getCurrentTime().toSeconds()));
+                    timestampMap.put(fields.get(DataTypes.TIME.code).getLocalName(), String.valueOf((int) MediaProcessor.mediaProcessor.mediaPlayer.getCurrentTime().toSeconds()));
 
                     FileManager.instance.saveArray(
                             p,
@@ -409,54 +390,12 @@ public class PlayProcessor<T extends Track, J extends Playlist>
     }
 
     /**
-     * Проверяет включён ли режим shuffle.
-     */
-    public boolean isMixRand() {
-        return mixRand.get();
-    }
-
-    /**
-     * JavaFX Property для режима shuffle (UI binding).
-     */
-    public BooleanProperty mixRandProperty() {
-        return mixRand;
-    }
-
-    /**
-     * Включает/выключает shuffle.
-     */
-    public void setMixRand(boolean mixRand) {
-        this.mixRand.set(mixRand);
-    }
-
-    /**
-     * Проверяет активность ручного воспроизведения.
-     */
-    public boolean isPlaybackTrack() {
-        return playbackTrack.get();
-    }
-
-    /**
-     * JavaFX Property состояния воспроизведения.
-     */
-    public BooleanProperty playbackTrackProperty() {
-        return playbackTrack;
-    }
-
-    /**
-     * Устанавливает состояние ручного воспроизведения.
-     */
-    public void setPlaybackTrack(boolean playbackTrack) {
-        this.playbackTrack.set(playbackTrack);
-    }
-
-    /**
      * Открывает и запускает воспроизведение указанного трека.
      * <p>
      * Метод обеспечивает корректную работу с треками:
      * <ul>
      *   <li>Если индекс текущего трека вне диапазона — устанавливается 0.</li>
-     *   <li>При воспроизведении сетевого трека (определяется {@link PlayProcessor#playProcessor#isNetwork()}) обновляет список треков из UI и запускает воспроизведение через {@link OnlineTrack#play}.</li>
+     *   <li>При воспроизведении сетевого трека (определяется isNetwork()) обновляет список треков из UI и запускает воспроизведение.</li>
      *   <li>Для локальных треков проверяет директорию и при смене загружает новые треки с помощью {@link FileManager#getMusic}. Обновляет текущий плейлист и вызывает обновление UI через {@link PlaylistController}.</li>
      *   <li>Устанавливает индекс текущего трека и вызывает обновление UI воспроизведения {@link MediaProcessor#_track}.</li>
      * </ul>
@@ -471,7 +410,6 @@ public class PlayProcessor<T extends Track, J extends Playlist>
      *   <li>Гарантирует корректную инициализацию списка треков и плейлиста.</li>
      * </ul>
      * @param newValue трек для открытия и воспроизведения
-     * @see PlayProcessor#playProcessor#isNetwork()
      * @see FileManager#getMusic
      * @see PlaylistController
      * @see MediaProcessor#_track
@@ -506,7 +444,11 @@ public class PlayProcessor<T extends Track, J extends Playlist>
             }
         }
 
-        PlayProcessor.playProcessor.setTrackIter(PlayProcessor.playProcessor.getTracks().indexOf(newValue));
+        int index = PlayProcessor.playProcessor.getTracks().indexOf(newValue);
+
+        if(index > -1) {
+            PlayProcessor.playProcessor.setTrackIter(index);
+        }
 
         MediaProcessor.mediaProcessor._track();
     }
@@ -539,9 +481,9 @@ public class PlayProcessor<T extends Track, J extends Playlist>
     public void next() {
         trackChangeHandle.get("main").accept(currentTracksList.get(currentTrackIter.get()));
 
-        if(!playbackTrack.get()) {
+        if(!MediaProcessor.mediaProcessor.isAutoPlayback()) {
             if (!configurationManager.getBooleanItem("use_mood_matching_algorithm", "false")) {
-                if (MediaProcessor.mediaProcessor.mediaParameters.get(MediaProcessor.MediaParameters.IS_PLAY_RANDOM.code).getValue().equals(true)) {
+                if (MediaProcessor.mediaProcessor.getPlayRandomProperty().getValue().equals(true)) {
                     currentTrackIter.set(trackRandomizer.nextInt(0, currentTracksList.size() - 1));
                 } else {
                     currentTrackIter.set(currentTrackIter.get() + 1);
@@ -552,7 +494,9 @@ public class PlayProcessor<T extends Track, J extends Playlist>
 
             if(currentTrackIter.get() < currentTracksList.size()) {
                 if (currentTracksList.get(currentTrackIter.get()).isPhantom()) {
-                    for (; currentTracksList.get(currentTrackIter.get()).isPhantom(); currentTrackIter.set(currentTrackIter.get() + 1));
+                    while (currentTracksList.get(currentTrackIter.get()).isPhantom()) {
+                        currentTrackIter.set(currentTrackIter.get() + 1);
+                    }
                 }
             }
         }
@@ -584,10 +528,11 @@ public class PlayProcessor<T extends Track, J extends Playlist>
      * @see TrackHistory
      */
     @Override
+    @SuppressWarnings("SuspiciousMethodCalls") // Список истории мал, и обычно вызывается редко
     public void down() {
         trackChangeHandle.get("main").accept(getCurrentTrack());
 
-        if (mixRand.get()) {
+        if (MediaProcessor.mediaProcessor.getPlayRandomProperty().get()) {
             setTrackIter(currentTracksList.indexOf(trackHistoryGlobal.back()));
         } else {
             setTrackIter(currentTrackIter.get() - 1);
@@ -745,5 +690,33 @@ public class PlayProcessor<T extends Track, J extends Playlist>
     public PlayProcessor<T, J> setTrackHistoryGlobal(TrackHistory trackHistoryGlobal) {
         this.trackHistoryGlobal = trackHistoryGlobal;
         return this;
+    }
+
+    public ObservableList<T> getCurrentTracksList() {
+        return currentTracksList;
+    }
+
+    public int getCurrentTrackIter() {
+        return currentTrackIter.get();
+    }
+
+    public IntegerProperty currentTrackIterProperty() {
+        return currentTrackIter;
+    }
+
+    public void setCurrentTrackIter(int currentTrackIter) {
+        this.currentTrackIter.set(currentTrackIter);
+    }
+
+    public int getPlaylistIter() {
+        return playlistIter.get();
+    }
+
+    public IntegerProperty playlistIterProperty() {
+        return playlistIter;
+    }
+
+    public void setPlaylistIter(int playlistIter) {
+        this.playlistIter.set(playlistIter);
     }
 }
