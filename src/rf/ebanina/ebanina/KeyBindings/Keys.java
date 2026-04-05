@@ -2,7 +2,6 @@ package rf.ebanina.ebanina.KeyBindings;
 
 import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
 import javafx.application.Platform;
-import javafx.beans.property.BooleanProperty;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import rf.ebanina.File.Configuration.ConfigurationManager;
@@ -226,8 +225,8 @@ public class Keys {
             new HotKey(
                     "ebanina_playback_hotkey",
                     new int[] {NativeKeyEvent.VC_SHIFT, NativeKeyEvent.VC_ALT, NativeKeyEvent.VC_P},
-                    () -> ((BooleanProperty) MediaProcessor.mediaProcessor.mediaParameters.get(MediaProcessor.MediaParameters.IS_AUTO_PLAYBACK.code)).setValue(
-                            (boolean) MediaProcessor.mediaProcessor.mediaParameters.get(MediaProcessor.MediaParameters.IS_AUTO_PLAYBACK.code).getValue()
+                    () -> MediaProcessor.mediaProcessor.getAutoPlaybackProperty().setValue(
+                            MediaProcessor.mediaProcessor.getAutoPlaybackProperty().getValue()
                     )
             )
     ));

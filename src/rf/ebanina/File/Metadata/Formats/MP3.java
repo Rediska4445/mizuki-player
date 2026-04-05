@@ -3,14 +3,14 @@ package rf.ebanina.File.Metadata.Formats;
 import com.mpatric.mp3agic.*;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
+import rf.ebanina.File.Configuration.ConfigurationManager;
+import rf.ebanina.File.Resources.ResourceManager;
+import rf.ebanina.UI.Root;
+import rf.ebanina.UI.UI.Paint.ColorProcessor;
 import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
 import rf.ebanina.ebanina.Player.Media;
 import rf.ebanina.ebanina.Player.MediaPlayer;
 import rf.ebanina.ebanina.Player.Track;
-import rf.ebanina.File.Configuration.ConfigurationManager;
-import rf.ebanina.File.Resources.ResourceManager;
-import rf.ebanina.UI.UI.Paint.ColorProcessor;
-import rf.ebanina.Network.OnlineTrack;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -29,7 +29,9 @@ import java.util.Map;
 
 import static rf.ebanina.File.Metadata.MetadataOfFile.iMetadataOfFiles;
 
-public final class MP3 implements IFormatAudioMetadata {
+public class MP3
+        implements IFormatAudioMetadata
+{
     @Override
     public int getDuration(String path) {
         double dura;
@@ -163,9 +165,9 @@ public final class MP3 implements IFormatAudioMetadata {
                                     size, size, preserve_ration, smooth
                             );
                         } else if (ConfigurationManager.instance.getBooleanItem("album_art_parse", "false")) {
-                            result = OnlineTrack.parseImage(path.viewName(), size, size1, preserve_ration, smooth);
+                            result = Root.artProcessor.parseImage(path.viewName(), size, size1, preserve_ration, smooth);
 
-                            if (!PlayProcessor.playProcessor.isNetwork() && ColorProcessor.album_art_parsed_set_in_tags) {
+                            if (!PlayProcessor.playProcessor.isNetwork() && ConfigurationManager.instance.getBooleanItem("album_art_parsed_set_in_tags", "false")) {
                                 iMetadataOfFiles.setArt(path.getPath(), SwingFXUtils.fromFXImage(result, null));
                             }
                         }
@@ -177,7 +179,7 @@ public final class MP3 implements IFormatAudioMetadata {
                 }
             }
         } else {
-            return OnlineTrack.parseImage(path.viewName(), size, size1, preserve_ration, smooth);
+            return Root.artProcessor.parseImage(path.viewName(), size, size1, preserve_ration, smooth);
         }
 
         return result;

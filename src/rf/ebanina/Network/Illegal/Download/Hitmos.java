@@ -15,11 +15,14 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.List;
 
 import static rf.ebanina.UI.UI.Paint.ColorProcessor.isPreserveRatio;
 import static rf.ebanina.UI.UI.Paint.ColorProcessor.isSmooth;
 
-public class Hitmos implements Info.IInfo {
+public class Hitmos
+        implements Info.IInfo
+{
     protected static final String urlForDownload = "https://rus.hitmotop.com/search?q=";
 
     @Override
@@ -40,6 +43,7 @@ public class Hitmos implements Info.IInfo {
             at.setPath(src.getElementsByTag("a").attr("href"));
         }
 
+        //FIXME: парсит общее время
         at.setTotalDuraSec(125);
 
         return at;
@@ -68,7 +72,8 @@ public class Hitmos implements Info.IInfo {
         return at;
     }
 
-    public ArrayList<Track> getTrackInfo(String track, int max) {
+    @Override
+    public List<Track> getTracksDownloadLinksList(String track) {
         ArrayList<rf.ebanina.ebanina.Player.Track> A = new ArrayList<>();
 
         try {
@@ -77,7 +82,7 @@ public class Hitmos implements Info.IInfo {
                     .timeout(ConfigurationManager.instance.getIntItem("network_pre_download_timeout", "5000"))
                     .get();
 
-            for (int i = 0; i < max; i++) {
+            for (int i = 0; i < 50; i++) {
                 for (Element src : doc.select("#pjax-container > div.content-inner > div > ul > li:nth-child(" + i + ") > div.track__info > a")) {
                     rf.ebanina.ebanina.Player.Track tr = new rf.ebanina.ebanina.Player.Track(
                             doc.select("#pjax-container > div.content-inner > div > ul > li:nth-child(" + i + ") > div.track__info > div > a")
@@ -90,6 +95,7 @@ public class Hitmos implements Info.IInfo {
 
                     tr.setMipmap(img);
                     tr.setExternalUrl(Info.PlayersTypes.HIT_MO.getCode());
+                    tr.setNetty(true);
 
                     A.add(tr);
                 }
@@ -101,5 +107,10 @@ public class Hitmos implements Info.IInfo {
         Music.mainLogger.println(A);
 
         return A;
+    }
+
+    @Override
+    public String toString() {
+        return "Hitmos{}";
     }
 }

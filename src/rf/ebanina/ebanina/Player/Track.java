@@ -1,25 +1,34 @@
 package rf.ebanina.ebanina.Player;
 
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
 import rf.ebanina.File.Configuration.ConfigurationManager;
-import rf.ebanina.File.Field;
+import rf.ebanina.File.DataTypes;
 import rf.ebanina.File.FileManager;
 import rf.ebanina.File.Metadata.MetadataOfFile;
 import rf.ebanina.File.Resources.Resources;
+import rf.ebanina.Network.Info;
+import rf.ebanina.UI.Root;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
+import rf.ebanina.ebanina.Music;
 import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
 import rf.ebanina.utils.collections.TypicalMapWrapper;
+import rf.ebanina.utils.loggining.Prefix;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.Serial;
-import java.io.Serializable;
+import java.io.*;
 import java.net.URL;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
+import static rf.ebanina.Network.Info.playersMap;
 import static rf.ebanina.UI.UI.Paint.ColorProcessor.size;
 
 /**
@@ -748,7 +757,7 @@ public class Track
      */
     public Duration getRawLastTimeTrack() {
         if(!isNetty) {
-            return Duration.seconds(Double.parseDouble(getState().getOrDefault(Field.DataTypes.TIME.code, "0")));
+            return Duration.seconds(Double.parseDouble(getState().getOrDefault(DataTypes.TIME.code, "0")));
         } else {
             return Duration.seconds(0);
         }
@@ -1298,22 +1307,168 @@ public class Track
     }
 
     /**
-     * <h3>Парсит время → секунды</h3>
-     * Конвертирует {@code "3:45"} обратно в секунды.
+     * Парсит строку длительности трека в секунды.
      * <p>
-     * Поддерживает только {@code "MM:SS"} (игнорирует часы).
+     * <b>Поддерживаемый формат:</b> {@code "MM:SS"} (например, "3:45", "12:05").
      * </p>
      *
-     * @param time строка вида {@code "3:45"}
-     * @return общее количество секунд
+     * <h4>Логика парсинга (пошагово):</h4>
+     * <ol>
+     *   <li>{@code split(":")} → {@code ["3", "45"]}</li>
+     *   <li>{@code parseInt(parts[0])} → {@code minutes = 3}</li>
+     *   <li>{@code parseInt(parts[1])} → {@code seconds = 45}</li>
+     *   <li>{@code minutes * 60 + seconds} → {@code 3 * 60 + 45 = 225 секунд}</li>
+     * </ol>
+     *
+     * @param time строка длительности в формате "MM:SS"
+     * @return общее время в секундах
+     * @throws ArrayIndexOutOfBoundsException если формат != "MM:SS" (нет ":")
+     * @throws NumberFormatException если минуты/секунды не числа
      */
     public static int getFormattedTotalDuration(String time) {
+        // Разбиение строки по разделителю ":"
         String[] parts = time.split(":");
 
+        // Парсинг минут (первая часть до ":")
         int minutes = Integer.parseInt(parts[0].trim());
+        // Парсинг секунд (вторая часть после ":")
         int seconds = Integer.parseInt(parts[1].trim());
 
+        // Конвертация в общее количество секунд
         return minutes * 60 + seconds;
+    }
+
+    /**
+     * Асинхронно парсит ссылку на скачивание трека через всех доступных провайдеров.
+     * <p>
+     * <b>Детальная логика работы (пошагово):</b>
+     * </p>
+     *
+     * <h4>1. Однопоточный исполнитель</h4>
+     * <pre>ExecutorService executor = newSingleThreadExecutor()</pre>
+     * Создаётся <b>один поток</b> для последовательного выполнения провайдеров.
+     *
+     * <h4>2. Создание задач для каждого провайдера</h4>
+     * <pre>for (Info.IInfo a : playersMap.values())</pre>
+     * Для каждого провайдера из {@code playersMap} создаётся задача:
+     * <pre>{@code () -> a.getTrackDownloadLink(track)}</pre>
+     *
+     * <h4>3. invokeAny() - "первый успех выигрывает"</h4>
+     * <pre>executor.invokeAny(tasks)</pre>
+     * <b>КРИТИЧНО:</b> Выполняет задачи <b> последовательно </b> до первого успеха:
+     * <ul>
+     * <li>Провайдер 1 (Hitmos): успех → <b>НЕМЕДЛЕННЫЙ ВОЗВРАТ</b></li>
+     * <li>Провайдер 2 (Musmore): не вызывается (уже вернули Hitmos)</li>
+     * </ul>
+     *
+     * <h4>4. Валидация результата</h4>
+     * <pre>if (url == null) throw new IOException("Invalid URL")</pre>
+     * Каждый провайдер обязан вернуть валидный Track или выбросить исключение.
+     *
+     * <h4>5. Обработка ошибок</h4>
+     * <ul>
+     * <li><b>ExecutionException</b> - любой провайдер выбросил исключение</li>
+     * <li><b>InterruptedException</b> - основной поток прерван</li>
+     * </ul>
+     * Оба пробрасываются вызывающему коду.
+     *
+     * <h3>Пример сценария</h3>
+     * <pre>{@code
+     * playersMap = [Hitmos, Musmore, LightAudio]
+     * track = "The Weeknd - Blinding Lights"
+     *
+     * 1. Hitmos.getTrackDownloadLink() = ✓ "https://..." (0.3с)
+     *    → ВОЗВРАЩАЕТСЯ НЕМЕДЛЕННО, Musmore/LightAudio игнорируются
+     *
+     * 2. Hitmos.getTrackDownloadLink() = ✗ null
+     *    → Musmore.getTrackDownloadLink() = ✓ "https://..." (0.8с)
+     * }</pre>
+     *
+     * <p><b>Производительность:</b> Останавливается на первом успехе, не дожидается остальных.</p>
+     *
+     * @param track название/идентификатор трека для поиска
+     * @return Track с валидной ссылкой на скачивание от первого успешного провайдера
+     * @throws ExecutionException если все провайдеры вернули null/исключение
+     * @throws InterruptedException если поток прерван
+     * @see Info#playersMap
+     * @since 0.1.4
+     */
+    public static Track parseTrackFromNetworkAsync(String track) throws ExecutionException, InterruptedException {
+        // Создание однопоточного ExecutorService с авто-закрытием (try-with-resources)
+        // try-with-resources гарантирует полное закрытие executor даже при исключениях
+        try (ExecutorService executor = Executors.newSingleThreadExecutor()) {
+            try {
+                // Создание списка задач для каждого провайдера из playersMap
+                List<Callable<Track>> tasks = new ArrayList<>();
+
+                // Формирование задач: для каждого провайдера создаем lambda
+                for (Info.IInfo a : playersMap.values()) {
+                    tasks.add(() -> {
+                        // Вызов провайдера для получения ссылки на скачивание
+                        Track url = a.getTrackDownloadLink(track);
+
+                        // Валидация: провайдер обязан вернуть не-null Track
+                        if (url == null) {
+                            throw new IOException("Invalid URL");
+                        }
+
+                        // Возврат успешного результата
+                        return url;
+                    });
+                }
+
+                // invokeAny(): последовательно выполняет задачи до ПЕРВОГО успеха
+                // Остальные задачи отменяются автоматически при первом успехе
+                return executor.invokeAny(tasks);
+            } finally {
+                // Принудительное завершение executor (на случай invokeAny не завершился)
+                executor.shutdownNow();
+            }
+        }
+    }
+
+    public static void downloadAndSaveDataAttributeToDirectory(rf.ebanina.ebanina.Player.Track newValue, java.nio.file.Path directory) {
+        String ext = ".mp3";
+
+        URL url = getURIFromTrack(newValue);
+
+        if (url != null) {
+            Path outputPath = Path.of(directory + File.separator + newValue.viewName() + ext);
+
+            try (InputStream in = url.openStream()) {
+                Files.copy(in, outputPath, StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            MetadataOfFile.iMetadataOfFiles.setArt(directory + File.separator + newValue.viewName() + ext,
+                    SwingFXUtils.fromFXImage(Root.artProcessor.parseImage(newValue.viewName()), null));
+        }
+    }
+
+    public static URL getURIFromTrack(rf.ebanina.ebanina.Player.Track newValue) {
+        try {
+            String urlString = newValue.toString();
+
+            if (urlString == null || urlString.equalsIgnoreCase(Info.PlayersTypes.URI_NULL.getCode())) {
+
+                urlString = Objects.requireNonNull(Track.parseTrackFromNetworkAsync(newValue.viewName())).getPath();
+
+                if (urlString == null) {
+                    Music.mainLogger.println(Prefix.ERROR, "URL для загрузки отсутствует");
+
+                    return null;
+                }
+            }
+
+            return new URL(urlString);
+        } catch (IOException e) {
+            Music.mainLogger.err(e);
+
+            return null;
+        } catch (ExecutionException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**

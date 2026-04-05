@@ -43,12 +43,13 @@ public class Metadata
             FXMLLoader loader = ResourceManager.Instance.loadFxmlLoader(
                     ResourceManager.Instance.resourcesPaths.get("FXMLMetaDataPath")
             );
+
             loader.setController(controller);
             Parent root = loader.load();
 
             AnimationDialog metaDialog = new AnimationDialog(ownerStage, Root.rootImpl.getRoot());
             metaDialog.setDialogMaxSize(0.35, 0.75);
-            metaDialog.setTopBorder(ColorProcessor.core.getMainClr());
+            metaDialog.setTopBorder(ColorProcessor.core.getGeneralColorFromImage(track.getAlbumArt()));
 
             VBox dialogContent = metaDialog.getDialogBox();
             dialogContent.getChildren().add(root);

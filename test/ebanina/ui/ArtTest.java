@@ -1,4 +1,4 @@
-package ebanina.gui;
+package ebanina.ui;
 
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.image.Image;

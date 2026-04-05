@@ -129,7 +129,7 @@ public class Controller implements Initializable {
         save.setText(LocalizationManager.getLocaleString("tags_save", "Save tags"));
         tagInput.setPromptText(LocalizationManager.getLocaleString("tags_new_tag", "Save tags"));
 
-        String hexColor = ColorProcessor.core.getMainClr().toString().replace("0x", "#");
+        String hexColor = ColorProcessor.core.getGeneralColorFromImage(track.getAlbumArt()).toString().replace("0x", "#");
 
         // Заголовок
         title.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: " + hexColor + ";");

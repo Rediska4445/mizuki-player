@@ -230,8 +230,8 @@ public class ResourceManager
         return value;
     }
 
-    public static ResourceManager Instance = new    ResourceManager(
-            ConfigurationManager.instance.getItem("theme", "res/resources.properties").replace("/", File.separator)
+    public static ResourceManager Instance = new ResourceManager(
+            ConfigurationManager.instance.getItem("theme", "res" + File.separator + "resources.properties")
     );
 
     /**
@@ -275,28 +275,19 @@ public class ResourceManager
         boolean matchesType;
 
         switch (resourceType.toLowerCase()) {
-            case Resources.Types.IMAGE:
-                matchesType = lowerResourcePath.endsWith(".png") || lowerResourcePath.endsWith(".jpg") ||
-                        lowerResourcePath.endsWith(".jpeg") || lowerResourcePath.endsWith(".gif") ||
-                        lowerResourcePath.endsWith(".ico");
-                break;
-            case Resources.Types.STYLESHEET:
-                matchesType = lowerResourcePath.endsWith(".css");
-                break;
-            case Resources.Types.FXML:
-                matchesType = lowerResourcePath.endsWith(".fxml");
-                break;
-            case Resources.Types.FONT:
-                matchesType = lowerResourcePath.endsWith(".ttf") || lowerResourcePath.endsWith(".otf");
-                break;
-            case Resources.Types.SVG:
-                matchesType = lowerResourcePath.endsWith(".svg");
-                break;
-            case Resources.Types.FILE:
-                matchesType = true;
-                break;
-            default:
+            case Resources.Types.IMAGE ->
+                    matchesType = lowerResourcePath.endsWith(".png") || lowerResourcePath.endsWith(".jpg") ||
+                            lowerResourcePath.endsWith(".jpeg") || lowerResourcePath.endsWith(".gif") ||
+                            lowerResourcePath.endsWith(".ico");
+            case Resources.Types.STYLESHEET -> matchesType = lowerResourcePath.endsWith(".css");
+            case Resources.Types.FXML -> matchesType = lowerResourcePath.endsWith(".fxml");
+            case Resources.Types.FONT ->
+                    matchesType = lowerResourcePath.endsWith(".ttf") || lowerResourcePath.endsWith(".otf");
+            case Resources.Types.SVG -> matchesType = lowerResourcePath.endsWith(".svg");
+            case Resources.Types.FILE -> matchesType = true;
+            default -> {
                 return null;
+            }
         }
 
         if (!matchesType) {

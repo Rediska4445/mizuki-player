@@ -151,7 +151,6 @@ public abstract class Dialog
                 Color.web("#1E1E1E"), new CornerRadii(16), Insets.EMPTY
         )));
         dialogBox.setOpacity(0);
-
         dialogBox.setBorder(new Border(new BorderStroke(
                 Color.gray(0.3), BorderStrokeStyle.SOLID, new CornerRadii(16), new BorderWidths(1)
         )));

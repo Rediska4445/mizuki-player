@@ -1,29 +1,44 @@
 package rf.ebanina.Network.Illegal.Similar;
 
 import javafx.application.Platform;
+import rf.ebanina.File.Configuration.ConfigurationManager;
+import rf.ebanina.File.Resources.ResourceManager;
+import rf.ebanina.Network.ISimilar;
+import rf.ebanina.Network.Info;
+import rf.ebanina.UI.Root;
 import rf.ebanina.ebanina.Music;
 import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
 import rf.ebanina.ebanina.Player.Track;
-import rf.ebanina.File.Configuration.ConfigurationManager;
-import rf.ebanina.File.Resources.ResourceManager;
-import rf.ebanina.UI.Root;
-import rf.ebanina.Network.ISimilar;
-import rf.ebanina.Network.Info;
-import rf.ebanina.Network.OnlineTrack;
 
-import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import static rf.ebanina.UI.Root.similar;
 import static rf.ebanina.UI.UI.Paint.ColorProcessor.isPreserveRatio;
 import static rf.ebanina.UI.UI.Paint.ColorProcessor.isSmooth;
 
-public class Spotify implements ISimilar {
-    private final ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+public class Spotify
+        implements ISimilar
+{
+    private final ExecutorService executor = Executors.newFixedThreadPool(2);
+
+    private final List<Future<?>> currentSimilarTasks = new ArrayList<>();
+
+    public void clearTasks() {
+        for (Future<?> f : currentSimilarTasks) {
+            if (!f.isDone()) {
+                f.cancel(true);
+            }
+        }
+
+        currentSimilarTasks.clear();
+    }
 
     @Override
     public void updateSimilar(Track track) {
@@ -51,18 +66,17 @@ public class Spotify implements ISimilar {
                     PlayProcessor.playProcessor.getTracks().addAll(similar.getTrackListView().getItems());
                 });
 
-                executor.submit(() -> {
+                Future<?> f = executor.submit(() -> {
                     if (ConfigurationManager.instance.getBooleanItem("delayed_loading", "true") && similar.isVisible()) {
                         Track uri = new Track();
 
                         try {
-                            uri = OnlineTrack.trackParseAsync(tr.viewName);
-                        } catch (IOException e) {
+                            uri = Track.parseTrackFromNetworkAsync(tr.viewName);
+                        } catch (ExecutionException | InterruptedException e) {
                             e.printStackTrace();
                         }
 
-
-                        if (uri != null && uri.getPath() != null) {
+                        if (uri.getPath() != null) {
                             tr.setPath(uri.getPath());
                             tr.setTotalDuraSec(uri.getTotalDuraSec());
                         } else {
@@ -74,6 +88,8 @@ public class Spotify implements ISimilar {
                         }
                     }
                 });
+
+                currentSimilarTasks.add(f);
             }
         } catch (Exception e) {
             e.printStackTrace();

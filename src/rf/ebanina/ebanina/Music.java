@@ -19,7 +19,6 @@ import rf.ebanina.UI.Root;
 import rf.ebanina.UI.UI.Animations;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
 import rf.ebanina.ebanina.KeyBindings.KeyBindingController;
-import rf.ebanina.ebanina.Player.AudioPlugins.PluginWrapper;
 import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
 import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
 import rf.ebanina.ebanina.Player.Media;
@@ -306,15 +305,6 @@ public final class Music
 
         // При закрытии закрыть все потоки и записать кеш.
         stage.setOnCloseRequest(windowEvent -> {
-            // Закрытие плеера.
-            // Здесь происходит убийство всех VST плагинов из плеера.
-            // Это в принципе необязательно, но желательно.
-            for (PluginWrapper p : MediaProcessor.mediaProcessor.mediaPlayer.getPlugins()) {
-                // Убить плагин (для подробностей см. доки)
-                // Здесь операция блокирующая (если не учитывать действия плагина)
-                p.destroy();
-            }
-
             // Закрыть медиа-плеер.
             // Плеер может быть нулевым в некоторых предсказуемых ситуациях,
             // поэтому проверка необходима и намеренна.
@@ -351,7 +341,7 @@ public final class Music
 
             // Смена иконки
             if (
-                    onHidden /* Если приложение скрыто */
+                    onHidden /* Если приложение скрыто */ && Root.art.getImage() != null
             ) {
                 stage.setTitle(Root.currentArtist.getText() + " - " + Root.currentTrackName.getText());
                 stage.getIcons().setAll(Root.art.getImage());

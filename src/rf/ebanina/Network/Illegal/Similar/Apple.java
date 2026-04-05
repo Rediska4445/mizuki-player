@@ -7,12 +7,12 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
-import rf.ebanina.ebanina.Player.Track;
 import rf.ebanina.File.Resources.ResourceManager;
-import rf.ebanina.UI.Root;
 import rf.ebanina.Network.ISimilar;
 import rf.ebanina.Network.Info;
+import rf.ebanina.UI.Root;
+import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
+import rf.ebanina.ebanina.Player.Track;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -24,8 +24,12 @@ import static rf.ebanina.UI.Root.similar;
 import static rf.ebanina.UI.UI.Paint.ColorProcessor.isPreserveRatio;
 import static rf.ebanina.UI.UI.Paint.ColorProcessor.isSmooth;
 
-public class Apple implements ISimilar {
-    private static String getAppleHref(String t) {
+public class Apple
+        implements ISimilar
+{
+    // FIXME: Не работает блять!
+
+    public String getAppleHref(String t) {
         try {
             Document a = Jsoup.connect("https://music.apple.com/ru/search?term=" + URLEncoder.encode(t.replace(" ", ""), StandardCharsets.UTF_8)).get();
 
@@ -39,7 +43,7 @@ public class Apple implements ISimilar {
         return null;
     }
 
-    public static ArrayList<Track> getAppleSimilarTracks(String t) {
+    public ArrayList<Track> getAppleSimilarTracks(String t) {
         ArrayList<Track> tracks = new ArrayList<>();
 
         try {
@@ -54,8 +58,6 @@ public class Apple implements ISimilar {
                         aaa.indexOf("[") + 1,
                         aaa.indexOf("</script>") - 1
                 );
-
-                // Log.println(jj);
 
                 Object obj1 = new JSONParser().parse(jj);
                 JSONObject jsonObject = (JSONObject) obj1;

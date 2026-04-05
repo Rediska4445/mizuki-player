@@ -22,21 +22,21 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static rf.ebanina.UI.Root.general_interpolator;
-
 //FIXME: Пофиксить баги
 //FIXME: Редко, но фон не прогружается (дефолтный цвет вместо него)
 public abstract class AnimatedListCell<T>
         extends ListCell<T>
 {
-    protected final int corners = (int) (Root.corners * 0.5);
-
-    public Pane pane;
+    // Основной контейнер ячейки, в котором всё отображается
+    protected Pane pane;
+    // Искуственный фон ячейки
     protected Rectangle background;
+    // Покрывало для обложки превью в ячейки
     protected Rectangle cover;
+    // Тени для покрывала
     protected DropShadow shadow;
-
-    protected static int maxCacheSize = 50;
+    // Размер кэша
+    protected static int maxCacheSize = 25;
     protected static final java.util.Map<String, ImagePattern> patternsCache =
             new java.util.LinkedHashMap<>(maxCacheSize, 0.75f, true) {
                 @Override
@@ -52,7 +52,6 @@ public abstract class AnimatedListCell<T>
                     return size() > maxCacheSize;
                 }
             };
-
     protected static final Map<String, Color> colorsCache = Collections.synchronizedMap(new LinkedHashMap<>(100, 0.75f, true) {
         protected boolean removeEldestEntry(Map.Entry eldest) {
             return size() > maxCacheSize;
@@ -68,7 +67,7 @@ public abstract class AnimatedListCell<T>
     protected Timeline expansionTimeline;
 
     protected StackPane extraInfoPane;
-    private double baseHeight = 24;
+    public static double baseHeight = 24;
     private boolean isPinned = false;
 
     protected void cleanUpTasks() {
@@ -80,11 +79,11 @@ public abstract class AnimatedListCell<T>
 
     @Override
     protected void updateItem(T item, boolean empty) {
+        T old = getItem();
+
         super.updateItem(item, empty);
 
         checkOnSelected();
-
-        showFadeAnimation().play();
 
         cleanUpTasks();
 
@@ -105,6 +104,13 @@ public abstract class AnimatedListCell<T>
             return;
         }
 
+        if (old == null) {
+            showFadeAnimation().playFromStart();
+        } else {
+            showFadeAnimation().stop();
+            setOpacity(1.0);
+        }
+
         if (extraInfoPane != null) {
             extraInfoPane.setOpacity(0);
             extraInfoPane.getChildren().clear();
@@ -115,19 +121,28 @@ public abstract class AnimatedListCell<T>
     }
 
     public AnimatedListCell() {
-        this(Color.BLACK);
-    }
-
-    public AnimatedListCell(Color mainClr) {
         bindDragAndDrop();
 
         setAlignment(javafx.geometry.Pos.CENTER);
         setPadding(new Insets(0));
 
+        showFadeAnimation = new FadeTransition();
+        showFadeAnimation.setNode(this);
+        showFadeAnimation.setFromValue(0);
+        showFadeAnimation.setToValue(1);
+        showFadeAnimation.setDuration(Duration.millis(1000));
+        showFadeAnimation.setAutoReverse(false);
+        showFadeAnimation.setInterpolator(INTERPOLATOR_ANIMATE_CELL);
+        showFadeAnimation.setCycleCount(1);
+
         this.hoverProperty().addListener((obs, wasHover, isNowHover) -> {
             if (getItem() != null) {
                 playAnimation(isNowHover);
             }
+        });
+
+        prefHeightProperty().addListener((obs, oldVal, newVal) -> {
+            requestLayout();
         });
     }
 
@@ -144,18 +159,7 @@ public abstract class AnimatedListCell<T>
     }
 
     public FadeTransition showFadeAnimation() {
-        if(showFadeAnimation == null) {
-            showFadeAnimation = new FadeTransition();
-            showFadeAnimation.setNode(this);
-            showFadeAnimation.setFromValue(0);
-            showFadeAnimation.setToValue(1);
-            showFadeAnimation.setDuration(Duration.millis(250));
-            showFadeAnimation.setAutoReverse(false);
-            showFadeAnimation.setInterpolator(general_interpolator);
-            showFadeAnimation.setCycleCount(1);
-        } else {
-            showFadeAnimation.stop();
-        }
+        showFadeAnimation.stop();
 
         return showFadeAnimation;
     }
@@ -184,7 +188,7 @@ public abstract class AnimatedListCell<T>
     }
 
     protected Pane createBackgroundPane(int prefHeight) {
-        this.baseHeight = prefHeight;
+        baseHeight = prefHeight;
         this.setPrefHeight(baseHeight);
         this.setMinHeight(prefHeight);
 
@@ -239,8 +243,8 @@ public abstract class AnimatedListCell<T>
     protected Rectangle setCoverIcon(Image imgRes) {
         cover = new Rectangle();
         cover.setFill(new ImagePattern(imgRes));
-        cover.setArcWidth(corners);
-        cover.setArcHeight(corners);
+        cover.setArcWidth(Root.corners * 0.5);
+        cover.setArcHeight(Root.corners * 0.5);
         cover.setHeight(pane.getPrefHeight() * 0.8);
         cover.setWidth(cover.getHeight());
         cover.setLayoutX(2);
@@ -251,29 +255,31 @@ public abstract class AnimatedListCell<T>
 
     protected void initCoverIcon() {
         cover = new Rectangle();
-        cover.setArcWidth(corners);
-        cover.setArcHeight(corners);
+        cover.setArcWidth(Root.corners * 0.5);
+        cover.setArcHeight(Root.corners * 0.5);
         cover.setHeight(pane.getPrefHeight() * 0.8);
         cover.setWidth(cover.getHeight());
         cover.setLayoutX(2);
         cover.setLayoutY(pane.getPrefHeight() / 8);
     }
 
+    protected static Interpolator hoverCellAnimationInterpolator = Interpolator.SPLINE(0.15, 1, 0.25, 1);
+
     private void playAnimation(boolean isShow) {
         if (currentTimeline != null)
             currentTimeline.stop();
 
-        Interpolator interpolator = Interpolator.SPLINE(0.15, 1, 0.25, 1);
-
         double fullWidth = getWidth();
 
         if(isShow) {
+            currentTimeline = null;
+
             currentTimeline = new Timeline(
                     new KeyFrame(Duration.ZERO,
-                            new KeyValue(background.widthProperty(), background.getWidth(), interpolator)
+                            new KeyValue(background.widthProperty(), background.getWidth(), hoverCellAnimationInterpolator)
                     ),
                     new KeyFrame(Duration.millis(800),
-                            new KeyValue(background.widthProperty(), fullWidth, interpolator)
+                            new KeyValue(background.widthProperty(), fullWidth, hoverCellAnimationInterpolator)
                     )
             );
 
@@ -283,12 +289,14 @@ public abstract class AnimatedListCell<T>
                 currentTimeline.stop();
             }
 
+            currentTimeline = null;
+
             currentTimeline = new Timeline(
                     new KeyFrame(Duration.ZERO,
-                            new KeyValue(background.widthProperty(), background.getWidth(), interpolator)
+                            new KeyValue(background.widthProperty(), background.getWidth(), hoverCellAnimationInterpolator)
                     ),
                     new KeyFrame(Duration.millis(1000),
-                            new KeyValue(background.widthProperty(), 0, interpolator)
+                            new KeyValue(background.widthProperty(), 0, hoverCellAnimationInterpolator)
                     )
             );
 
@@ -419,14 +427,12 @@ public abstract class AnimatedListCell<T>
         if (expansionTimeline != null)
             expansionTimeline.stop();
 
-        Interpolator googleBackOut = INTERPOLATOR_ANIMATE_CELL;
-
         expansionTimeline = new Timeline(
-                new KeyFrame(Duration.millis(450),
-                        new KeyValue(this.prefHeightProperty(), targetHeight, googleBackOut),
-                        new KeyValue(pane.prefHeightProperty(), targetHeight, googleBackOut),
+                new KeyFrame(Duration.millis(500),
+                        new KeyValue(this.prefHeightProperty(), targetHeight, INTERPOLATOR_ANIMATE_CELL),
+                        new KeyValue(pane.prefHeightProperty(), targetHeight, INTERPOLATOR_ANIMATE_CELL),
                         new KeyValue(extraInfoPane.opacityProperty(), opacity, Interpolator.EASE_OUT),
-                        new KeyValue(extraInfoPane.translateYProperty(), opacity == 1 ? 0 : 12, googleBackOut)
+                        new KeyValue(extraInfoPane.translateYProperty(), opacity == 1 ? 0 : 12, INTERPOLATOR_ANIMATE_CELL)
                 )
         );
 

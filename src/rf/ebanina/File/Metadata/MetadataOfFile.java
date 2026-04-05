@@ -2,10 +2,11 @@ package rf.ebanina.File.Metadata;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
+import rf.ebanina.File.Configuration.ConfigurationManager;
 import rf.ebanina.File.Metadata.Formats.IFormatAudioMetadata;
 import rf.ebanina.File.Metadata.Formats.MP3;
 import rf.ebanina.File.Metadata.Formats.WAV;
-import rf.ebanina.UI.UI.Paint.ColorProcessor;
+import rf.ebanina.UI.Root;
 import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
 import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
 import rf.ebanina.ebanina.Player.Track;
@@ -17,7 +18,6 @@ import java.util.Map;
 import java.util.Objects;
 
 import static rf.ebanina.Network.Info.PlayersTypes.URI_NULL;
-import static rf.ebanina.Network.OnlineTrack.parseImage;
 
 /**
  * Класс, представляющий метаданные аудиофайлов различных форматов.
@@ -212,7 +212,7 @@ public final class MetadataOfFile
         if(format != null) {
             return format.getTitle(path);
         } else {
-            return unkTitle;
+            return "unkTitle";
         }
     }
     /**
@@ -237,7 +237,7 @@ public final class MetadataOfFile
         if(format != null) {
             return format.getArtist(path);
         } else {
-            return unkAuthor;
+            return "unkAuthor";
         }
     }
     /**
@@ -312,9 +312,9 @@ public final class MetadataOfFile
         }
 
         if (img == null) {
-            img = parseImage(path.getName(), size, size1, preserve_ration, smooth);
+            img = Root.artProcessor.parseImage(path.getName(), size, size1, preserve_ration, smooth);
 
-            if (!PlayProcessor.playProcessor.isNetwork() && ColorProcessor.core.album_art_parsed_set_in_tags) {
+            if (!PlayProcessor.playProcessor.isNetwork() && ConfigurationManager.instance.getBooleanItem("album_art_parsed_set_in_tags", "false")) {
                 setArt(path.getPath(), SwingFXUtils.fromFXImage(img, null));
             }
         }

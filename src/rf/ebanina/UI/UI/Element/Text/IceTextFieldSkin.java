@@ -18,6 +18,7 @@ import rf.ebanina.UI.Root;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
 
 // TODO: Сделать анимацию смены цвета символов
+// FIXME: При длинном тексте, при появлении новых символов в выделении - анимация ломается
 public class IceTextFieldSkin
         extends TextFieldSkin
 {
@@ -71,8 +72,6 @@ public class IceTextFieldSkin
     @Override
     protected void layoutChildren(double x, double y, double w, double h) {
         super.layoutChildren(x, y, w, h);
-
-        Node found = findCaretNode(this.getNode());
 
         Node highlightNode = findHighlightNode(this.getNode());
         Node caretNode = findCaretNode(this.getNode());

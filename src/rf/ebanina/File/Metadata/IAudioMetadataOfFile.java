@@ -6,7 +6,8 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.Map;
 
-public interface IAudioMetadataOfFile {
+public interface IAudioMetadataOfFile
+{
     int getDuration(String path);
     String getTitle(String path);
     String getArtist(String path);

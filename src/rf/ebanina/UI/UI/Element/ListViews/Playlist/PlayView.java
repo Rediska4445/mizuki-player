@@ -27,29 +27,27 @@ import rf.ebanina.UI.UI.Element.Text.TextField;
 import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
 import rf.ebanina.ebanina.Player.Playlist;
 import rf.ebanina.ebanina.Player.Track;
+import rf.ebanina.utils.concurrency.LonelyThreadPool;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.nio.file.FileVisitOption.FOLLOW_LINKS;
-import static rf.ebanina.Network.Info.getTracks;
 import static rf.ebanina.Network.Info.similarList;
 
 public class PlayView<T extends Track, J extends Playlist>
         extends VBox
 {
-    private StackPane centerStack;
-    private ListView<T> trackListView;
-    private ListView<J> playlistListView;
+    protected StackPane centerStack;
+    protected ListView<T> trackListView;
+    protected ListView<J> playlistListView;
 
     private TextField searchBar;
     private TextField currentPlaylistText;
@@ -61,12 +59,12 @@ public class PlayView<T extends Track, J extends Playlist>
     private Button btnPlaylistNext;
     private Button btnPlaylistDown;
 
-    private final DoubleProperty topHeight = new SimpleDoubleProperty(this, "topHeight", 60);
-    private final DoubleProperty bottomHeight = new SimpleDoubleProperty(this, "bottomHeight", 50);
+    protected final DoubleProperty topHeight = new SimpleDoubleProperty(this, "topHeight", 60);
+    protected final DoubleProperty bottomHeight = new SimpleDoubleProperty(this, "bottomHeight", 50);
 
-    private final ExecutorService search = Executors.newSingleThreadExecutor();
+    private final LonelyThreadPool search = new LonelyThreadPool();
 
-    private PlayProcessor<T, J> playProcessor;
+    protected PlayProcessor<T, J> playProcessor;
 
     public PlayProcessor<T, J> getPlayProcessor() {
         return playProcessor;
@@ -201,7 +199,7 @@ public class PlayView<T extends Track, J extends Playlist>
                 }).collect(Collectors.toList());
     }
 
-    public String valueProcess(String key) {
+    private String valueProcess(String key) {
         if (!key.trim().endsWith("!"))
             return null;
 
@@ -210,7 +208,7 @@ public class PlayView<T extends Track, J extends Playlist>
         return query.substring(0, query.length() - 1).trim();
     }
 
-    public final List<Query<T>> queryTypes = new ArrayList<>(List.of(
+    protected final List<Query<T>> queryTypes = new ArrayList<>(List.of(
             new Query<>() {
                 @Override
                 public String tag() {
@@ -273,7 +271,7 @@ public class PlayView<T extends Track, J extends Playlist>
                     if (eqIndex == -1)
                         return source;
 
-                    List<Track> foundTrack = getTracks.getTrack("kute", "50", "search");
+                    List<Track> foundTrack = Info.instance.getListOfTracks(query, "5", "search");
 
                     if (foundTrack == null) {
                         return Collections.emptyList();
@@ -315,7 +313,7 @@ public class PlayView<T extends Track, J extends Playlist>
                     return "@playlist";
                 }
 
-                //TODO: Переделать, работает очень долго
+                //TODO: Переделать, работает очень долго (хотя не должно, ведь в тестовом классе загружается за долю секунды)
                 @Override
                 public List<T> search(String key, List<T> source) {
                     String query = valueProcess(key);
@@ -430,7 +428,7 @@ public class PlayView<T extends Track, J extends Playlist>
         }
     }
 
-    private javafx.event.EventHandler<? super javafx.scene.input.KeyEvent> searchHandler = (t1) -> search.submit(() -> {
+    protected javafx.event.EventHandler<? super javafx.scene.input.KeyEvent> searchHandler = (t1) -> search.runNewTask(() -> {
         if(trackListView.isVisible()) {
             String searchWords = searchBar.getText();
 
@@ -570,26 +568,26 @@ public class PlayView<T extends Track, J extends Playlist>
         return this;
     }
 
-    public final boolean isOpened() {
+    public boolean isOpened() {
         return isVisible();
     }
 
-    public final void open() {
+    public void open() {
         setVisible(true);
         setDisable(false);
     }
 
-    public final void close() {
+    public void close() {
         setVisible(false);
         setDisable(true);
     }
 
-    public final void openTrackList() {
+    public void openTrackList() {
         this.trackListView.setDisable(false);
         this.trackListView.setVisible(true);
     }
 
-    public final void closeTrackList() {
+    public void closeTrackList() {
         this.trackListView.setDisable(true);
         this.trackListView.setVisible(false);
     }

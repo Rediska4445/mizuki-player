@@ -2,6 +2,7 @@ package rf.ebanina.ebanina.Player.Controllers.Playlist;
 
 import javafx.application.Platform;
 import rf.ebanina.File.Configuration.ConfigurationManager;
+import rf.ebanina.File.DataTypes;
 import rf.ebanina.File.Field;
 import rf.ebanina.File.FileManager;
 import rf.ebanina.File.Resources.Resources;
@@ -348,7 +349,7 @@ public class PlaylistController
             FileManager.instance.save(
                     pathOldDir,
                     oldPlaylist.getPath(), // currentMusicDir - current playlist
-                    Field.fields.get(Field.DataTypes.PLAYLIST_LAST_INDEX.code).getLocalName(),
+                    Field.fields.get(DataTypes.PLAYLIST_LAST_INDEX.code).getLocalName(),
                     String.valueOf(PlayProcessor.playProcessor.getTrackIter())
             );
 
@@ -377,7 +378,7 @@ public class PlaylistController
                     PlayProcessor.playProcessor.setTrackIter(Integer.parseInt(FileManager.instance.read(
                             pathNewDir,
                             newPlaylist.getPath(),
-                            Field.fields.get(Field.DataTypes.PLAYLIST_LAST_INDEX.code).getLocalName(),
+                            Field.fields.get(DataTypes.PLAYLIST_LAST_INDEX.code).getLocalName(),
                             "0")
                     ));
                 }
@@ -385,7 +386,7 @@ public class PlaylistController
                 PlayProcessor.playProcessor.setTrackIter(Integer.parseInt(FileManager.instance.read(
                         pathNewDir,
                         newPlaylist.getPath(),
-                        Field.fields.get(Field.DataTypes.PLAYLIST_LAST_INDEX.code).getLocalName(),
+                        Field.fields.get(DataTypes.PLAYLIST_LAST_INDEX.code).getLocalName(),
                         "0")
                 ));
             }

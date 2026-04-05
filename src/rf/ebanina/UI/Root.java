@@ -34,12 +34,14 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import rf.ebanina.File.Configuration.ConfigurableField;
 import rf.ebanina.File.Configuration.ConfigurationManager;
-import rf.ebanina.File.Field;
+import rf.ebanina.File.DataTypes;
 import rf.ebanina.File.FileManager;
 import rf.ebanina.File.Localization.Locales;
 import rf.ebanina.File.Localization.LocalizationManager;
 import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.File.Resources.Resources;
+import rf.ebanina.Network.ISimilar;
+import rf.ebanina.Network.Illegal.Similar.Spotify;
 import rf.ebanina.Network.Info;
 import rf.ebanina.UI.Editors.Metadata.Track.Metadata;
 import rf.ebanina.UI.UI.Context.Tooltip.ContextTooltip;
@@ -54,7 +56,6 @@ import rf.ebanina.UI.UI.Element.Buttons.Playlist.HideRight;
 import rf.ebanina.UI.UI.Element.ControlPane;
 import rf.ebanina.UI.UI.Element.LicenseDialog;
 import rf.ebanina.UI.UI.Element.ListViews.ListCells.Playlists.ListCellPlaylist;
-import rf.ebanina.UI.UI.Element.ListViews.ListCells.Playlists.ListCellSimilar;
 import rf.ebanina.UI.UI.Element.ListViews.ListCells.Playlists.ListCellTrack;
 import rf.ebanina.UI.UI.Element.ListViews.Playlist.PlayView;
 import rf.ebanina.UI.UI.Element.Slider.SoundSlider;
@@ -65,7 +66,6 @@ import rf.ebanina.UI.UI.Popup.PreviewPopupService;
 import rf.ebanina.ebanina.KeyBindings.Keys;
 import rf.ebanina.ebanina.Music;
 import rf.ebanina.ebanina.Player.Controllers.ArtProcessor;
-import rf.ebanina.ebanina.Player.Controllers.IArtProcessor;
 import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
 import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
 import rf.ebanina.ebanina.Player.Controllers.Playlist.PlaylistController;
@@ -96,7 +96,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static rf.ebanina.File.Resources.ResourceManager.BIN_LIBRARIES_PATH;
-import static rf.ebanina.Network.Info.updateSimilarListAsync;
 import static rf.ebanina.UI.Root.PlaylistHandler.playlistSelected;
 import static rf.ebanina.ebanina.KeyBindings.KeyBindingController.isKeyPressed;
 import static rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor.playProcessor;
@@ -435,6 +434,11 @@ public class Root
             this.imgBottom = imgBottom;
             return this;
         }
+
+        public Layout setHideControlLeftLayoutX(float hideControlLeftLayoutX) {
+            this.hideControlLeftLayoutX = hideControlLeftLayoutX;
+            return this;
+        }
     }
 
     public static final Layout rootLayout = new Layout();
@@ -447,7 +451,7 @@ public class Root
 
     public static javafx.scene.shape.Rectangle sliderBlurBackground = new javafx.scene.shape.Rectangle();
 
-    public static IArtProcessor artProcessor = new ArtProcessor();
+    public static ArtProcessor artProcessor = new ArtProcessor();
 
     public static double ICE_FRICTION = 14.0;
 
@@ -1038,7 +1042,7 @@ public class Root
 
     public static Runnable onInit = null;
 
-    public static final ExecutorService rootExecService = Executors.newCachedThreadPool();
+    public static final ExecutorService rootExecService = Executors.newFixedThreadPool(2);
 
     public void initPantyhose(Region... regions) {
         for(Region region : regions) {
@@ -1158,7 +1162,7 @@ public class Root
                     if(!isKeyPressed(NativeKeyEvent.VC_SHIFT)) {
                         FileManager.instance.save(path,
                                 PlayProcessor.playProcessor.getTracks().get(PlayProcessor.playProcessor.getTrackIter()).toString(),
-                                Field.DataTypes.LIKE_MOMENT_START.code,
+                                DataTypes.LIKE_MOMENT_START.code,
                                 String.valueOf(soundSlider.getValue()));
 
                         MediaProcessor.mediaProcessor.mediaPlayer.setStartTime(Duration.seconds(Double.parseDouble(String.valueOf(soundSlider.getValue()))));
@@ -1170,7 +1174,7 @@ public class Root
                     } else {
                         FileManager.instance.save(path,
                                 PlayProcessor.playProcessor.getTracks().get(PlayProcessor.playProcessor.getTrackIter()).toString(),
-                                Field.DataTypes.LIKE_MOMENT_STOP.code,
+                                DataTypes.LIKE_MOMENT_STOP.code,
                                 String.valueOf(soundSlider.getValue()));
 
                         MediaProcessor.mediaProcessor.mediaPlayer.setStopTime(Duration.seconds(Double.parseDouble(String.valueOf(soundSlider.getValue()))));
@@ -1253,11 +1257,11 @@ public class Root
                     if(similar.isOpened()) {
                         similar.close();
 
-                        Info.similarStop();
+                        Info.instance.similarStop();
                     } else {
                         similar.open();
 
-                        Info.similarStart();
+                        Info.instance.similarStart();
                     }
                 });
             });
@@ -1274,7 +1278,13 @@ public class Root
                     similar.getTrackListView().getItems().clear();
                     Root.PlaylistHandler.playlistSimilar.clear();
 
-                    updateSimilarListAsync(similar.getCurrentPlaylistText().getText()).start();
+                    for(ISimilar info : Info.similarList) {
+                        if(info instanceof Spotify spotify) {
+                            spotify.clearTasks();
+                        }
+                    }
+
+                    Info.instance.updateSimilarListAsync(similar.getCurrentPlaylistText().getText());
                 }
             });
 
@@ -1354,7 +1364,7 @@ public class Root
         public static void set() {
             root.getChildren().add(similar);
 
-            similar.getTrackListView().setCellFactory(lv -> new ListCellSimilar());
+            similar.getTrackListView().setCellFactory(lv -> new ListCellTrack<>());
             similar.getPlaylistListView().setCellFactory(lv -> new ListCellPlaylist<>(ResourceManager.Instance.loadImage("playlistIcon",
                     40, 40, ColorProcessor.isPreserveRatio, ColorProcessor.isSmooth)));
             similar.setPlayProcessor(PlayProcessor.playProcessor);

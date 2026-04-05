@@ -2,18 +2,18 @@ package rf.ebanina.ebanina.Player.Controllers;
 
 import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
 import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.util.Duration;
 import rf.ebanina.File.Configuration.ConfigurationManager;
-import rf.ebanina.File.Field;
+import rf.ebanina.File.DataTypes;
 import rf.ebanina.File.FileManager;
 import rf.ebanina.File.Localization.LocalizationManager;
 import rf.ebanina.File.Metadata.MetadataOfFile;
 import rf.ebanina.File.Resources.Resources;
 import rf.ebanina.Network.Info;
-import rf.ebanina.Network.OnlineTrack;
 import rf.ebanina.Network.Translator;
 import rf.ebanina.UI.Editors.Player.AudioHost;
 import rf.ebanina.UI.Root;
@@ -220,6 +220,9 @@ public class MediaProcessor
     public MediaProcessor(boolean isClearSamples, SoundSlider soundSliderPointer) {
         this.isClearSamples = isClearSamples;
         this.soundSliderPointer = soundSliderPointer;
+        this.mediaParameters.put("isAutoPlayback", new SimpleBooleanProperty(false), BooleanProperty.class);
+        this.mediaParameters.put("isPlaylistLoop", new SimpleBooleanProperty(false), BooleanProperty.class);
+        this.mediaParameters.put("isPlayRandom", new SimpleBooleanProperty(false), BooleanProperty.class);
     }
 
     /**
@@ -233,32 +236,38 @@ public class MediaProcessor
      *     <li>{@code "isPlayRandom"} - случайное воспроизведение треков</li>
      * </ul>
      * <p>
-     * Пример использования:
-     * </p>
-     * <pre>
-     * {@code
-     * // Получить свойство
-     * BooleanProperty autoPlayback = (BooleanProperty) mediaParameters.get("isAutoPlayback");
-     *
-     * // Установить значение
-     * autoPlayback.set(true);
-     *
-     * // Добавить слушатель изменений
-     * autoPlayback.addListener((obs, old, newVal) -> {
-     *     System.out.println("Auto playback: " + newVal);
-     * });
-     *
-     * // Проверить текущее состояние
-     * boolean isRandom = (BooleanProperty) mediaParameters.get("isPlayRandom")
-     *         .getValue();
-     * }
      * </pre>
      */
-    public HashMap<String, Property<?>> mediaParameters = new HashMap<>(Map.ofEntries(
-            Map.entry("isAutoPlayback", new SimpleBooleanProperty(false)),
-            Map.entry("isPlaylistLoop", new SimpleBooleanProperty(false)),
-            Map.entry("isPlayRandom", new SimpleBooleanProperty(false))
-    ));
+    public TypicalMapWrapper<String> mediaParameters = new TypicalMapWrapper<>();
+
+    public boolean isAutoPlayback() {
+        return mediaParameters.get(MediaParameters.IS_AUTO_PLAYBACK.code, BooleanProperty.class).get();
+    }
+
+    public boolean isPlaylistLoop() {
+        return mediaParameters.getAuto(MediaParameters.IS_PLAYLIST_LOOP.code);
+    }
+
+    public boolean isPlayRandom() {
+        return mediaParameters.getAuto(MediaParameters.IS_PLAY_RANDOM.code);
+    }
+
+    public BooleanProperty getAutoPlaybackProperty() {
+        return mediaParameters.getAuto(MediaParameters.IS_AUTO_PLAYBACK.code);
+    }
+
+    public BooleanProperty getPlaylistLoopProperty() {
+        return mediaParameters.getAuto(MediaParameters.IS_PLAYLIST_LOOP.code);
+    }
+
+    public BooleanProperty getPlayRandomProperty() {
+        return mediaParameters.getAuto(MediaParameters.IS_PLAY_RANDOM.code);
+    }
+
+    public TypicalMapWrapper<String> getMediaParameters() {
+        return mediaParameters;
+    }
+
     /**
      * Enum коды параметров воспроизведения для {@link #mediaParameters}.
      * <p>
@@ -473,13 +482,13 @@ public class MediaProcessor
         _trackSingleAloneThread.runNewTask(() -> {
             // Проверка на выход за границы
             if(playProcessor.getTrackIter() >= playProcessor.getTracks().size()) {
-                if (mediaParameters.get(MediaParameters.IS_PLAYLIST_LOOP.code).getValue().equals(true)) {
+                if (mediaParameters.get(MediaParameters.IS_PLAYLIST_LOOP.code, BooleanProperty.class).getValue().equals(true)) {
                     playProcessor.setTrackIter(0);
                 } else {
                     PlaylistController.playlistController.next();
                 }
             } else if(playProcessor.getTrackIter() < 0) {
-                if(mediaParameters.get(MediaParameters.IS_PLAYLIST_LOOP.code).getValue().equals(true)) {
+                if(getPlaylistLoopProperty().getValue().equals(true)) {
                     playProcessor.setTrackIter(PlayProcessor.playProcessor.getTracks().size() - 1);
                 } else {
                     PlaylistController.playlistController.down();
@@ -529,6 +538,7 @@ public class MediaProcessor
         if (mediaPlayer != null) {
 
             // Фокус ячейки
+            // TODO: Перевести в свойство, дабы не мусорить поток FX
             Platform.runLater(() -> {
                 if(track.isNetty()) {
                     Root.similar.getTrackListView().getSelectionModel().select(playProcessor.getTrackIter());
@@ -1082,19 +1092,19 @@ public class MediaProcessor
             if (!state.isEmpty()) {
                 // Заготовка действий, на случай если есть кеш в файле
                 Map<String, Consumer<String>> stateItems = new HashMap<>(Map.ofEntries(
-                        Map.entry(Field.DataTypes.TEMPO.code, (val) -> {
+                        Map.entry(DataTypes.TEMPO.code, (val) -> {
                             globalMap.put("tempo", Float.parseFloat(val), float.class);
                             mediaPlayer.setTempo(Float.parseFloat(val));
                         }),
-                        Map.entry(Field.DataTypes.VOLUME.code, (val) -> {
+                        Map.entry(DataTypes.VOLUME.code, (val) -> {
                             globalMap.put("volume", Double.parseDouble(val), double.class);
                             mediaPlayer.setVolume(Double.parseDouble(val));
                         }),
-                        Map.entry(Field.DataTypes.PAN.code, (val) -> {
+                        Map.entry(DataTypes.PAN.code, (val) -> {
                             globalMap.put("pan", Float.parseFloat(val), float.class);
                             mediaPlayer.setPan(Float.parseFloat(val));
                         }),
-                        Map.entry(Field.DataTypes.PITCH.code, (val) -> {
+                        Map.entry(DataTypes.PITCH.code, (val) -> {
                             globalMap.put("pitch", Float.parseFloat(val), float.class);
                             mediaPlayer.setPan(Float.parseFloat(val));
                         })
@@ -1122,7 +1132,7 @@ public class MediaProcessor
         switch (al) {
             case "last_time" -> {
                 if (track.isRestoreState() && PlayProcessor.playProcessor.getTrackHistoryGlobal().contains(track)) {
-                    Duration dura = Duration.seconds(Double.parseDouble(trackArray.getOrDefault(Field.DataTypes.TIME.code, "0")));
+                    Duration dura = Duration.seconds(Double.parseDouble(trackArray.getOrDefault(DataTypes.TIME.code, "0")));
 
                     if (dura.toSeconds() < mediaPlayer.getOverDuration().toSeconds() - 30 && dura.toSeconds() > -1) {
                         mediaPlayer.setStartTime(dura);
@@ -1141,12 +1151,12 @@ public class MediaProcessor
             }
         }
 
-        if ((boolean) MediaProcessor.mediaProcessor.mediaParameters.get(MediaProcessor.MediaParameters.IS_AUTO_PLAYBACK.code).getValue()) {
+        if (getAutoPlaybackProperty().getValue()) {
             mediaPlayer.setStartTime(Duration.seconds(Double.parseDouble(
                     FileManager.instance.read(
                             path.toString(),
                             playProcessor.getTracks().get(playProcessor.getTrackIter()).getPath(),
-                            fields.get(Field.DataTypes.LIKE_MOMENT_START.code).getLocalName(),
+                            fields.get(DataTypes.LIKE_MOMENT_START.code).getLocalName(),
                             "0"))
             ));
 
@@ -1154,7 +1164,7 @@ public class MediaProcessor
                     FileManager.instance.read(
                             path.toString(),
                             playProcessor.getTracks().get(playProcessor.getTrackIter()).getPath(),
-                            fields.get(Field.DataTypes.LIKE_MOMENT_START.code).getLocalName(),
+                            fields.get(DataTypes.LIKE_MOMENT_START.code).getLocalName(),
                             mediaPlayer.getOverDuration().toString()))
             ));
         }
@@ -1182,12 +1192,13 @@ public class MediaProcessor
         mediaPlayer.setPlugins(AudioHost.instance.vstPlugins);
 
         if(playProcessor.isNetwork() && !ConfigurationManager.instance.getBooleanItem("network_pre_download", "false")) {
-            mediaPlayer.setTotalOverDuration(Duration.seconds(OnlineTrack.totalDuraSec));
+            mediaPlayer.setTotalOverDuration(Duration.seconds(totalDuraSec.get()));
         }
 
         mediaPlayer.setStartTime(a);
         mediaPlayer.play();
     }
+
     /**
      * Создание нового MediaPlayer с автоматической настройкой.
      * <p>
@@ -1237,15 +1248,15 @@ public class MediaProcessor
             });
 
             mediaPlayer.setOnStopTimeReached(() -> {
-                if (MediaProcessor.mediaProcessor.mediaParameters.get(MediaParameters.IS_AUTO_PLAYBACK.code).getValue().equals(false)) {
+                if (MediaProcessor.mediaProcessor.getAutoPlaybackProperty().getValue().equals(false)) {
                     prepareToPlay(PlayProcessor.playProcessor.getTracks().get(PlayProcessor.playProcessor.getTrackIter()));
                 }
             });
 
             mediaPlayer.setOnEndOfMedia(() -> {
-                if (MediaProcessor.mediaProcessor.mediaParameters.get(MediaParameters.IS_PLAY_RANDOM.code).getValue().equals(false)) {
+                if (getPlayRandomProperty().getValue().equals(false)) {
                     if (PlayProcessor.playProcessor.getTrackIter() >= PlayProcessor.playProcessor.getTracks().size()) {
-                        if (mediaParameters.get(MediaParameters.IS_PLAYLIST_LOOP.code).getValue().equals(true)) {
+                        if (getPlaylistLoopProperty().getValue().equals(true)) {
                             PlayProcessor.playProcessor.setTrackIter(0);
                         } else {
                             PlaylistController.playlistController.next();
@@ -1255,7 +1266,7 @@ public class MediaProcessor
                     PlayProcessor.playProcessor.setTrackIter(new Random().nextInt(0, PlayProcessor.playProcessor.getTracks().size() - 1));
                 }
 
-                if (mediaParameters.get(MediaParameters.IS_AUTO_PLAYBACK.code).getValue().equals(false)) {
+                if (getAutoPlaybackProperty().getValue().equals(false)) {
                     PlayProcessor.playProcessor.next();
                 }
             });

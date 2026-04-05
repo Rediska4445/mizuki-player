@@ -3,6 +3,7 @@ package rf.ebanina.UI.Editors.Metadata.Track;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -22,17 +23,18 @@ import me.API.Info;
 import org.json.simple.parser.ParseException;
 import rf.ebanina.File.Metadata.MetadataOfFile;
 import rf.ebanina.File.Resources.ResourceManager;
+import rf.ebanina.Network.APIS.GeniusAPI.Search;
 import rf.ebanina.UI.Root;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
+import rf.ebanina.ebanina.Music;
 import rf.ebanina.ebanina.Player.Track;
+import rf.ebanina.utils.concurrency.LonelyThreadPool;
 
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import static rf.ebanina.File.Localization.LocalizationManager.getLocaleString;
 
@@ -65,7 +67,9 @@ public class Controller
     @FXML
     protected VBox mainBox;
 
-    private static final ExecutorService serv = Executors.newFixedThreadPool(1);
+    private final LonelyThreadPool serv = new LonelyThreadPool();
+
+    private final LonelyThreadPool lyricsService = new LonelyThreadPool();
 
     private double scrollTarget = 0;
 
@@ -110,7 +114,7 @@ public class Controller
         save.setText(getLocaleString("metadata_save", "Save"));
         remove.setText(getLocaleString("metadata_remove", "Remove"));
 
-        Color mainColor = ColorProcessor.core.getMainClr();
+        Color mainColor = ColorProcessor.core.getGeneralColorFromImage(track.getAlbumArt());
         String hexColor = ColorProcessor.core.toHex(mainColor);
 
         title.setStyle("-fx-background-color: #333333; -fx-text-fill: white; -fx-prompt-text-fill: #AAAAAA; -jfx-unfocus-color: " + hexColor + "; -jfx-focus-color: " + hexColor + ";");
@@ -126,6 +130,20 @@ public class Controller
         title.setOnKeyTyped(e -> isActived.add("title"));
         author.setOnKeyTyped(e -> isActived.add("author"));
         lyrics.setOnKeyTyped(e -> isActived.add("lyrics"));
+
+        lyricsService.runNewTask(() -> {
+            try {
+                Music.mainLogger.info("Parse lyrics by track");
+
+                String text = Search.getLyrics(track.viewName()).toString();
+
+                Music.mainLogger.info("Parsed lyrics by track");
+
+                Platform.runLater(() -> lyrics.setText(text));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
 
         save.setOnAction(e -> {
             if (isActived.contains("title"))
@@ -165,7 +183,7 @@ public class Controller
 
         command_field.setOnKeyReleased(e -> {
             if (e.getCode() == KeyCode.ENTER) {
-                serv.submit(() -> {
+                serv.runNewTask(() -> {
                     try {
                         URL url;
                         String query = command_field.getText();

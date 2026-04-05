@@ -12,7 +12,6 @@ import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
 import rf.ebanina.ebanina.Player.Track;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,36 +19,32 @@ import static rf.ebanina.UI.Root.similar;
 import static rf.ebanina.UI.UI.Paint.ColorProcessor.isPreserveRatio;
 import static rf.ebanina.UI.UI.Paint.ColorProcessor.isSmooth;
 
+// FIXME: Не работает блять! (из рф)
 public class SoundCloud
         implements ISimilar
 {
-    public static String SOUNDCLOUD_CLIENT_ID;
+    public static soundcloud.SoundCloud sc;
 
-    public void initClientId() {
-        SOUNDCLOUD_CLIENT_ID = "client_id=" + ConfigurationManager.instance.getItem("soundcloud_api_client_id", "");
+    public SoundCloud() {
+        if(sc == null) {
+            initSoundCloudAPI();
+
+            sc.limit = (ConfigurationManager.instance.getIntItem("soundcloud_related_limit", "25"));
+        }
+    }
+
+    public void initSoundCloudAPI() {
+        String SOUNDCLOUD_CLIENT_ID = "client_id=" + ConfigurationManager.instance.getItem("soundcloud_api_client_id", "");
+
+        sc = new soundcloud.SoundCloud(SOUNDCLOUD_CLIENT_ID);
 
         if(ConfigurationManager.instance.getItem("soundcloud_api_client_id", "").equalsIgnoreCase("null")) {
             try {
-                SOUNDCLOUD_CLIENT_ID = updateClientId();
+                SOUNDCLOUD_CLIENT_ID = sc.updateClientId();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-    }
-
-    public String updateClientId() throws IOException {
-        String clientId;
-
-        soundcloud.network.Request request = new soundcloud.network.Request(new URL("https://a-v2.sndcdn.com/assets/0-cbfed2d8.js"));
-        soundcloud.network.Response response = request.send();
-
-        String body = response.getBody().toString();
-        String clientIdName = "client_id=";
-        int clientIdIndex = body.indexOf(clientIdName);
-
-        clientId = body.substring(clientIdIndex + clientIdName.length(), body.indexOf("\"", clientIdIndex));
-
-        return "client_id=" + clientId;
     }
 
     @Override
@@ -67,13 +62,6 @@ public class SoundCloud
 
     @Override
     public List<Track> getSimilar(String f) {
-        if(SOUNDCLOUD_CLIENT_ID == null) {
-            initClientId();
-        }
-
-        soundcloud.SoundCloud sc = new soundcloud.SoundCloud(SOUNDCLOUD_CLIENT_ID);
-        sc.limit = (ConfigurationManager.instance.getIntItem("soundcloud_related_limit", "25"));
-
         List<soundcloud.api.SoundCloudTrack> tr;
 
         try {

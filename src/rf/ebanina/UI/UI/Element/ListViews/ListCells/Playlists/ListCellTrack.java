@@ -15,52 +15,44 @@ import rf.ebanina.UI.UI.Context.Menu.Playlist.SimilarContextMenu;
 import rf.ebanina.UI.UI.Context.Menu.Playlist.TrackContextMenu;
 import rf.ebanina.UI.UI.Element.ListViews.ListCells.AnimatedListCell;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
+import rf.ebanina.ebanina.Music;
 import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
 import rf.ebanina.ebanina.Player.Track;
 import rf.ebanina.utils.concurrency.PriorityThreadFactory;
+import rf.ebanina.utils.loggining.logging;
 
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static rf.ebanina.UI.UI.Paint.ColorProcessor.*;
+
 // FIXME: Эта хуйня потребляет память ОЗУ
 // FIXME: Эта хуйня лагает по CPU
 // FIXME: Эта хуйня иногда не прогружает фон (не из за отмены задач и ограничения пула)
+// FIXME: Эту хуйня иногда неправильно прогружает данные
+// блять я реально долбаёб
+@logging(tag = "AnimatedListCell/ListCellTrack")
 public class ListCellTrack<T>
         extends AnimatedListCell<Track>
 {
     protected Label mainLabelOfTrack;
 
-    private volatile Track current = null;
-
-    private static final int CORE_POOL_SIZE_DATA = Runtime.getRuntime().availableProcessors();
-    private static final int CPU_COUNT = Runtime.getRuntime().availableProcessors();
-    private static final int BG_POOL_CORE = Math.max(4, CPU_COUNT);
-    private static final int BG_POOL_MAX = Math.max(8, CPU_COUNT * 2);
-
+    // (1) Пул для “тяжёлых” загрузок: трек‑данные, длительные вычисления
     private static final ExecutorService dataLoadService = new ThreadPoolExecutor(
-            CORE_POOL_SIZE_DATA,
-            CORE_POOL_SIZE_DATA,
-            0L, TimeUnit.MILLISECONDS,
-            new LinkedBlockingQueue<>(100),
-            new PriorityThreadFactory(
-                    "cell-data-loader",
-                    Thread.NORM_PRIORITY + 1,
-                    true
-            ),
-            new ThreadPoolExecutor.DiscardOldestPolicy()
+            2,
+            4,
+            30, TimeUnit.SECONDS,
+            new LinkedBlockingQueue<>(92),
+            new PriorityThreadFactory("DataLoad", Thread.NORM_PRIORITY, true)
     );
 
+    // (2) Отдельный пул для загрузки/обработки картинок (альбом‑арт)
     private static final ExecutorService backgroundAlbumArtService = new ThreadPoolExecutor(
-            BG_POOL_CORE,
-            BG_POOL_MAX,
-            60L, TimeUnit.SECONDS,
-            new SynchronousQueue<>(),
-            new PriorityThreadFactory(
-                    "cell-bg-art-loader",
-                    Thread.NORM_PRIORITY - 1,
-                    true
-            ),
-            new ThreadPoolExecutor.CallerRunsPolicy()
+            2,
+            4,
+            30, TimeUnit.SECONDS,
+            new LinkedBlockingQueue<>(92),
+            new PriorityThreadFactory("AlbumArt", Thread.NORM_PRIORITY, true)
     );
 
     private static final AtomicInteger albumArtCounter = new AtomicInteger(0);
@@ -70,7 +62,7 @@ public class ListCellTrack<T>
     }
 
     public ListCellTrack(Color color) {
-        super(color);
+        super();
 
         pane = createBackgroundPane(28);
         pane.setLayoutY(getLayoutY());
@@ -87,8 +79,6 @@ public class ListCellTrack<T>
         mainLabelOfTrack.setLayoutX(cover.getWidth() + 10);
 
         pane.getChildren().addAll(cover, mainLabelOfTrack);
-
-        setText(null);
     }
 
     @Override
@@ -104,17 +94,16 @@ public class ListCellTrack<T>
 
         // Поставить дефолтные эффекты и данные для нормального вида
         pane.setOpacity(1.0);
-        mainLabelOfTrack.setText(null);
+        mainLabelOfTrack.setText(item.viewName);
         shadow.setColor(Color.TRANSPARENT);
-
-        // Нужно для проверки на текущую ячейку
-        current = item;
 
         // Путь к треку
         String path = item.getPath();
 
         // Если паттерн уже кэширован - поставить
         ImagePattern cachedThumb = patternsMipmapCache.get(path);
+        ImagePattern cachedBackground = patternsCache.get(path);
+
         Color cachedColor = colorsCache.get(path);
 
         if (cachedThumb != null) {
@@ -125,7 +114,11 @@ public class ListCellTrack<T>
                 shadow.setColor(cachedColor);
             }
         } else {
-            cover.setFill(ColorProcessor.logoPattern);
+            cover.setFill(ColorProcessor.core.getLogoPattern());
+        }
+
+        if(cachedBackground != null) {
+            super.setBackgroundImageCentered(cachedBackground, background);
         }
 
         loadDataAsync(item);
@@ -143,8 +136,13 @@ public class ListCellTrack<T>
         setGraphic(pane);
     }
 
-    protected void loadDataAsync(Track item) {
-        super.currentBgTask = backgroundAlbumArtService.submit(() -> {
+    protected boolean isCurrentItem(Track item) {
+        Track cellItem = getItem();
+        return item == cellItem;
+    }
+
+    private Runnable loadBackgroundLocalTrack(Track item) {
+        return () -> {
             ImagePattern cachedPattern;
             synchronized (patternsCache) {
                 cachedPattern = patternsCache.get(item.getPath());
@@ -162,16 +160,42 @@ public class ListCellTrack<T>
                 }
             }
 
-            if (item.equals(getItem()) && item.equals(current) && getItem().equals(current)) {
-                ImagePattern finalCachedPattern = cachedPattern;
+            if (isCurrentItem(item)) {
+                final ImagePattern finalCachedPattern = cachedPattern;
 
-                Platform.runLater(() -> {
-                    super.setBackgroundImageCentered(finalCachedPattern, background);
-                });
+                Platform.runLater(() -> setBackgroundImageCentered(finalCachedPattern, background));
             }
-        });
+        };
+    }
 
-        super.currentTask = dataLoadService.submit(() -> {
+    private Runnable loadBackgroundNettyTrack(Track item) {
+        return () -> {
+            try {
+                String url = item.metadata.get("album_art", String.class);
+
+                Image buff;
+
+                if (url != null) {
+                    buff = item.albumArt == null ? item
+                            .setAlbumArt(new Image(item.metadata.get("album_art", String.class), size, size, isPreserveRatio, isSmooth)).getAlbumArt()
+                            : item.getAlbumArt();
+                } else {
+                    buff = null;
+                }
+
+                if (buff != null) {
+                    if (isCurrentItem(item)) {
+                        Platform.runLater(() -> setBackgroundImageCentered(buff, getWidth(), background));
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        };
+    }
+
+    private Runnable loadDataLocalTrack(Track item) {
+        return () -> {
             String topLabelText = getTopLabelText(item);
 
             if(albumArtCounter.addAndGet(1) > Track.CACHE_SIZE) {
@@ -213,11 +237,55 @@ public class ListCellTrack<T>
             final ImagePattern finalMipmapCachedPattern = mipmapCachedPattern;
 
             Platform.runLater(() -> {
-                if (item.equals(getItem()) && item.equals(current) && getItem().equals(current)) {
+                if (isCurrentItem(item)) {
                     animateDataArrival(finalColor, finalMipmapCachedPattern, topLabelText);
                 }
             });
-        });
+        };
+    }
+
+    private Runnable loadDataNettyTrack(Track item) {
+        return () -> {
+            try {
+                Image buff;
+
+                String url = item.metadata.get("album_art", String.class);
+
+                if(url != null) {
+                    buff = item.mipmap == null || !item.metadata.get("mipmap_is_loaded", boolean.class) ? item
+                            .setMipmap(new Image(item.metadata.get("album_art", String.class), 40, 40, isPreserveRatio, isSmooth)).getMipmap()
+                            : item.getMipmap();
+
+                    item.metadata.put("mipmap_is_loaded", true, boolean.class);
+                } else {
+                    buff = item.getMipmap();
+                }
+
+                Color color = ColorProcessor.core.getGeneralColorFromImage(buff);
+
+                String viewName = item.viewName();
+
+                Platform.runLater(() -> {
+                    if (isCurrentItem(item)) {
+                        cover.setFill(new ImagePattern(buff != null ? buff : logo));
+                        shadow.setColor(color);
+                        mainLabelOfTrack.setTextFill(color);
+                        mainLabelOfTrack.setText(viewName + " / " + item);
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        };
+    }
+
+    protected void loadDataAsync(Track item) {
+        try {
+            super.currentBgTask = backgroundAlbumArtService.submit(item.isNetty() ? loadBackgroundNettyTrack(item) : loadBackgroundLocalTrack(item));
+            super.currentTask = dataLoadService.submit(item.isNetty() ? loadDataNettyTrack(item) : loadDataLocalTrack(item));
+        } catch (RejectedExecutionException e) {
+            Music.mainLogger.warn("ThreadPool overloaded, skip async load for track: " + item);
+        }
     }
 
     protected void animateDataArrival(Color targetColor, ImagePattern targetPattern, String targetText) {
@@ -237,6 +305,10 @@ public class ListCellTrack<T>
         mainLabelOfTrack.setTextFill(targetColor);
         cover.setFill(targetPattern);
 
+        buildAnimationDataArrival(pane, mainLabelOfTrack, cover, targetColor).play();
+    }
+
+    protected ParallelTransition buildAnimationDataArrival(Node pane, Node mainLabelOfTrack, Node cover, Color targetColor) {
         ParallelTransition pt = new ParallelTransition();
 
         FadeTransition fadePane = new FadeTransition(Duration.millis(300), pane);
@@ -257,7 +329,8 @@ public class ListCellTrack<T>
         );
 
         pt.getChildren().addAll(fadePane, fadeLabel, scaleCover, colorTimeline);
-        pt.play();
+
+        return pt;
     }
 
     protected String getTopLabelText(Track item) {
@@ -270,6 +343,8 @@ public class ListCellTrack<T>
 
     @Override
     protected Node createExtraInfoContent() {
+        Music.mainLogger.info("Create VBox(3)");
+
         return new VBox(3);
     }
 

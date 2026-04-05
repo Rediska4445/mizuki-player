@@ -2,12 +2,14 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane fx:id = "mainPain" prefHeight="600" prefWidth="860" style="-fx-background-color: #1E1E1E;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rf.ebanina.UI.Editors.Network.Controller">
-    <VBox layoutX="20" layoutY="20" prefHeight="560.0" prefWidth="300.0" spacing="15" AnchorPane.leftAnchor="20" AnchorPane.topAnchor="20" style="-fx-background-color: #1E1E1E;">
+
+<AnchorPane fx:id="mainPain" prefHeight="600" prefWidth="860" style="-fx-background-color: #1E1E1E;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rf.ebanina.UI.Editors.Network.Controller">
+    <VBox layoutX="20" layoutY="20" prefHeight="560.0" prefWidth="300.0" spacing="15" style="-fx-background-color: #1E1E1E;" AnchorPane.leftAnchor="20" AnchorPane.topAnchor="20">
 
         <!-- Download from Stream -->
         <Label fx:id="downloadLabel" style="-fx-font-weight: bold; -fx-text-fill: #7092be;" text="Search" />
         <TextField fx:id="download" prefWidth="300" promptText="Item" style="-fx-background-color: #333333; -fx-text-fill: white; -fx-prompt-text-fill: #AAAAAA;" />
+         <Button fx:id="searchButton" prefHeight="25.0" prefWidth="337.0" style="-fx-background-color: #7092be; -fx-text-fill: white;" text="Search" VBox.vgrow="ALWAYS" />
 
         <!-- SearchProcessor -->
         <Label fx:id="addictLabel" style="-fx-font-weight: bold; -fx-text-fill: #7092be;" text="Addict" />
@@ -23,7 +25,7 @@
         <!-- Buttons -->
         <HBox alignment="CENTER_LEFT" spacing="15">
             <Button fx:id="setToPlaylist" prefWidth="140" style="-fx-background-color: #7092be; -fx-text-fill: white;" text="Set to playlist" />
-            <Button fx:id="addToPlaylist" prefWidth="140" style="-fx-background-color: #7092be; -fx-text-fill: white;" text="Add to playlist" />
+            <Button fx:id="addToPlaylist" prefHeight="25.0" prefWidth="155.0" style="-fx-background-color: #7092be; -fx-text-fill: white;" text="Add to playlist" />
         </HBox>
     </VBox>
 </AnchorPane>

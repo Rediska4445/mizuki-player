@@ -11,6 +11,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import rf.ebanina.File.DataTypes;
 import rf.ebanina.File.Field;
 import rf.ebanina.UI.Editors.Statistics.Track.TrackStatistics;
 import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
@@ -27,7 +28,7 @@ public class TracksStatistics
 {
     private TableView<TrackData> table;
     private final String[] allStatsColumns = {
-            Field.DataTypes.COUNT_STREAM.code
+            DataTypes.COUNT_STREAM.code
     };
 
     private ObservableList<TrackData> trackData = FXCollections.observableArrayList();
@@ -74,12 +75,10 @@ public class TracksStatistics
         col.setMinWidth(100);
         col.setCellValueFactory(data -> {
             TrackData t = data.getValue();
-            switch (statIndex) {
-                case 0:
-                    return new ReadOnlyStringWrapper(getStat(t.track, Field.fields.get(Field.DataTypes.COUNT_STREAM.code)));
-                default:
-                    return new ReadOnlyStringWrapper("");
+            if (statIndex == 0) {
+                return new ReadOnlyStringWrapper(getStat(t.track, Field.fields.get(DataTypes.COUNT_STREAM.code)));
             }
+            return new ReadOnlyStringWrapper("");
         });
         return col;
     }

@@ -12,26 +12,30 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import rf.ebanina.File.Resources.ResourceManager;
+import rf.ebanina.Network.Info;
 import rf.ebanina.UI.Root;
-import rf.ebanina.UI.UI.Element.ListViews.ListCells.Playlists.ListCellSimilar;
+import rf.ebanina.UI.UI.Element.ListViews.ListCells.Playlists.ListCellTrack;
 import rf.ebanina.UI.UI.Element.ListViews.ListView;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
+import rf.ebanina.ebanina.Music;
 import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
 import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
 import rf.ebanina.ebanina.Player.Track;
+import rf.ebanina.utils.concurrency.LonelyThreadPool;
 
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import static rf.ebanina.File.Localization.LocalizationManager.getLocaleString;
-import static rf.ebanina.Network.Info.getTracks;
 
 public class Controller
         implements Initializable
 {
     @FXML
     public AnchorPane mainPain;
+    @FXML
+    public Button searchButton;
     @FXML
     protected TextField search;
     @FXML
@@ -53,6 +57,23 @@ public class Controller
 
     protected ListView<Track> tracks;
 
+    protected LonelyThreadPool lonelyThreadPool = new LonelyThreadPool();
+
+    protected void search() {
+        numbers.setText("");
+
+        lonelyThreadPool.runNewTask(() -> {
+            List<Track> res = Info.instance.getListOfTracks(download.getText(), "50", addict.getText());
+
+            Platform.runLater(() -> {
+                tracks.getItems().clear();
+                tracks.getItems().addAll(res);
+
+                numbers.setText(getLocaleString("quantity", "Quantity") + ": " + tracks.getItems().size());
+            });
+        });
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tracks = new ListView<>();
@@ -69,7 +90,7 @@ public class Controller
 
         tracks.getStylesheets().setAll(ResourceManager.Instance.loadStylesheet("listview"));
         tracks.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        tracks.setCellFactory(lv -> new ListCellSimilar());
+        tracks.setCellFactory(lv -> new ListCellTrack<>());
 
         mainPain.getChildren().add(tracks);
 
@@ -100,20 +121,12 @@ public class Controller
 
         numbers.setStyle("-fx-text-fill: " + hexColor + "; -fx-font-weight: bold;");
 
-        download.setOnKeyPressed(keyEvent -> {
+        searchButton.setStyle("-fx-background-color: " + hexColor + "; -fx-text-fill: white;");
+        searchButton.setOnAction((e) -> search());
+
+        download.setOnKeyReleased(keyEvent -> {
             if (keyEvent.getCode() == KeyCode.ENTER) {
-                numbers.setText("");
-
-                new Thread(() -> {
-                    List<Track> res = getTracks.getTrack(download.getText(), "200", addict.getText());
-
-                    Platform.runLater(() -> {
-                        tracks.getItems().clear();
-                        tracks.getItems().addAll(res);
-
-                        numbers.setText(getLocaleString("quantity", "Quantity") + ": " + tracks.getItems().size());
-                    });
-                }).start();
+                search();
             }
         });
 
@@ -135,6 +148,8 @@ public class Controller
                         Root.PlaylistHandler.playlistSimilar.clear();
                         Root.PlaylistHandler.playlistSimilar.addAll(PlayProcessor.playProcessor.getTracks());
                     }
+
+                    Music.mainLogger.info("Play from networkHost: " + tracks.getSelectionModel().getSelectedItem());
 
                     MediaProcessor.mediaProcessor.regenerateMediaPlayer(tracks.getSelectionModel().getSelectedItem());
                 }
@@ -160,6 +175,7 @@ public class Controller
 
             PlayProcessor.playProcessor.getTracks().clear();
             PlayProcessor.playProcessor.getTracks().addAll(Root.similar.getTrackListView().getItems());
+
             PlayProcessor.playProcessor.setTrackIter(0);
         }));
     }

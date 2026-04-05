@@ -3,6 +3,7 @@ package rf.ebanina.UI.UI.Paint;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
@@ -19,8 +20,6 @@ import java.util.List;
 import static rf.ebanina.utils.Math.scale;
 
 public class ColorProcessor {
-    public static final boolean album_art_parsed_set_in_tags = ConfigurationManager.instance.getBooleanItem("album_art_parsed_set_in_tags", "false");
-
     protected String color_type = ConfigurationManager.instance.getItem("album_art_get_color_type", "average");
 
     protected SimpleIntegerProperty hueProperty = new SimpleIntegerProperty(0);
@@ -42,7 +41,19 @@ public class ColorProcessor {
     public static final boolean isPreserveRatio = false;
 
     public static final javafx.scene.image.Image logo = ResourceManager.Instance.loadImage("album_art_logo", size, size, isPreserveRatio, isSmooth);
-    public static final ImagePattern logoPattern = new ImagePattern(logo);
+    private final ImagePattern logoPattern = new ImagePattern(logo);
+
+    public ImagePattern getLogoPattern() {
+        return logoPattern;
+    }
+
+    public Image getLogo() {
+        return logo;
+    }
+
+    public static ColorProcessor getCore() {
+        return core;
+    }
 
     public static ColorProcessor core = new ColorProcessor();
 
@@ -66,10 +77,6 @@ public class ColorProcessor {
                 (int) (color.getGreen() * 255),
                 (int) (color.getBlue() * 255)
         );
-    }
-
-    public Color setTransparent(Color color, double opacity) {
-        return Color.color(color.getRed(), color.getGreen(), color.getBlue(), opacity);
     }
 
     public void scaleHue(double val) {

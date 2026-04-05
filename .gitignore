@@ -19,3 +19,8 @@ session.ini
 /logs/
 /src/rf/ebanina/UI/Editors/Window/
 /test/jfx/jumpList/
+/ROADMAP.md
+/config/wallpaper_mod
+/config/ui.properties
+/config/media.properties
+/config/application.properties

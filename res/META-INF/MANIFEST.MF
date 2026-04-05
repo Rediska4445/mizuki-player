@@ -12,7 +12,7 @@ Class-Path: javafx-swt.jar javafx.web.jar jna-5.14.0.jar untitled10.jar
  r-5.20.0.jar junit-jupiter-engine-6.0.0-M2.jar junit-jupiter-params-6.0
  .0-M2.jar junit-platform-console-standalone-1.10.0.jar JVstHost.jar vst
  3host.jar jlayer-1.0.1.4.jar mp3spi-1.9.5.4.jar ebanina-mod-api.jar jor
- bis-0.0.17.4.jar lastfm-java-0.1.2.jar vorbisspi-1.0.3.3.jar ebanina-au
- dio-player.jar ebanina-vst-ipc-host.jar tritonus-share-0.3.7.4.jar eban
- ina-std-utils-javadoc.jar
+ bis-0.0.17.4.jar ebanina-std-utils.jar lastfm-java-0.1.2.jar vorbisspi-
+ 1.0.3.3.jar ebanina-audio-player.jar tritonus-share-0.3.7.4.jar ebanina
+ -soundcloud-api-wrapper.jar
 

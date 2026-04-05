@@ -46,7 +46,7 @@ import java.util.Set;
  *
  * <h3>Особенности</h3>
  * <ul>
- *   <li>Класс не управляет жизненным циклом анимаций (остановка, пауза) — только их запуск.</li>
+ *   <li>Класс управляет жизненным циклом анимаций (остановка) — их запуском.</li>
  *   <li>Состояние "не в фокусе" определяется по свойству {@link Stage#focusedProperty()},
  *       что может не учитывать все сценарии (например, системные уведомления).</li>
  * </ul>
@@ -364,5 +364,87 @@ public class Animations {
             }
             stageRef = null;
         });
+    }
+
+    /**
+     * Возвращает текущее состояние фокуса приложения.
+     *
+     * <p>Значение <code>true</code> означает, что основное окно приложения активно
+     * и имеет фокус ввода. В этом состоянии все анимации запускаются без ограничений.</p>
+     *
+     * <p><b>Назначение:</b> Только для юнит-тестирования. Позволяет проверять
+     * внутреннее состояние класса в тестах без рефлексии.</p>
+     *
+     * @return <code>true</code> если приложение в фокусе, иначе <code>false</code>
+     * @see #setAppFocused(boolean)
+     * @since 0.1.4.5 (test-only)
+     */
+    public boolean isAppFocused() {
+        return isAppFocused;
+    }
+
+    /**
+     * Устанавливает состояние фокуса приложения для тестирования.
+     *
+     * <p>Имитирует изменение фокуса окна, позволяя тестировать различные сценарии
+     * поведения анимаций.</p>
+     *
+     * <h3>Пример использования в тестах:</h3>
+     * <pre>{@code
+     * animations.setAppFocused(true).play(animation, "test");  // Все анимации разрешены
+     * animations.setAppFocused(false).play(animation, "outTransition");  // Только разрешённые
+     * }</pre>
+     *
+     * <p><b>Внимание:</b> Только для юнит-тестирования! В продакшен-коде не используется.</p>
+     *
+     * @param appFocused <code>true</code> для имитации фокуса, <code>false</code> для не в фокусе
+     * @return <code>this</code> для fluent API (цепочка вызовов)
+     * @see #isAppFocused()
+     * @see #play(Animation, String)
+     * @since 0.1.4.5 (test-only)
+     */
+    public Animations setAppFocused(boolean appFocused) {
+        isAppFocused = appFocused;
+        return this;
+    }
+
+    /**
+     * Возвращает текущее состояние свёрнутости окна приложения.
+     *
+     * <p>Значение <code>true</code> означает, что окно свёрнуто в трей/док.
+     * В этом состоянии все анимации подавляются независимо от типа.</p>
+     *
+     * <p><b>Назначение:</b> Только для юнит-тестирования.</p>
+     *
+     * @return <code>true</code> если окно свёрнуто, иначе <code>false</code>
+     * @see #setAppMinimized(boolean)
+     * @since 0.1.4.5 (test-only)
+     */
+    public boolean isAppMinimized() {
+        return isAppMinimized;
+    }
+
+    /**
+     * Устанавливает состояние свёрнутости окна для тестирования.
+     *
+     * <p>Имитирует сворачивание/разворачивание окна. При <code>true</code> все
+     * анимации будут немедленно останавливаться.</p>
+     *
+     * <h3>Пример:</h3>
+     * <pre>{@code
+     * animations.setAppMinimized(true).play(animation, "any");  // stop()
+     * }</pre>
+     *
+     * <p><b>Внимание:</b> Только для юнит-тестирования!</p>
+     *
+     * @param appMinimized <code>true</code> для имитации свёрнутого окна
+     * @return <code>this</code> для fluent API
+     * @see #isAppMinimized()
+     * @see #play(Animation, String)
+     * @since 0.1.4.5 (test-only)
+     */
+    public Animations setAppMinimized(boolean appMinimized) {
+        isAppMinimized = appMinimized;
+        return this;
     }
 }

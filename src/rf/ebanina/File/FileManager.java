@@ -188,7 +188,6 @@ public class FileManager
         return usedSpace >= thresholdBytes;
     }
 
-
     public Path createDirectoryIfNotExists(String dirPath) {
         File directory = new File(dirPath);
         if (!directory.exists()) {
@@ -580,6 +579,80 @@ public class FileManager
         return parseArray(read(path, track, "array", null), ifEmpty);
     }
 
+    public Map<String, List<String>> readAndGetAllItemsByTypeAndTrack(String path,
+                                                  String track,
+                                                  String type,
+                                                  Map<String, List<String>> ifNull) {
+        Map<String, List<String>> result = new LinkedHashMap<>();
+
+        try (Stream<String> lines = Files.lines(Path.of(path))) {
+            lines
+                    .filter(line -> line.contains(type) && line.contains(track))
+                    .forEach(line -> {
+                        int eqIndex = line.indexOf('=');
+                        if (eqIndex == -1) {
+                            return;
+                        }
+
+                        String header = line.substring(0, eqIndex).trim();
+
+                        int startBracket = line.indexOf('[', eqIndex);
+                        int endBracket = line.indexOf(']', startBracket + 1);
+                        if (startBracket == -1 || endBracket == -1) {
+                            return;
+                        }
+
+                        String payload = line.substring(startBracket + 1, endBracket).trim();
+
+                        result.computeIfAbsent(header, k -> new ArrayList<>())
+                                .add(payload);
+                    });
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ifNull;
+        }
+
+        if (result.isEmpty()) {
+            return ifNull;
+        }
+
+        return result;
+    }
+
+    public <T> T read(String path, Predicate<String> trackPredicate, T ifNull) {
+        synchronized (fileLock) {
+            java.io.File file = new java.io.File(path);
+
+            if (file.exists()) {
+                try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
+                    String line;
+
+                    while ((line = br.readLine()) != null) {
+                        line = line.trim();
+
+                        if (trackPredicate.test(line)) {
+                            int eqPos = line.indexOf('=');
+
+                            if (eqPos != -1) {
+                                int lastSemicolonPos = line.lastIndexOf(';');
+                                if (lastSemicolonPos == -1)
+                                    lastSemicolonPos = line.length();
+
+                                String dataPart = line.substring(eqPos + 1, lastSemicolonPos).trim();
+
+                                return (T) dataPart;
+                            }
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            return ifNull;
+        }
+    }
+
     @Override
     public <T> void save(String path, String track, String type, T value) {
         synchronized (fileLock) {
@@ -683,36 +756,7 @@ public class FileManager
 
     @Override
     public <T> T read(String path, String track, String type, T ifNull) {
-        synchronized (fileLock) {
-            java.io.File file = new java.io.File(path);
-
-            if (file.exists()) {
-                try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
-                    String line;
-                    String patternSimple = type + " of (" + track + ")";
-
-                    while ((line = br.readLine()) != null) {
-                        line = line.trim();
-
-                        if (line.startsWith(patternSimple)) {
-                            int eqPos = line.indexOf('=');
-                            if (eqPos != -1) {
-                                int lastSemicolonPos = line.lastIndexOf(';');
-                                if (lastSemicolonPos == -1) lastSemicolonPos = line.length();
-
-                                String dataPart = line.substring(eqPos + 1, lastSemicolonPos).trim();
-
-                                return (T) dataPart;
-                            }
-                        }
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            return ifNull;
-        }
+        return read(path, track1 -> track1.startsWith(type + " of (" + track + ")"), ifNull);
     }
 
     @Override

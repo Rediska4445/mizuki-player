@@ -1,26 +1,26 @@
 package rf.ebanina.UI.Editors.Settings;
 
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Modality;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
 import rf.ebanina.File.Resources.ResourceManager;
-import rf.ebanina.ebanina.Music;
 import rf.ebanina.UI.Editors.IEditor;
+import rf.ebanina.UI.Root;
+import rf.ebanina.UI.UI.Element.AnimationDialog;
+import rf.ebanina.UI.UI.Paint.ColorProcessor;
 
-import java.awt.*;
 import java.io.IOException;
-import java.util.Map;
 
-import static rf.ebanina.File.Localization.LocalizationManager.getLocaleString;
-import static rf.ebanina.UI.UI.Paint.ColorProcessor.logo;
-import static rf.ebanina.UI.Root.windowsSizes;
-
-public final class Settings implements IEditor {
+public final class Settings
+        implements IEditor
+{
     private Stage stageSet;
 
     private static Settings instance;
+
+    private rf.ebanina.UI.Editors.Statistics.Track.Controller currentController;
 
     public static Settings getInstance() {
         if(instance == null) {
@@ -35,29 +35,22 @@ public final class Settings implements IEditor {
         try {
             stageSet = new Stage();
 
-            Parent root = ResourceManager.Instance.loadFXML("FXMLSettingsPath");
-            Scene scene = new Scene(root);
+            FXMLLoader loader = ResourceManager.Instance.loadFxmlLoader(
+                    ResourceManager.Instance.resourcesPaths.get("FXMLTrackStatisticsPath")
+            );
+            Parent root = loader.load();
 
-            Map.Entry<Point, Dimension> windowSize = windowsSizes.get(getClass().getName());
+            this.currentController = loader.getController();
 
-            if(windowSize != null) {
-                stageSet.setX(windowSize.getKey().getX());
-                stageSet.setY(windowSize.getKey().getY());
-                stageSet.setWidth(windowSize.getValue().getWidth());
-                stageSet.setHeight(windowSize.getValue().getHeight());
-            }
+            AnimationDialog statsDialog = new AnimationDialog(stage, Root.rootImpl.getRoot());
+            statsDialog.setDialogMaxSize(0.75, 0.85);
+            statsDialog.setTopBorder(ColorProcessor.core.getMainClr());
 
-            stageSet.setTitle(Music.name + " - " + getLocaleString("gui_config", "Config"));
-            stageSet.initModality(Modality.WINDOW_MODAL);
-            stageSet.initOwner(stage);
-            stageSet.getIcons().add(logo);
-            stageSet.setResizable(true);
-            stageSet.setOnCloseRequest((e) -> windowsSizes.put(getClass().getName(),
-                    Map.entry(new Point((int) stageSet.getX(), (int) stageSet.getY()), new Dimension((int) scene.getWidth(), (int) scene.getHeight()))
-            ));
+            VBox dialogContent = statsDialog.getDialogBox();
+            dialogContent.getChildren().add(root);
+            VBox.setVgrow(root, Priority.ALWAYS);
 
-            stageSet.setScene(scene);
-            stageSet.show();
+            statsDialog.show();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

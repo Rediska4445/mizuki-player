@@ -33,6 +33,13 @@ public final class Tags
         this.track = track;
     }
 
+    private rf.ebanina.UI.Editors.Statistics.Track.Controller currentController;
+
+    public rf.ebanina.UI.Editors.Statistics.Track.Controller currentController() {
+        return currentController;
+    }
+
+    @Override
     public void open(Stage ownerStage) {
         try {
             FXMLLoader loader = new FXMLLoader(new File(
@@ -41,8 +48,8 @@ public final class Tags
 
             Parent root = loader.load();
 
-            Controller controller = loader.getController();
-            controller.setTrack(track);
+            currentController = loader.getController();
+            currentController.setTrack(track);
 
             AnimationDialog tagsDialog = new AnimationDialog(ownerStage, Root.rootImpl.getRoot());
 
@@ -50,7 +57,7 @@ public final class Tags
             dialogContent.getChildren().add(root);
             VBox.setVgrow(root, Priority.ALWAYS);
             tagsDialog.setDialogMaxSize(0.2, 0.6);
-            tagsDialog.animationTopBorder(ColorProcessor.core.getMainClr()).play();
+            tagsDialog.animationTopBorder(ColorProcessor.core.getGeneralColorFromImage(track.getAlbumArt())).play();
             tagsDialog.show();
         } catch (IOException e) {
             e.printStackTrace();

@@ -6,7 +6,9 @@ import javafx.scene.Node;
 import javafx.scene.layout.Region;
 import javafx.util.Duration;
 
-public class ContextMenu extends javafx.scene.control.ContextMenu {
+public class ContextMenu
+        extends javafx.scene.control.ContextMenu
+{
     public ContextMenu() {
         super();
 

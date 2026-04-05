@@ -8,11 +8,14 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import rf.ebanina.File.Configuration.ConfigurationManager;
-import rf.ebanina.File.Field;
+import rf.ebanina.File.DataTypes;
 import rf.ebanina.UI.Root;
 
 import java.io.*;
-import java.util.*;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.ListIterator;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -131,7 +134,7 @@ public class TrackHistory implements
      */
     private final IntegerProperty maxSize = new SimpleIntegerProperty();
 
-    private final static class HistoryIterator {
+    public static class HistoryIterator {
         private final AtomicInteger index = new AtomicInteger(0);
 
         public int getIndex() {
@@ -280,8 +283,6 @@ public class TrackHistory implements
     public ObservableList<Track> getHistory() {
         return history;
     }
-
-
 
     /**
      * Удаляет указанный трек из истории, если он присутствует.
@@ -499,7 +500,7 @@ public class TrackHistory implements
      * @since 0.1.3
      */
     public MenuItem createMenuItem(Track track) {
-        MenuItem m = new MenuItem(track.viewName() + " - " + track.getRawLastTimeTrack() + " - " + track.getState().get(Field.DataTypes.LAST_DATE.code));
+        MenuItem m = new MenuItem(track.viewName() + " - " + track.getRawLastTimeTrack() + " - " + track.getState().get(DataTypes.LAST_DATE.code));
         m.setOnAction(e -> Root.PlaylistHandler.openTrack(track));
 
         return m;
@@ -508,12 +509,8 @@ public class TrackHistory implements
     /**
      * Переходит к предыдущему треку в истории навигации.
      * <p>
-     * Использует {@link ListIterator#previous()} для перемещения по списку.
-     * Это позволяет реализовать поведение "назад", аналогичное браузеру.
-     * </p>
-     * <p>
-     * <b>Предусловие</b>: итератор должен находиться не в начале списка.
-     * Если "назад" недоступно, метод выбросит исключение.
+     * Безопасно использует {@link HistoryIterator#back()} для перемещения.
+     * При index=0 возвращает первый трек (поведение "остановка на границе").
      * </p>
      *
      * <h3>Пример использования</h3>
@@ -524,12 +521,11 @@ public class TrackHistory implements
      * history.add(track1);
      * history.add(track2);
      *
-     * Track prev = history.back(); // Вернёт track1
-     * // Track prev2 = history.back(); // Выбросит NoSuchElementException!
+     * Track prev = history.back();  // Вернёт track1 (index 1→0)
+     * Track prev2 = history.back(); // Вернёт track1 (index 0→0, без исключения!)
      * }</pre>
      *
-     * @return предыдущий трек в итераторе
-     * @throws NoSuchElementException если нет предыдущего трека
+     * @return предыдущий трек (или первый при начале списка)
      * @see #forward()
      * @see #add(Track)
      * @since 0.1.2
@@ -541,13 +537,8 @@ public class TrackHistory implements
     /**
      * Переходит к следующему треку в истории навигации.
      * <p>
-     * Использует {@link ListIterator#next()} для перемещения по списку.
-     * Это позволяет реализовать поведение "вперёд".
-     * </p>
-     * <p>
-     * <b>Предусловие</b>: итератор должен находиться не в конце списка.
-     * "Вперёд" становится недоступным после любого нового действия
-     * (например, вызова {@link #add(Track)}), так как итератор сбрасывается.
+     * Безопасно использует {@link HistoryIterator#next()} и {@link HistoryIterator#whoIsNext()}.
+     * При выходе за конец возвращает последний трек (поведение "остановка на границе").
      * </p>
      *
      * <h3>Пример использования</h3>
@@ -558,20 +549,19 @@ public class TrackHistory implements
      * history.add(track1);
      * history.add(track2);
      *
-     * history.back(); // Вернёт track1
+     * history.back(); // index=0 (track1)
      * Track next = history.forward(); // Вернёт track2
-     * // history.forward(); // Выбросит NoSuchElementException!
+     * Track next2 = history.forward(); // Вернёт track2 (конец списка, без исключения!)
      * }</pre>
      *
-     * @return следующий трек в итераторе
-     * @throws NoSuchElementException если нет следующего трека
+     * @return следующий трек (или последний при конце списка)
      * @see #back()
      * @see #add(Track)
      * @since 0.1.2
      */
     public Track forward() {
         if(historyIterator.whoIsNext() >= history.size())
-            throw new NoSuchElementException();
+            return history.get(history.size() - 1);
 
         return history.get(historyIterator.next());
     }
@@ -605,7 +595,7 @@ public class TrackHistory implements
                     && trackHistoryIterator.hasNext(); line_number++) {
                 Track t = trackHistoryIterator.next();
 
-                MenuItem m = new MenuItem(t.viewName() + " - " + t.getRawLastTimeTrack() + " - " + t.getState().get(Field.DataTypes.LAST_DATE.code));
+                MenuItem m = new MenuItem(t.viewName() + " - " + t.getRawLastTimeTrack() + " - " + t.getState().get(DataTypes.LAST_DATE.code));
                 m.setOnAction(e -> Root.PlaylistHandler.openTrack(t));
                 trackHistoryContextMenu.getItems().add(m);
             }
@@ -696,6 +686,10 @@ public class TrackHistory implements
         historyIterator.setIndex(history.size());
 
         updateContextMenu().start();
+    }
+
+    public HistoryIterator getHistoryIterator() {
+        return historyIterator;
     }
 
     @Override

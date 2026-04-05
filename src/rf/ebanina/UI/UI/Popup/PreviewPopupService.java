@@ -19,10 +19,15 @@ public final class PreviewPopupService {
     public static final Preview trackNextPopup = new Preview();
     public static final Preview trackPrevPopup = new Preview();
 
-    private static final ExecutorService exec = Executors.newFixedThreadPool(2);
+    private static final ExecutorService executorService =
+            Executors.newFixedThreadPool(2, r -> {
+                Thread t = new Thread(r, "track-popup-loader");
+                t.setDaemon(true);
+                return t;
+            });
 
     public static void updateTrackPopup(Preview preview, double x, double y, Track tr) {
-        exec.submit(() -> {
+        executorService.submit(() -> {
             try {
                 javafx.scene.image.Image newImg = tr.getIndependentAlbumArt(size, size, ColorProcessor.isPreserveRatio, ColorProcessor.isSmooth);
                 Color clr = ColorProcessor.core.getGeneralColorFromImage(newImg);
@@ -76,7 +81,7 @@ public final class PreviewPopupService {
         });
 
         btnNext.setOnAction((e) -> {
-            Platform.runLater(PreviewPopupService::updatePrevTrackPopup);
+            Platform.runLater(PreviewPopupService::updateNextTrackPopup);
         });
 
         btnDown.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
@@ -97,7 +102,5 @@ public final class PreviewPopupService {
         btnDown.setOnAction((e) -> {
             Platform.runLater(PreviewPopupService::updatePrevTrackPopup);
         });
-
-        // TODO: Сделать превью для кнопок плейлиста
     }
 }

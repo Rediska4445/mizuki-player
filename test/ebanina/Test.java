@@ -13,10 +13,6 @@ public class Test extends Application {
 
     private static volatile boolean javafxInitialized = false;
 
-    static {
-        Platform.startup(() -> {});
-    }
-
     public static synchronized void initJavaFX() throws InterruptedException {
         if (!javafxInitialized) {
             if (!Platform.isFxApplicationThread()) {

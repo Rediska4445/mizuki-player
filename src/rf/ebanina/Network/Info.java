@@ -8,29 +8,32 @@ import rf.ebanina.Network.Illegal.Similar.Apple;
 import rf.ebanina.Network.Illegal.Similar.LastFM;
 import rf.ebanina.Network.Illegal.Similar.SoundCloud;
 import rf.ebanina.Network.Illegal.Similar.Spotify;
+import rf.ebanina.ebanina.Music;
 import rf.ebanina.ebanina.Player.Track;
+import rf.ebanina.utils.concurrency.LonelyThreadPool;
+import rf.ebanina.utils.loggining.logging;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import static rf.ebanina.UI.Root.similar;
 import static rf.ebanina.UI.Root.tracksListView;
 
+@logging(tag = "NetworkHost/Info")
 public class Info {
+    public static Info instance = new Info();
+
     public interface IInfo {
         Track getTrackDownloadLink(String track);
         Track getTrackFromDownloadLink(String track);
+        List<Track> getTracksDownloadLinksList(String track);
     }
 
-    public static Info instance = new Info();
+    private final LonelyThreadPool exec = new LonelyThreadPool();
 
-    private static final ExecutorService exec = Executors.newSingleThreadExecutor();
-
-    private static volatile boolean isSimilarUpdateState = true;
+    private volatile boolean isSimilarUpdateState = true;
 
     protected String activeAgentKey = "CHROME_WINDOWS";
 
@@ -53,15 +56,15 @@ public class Info {
         return cachedUserAgent;
     }
 
-    public static void similarStart() {
+    public void similarStart() {
         isSimilarUpdateState = true;
 
         Platform.runLater(() -> similar.getTrackListView().getItems().clear());
 
-        exec.submit(() -> updateSimilarList());
+        exec.runNewTask(() -> Info.instance.updateSimilarList());
     }
 
-    public static void similarStop() {
+    public void similarStop() {
         isSimilarUpdateState = false;
     }
 
@@ -92,34 +95,6 @@ public class Info {
             PlayersTypes.HIT_MO.code, new Hitmos()
     ));
 
-    public interface IIllegal {
-        List<Track> getTrack(String in, String... any_other);
-    }
-
-    public static IIllegal getTracks = (in, any_other) -> {
-        List<Track> res = new ArrayList<>();
-
-        try {
-            res.addAll(track_parse_get_info(in, Integer.parseInt(any_other[0])));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
-            res.addAll(getMusMoreInfoTracks(in, any_other[1]));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
-            res.addAll(getLightAudioInfoTracks(in));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return res;
-    };
-
     public static List<ISimilar> similarList = List.of(
             new Spotify(),
             new LastFM(),
@@ -127,21 +102,40 @@ public class Info {
             new SoundCloud()
     );
 
-    public static Runnable onUpdatedSimilarList = () -> {};
+    public List<Track> getListOfTracks(String in, String... any_other) {
+        List<Track> res = new ArrayList<>();
 
-    public static ArrayList<rf.ebanina.ebanina.Player.Track> track_parse_get_info(String track, int max) {
-        return ((Hitmos) playersMap.get(PlayersTypes.HIT_MO.code)).getTrackInfo(track, max);
+        for(Info.IInfo info : playersMap.values()) {
+            Music.mainLogger.info("Now will be " + info);
+
+            List<Track> tracks = null;
+
+            try {
+                tracks = info.getTracksDownloadLinksList(in);
+            } catch (RuntimeException e) {
+                e.printStackTrace();
+            }
+
+            Music.mainLogger.info(tracks);
+
+            if(tracks != null) {
+                res.addAll(tracks);
+            }
+        }
+
+        Music.mainLogger.info("return");
+
+        return res;
     }
 
-    public static ArrayList<rf.ebanina.ebanina.Player.Track> getMusMoreInfoTracks(String track, String addict) {
-        return ((MusMore) playersMap.get(PlayersTypes.MUS_MORE.code)).getMusMoreInfoTracks(track, addict);
+    private Runnable onUpdatedSimilarList = () -> {};
+
+    public Info setOnUpdatedSimilarList(Runnable onUpdatedSimilarList) {
+        this.onUpdatedSimilarList = onUpdatedSimilarList;
+        return this;
     }
 
-    public static ArrayList<rf.ebanina.ebanina.Player.Track> getLightAudioInfoTracks(String c) {
-        return ((LightAudio) playersMap.get(PlayersTypes.LIGHT_AUDIO.code)).getLightAudioInfoTracks(c);
-    }
-
-    public static void updateSimilarList() {
+    public void updateSimilarList() {
         if (similar.isVisible()) {
             String artist = tracksListView.getTrackListView().getSelectionModel().getSelectedItem().getArtist();
             String name = tracksListView.getTrackListView().getSelectionModel().getSelectedItem().getTitle();
@@ -152,7 +146,7 @@ public class Info {
         }
     }
 
-    public static void updateSimilarList(String author, String title) {
+    public void updateSimilarList(String author, String title) {
         updateSimilarList(
                 new Track(Info.PlayersTypes.URI_NULL.getCode())
                 .setViewName(author + " - " + title)
@@ -161,11 +155,13 @@ public class Info {
         );
     }
 
-    public static Thread updateSimilarListAsync(String what) {
-        return new Thread(() -> updateSimilarList(new Track(PlayersTypes.URI_NULL.getCode()).setViewName(what)));
+    private final LonelyThreadPool updateSimilarListThread = new LonelyThreadPool();
+
+    public void updateSimilarListAsync(String what) {
+        updateSimilarListThread.runNewTask(() -> updateSimilarList(new Track(PlayersTypes.URI_NULL.getCode()).setViewName(what)));
     }
 
-    public static void updateSimilarList(Track what) {
+    public void updateSimilarList(Track what) {
         if (similar.isVisible()) {
             Platform.runLater(() -> similar.getCurrentPlaylistText().setText(what.viewName()));
 

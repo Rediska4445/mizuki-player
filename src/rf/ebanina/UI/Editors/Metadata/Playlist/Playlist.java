@@ -66,7 +66,6 @@ public class Playlist implements IEditor {
                 );
             });
 
-            Root.rootImpl.setStageCaptionColor(stageSet, ColorProcessor.core.getMainClr());
             Blur(Root.root, 250, 20).play();
 
             stageSet.setOnCloseRequest((e) -> Blur(Root.root, 250, 0).play());

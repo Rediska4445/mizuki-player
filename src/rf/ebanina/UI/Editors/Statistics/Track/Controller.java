@@ -11,7 +11,7 @@ import org.json.simple.parser.ParseException;
 import rf.ebanina.File.FileManager;
 import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.File.Resources.Resources;
-import rf.ebanina.Network.APIS.SoundCloud;
+import rf.ebanina.Network.Illegal.Similar.SoundCloud;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
 import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
 import rf.ebanina.ebanina.Player.Track;
@@ -29,10 +29,15 @@ import java.util.concurrent.Executors;
 import static rf.ebanina.File.Localization.LocalizationManager.getLocaleString;
 import static rf.ebanina.Network.Illegal.Similar.LastFM.LASTFM_API_KEY;
 
-public class Controller implements Initializable {
-    @FXML private Label titleLabel;
-    @FXML private TabPane tabPane;
-    @FXML private Tab localTab, spotifyTab, soundcloudTab, lastfmTab, itunesTab;
+public class Controller
+        implements Initializable
+{
+    @FXML
+    protected Label titleLabel;
+
+    @FXML
+    protected TabPane tabPane;
+
     @FXML private TableView<StatItem> localStatsTable, spotifyTable, soundcloudTable, lastfmTable, itunesTable;
     @FXML private TableColumn<StatItem, String> localNameColumn, localValueColumn;
     @FXML private TableColumn<StatItem, String> spotifyNameColumn, spotifyValueColumn;
@@ -41,11 +46,33 @@ public class Controller implements Initializable {
     @FXML private TableColumn<StatItem, String> itunesNameColumn, itunesValueColumn;
 
     protected Track track;
-    protected final ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    protected final ExecutorService executorService = Executors.newFixedThreadPool(2);
 
     public Controller setTrack(Track track) {
         this.track = track;
         return this;
+    }
+
+    public Label getTitleLabel() {
+        return titleLabel;
+    }
+
+    public Controller setTitleLabel(Label titleLabel) {
+        this.titleLabel = titleLabel;
+        return this;
+    }
+
+    public TabPane getTabPane() {
+        return tabPane;
+    }
+
+    public Controller setTabPane(TabPane tabPane) {
+        this.tabPane = tabPane;
+        return this;
+    }
+
+    public Track getTrack() {
+        return track;
     }
 
     @Override
@@ -62,8 +89,21 @@ public class Controller implements Initializable {
         setContents();
     }
 
+    public void applyColorScheme(TableView<Controller.StatItem> localStatsTable) {
+        String bgTable = "#333333";
+        String borderColor = "#444444";
+
+        String tableStyle = "-fx-background-color: " + bgTable + "; " +
+                "-fx-control-inner-background: " + bgTable + "; " +
+                "-fx-table-cell-border-color: " + borderColor + "; " +
+                "-fx-border-color: " + borderColor + "; " +
+                "-fx-border-radius: 8; -fx-background-radius: 8;";
+
+        localStatsTable.setStyle(tableStyle);
+    }
+
     private void applyColorScheme() {
-        String hexColor = ColorProcessor.core.toHex(ColorProcessor.core.getMainClr());
+        String hexColor = ColorProcessor.core.toHex(ColorProcessor.core.getGeneralColorFromImage(track.getAlbumArt()));
         String bgDark = "#1E1E1E";
         String bgTable = "#333333";
         String borderColor = "#444444";
@@ -80,6 +120,11 @@ public class Controller implements Initializable {
         lastfmTable.setStyle(tableStyle);
         itunesTable.setStyle(tableStyle);
 
+        for(TableView<Controller.StatItem> table : List.of(
+                localStatsTable, spotifyTable, soundcloudTable, lastfmTable, itunesTable)) {
+            applyColorScheme(table);
+        }
+
         tabPane.getStylesheets().add(ResourceManager.Instance.loadStylesheet("tabpane"));
         tabPane.setStyle("-fx-accent-color: " + hexColor + "; " +
                 "-fx-background-color: " + bgDark + "; " +
@@ -89,7 +134,7 @@ public class Controller implements Initializable {
         titleLabel.setStyle(titleStyle);
     }
 
-    private void setupTables() {
+    protected void setupTables() {
         setupTableColumns(localStatsTable, localNameColumn, localValueColumn);
         setupTableColumns(spotifyTable, spotifyNameColumn, spotifyValueColumn);
         setupTableColumns(soundcloudTable, soundcloudNameColumn, soundcloudValueColumn);
@@ -97,7 +142,7 @@ public class Controller implements Initializable {
         setupTableColumns(itunesTable, itunesNameColumn, itunesValueColumn);
     }
 
-    private void setupTableColumns(TableView<StatItem> table,
+    protected void setupTableColumns(TableView<StatItem> table,
                                    TableColumn<StatItem, String> nameCol,
                                    TableColumn<StatItem, String> valueCol) {
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -109,7 +154,7 @@ public class Controller implements Initializable {
         table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
-    private void setupLocalTab() {
+    protected void setupLocalTab() {
         String path = ResourceManager.Instance.getFullyPath(
                 Resources.Properties.DEFAULT_CACHE_TRACKS_PATH.getKey() +
                         File.separator + FileManager.instance.name(track.getPlaylistName())
@@ -118,8 +163,8 @@ public class Controller implements Initializable {
         localStatsTable.getItems().addAll(stats);
     }
 
-    private void setContents() {
-        // titleLabel.setText(track.getTitle());
+    protected void setContents() {
+        titleLabel.setText(track.getTitle());
         titleLabel.setFont(ResourceManager.Instance.loadFont("main_font", 20));
 
         executorService.submit(() -> {
@@ -178,7 +223,7 @@ public class Controller implements Initializable {
     private TableView<StatItem> createSoundCloudTableView() {
         TableView<StatItem> tableView = createDefaultTable();
         try {
-            for(Map.Entry<String, String> a : new SoundCloud().Search(track.viewName()).getInfo().entrySet()) {
+            for(Map.Entry<String, String> a : SoundCloud.sc.Search(track.viewName()).getInfo().entrySet()) {
                 tableView.getItems().add(new StatItem(
                         getLocaleString("soundcloud_track_statistics_" + a.getKey(), a.getKey()),
                         a.getValue()

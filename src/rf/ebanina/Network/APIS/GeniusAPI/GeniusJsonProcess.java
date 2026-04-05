@@ -7,16 +7,19 @@ import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
-import rf.ebanina.Network.APIS.JsonProcess;
-import rf.ebanina.Network.APIS.SoundCloudAPI.Request;
-import rf.ebanina.Network.APIS.SoundCloudAPI.Response;
+import rf.ebanina.utils.network.Request;
+import rf.ebanina.utils.network.Response;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class GeniusJsonProcess extends JsonProcess {
-    public GeniusTrack getTrackForSearch(String rawJson) throws ParseException {
+import static rf.ebanina.utils.formats.json.JsonProcess.getJsonArray;
+import static rf.ebanina.utils.formats.json.JsonProcess.getJsonItem;
+
+public class GeniusJsonProcess
+{
+    public static GeniusTrack getTrackForSearch(String rawJson) throws ParseException {
         String collection_item_arr = getJsonItem(rawJson, "response");
         String sections_item_arr = getJsonItem(collection_item_arr, "sections");
         String response = getJsonArray(sections_item_arr)[0];
@@ -24,31 +27,35 @@ public class GeniusJsonProcess extends JsonProcess {
         String hits_arr = getJsonArray(hits)[0];
         String result = getJsonItem(hits_arr, "result");
 
-        GeniusTrack track = new GeniusTrack()
+        return new GeniusTrack()
                 .setUrl(getJsonItem(result, "url"))
                 .setArtist(getJsonItem(result, "artist_names"))
                 .setTitle(getJsonItem(result, "title"))
                 .setId(getJsonItem(result, "id"));
-
-        return track;
     }
 
-    public StringBuilder getTrackLyrics(GeniusTrack track) {
-        Request request = null;
+    public static StringBuilder getTrackLyrics(GeniusTrack track) {
+        Request request;
 
         try {
             request = new Request(new URL(track.getUrl()));
         } catch (MalformedURLException e) {
+            e.printStackTrace();
+
             throw new RuntimeException(e);
         }
 
-        Response respa = null;
+        Response respa;
 
         try {
             respa = request.send();
         } catch (IOException e) {
+            e.printStackTrace();
+
             throw new RuntimeException(e);
         }
+
+        System.out.println(respa.getBody().toString());
 
         return extractSubtitlesFromHtml(respa.getBody().toString());
     }
@@ -56,10 +63,8 @@ public class GeniusJsonProcess extends JsonProcess {
     private static StringBuilder extractSubtitlesFromHtml(String html) {
         Document doc = Jsoup.parse(html);
 
-        // Попытка найти контейнер с текстом по атрибуту data-lyrics-container="true"
         Elements lyricsContainers = doc.select("div[data-lyrics-container=true]");
         if (lyricsContainers.isEmpty()) {
-            // если нет подходящего контейнера, возвращаем пустой результат
             return new StringBuilder();
         }
 
@@ -67,7 +72,7 @@ public class GeniusJsonProcess extends JsonProcess {
 
         for (Element container : lyricsContainers) {
             appendNodeTextWithNewlines(container, lyricsBuilder);
-            lyricsBuilder.append("\n"); // добавляем перевод строки между контейнерами
+            lyricsBuilder.append("\n");
         }
 
         return lyricsBuilder;

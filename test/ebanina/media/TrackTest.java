@@ -2,15 +2,22 @@ package ebanina.media;
 
 import javafx.scene.image.Image;
 import javafx.util.Duration;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockedStatic;
+import rf.ebanina.Network.Info;
 import rf.ebanina.ebanina.Player.Track;
 
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Path;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 public class TrackTest extends ebanina.Test {
     @Test
@@ -64,7 +71,6 @@ public class TrackTest extends ebanina.Test {
         assertEquals("wav.wav", track.getName());
         assertEquals("wav", track.getExtension());
     }
-
 
     @Test
     void testOnlineTrackConstructor() throws MalformedURLException {

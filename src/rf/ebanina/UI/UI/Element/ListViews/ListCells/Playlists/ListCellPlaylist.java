@@ -2,8 +2,10 @@ package rf.ebanina.UI.UI.Element.ListViews.ListCells.Playlists;
 
 import javafx.application.Platform;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import rf.ebanina.File.FileManager;
@@ -35,7 +37,6 @@ public class ListCellPlaylist<T>
 {
     private final Image defaultLogo;
     private static final ExecutorService exec = Executors.newFixedThreadPool(2);
-    private volatile Playlist current;
 
     protected Label title;
 
@@ -48,7 +49,7 @@ public class ListCellPlaylist<T>
     }
 
     public ListCellPlaylist(Color color, Image logo) {
-        super(color);
+        super();
 
         this.defaultLogo = logo;
 
@@ -81,8 +82,6 @@ public class ListCellPlaylist<T>
             setText(null);
             setGraphic(null);
         } else {
-            current = item;
-
             ImagePattern cached = patternsMipmapCache.get(item.getPath());
 
             cover.setFill(Objects.requireNonNullElseGet(cached, () -> new ImagePattern(defaultLogo)));
@@ -154,6 +153,11 @@ public class ListCellPlaylist<T>
                 super.setBackgroundImageCentered(finalPatternArt, background);
             });
         });
+    }
+
+    @Override
+    protected Node createExtraInfoContent() {
+        return new VBox(3);
     }
 
     @Override

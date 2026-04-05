@@ -1,8 +1,8 @@
 package rf.ebanina.File;
 
+import rf.ebanina.File.Resources.Resources;
 import rf.ebanina.ebanina.Player.Playlist;
 import rf.ebanina.ebanina.Player.Track;
-import rf.ebanina.File.Resources.Resources;
 
 import java.io.File;
 import java.io.Serial;
@@ -117,28 +117,4 @@ public class Field implements Serializable {
         return eternalName;
     }
 
-    public enum DataTypes {
-        TIME("time"),
-        VOLUME("volume"),
-        COUNT_STREAM("count streams"),
-        AVERAGE_PLAY("average play time"),
-        AVERAGE_TEMPO("average tempo"),
-        LAST_DATE("last date"),
-        PITCH("pitch"),
-        COUNT_SELECTED_FROM_PLAYLIST("count selected from playlist"),
-        COUNT_PLAY("count play"),
-        COUNT_FULLY_PLAY("count full play"),
-        LIKE_MOMENT_START("like moment start"),
-        LIKE_MOMENT_STOP("like moment stop"),
-        PLAYLIST_LAST_INDEX("last index"),
-        TOTAL_TIME_PLAYED("total time played"),
-        TEMPO("tempo"),
-        PAN("pan");
-
-        public final String code;
-
-        DataTypes(String code) {
-            this.code = code;
-        }
-    }
 }

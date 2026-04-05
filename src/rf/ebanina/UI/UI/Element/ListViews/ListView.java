@@ -189,6 +189,8 @@ public class ListView<T>
 
         addSmoothScroll();
         addSmoothHighlightOnScrollBars();
+
+        setSkin(new ListViewSkin<>(this));
     }
     /**
      * Вертикальный скроллбар списка, используемый для организации анимированной прокрутки.

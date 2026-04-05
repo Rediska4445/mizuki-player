@@ -1,12 +1,12 @@
 package rf.ebanina.Network.Illegal.Similar;
 
 import javafx.application.Platform;
-import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
-import rf.ebanina.ebanina.Player.Track;
 import rf.ebanina.File.Resources.ResourceManager;
-import rf.ebanina.UI.Root;
 import rf.ebanina.Network.ISimilar;
 import rf.ebanina.Network.Info;
+import rf.ebanina.UI.Root;
+import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
+import rf.ebanina.ebanina.Player.Track;
 
 import java.util.List;
 
@@ -14,7 +14,10 @@ import static rf.ebanina.UI.Root.similar;
 import static rf.ebanina.UI.UI.Paint.ColorProcessor.isPreserveRatio;
 import static rf.ebanina.UI.UI.Paint.ColorProcessor.isSmooth;
 
-public class LastFM implements ISimilar {
+// FIXME: Не работает блять! (из рф)
+public class LastFM
+        implements ISimilar
+{
     public static final String LASTFM_API_KEY = "52ad98fbc4ea0816d852a1ce0598b740";
 
     @Override

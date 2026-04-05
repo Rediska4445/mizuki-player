@@ -15,7 +15,12 @@ import rf.ebanina.ebanina.Player.AudioPlugins.PluginWrapper;
 import static rf.ebanina.File.Localization.LocalizationManager.getLocaleString;
 import static rf.ebanina.UI.Root.showError;
 
-public class VstPluginListCell<T> extends ListCell<PluginWrapper> {
+// TODO: Объединить с PluginListCell
+// TODO: Merge with PluginListCell - 31.03.2026
+@Deprecated(since = "1.4.9")
+public class VstPluginListCell<T>
+        extends ListCell<PluginWrapper>
+{
     private final Button openGuiBtn = new Button(getLocaleString("vst_editor_open_gui", "GUI"));
     private final Button up = new Button("↑");
     private final Button down = new Button("↓");

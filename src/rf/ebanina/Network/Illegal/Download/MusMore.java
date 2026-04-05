@@ -11,18 +11,21 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.List;
 
 import static rf.ebanina.UI.UI.Paint.ColorProcessor.isPreserveRatio;
 import static rf.ebanina.UI.UI.Paint.ColorProcessor.isSmooth;
 
-public class MusMore implements Info.IInfo {
+public class MusMore
+        implements Info.IInfo
+{
     protected static String mus_more_url = "https://ruo.morsmusic.org";
 
     @Override
     public Track getTrackDownloadLink(String track) {
         Track at = new Track();
 
-        ArrayList<Track> tr = getMusMoreInfoTracks(track, "search");
+        List<Track> tr = getTracksDownloadLinksList(track);
 
         for (Track value : tr) {
             if (value.viewName.replace(" ", "").contains(track.replace(" ", ""))) {
@@ -39,7 +42,7 @@ public class MusMore implements Info.IInfo {
     public Track getTrackFromDownloadLink(String track) {
         Track at = new Track();
 
-        ArrayList<Track> tr = getMusMoreInfoTracks(track, "search");
+        List<Track> tr = getTracksDownloadLinksList(track);
 
         for (Track value : tr) {
             if (value.viewName.replace(" ", "").contains(track.replace(" ", ""))) {
@@ -52,11 +55,12 @@ public class MusMore implements Info.IInfo {
         return at;
     }
 
-    public ArrayList<rf.ebanina.ebanina.Player.Track> getMusMoreInfoTracks(String track, String addict) {
+    @Override
+    public List<Track> getTracksDownloadLinksList(String track) {
         ArrayList<rf.ebanina.ebanina.Player.Track> tr = new ArrayList<>();
 
         try {
-            Document doc = Jsoup.connect(mus_more_url + "/" + addict + "/" + URLEncoder.encode(track, StandardCharsets.UTF_8))
+            Document doc = Jsoup.connect(mus_more_url + "/search/" + URLEncoder.encode(track, StandardCharsets.UTF_8))
                     .userAgent(Info.instance.getActiveUserAgent()).get();
 
             for (int i = 0; i < doc.getElementsByClass("track-control").size(); i++) {
@@ -65,6 +69,7 @@ public class MusMore implements Info.IInfo {
                 track1.title = doc.getElementsByClass("track-info").get(i).getElementsByClass("media-link media-name").text();
                 track1.viewName = track1.artist + " - " + track1.title;
                 track1.setExternalUrl(Info.PlayersTypes.MUS_MORE.getCode());
+                track1.setNetty(true);
 
                 Image img = ResourceManager.Instance.loadImage(Info.PlayersTypes.MUS_MORE.getCode(), 40, 40, isPreserveRatio, isSmooth);
                 track1.setMipmap(img);
@@ -76,5 +81,10 @@ public class MusMore implements Info.IInfo {
         }
 
         return tr;
+    }
+
+    @Override
+    public String toString() {
+        return "MusMore{}";
     }
 }

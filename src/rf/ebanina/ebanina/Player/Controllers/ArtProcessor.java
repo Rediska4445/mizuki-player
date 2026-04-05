@@ -14,7 +14,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.util.Duration;
+import org.json.simple.parser.ParseException;
 import rf.ebanina.File.Configuration.ConfigurationManager;
+import rf.ebanina.Network.IParseAlbumArt;
 import rf.ebanina.UI.Root;
 import rf.ebanina.UI.UI.Animations;
 import rf.ebanina.UI.UI.Element.Buttons.Button;
@@ -24,8 +26,12 @@ import rf.ebanina.ebanina.Music;
 import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
 import rf.ebanina.ebanina.Player.Track;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.*;
 
 import static rf.ebanina.UI.Root.PlaylistHandler.playlistSelected;
 import static rf.ebanina.UI.Root.*;
@@ -61,7 +67,7 @@ import static rf.ebanina.UI.UI.Paint.ColorProcessor.*;
  * </ul>
  *
  * @author Ebanina Std
- * @since 1.4.9
+ * @since 1.4.7
  * @implements IArtProcessor
  * @see ColorProcessor
  * @see Animations
@@ -735,5 +741,228 @@ public class ArtProcessor
                   listView.getPlaylistListView().updateBorderColor(core.getMainClr());
               }
           }
+    }
+
+    /**
+     * Фиксированный список парсеров обложек альбомов на основе {@link AlbumArtParser} enum.
+     * <p>
+     * <b>Преимущества enum-подхода:</b>
+     * <ul>
+     * <li>Типобезопасность и иммутабельность реализаций</li>
+     * <li>Параллельное выполнение через {@link #parseImage(String, int, int, boolean, boolean)}</li>
+     * <li>Автоматическое создание через {@code List.of(AlbumArtParser.values())}</li>
+     * </ul>
+     * </p>
+     * <p>
+     * <b>Расширение:</b> Добавить новый парсер = новая константа в {@link AlbumArtParser}.
+     * </p>
+     *
+     * @see AlbumArtParser
+     * @see #parseImage(String, int, int, boolean, boolean)
+     * @see #getInterfacesOfParseAlbumArtList()
+     * @implNote Размер = {@link AlbumArtParser#values().length}
+     */
+    protected final List<IParseAlbumArt> iParseAlbumArts = new ArrayList<>(List.of(AlbumArtParser.values()));
+    /**
+     * Реализации парсеров обложек альбомов для параллельного выполнения.
+     * <p>
+     * <b>Архитектура:</b> Каждый enum - независимый парсер с fallback на {@link ColorProcessor#getLogo()}.
+     * Выполняются параллельно в {@link #parseImage(String, int, int, boolean, boolean)} с таймаутом 2 сек.
+     * </p>
+     * <p>
+     * <b>Расширение:</b> Новый парсер = новая константа enum + реализация {@link #getAlbumArt(String, int, int, boolean, boolean)}.
+     * </p>
+     *
+     * <h3>Текущие парсеры</h3>
+     * <dl>
+     *   <dt>{@link #SPOTIFY}</dt>
+     *   <dd>Spotify API через {@code me.API.Info.info.search()}.</dd>
+     * </dl>
+     *
+     * @see ArtProcessor#iParseAlbumArts
+     * @see #getAlbumArt(String, int, int, boolean, boolean)
+     */
+    public enum AlbumArtParser
+            implements IParseAlbumArt
+    {
+        /**
+         * Spotify API парсер обложек.
+         * <p>
+         * <b>Логика:</b>
+         * <ol>
+         *   <li>Поиск по {@code view} через {@code me.API.Info.info.search()}</li>
+         *   <li>Извлечение URL из {@code getAwesomeAlbumArt().getUrl()}</li>
+         *   <li>Загрузка {@link Image} или fallback на logo</li>
+         * </ol>
+         * </p>
+         *
+         * @implNote Обёрнуто в {@code RuntimeException} для прерывания медленных запросов
+         */
+        SPOTIFY {
+            @Override
+            public Image getAlbumArt(String view, int height, int width, boolean preserve, boolean smooth) {
+                String url;
+
+                try {
+                    url = me.API.Info.info.search(URLEncoder.encode(view, StandardCharsets.UTF_8)).getAwesomeAlbumArt().getUrl();
+                } catch (IOException | ParseException e) {
+                    throw new RuntimeException(e);
+                }
+
+                if(url != null && !url.isEmpty()) {
+                    return new Image(url, height, width, isPreserveRatio, isSmooth);
+                }
+
+                return ColorProcessor.core.getLogo();
+            }
+        };
+    }
+
+    /**
+     * Возвращает список доступных парсеров обложек альбомов.
+     * <p>
+     * Предназначен для <b>только чтения</b>, либо для явного модифицирования. Позволяет инспектировать доступные провайдеры
+     * без возможности изменения логики параллельного парсинга.
+     * </p>
+     *
+     * <h3>Использование</h3>
+     * <pre>{@code
+     * List<IParseAlbumArt> parsers = getInterfacesOfParseAlbumArtList();
+     * System.out.println("Доступно парсеров: " + parsers.size());
+     * // НЕ изменяйте список!
+     * }</pre>
+     *
+     * @return список реализаций {@link IParseAlbumArt}
+     * @see #iParseAlbumArts
+     * @see #parseImage(String, int, int, boolean, boolean)
+     */
+    public List<IParseAlbumArt> getInterfacesOfParseAlbumArtList() {
+        return iParseAlbumArts;
+    }
+    /**
+     * Параллельно пытается получить обложку альбома через все доступные парсеры.
+     * <p>
+     * <b>Детальная логика работы (пошагово):</b>
+     * </p>
+     *
+     * <h4>1. Подготовка пула потоков</h4>
+     * <pre>ExecutorService pool = newFixedThreadPool(PARSE_ALBUM_ARTS.size())</pre>
+     * Создаётся пул потоков = количество парсеров (например, 3 потока для 3 парсеров).
+     *
+     * <h4>2. Создание задач</h4>
+     * <pre>List&lt;Callable&lt;Image&gt;&gt; tasks = [...]</pre>
+     * Для каждого парсера создаётся задача: {@code () -> parser.getAlbumArt(...)}.
+     *
+     * <h4>3. Параллельный запуск + таймаут</h4>
+     * <pre>invokeAll(tasks, 2, SECONDS)</pre>
+     * <b>КРИТИЧНО:</b> Все задачи запускаются ОДНОВРЕМЕННО и ждут <b>максимум 2 сек</b>.
+     * - Быстрый парсер (0.3с) → завершается
+     * - Медленный парсер (10с) → обрезается через 2с
+     *
+     * <h4>4. Поиск первого успеха</h4>
+     * <pre>for (Future&lt;Image&gt; f : futures) {
+     *     if (f.isDone() && !f.isCancelled()) {
+     *         Image result = f.get();
+     *         if (result != null) return result;  ← ПЕРВЫЙ НЕ-null!
+     *     }
+     * }</pre>
+     * Проверяются futures <b>по порядку создания</b>. Первый успешный (не null) → немедленный возврат.
+     *
+     * <h4>5. Fallback</h4>
+     * Если все парсеры провалились/таймаут → возвращает {@link ColorProcessor#logo}.
+     *
+     * <h3>Пример сценария</h3>
+     * <pre>{@code
+     * Парсеры: [DEEZER, LOCAL, FALLBACK]
+     * Время ответа: [1.2с, 0.4с, 3.0с]
+     *
+     * 0.0с - все 3 запускаются параллельно
+     * 0.4с - LOCAL завершился → ВОЗВРАЩАЕТСЯ (игнорируем остальные!)
+     * DEEZER/FALLBACK обрезаются неиспользованными
+     * }</pre>
+     *
+     * <h4>Обработка ошибок</h4>
+     * <ul>
+     * <li>{@code InterruptedException} - поток прерван</li>
+     * <li>{@code ExecutionException} - парсер выбросил исключение</li>
+     * </ul>
+     * Оба случая → <b>молча возвращает logo</b>.
+     *
+     * @param view строка для поиска (название трека/исполнителя)
+     * @param height высота изображения
+     * @param width ширина изображения
+     * @param isPreserveRation сохранять пропорции
+     * @param isSmooth сглаживание
+     * @return первая успешная обложка или {@link ColorProcessor#logo}
+     * @see AlbumArtParser
+     * @see ArtProcessor#iParseAlbumArts
+     */
+    public Image parseImage(String view, int height, int width, boolean isPreserveRation, boolean isSmooth) {
+        try(ExecutorService executor = Executors.newFixedThreadPool(iParseAlbumArts.size())) {
+            List<Callable<Image>> tasks = new ArrayList<>();
+            for (rf.ebanina.Network.IParseAlbumArt func : iParseAlbumArts) {
+                tasks.add(() -> func.getAlbumArt(view, height, width, isPreserveRation, isSmooth));
+            }
+
+            List<Future<Image>> futures = executor.invokeAll(tasks, ConfigurationManager.instance.getIntItem("network_art_parse_timeout", "2"), TimeUnit.SECONDS);
+
+            for (Future<Image> f : futures) {
+                if (f.isDone() && !f.isCancelled()) {
+                    Image result = f.get();
+
+                    if (result != null) {
+                        executor.shutdownNow();
+                        return result;
+                    }
+                }
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            return logo;
+        }
+
+        return logo;
+    }
+    /**
+     * Параллельный парсинг обложки с настройками по умолчанию.
+     * <p>
+     * <b>Параметры по умолчанию:</b><br>
+     * {@code isPreserveRatio = ColorProcessor.isPreserveRatio}<br>
+     * {@code isSmooth = ColorProcessor.isSmooth}
+     * </p>
+     *
+     * @param view строка для поиска
+     * @param height высота изображения
+     * @param width ширина изображения
+     * @return первая успешная обложка или {@link ColorProcessor#logo}
+     * @see #parseImage(String, int, int, boolean, boolean)
+     * @see ColorProcessor#isPreserveRatio
+     * @see ColorProcessor#isSmooth
+     */
+    public Image parseImage(String view, int height, int width) {
+        return parseImage(view, height, width, ColorProcessor.isPreserveRatio, ColorProcessor.isSmooth);
+    }
+    /**
+     * Параллельный парсинг обложки с параметрами по умолчанию.
+     * <p>
+     * <b>Параметры по умолчанию:</b><br>
+     * {@code height = ColorProcessor.size}<br>
+     * {@code width = ColorProcessor.size}<br>
+     * {@code isPreserveRatio = ColorProcessor.isPreserveRatio}<br>
+     * {@code isSmooth = ColorProcessor.isSmooth}
+     * </p>
+     *
+     * <h3>Типичное использование</h3>
+     * <pre>{@code
+     * Image cover = processor.parseImage("The Weeknd - Blinding Lights");
+     * // 128x128, preserveRatio=true, smooth=true (стандарт UI)
+     * }</pre>
+     *
+     * @param view строка для поиска (название/исполнитель)
+     * @return обложка стандартного размера или {@link ColorProcessor#logo}
+     * @see #parseImage(String, int, int, boolean, boolean)
+     * @see ColorProcessor#size
+     */
+    public Image parseImage(String view) {
+        return parseImage(view, ColorProcessor.size, ColorProcessor.size);
     }
 }

@@ -40,12 +40,27 @@ import static rf.ebanina.File.Localization.LocalizationManager.getLocaleString;
 import static rf.ebanina.UI.Root.stage;
 import static rf.ebanina.UI.Root.tracksListView;
 
-public class TrackContextMenu extends ContextMenu {
+public class TrackContextMenu
+        extends ContextMenu
+{
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     private final Track track;
 
     private final ListCellTrack<?> sourceCell;
+
+    private ContextMenuItem artistPageItem;
+
+    private ContextMenuItem deleteFromPlaylistItem;
+    private ContextMenuItem deleteTrackItem;
+    private ContextMenuItem tagEditorItem;
+    private ContextMenuItem openInExplorerItem;
+    private ContextMenuItem isPhantom;
+    private ContextMenuItem editTags;
+    private ContextMenuItem trackItem;
+    private javafx.scene.control.Menu copyToMenu;
+    private javafx.scene.control.Menu moveToMenu;
+    private ContextMenuItem openStatisticsItem;
 
     public TrackContextMenu(Track track, ListCellTrack<?> sourceCell) {
         this.track = track;
@@ -53,21 +68,6 @@ public class TrackContextMenu extends ContextMenu {
 
         initializeMenu();
     }
-
-    private ContextMenuItem artistPageItem;
-    private ContextMenuItem deleteFromPlaylistItem;
-    private ContextMenuItem deleteTrackItem;
-    private ContextMenuItem tagEditorItem;
-    private ContextMenuItem openInExplorerItem;
-    private ContextMenuItem isPhantom;
-    private ContextMenuItem editTags;
-
-    private ContextMenuItem trackItem;
-
-    private javafx.scene.control.Menu copyToMenu;
-    private javafx.scene.control.Menu moveToMenu;
-
-    private ContextMenuItem openStatisticsItem;
 
     private void initializeMenu() {
         trackItem = new ContextMenuItem();
