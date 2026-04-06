@@ -751,6 +751,8 @@ public class MediaProcessor
                 URL res = track.getPath() == null || track.getPath().equals(Info.PlayersTypes.URI_NULL.getCode())
                         ? getURIFromTrack(track) : new URL(track.getPath());
 
+                Music.mainLogger.info("public void regenerateMediaPlayer(Track track): " + res);
+
                 // Может не получить ссылку
                 if (res != null) {
 
@@ -760,7 +762,7 @@ public class MediaProcessor
                     if (isPreDownload) {
 
                         // Очистить папку с треками, если больше чем 64 чего то
-                        if(FileManager.instance.isOccupiedSpace(Resources.Properties.DEFAULT_INET_CACHE_PATH.getKey(), 64)) {
+                        if(FileManager.instance.isOccupiedSpace(Resources.Properties.DEFAULT_INET_CACHE_PATH.getKey(), 16)) {
 
                             // Чистка
                             FileManager.instance.clearCacheData(Resources.Properties.DEFAULT_INET_CACHE_PATH.getKey());
@@ -776,14 +778,13 @@ public class MediaProcessor
                         if(!Files.exists(path)) {
 
                             // Скачивание с сетевого потока на локальный путь
-                            Files.copy(res.openStream(), path, StandardCopyOption.REPLACE_EXISTING);
+                            Files.copy(rf.ebanina.utils.network.Network.followRedirects(res), path, StandardCopyOption.REPLACE_EXISTING);
                         }
 
                         // Путь к локальному файлу
                         track.metadata.put("netty_file_path", media, String.class);
                     } else {
                         // Может, и получится слушать как на стриминговых сервисах, но вряд-ли.
-                        // Господь пастырь мой...
                         media = String.valueOf(res);
 
                         // Нужно для генерации стандартной SoundSlider.
