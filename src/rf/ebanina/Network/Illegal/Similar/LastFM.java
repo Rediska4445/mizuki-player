@@ -10,7 +10,6 @@ import rf.ebanina.ebanina.Player.Track;
 
 import java.util.List;
 
-import static rf.ebanina.UI.Root.similar;
 import static rf.ebanina.UI.UI.Paint.ColorProcessor.isPreserveRatio;
 import static rf.ebanina.UI.UI.Paint.ColorProcessor.isSmooth;
 
@@ -32,9 +31,9 @@ public class LastFM
             tr.viewName = tr.artist + " - " + tr.title;
 
             Platform.runLater(() -> {
-                similar.getTrackListView().getItems().add(tr);
-                Root.PlaylistHandler.playlistSimilar.add(tr);
-                PlayProcessor.playProcessor.getTracks().addAll(similar.getTrackListView().getItems());
+                Root.rootImpl.similar.getTrackListView().getItems().add(tr);
+                Root.PlaylistHandler.playlistHandler.playlistSimilar.add(tr);
+                PlayProcessor.playProcessor.getTracks().addAll(Root.rootImpl.similar.getTrackListView().getItems());
             });
         }
     }

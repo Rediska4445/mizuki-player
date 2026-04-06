@@ -28,8 +28,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.nio.file.FileVisitOption.FOLLOW_LINKS;
-import static rf.ebanina.UI.Root.similar;
-import static rf.ebanina.UI.Root.tracksListView;
 import static rf.ebanina.ebanina.Music.*;
 
 public class FileManager
@@ -227,12 +225,12 @@ public class FileManager
             new SharedDataEntry("player", "last_track_index_local", () -> String.valueOf(PlayProcessor.playProcessor.getTrackIter()), "0"),
             new SharedDataEntry("player", "last_track_index_playlist_local", () -> String.valueOf(PlayProcessor.playProcessor.getCurrentPlaylistIter()), "0"),
             new SharedDataEntry("history", "tracks", () -> PlayProcessor.playProcessor.getTrackHistoryGlobal().getHistory().toString(), "[]"),
-            new SharedDataEntry("main_window", "width", () -> String.valueOf(Root.stage.getWidth()), "800"),
-            new SharedDataEntry("main_window", "height", () -> String.valueOf(Root.stage.getHeight()), "600"),
-            new SharedDataEntry("main_window", "layout_x", () -> String.valueOf(Root.stage.getX()), "0"),
-            new SharedDataEntry("main_window", "layout_y", () -> String.valueOf(Root.stage.getY()), "0"),
-            new SharedDataEntry("main_window", "left_list_open", () -> String.valueOf(similar.isOpened()), "false"),
-            new SharedDataEntry("main_window", "right_list_open", () -> String.valueOf(tracksListView.isOpened()), "false"),
+            new SharedDataEntry("main_window", "width", () -> String.valueOf(Root.rootImpl.stage.getWidth()), "800"),
+            new SharedDataEntry("main_window", "height", () -> String.valueOf(Root.rootImpl.stage.getHeight()), "600"),
+            new SharedDataEntry("main_window", "layout_x", () -> String.valueOf(Root.rootImpl.stage.getX()), "0"),
+            new SharedDataEntry("main_window", "layout_y", () -> String.valueOf(Root.rootImpl.stage.getY()), "0"),
+            new SharedDataEntry("main_window", "left_list_open", () -> String.valueOf(Root.rootImpl.similar.isOpened()), "false"),
+            new SharedDataEntry("main_window", "right_list_open", () -> String.valueOf(Root.rootImpl.tracksListView.isOpened()), "false"),
             new SharedDataEntry("app", "full_time", () -> {
                 if(!readSharedData().containsKey("full_time")) {
                     return "-100";

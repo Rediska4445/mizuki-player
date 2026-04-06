@@ -165,7 +165,7 @@ public class MP3
                                     size, size, preserve_ration, smooth
                             );
                         } else if (ConfigurationManager.instance.getBooleanItem("album_art_parse", "false")) {
-                            result = Root.artProcessor.parseImage(path.viewName(), size, size1, preserve_ration, smooth);
+                            result = Root.rootImpl.artProcessor.parseImage(path.viewName(), size, size1, preserve_ration, smooth);
 
                             if (!PlayProcessor.playProcessor.isNetwork() && ConfigurationManager.instance.getBooleanItem("album_art_parsed_set_in_tags", "false")) {
                                 iMetadataOfFiles.setArt(path.getPath(), SwingFXUtils.fromFXImage(result, null));
@@ -179,7 +179,7 @@ public class MP3
                 }
             }
         } else {
-            return Root.artProcessor.parseImage(path.viewName(), size, size1, preserve_ration, smooth);
+            return Root.rootImpl.artProcessor.parseImage(path.viewName(), size, size1, preserve_ration, smooth);
         }
 
         return result;

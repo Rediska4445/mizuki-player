@@ -20,7 +20,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-import static rf.ebanina.UI.Root.similar;
 import static rf.ebanina.UI.UI.Paint.ColorProcessor.isPreserveRatio;
 import static rf.ebanina.UI.UI.Paint.ColorProcessor.isSmooth;
 
@@ -122,9 +121,9 @@ public class Apple
             temp.addAll(getAppleSimilarTracks(temp.get(0).viewName));
 
             Platform.runLater(() -> {
-                similar.getTrackListView().getItems().addAll(temp);
-                Root.PlaylistHandler.playlistSimilar.addAll(temp);
-                PlayProcessor.playProcessor.getTracks().addAll(similar.getTrackListView().getItems());
+                Root.rootImpl.similar.getTrackListView().getItems().addAll(temp);
+                Root.PlaylistHandler.playlistHandler.playlistSimilar.addAll(temp);
+                PlayProcessor.playProcessor.getTracks().addAll(Root.rootImpl.similar.getTrackListView().getItems());
             });
         }
     }

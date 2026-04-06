@@ -312,7 +312,7 @@ public final class MetadataOfFile
         }
 
         if (img == null) {
-            img = Root.artProcessor.parseImage(path.getName(), size, size1, preserve_ration, smooth);
+            img = Root.rootImpl.artProcessor.parseImage(path.getName(), size, size1, preserve_ration, smooth);
 
             if (!PlayProcessor.playProcessor.isNetwork() && ConfigurationManager.instance.getBooleanItem("album_art_parsed_set_in_tags", "false")) {
                 setArt(path.getPath(), SwingFXUtils.fromFXImage(img, null));

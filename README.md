@@ -54,13 +54,13 @@ The fastest way to do this is to run the `download_mizuka` script, which will do
 
 ### Overview
 
-| **VST/VST3**       | **Network**         | **Audio DSP**      | **Local Media**    |
-|--------------------|---------------------|--------------------|--------------------|
-| Plugin hosting     | Spotify/LastFM      | Volume/Tempo/Pitch | 15+ Languages      |
-| I/O routing        | Track download      | Smart normalizer   | Advanced tagging   |
-| Editor GUI         | Metadata extraction | Skip drop, intro   | Complex search     |
-| Parameter control  | Lyrics translation  | MP3/WAV support    | State persistence  |
-| State save/restore | Network playlists   | Custom formats     | Moddable resources |
+| **VST/VST3**                  | **Network**         | **Audio DSP**      | **Local Media**    |
+|-------------------------------|---------------------|--------------------|--------------------|
+| Plugin hosting (without Juce) | Spotify/LastFM      | Volume/Tempo/Pitch | 15+ Languages      |
+| I/O routing                   | Track download      | Smart normalizer   | Advanced tagging   |
+| Editor GUI                    | Metadata extraction | Skip drop, intro   | Complex search     |
+| Parameter control             | Lyrics translation  | MP3/WAV support    | State persistence  |
+| State save/restore            | Network playlists   | Custom formats     | Moddable resources |
 
 > **Many functions may not actually work correctly even if tested successfully.**
 

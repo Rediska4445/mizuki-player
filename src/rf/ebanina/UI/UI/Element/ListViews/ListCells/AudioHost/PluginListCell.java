@@ -63,7 +63,7 @@ public class PluginListCell<T>
                 try {
                     item.openEditor(new Stage());
                 } catch (Exception ex) {
-                    Root.showError("Ошибка открытия GUI", ex.getMessage());
+                    Root.rootImpl.error("Ошибка открытия GUI", ex.getMessage());
                 }
             });
 

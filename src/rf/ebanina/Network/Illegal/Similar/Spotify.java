@@ -19,7 +19,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import static rf.ebanina.UI.Root.similar;
 import static rf.ebanina.UI.UI.Paint.ColorProcessor.isPreserveRatio;
 import static rf.ebanina.UI.UI.Paint.ColorProcessor.isSmooth;
 
@@ -61,13 +60,13 @@ public class Spotify
                 tr.metadata.put("mipmap_is_loaded", false, boolean.class);
 
                 Platform.runLater(() -> {
-                    similar.getTrackListView().getItems().add(tr);
-                    Root.PlaylistHandler.playlistSimilar.add(tr);
-                    PlayProcessor.playProcessor.getTracks().addAll(similar.getTrackListView().getItems());
+                    Root.rootImpl.similar.getTrackListView().getItems().add(tr);
+                    Root.PlaylistHandler.playlistHandler.playlistSimilar.add(tr);
+                    PlayProcessor.playProcessor.getTracks().addAll(Root.rootImpl.similar.getTrackListView().getItems());
                 });
 
                 Future<?> f = executor.submit(() -> {
-                    if (ConfigurationManager.instance.getBooleanItem("delayed_loading", "true") && similar.isVisible()) {
+                    if (ConfigurationManager.instance.getBooleanItem("delayed_loading", "true") && Root.rootImpl.similar.isVisible()) {
                         Track uri = new Track();
 
                         try {
@@ -81,8 +80,8 @@ public class Spotify
                             tr.setTotalDuraSec(uri.getTotalDuraSec());
                         } else {
                             Platform.runLater(() -> {
-                                similar.getTrackListView().getItems().remove(tr);
-                                Root.PlaylistHandler.playlistSimilar.remove(tr);
+                                Root.rootImpl.similar.getTrackListView().getItems().remove(tr);
+                                Root.PlaylistHandler.playlistHandler.playlistSimilar.remove(tr);
                                 PlayProcessor.playProcessor.getTracks().remove(tr);
                             });
                         }

@@ -24,3 +24,4 @@ session.ini
 /config/ui.properties
 /config/media.properties
 /config/application.properties
+/src/rf/ebanina/util/

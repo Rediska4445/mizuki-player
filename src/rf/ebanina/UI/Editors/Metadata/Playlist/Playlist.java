@@ -15,10 +15,10 @@ import java.io.IOException;
 import java.util.Map;
 
 import static rf.ebanina.File.Localization.LocalizationManager.getLocaleString;
-import static rf.ebanina.UI.Root.Blur;
-import static rf.ebanina.UI.Root.windowsSizes;
 
-public class Playlist implements IEditor {
+public class Playlist
+        implements IEditor
+{
     private rf.ebanina.ebanina.Player.Playlist playlist;
 
     public void prepare(rf.ebanina.ebanina.Player.Playlist playlist) {
@@ -49,7 +49,7 @@ public class Playlist implements IEditor {
             stageSet.setScene(scene);
             stageSet.show();
 
-            Map.Entry<Point, Dimension> windowSize = windowsSizes.get(getClass().getName());
+            Map.Entry<Point, Dimension> windowSize = Root.rootImpl.getWindowsSizes().get(getClass().getName());
             if (windowSize != null) {
                 stageSet.setWidth(windowSize.getValue().getWidth());
                 stageSet.setHeight(windowSize.getValue().getHeight());
@@ -57,18 +57,12 @@ public class Playlist implements IEditor {
                 stageSet.setY(windowSize.getKey().getY());
             }
 
-            stageSet.setOnCloseRequest((e) -> {
-                windowsSizes.put(getClass().getName(),
-                        Map.entry(
-                                new Point((int) stageSet.getX(), (int) stageSet.getY()),
-                                new Dimension((int) scene.getWidth(), (int) scene.getHeight())
-                        )
-                );
-            });
-
-            Blur(Root.root, 250, 20).play();
-
-            stageSet.setOnCloseRequest((e) -> Blur(Root.root, 250, 0).play());
+            stageSet.setOnCloseRequest((e) -> Root.rootImpl.getWindowsSizes().put(getClass().getName(),
+                    Map.entry(
+                            new Point((int) stageSet.getX(), (int) stageSet.getY()),
+                            new Dimension((int) scene.getWidth(), (int) scene.getHeight())
+                    )
+            ));
         } catch (IOException e) {
             e.printStackTrace();
         } catch (CloneNotSupportedException e) {

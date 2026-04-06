@@ -8,12 +8,12 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import rf.ebanina.UI.Editors.Player.AudioHost;
 import rf.ebanina.UI.Editors.Player.Tabs.AudioPlugins.Vst.VstParamsWindow;
+import rf.ebanina.UI.Root;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
 import rf.ebanina.ebanina.Music;
 import rf.ebanina.ebanina.Player.AudioPlugins.PluginWrapper;
 
 import static rf.ebanina.File.Localization.LocalizationManager.getLocaleString;
-import static rf.ebanina.UI.Root.showError;
 
 // TODO: Объединить с PluginListCell
 // TODO: Merge with PluginListCell - 31.03.2026
@@ -57,7 +57,7 @@ public class VstPluginListCell<T>
                 try {
                     Platform.runLater(item::openEditor);
                 } catch (Exception ex) {
-                    showError("Error open GUI", ex.getMessage());
+                    Root.rootImpl.error("Error open GUI", ex.getMessage());
                 }
             }
         });
@@ -92,7 +92,7 @@ public class VstPluginListCell<T>
                 try {
                     item.setMix(newVal.intValue());
                 } catch (Exception e) {
-                    showError(e.getMessage(), e.getLocalizedMessage());
+                    Root.rootImpl.error(e.getMessage(), e.getLocalizedMessage());
                 }
             }
         });
@@ -130,7 +130,7 @@ public class VstPluginListCell<T>
             try {
                 mixSlider.setValue(item.getMix());
             } catch (Exception e) {
-                showError(e.getMessage(), e.getLocalizedMessage());
+                Root.rootImpl.error(e.getMessage(), e.getLocalizedMessage());
             }
 
             setText(null);

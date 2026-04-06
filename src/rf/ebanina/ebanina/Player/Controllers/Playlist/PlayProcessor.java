@@ -8,6 +8,7 @@ import rf.ebanina.File.Configuration.ConfigurationManager;
 import rf.ebanina.File.DataTypes;
 import rf.ebanina.File.FileManager;
 import rf.ebanina.File.Resources.Resources;
+import rf.ebanina.UI.Root;
 import rf.ebanina.ebanina.Player.AudioVolumer;
 import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
 import rf.ebanina.ebanina.Player.Playlist;
@@ -26,7 +27,6 @@ import java.util.function.Consumer;
 
 import static rf.ebanina.File.Field.fields;
 import static rf.ebanina.File.FileManager.DEFAULT_USER_MUSIC_KEY;
-import static rf.ebanina.UI.Root.tracksListView;
 
 /**
  * <h1>PlayProcessor</h1>
@@ -440,7 +440,7 @@ public class PlayProcessor<T extends Track, J extends Playlist>
 
                 PlaylistController.playlistController.onPlaylistChanged.run();
 
-                Platform.runLater(() -> tracksListView.getTrackListView().getSelectionModel().select(PlayProcessor.playProcessor.getTrackIter()));
+                Platform.runLater(() -> Root.rootImpl.tracksListView.getTrackListView().getSelectionModel().select(PlayProcessor.playProcessor.getTrackIter()));
             }
         }
 

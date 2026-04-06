@@ -33,8 +33,6 @@ import java.awt.*;
 import java.io.*;
 import java.net.URL;
 
-import static rf.ebanina.UI.Root.stage;
-
 /**
  * Аудиовизуальный слайдер-волновой индикатор на базе {@link JFXSlider} с полной поддержкой MP3/WAV декодирования.
  * <p>
@@ -279,7 +277,7 @@ public class SoundSlider
      *   <li>Рассчитывает {@code activeCount = (value/max) * totalColumns}</li>
      *   <li><b>Неактивные столбцы</b> (activeCount..size): анимируют к {@link Color#DARKGRAY}</li>
      *   <li><b>Активные столбцы</b> (0..activeCount): анимируют к {@link #colorProperty}</li>
-     *   <li><b>Оптимизация:</b> без анимации если окно не в фокусе ({@link Root#stage#isFocused()})</li>
+     *   <li><b>Оптимизация:</b> без анимации если окно не в фокусе</li>
      * </ol>
      * </p>
      * <p>
@@ -310,7 +308,7 @@ public class SoundSlider
             for (int i = activeCount; i < size; i++) {
                 Rectangle rect = (Rectangle) sliderBackground.getChildren().get(i);
 
-                if(stage.isFocused()) {
+                if(Root.rootImpl.stage.isFocused()) {
                     new Timeline(new KeyFrame(timeAnimation,
                             new KeyValue(rect.fillProperty(), Color.DARKGRAY, interpolator))).play();
                 } else {
@@ -321,7 +319,7 @@ public class SoundSlider
             for (int i = 0; i < activeCount; i++) {
                 Rectangle rect = (Rectangle) sliderBackground.getChildren().get(i);
 
-                if(stage.isFocused()) {
+                if(Root.rootImpl.stage.isFocused()) {
                     new Timeline(new KeyFrame(timeAnimation,
                             new KeyValue(rect.fillProperty(), colorProperty.get(), interpolator))).play();
                 } else {

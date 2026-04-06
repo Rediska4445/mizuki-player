@@ -6,13 +6,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
-import rf.ebanina.ebanina.Player.Playlist;
 import rf.ebanina.File.Localization.LocalizationManager;
 import rf.ebanina.UI.Root;
 import rf.ebanina.UI.UI.Context.Menu.ContextMenu;
 import rf.ebanina.UI.UI.Context.Menu.ContextMenuItem;
 import rf.ebanina.UI.UI.Element.ListViews.ListCells.Playlists.ListCellPlaylist;
+import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
+import rf.ebanina.ebanina.Player.Playlist;
 
 import java.awt.*;
 import java.io.File;
@@ -21,7 +21,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static rf.ebanina.File.Localization.LocalizationManager.getLocaleString;
-import static rf.ebanina.UI.Root.tracksListView;
 
 public class PlaylistContextMenu extends ContextMenu {
     private ContextMenuItem deleteFromDisk;
@@ -113,7 +112,7 @@ public class PlaylistContextMenu extends ContextMenu {
         Desktop.getDesktop().moveToTrash(new File(sourceCell.getItem().getPath()));
 
         PlayProcessor.playProcessor.getCurrentPlaylist().remove(sourceCell.getItem());
-        tracksListView.getPlaylistListView().getItems().remove(sourceCell.getItem());
+        Root.rootImpl.tracksListView.getPlaylistListView().getItems().remove(sourceCell.getItem());
     }
 
     private void removeFromListInternal() {

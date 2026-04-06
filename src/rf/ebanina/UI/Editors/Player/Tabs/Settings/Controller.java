@@ -16,7 +16,7 @@ import rf.ebanina.ebanina.Player.Track;
 import java.net.URI;
 import java.nio.file.Paths;
 
-import static rf.ebanina.UI.Root.*;
+import static rf.ebanina.UI.Root.rootImpl;
 
 public class Controller {
 
@@ -104,16 +104,15 @@ public class Controller {
                 MediaProcessor.mediaProcessor.globalMap.put("tempo", val, float.class);
                 MediaProcessor.mediaProcessor.mediaPlayer.setTempo(val);
 
-                soundSlider.setMax(MediaProcessor.mediaProcessor.mediaPlayer.recalculateOverDuration().toSeconds());
-                endTime.setText(Track.getFormattedTotalDuration((float) soundSlider.getMax()));
+                rootImpl.soundSlider.setMax(MediaProcessor.mediaProcessor.mediaPlayer.recalculateOverDuration().toSeconds());
+                rootImpl.endTime.setText(Track.getFormattedTotalDuration((float) rootImpl.soundSlider.getMax()));
 
                 if(ConfigurationManager.instance.getBooleanItem("is_hue_change", "false")) {
                     ColorProcessor.core.scaleHue(val);
-                    // Обновляем стили при изменении Hue, если это предусмотрено логикой
                     applyDynamicStyles();
 
-                    artProcessor.setImage(MetadataOfFile.iMetadataOfFiles.getArt(new Track(Paths.get(URI.create(MediaProcessor.mediaProcessor.mediaPlayer.getMedia().getSource())).toString()), ColorProcessor.size, ColorProcessor.size, ColorProcessor.isPreserveRatio, ColorProcessor.isSmooth));
-                    artProcessor.initColor(art.getImage());
+                    rootImpl.artProcessor.setImage(MetadataOfFile.iMetadataOfFiles.getArt(new Track(Paths.get(URI.create(MediaProcessor.mediaProcessor.mediaPlayer.getMedia().getSource())).toString()), ColorProcessor.size, ColorProcessor.size, ColorProcessor.isPreserveRatio, ColorProcessor.isSmooth));
+                    rootImpl.artProcessor.initColor(rootImpl.art.getImage());
                 }
             }
         });

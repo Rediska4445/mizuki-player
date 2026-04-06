@@ -501,7 +501,7 @@ public class TrackHistory implements
      */
     public MenuItem createMenuItem(Track track) {
         MenuItem m = new MenuItem(track.viewName() + " - " + track.getRawLastTimeTrack() + " - " + track.getState().get(DataTypes.LAST_DATE.code));
-        m.setOnAction(e -> Root.PlaylistHandler.openTrack(track));
+        m.setOnAction(e -> Root.PlaylistHandler.playlistHandler.openTrack(track));
 
         return m;
     }
@@ -596,7 +596,7 @@ public class TrackHistory implements
                 Track t = trackHistoryIterator.next();
 
                 MenuItem m = new MenuItem(t.viewName() + " - " + t.getRawLastTimeTrack() + " - " + t.getState().get(DataTypes.LAST_DATE.code));
-                m.setOnAction(e -> Root.PlaylistHandler.openTrack(t));
+                m.setOnAction(e -> Root.PlaylistHandler.playlistHandler.openTrack(t));
                 trackHistoryContextMenu.getItems().add(m);
             }
         }));

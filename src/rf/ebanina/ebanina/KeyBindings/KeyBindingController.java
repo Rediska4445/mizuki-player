@@ -156,11 +156,11 @@ public final class KeyBindingController
     @Override
     public void nativeMouseReleased(NativeMouseEvent e) {
         if((e.getButton() == 4) && isKeyPressed(NativeKeyEvent.VC_ALT)) {
-            Root.PlaylistHandler.openTrack(PlayProcessor.playProcessor.getTrackHistoryGlobal().back());
+            Root.PlaylistHandler.playlistHandler.openTrack(PlayProcessor.playProcessor.getTrackHistoryGlobal().back());
         }
 
         if((e.getButton() == 5) && isKeyPressed(NativeKeyEvent.VC_ALT)) {
-            Root.PlaylistHandler.openTrack(PlayProcessor.playProcessor.getTrackHistoryGlobal().forward());
+            Root.PlaylistHandler.playlistHandler.openTrack(PlayProcessor.playProcessor.getTrackHistoryGlobal().forward());
         }
     }
 

@@ -10,6 +10,7 @@ import rf.ebanina.UI.Editors.Player.AudioHost;
 import rf.ebanina.UI.Editors.Settings.Settings;
 import rf.ebanina.UI.Editors.Statistics.Playlist.TracksStatistics;
 import rf.ebanina.UI.Editors.Statistics.Track.TrackStatistics;
+import rf.ebanina.UI.Root;
 import rf.ebanina.ebanina.Music;
 import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
 import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
@@ -29,7 +30,6 @@ import java.util.stream.Stream;
 
 import static java.nio.file.FileVisitOption.FOLLOW_LINKS;
 import static rf.ebanina.Network.APIS.GeniusAPI.Search.openGeniusLyrics;
-import static rf.ebanina.UI.Root.*;
 import static rf.ebanina.ebanina.KeyBindings.KeyBindingController.isKeyPressed;
 import static rf.ebanina.ebanina.KeyBindings.KeyBindingController.pressed_keys;
 import static rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor.playProcessor;
@@ -203,12 +203,12 @@ public class Keys {
             new HotKey(
                     "ebanina_open_genius_lyrics_hotkey",
                     new int[] {NativeKeyEvent.VC_SHIFT, NativeKeyEvent.VC_CONTROL, NativeKeyEvent.VC_L},
-                    () -> openGeniusLyrics(currentArtist.getText() + " - " + currentTrackName.getText())
+                    () -> openGeniusLyrics(Root.rootImpl.currentArtist.getText() + " - " + Root.rootImpl.currentTrackName.getText())
             ),
             new HotKey(
                     "ebanina_open_history",
                     new int[] {NativeKeyEvent.VC_SHIFT, NativeKeyEvent.VC_ALT, NativeKeyEvent.VC_C},
-                    () -> Platform.runLater(() -> PlayProcessor.playProcessor.getTrackHistoryGlobal().getTrackHistoryContextMenu().show(stage.getScene().getWindow()))
+                    () -> Platform.runLater(() -> PlayProcessor.playProcessor.getTrackHistoryGlobal().getTrackHistoryContextMenu().show(Root.rootImpl.stage.getScene().getWindow()))
             ),
             new HotKey(
                     "ebanina_open_playlist_statistics",
@@ -219,7 +219,7 @@ public class Keys {
                     "ebanina_set_trackListView_to_currentMusics",
                     new int[] {NativeKeyEvent.VC_SHIFT, NativeKeyEvent.VC_ALT, NativeKeyEvent.VC_Q},
                     () -> {
-                        PlayProcessor.playProcessor.setTracks(tracksListView.getTrackListView().getItems());
+                        PlayProcessor.playProcessor.setTracks(Root.rootImpl.tracksListView.getTrackListView().getItems());
                     }
             ),
             new HotKey(
@@ -301,22 +301,22 @@ public class Keys {
     public void sceneKeys() {
         if(!isKeyPressed(NativeKeyEvent.VC_SHIFT) && isKeyPressed(NativeKeyEvent.VC_CONTROL) && isKeyPressed(NativeKeyEvent.VC_ALT) && isKeyPressed(NativeKeyEvent.VC_G)) {
             Platform.runLater(() -> {
-               AudioHost.instance.open(stage);
+               AudioHost.instance.open(Root.rootImpl.stage);
             });
         }
 
         if(isKeyPressed(NativeKeyEvent.VC_ALT) && isKeyPressed(NativeKeyEvent.VC_SHIFT) && isKeyPressed(NativeKeyEvent.VC_I)) {
             Platform.runLater(() -> {
-                NetworkHost.instance.open(stage);
+                NetworkHost.instance.open(Root.rootImpl.stage);
             });
         }
 
         if(isKeyPressed(NativeKeyEvent.VC_SHIFT) && isKeyPressed(NativeKeyEvent.VC_CONTROL) && isKeyPressed(NativeKeyEvent.VC_Y)) {
-            TrackStatistics.instance.open(stage);
+            TrackStatistics.instance.open(Root.rootImpl.stage);
         }
 
         if(isKeyPressed(NativeKeyEvent.VC_ALT) && isKeyPressed(NativeKeyEvent.VC_SHIFT) && isKeyPressed(NativeKeyEvent.VC_S)) {
-            Settings.getInstance().open(stage);
+            Settings.getInstance().open(Root.rootImpl.stage);
         }
 
         if(isKeyPressed(NativeKeyEvent.VC_ALT) && isKeyPressed(NativeKeyEvent.VC_B) && !isKeyPressed(NativeKeyEvent.VC_SHIFT)) {

@@ -37,8 +37,6 @@ import java.util.stream.Stream;
 
 import static java.nio.file.FileVisitOption.FOLLOW_LINKS;
 import static rf.ebanina.File.Localization.LocalizationManager.getLocaleString;
-import static rf.ebanina.UI.Root.stage;
-import static rf.ebanina.UI.Root.tracksListView;
 
 public class TrackContextMenu
         extends ContextMenu
@@ -125,7 +123,7 @@ public class TrackContextMenu
         editTags.setGraphic(new Label(getLocaleString("context_menu_edit_item", "Edit Item") + " - " + track.viewName));
         editTags.setOnAction(e -> {
             Metadata.getInstance().prepare(track);
-            Metadata.getInstance().open(stage);
+            Metadata.getInstance().open(Root.rootImpl.stage);
         });
 
         copyToMenu = new javafx.scene.control.Menu();
@@ -207,7 +205,7 @@ public class TrackContextMenu
     }
 
     private void openStatistics() {
-        TrackStatistics.instance.open(stage, this.track);
+        TrackStatistics.instance.open(Root.rootImpl.stage, this.track);
     }
 
     protected static Parent createNewPlaylist(Consumer<String> event) {
@@ -225,8 +223,8 @@ public class TrackContextMenu
     }
 
     private void showTracksByArtist() {
-        tracksListView.getCurrentPlaylistText().setText(track.getArtist());
-        tracksListView.getTrackListView().getItems().clear();
+        Root.rootImpl.tracksListView.getCurrentPlaylistText().setText(track.getArtist());
+        Root.rootImpl.tracksListView.getTrackListView().getItems().clear();
 
         executorService.submit(() -> {
             try (Stream<Path> stream = Files.walk(Paths.get(PlayProcessor.playProcessor.getCurrentDefaultMusicDir()), FOLLOW_LINKS)) {
@@ -234,7 +232,7 @@ public class TrackContextMenu
                         .filter(file -> file.getName().contains(track.artist))
                         .map(File::getAbsolutePath)
                         .map(Track::new)
-                        .forEach(trackItem -> Platform.runLater(() -> tracksListView.getTrackListView().getItems().add(trackItem)));
+                        .forEach(trackItem -> Platform.runLater(() -> Root.rootImpl.tracksListView.getTrackListView().getItems().add(trackItem)));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -266,7 +264,7 @@ public class TrackContextMenu
             PlayProcessor.playProcessor.next();
 
         Platform.runLater(() -> {
-            tracksListView.getTrackListView().getItems().remove(track);
+            Root.rootImpl.tracksListView.getTrackListView().getItems().remove(track);
             PlayProcessor.playProcessor.getTracks().remove(track);
         });
     }
@@ -287,7 +285,7 @@ public class TrackContextMenu
 
     private void openTagEditor() {
         Tags.getInstance().prepare(track);
-        Tags.getInstance().open(stage);
+        Tags.getInstance().open(Root.rootImpl.stage);
 
         if (sourceCell != null) {
             Platform.runLater(() -> {

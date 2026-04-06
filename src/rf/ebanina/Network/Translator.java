@@ -59,7 +59,7 @@ public class Translator {
             final String finalTexts = texts.get();
 
             Platform.runLater(() -> {
-                Root.currentTrackName.setText(finalTexts);
+                Root.rootImpl.currentTrackName.setText(finalTexts);
             });
         }).start();
 

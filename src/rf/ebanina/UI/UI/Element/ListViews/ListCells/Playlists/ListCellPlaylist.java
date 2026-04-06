@@ -10,6 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import rf.ebanina.File.FileManager;
 import rf.ebanina.File.Metadata.MetadataOfFile;
+import rf.ebanina.UI.Root;
 import rf.ebanina.UI.UI.Context.Menu.Playlist.PlaylistContextMenu;
 import rf.ebanina.UI.UI.Element.ListViews.ListCells.AnimatedListCell;
 import rf.ebanina.UI.UI.Element.Text.Label;
@@ -29,7 +30,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Stream;
 
-import static rf.ebanina.UI.Root.tracksListView;
 import static rf.ebanina.UI.UI.Paint.ColorProcessor.*;
 
 public class ListCellPlaylist<T>
@@ -170,6 +170,6 @@ public class ListCellPlaylist<T>
         PlayProcessor.playProcessor.getCurrentPlaylist().set(draggedIndex, PlayProcessor.playProcessor.getCurrentPlaylist().get(targetIndex));
         PlayProcessor.playProcessor.getCurrentPlaylist().set(targetIndex, temp1);
 
-        tracksListView.getPlaylistListView().getSelectionModel().select(PlayProcessor.playProcessor.getCurrentPlaylistIter());
+        Root.rootImpl.tracksListView.getPlaylistListView().getSelectionModel().select(PlayProcessor.playProcessor.getCurrentPlaylistIter());
     }
 }

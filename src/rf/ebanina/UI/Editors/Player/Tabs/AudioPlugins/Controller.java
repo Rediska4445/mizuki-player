@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import rf.ebanina.File.Configuration.ConfigurationManager;
 import rf.ebanina.File.Localization.LocalizationManager;
 import rf.ebanina.UI.Editors.Player.AudioHost;
+import rf.ebanina.UI.Root;
 import rf.ebanina.UI.UI.Element.ListViews.ListCells.AudioHost.VstPluginListCell;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
 import rf.ebanina.ebanina.Music;
@@ -33,7 +34,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.function.Function;
 
 import static rf.ebanina.Network.Info.PlayersTypes.URI_NULL;
-import static rf.ebanina.UI.Root.showError;
 
 public class Controller {
     public Tab tab;
@@ -111,7 +111,7 @@ public class Controller {
             if (plugin.loadState(file.toPath())) {
                 addToList(plugin);
             } else {
-                showError("Host Error", "State load is false");
+                Root.rootImpl.error("Host Error", "State load is false");
             }
         }
     }

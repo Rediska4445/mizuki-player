@@ -51,8 +51,6 @@ import java.util.function.Consumer;
 
 import static rf.ebanina.File.Field.fields;
 import static rf.ebanina.Network.Info.playersMap;
-import static rf.ebanina.UI.Root.endTime;
-import static rf.ebanina.UI.Root.soundSlider;
 import static rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor.playProcessor;
 import static rf.ebanina.ebanina.Player.Controllers.Playlist.PlaylistController.checkIndexOutOfBoundPlaylist;
 
@@ -177,6 +175,8 @@ import static rf.ebanina.ebanina.Player.Controllers.Playlist.PlaylistController.
  */
 public class MediaProcessor
 {
+    private final Root rootImpl;
+
     /**
      * Глобальный singleton экземпляр процессора медиа.
      * <p>
@@ -196,7 +196,7 @@ public class MediaProcessor
      */
     public static MediaProcessor mediaProcessor = new MediaProcessor(
             ConfigurationManager.instance.getBooleanItem("clear_samples", "true"),
-            soundSlider
+            Root.rootImpl
     );
     /**
      * Конструктор процессора медиа.
@@ -206,20 +206,19 @@ public class MediaProcessor
      * <ul>
      *   <li><code>isClearSamples</code>: управление памятью waveform сэмплов
      *       ({@code soundSlider.clearSamples()})</li>
-     *   <li><code>soundSliderPointer</code>: UI компонент для визуализации waveform
+     *   <li><code>rootImpl.soundSlider</code>: UI компонент для визуализации waveform
      *       и анализа скипов</li>
      * </ul>
      * <p>
      * Инициализирует критически важные поля для последующей работы:
-     * {@code isClearSamples}, {@code soundSliderPointer}.
+     * {@code isClearSamples}, {@code rootImpl.soundSlider}.
      * </p>
      *
      * @param isClearSamples флаг очистки кэша сэмплов
-     * @param soundSliderPointer ссылка на SoundSlider UI
      */
-    public MediaProcessor(boolean isClearSamples, SoundSlider soundSliderPointer) {
+    public MediaProcessor(boolean isClearSamples, Root root) {
         this.isClearSamples = isClearSamples;
-        this.soundSliderPointer = soundSliderPointer;
+        this.rootImpl = root;
         this.mediaParameters.put("isAutoPlayback", new SimpleBooleanProperty(false), BooleanProperty.class);
         this.mediaParameters.put("isPlaylistLoop", new SimpleBooleanProperty(false), BooleanProperty.class);
         this.mediaParameters.put("isPlayRandom", new SimpleBooleanProperty(false), BooleanProperty.class);
@@ -541,9 +540,9 @@ public class MediaProcessor
             // TODO: Перевести в свойство, дабы не мусорить поток FX
             Platform.runLater(() -> {
                 if(track.isNetty()) {
-                    Root.similar.getTrackListView().getSelectionModel().select(playProcessor.getTrackIter());
+                    rootImpl.similar.getTrackListView().getSelectionModel().select(playProcessor.getTrackIter());
                 } else {
-                    Root.tracksListView.getTrackListView().getSelectionModel().select(playProcessor.getTrackIter());
+                    rootImpl.tracksListView.getTrackListView().getSelectionModel().select(playProcessor.getTrackIter());
                 }
             });
 
@@ -572,25 +571,25 @@ public class MediaProcessor
      */
     public void updateInfo(Track track) {
         // Обновить обложку и цветовую гамму плеера
-        Root.artProcessor.initArt(track);
+        rootImpl.artProcessor.initArt(track);
 
         // Ветвление на сетевой и локальный трек
         if(track.isNetty()) {
             Platform.runLater(() -> {
-                Root.currentArtist.setText(track.getArtist());
-                Root.currentTrackName.setText(track.getTitle().replace("-", ""));
+                rootImpl.currentArtist.setText(track.getArtist());
+                rootImpl.currentTrackName.setText(track.getTitle().replace("-", ""));
 
-                soundSlider.setMax(mediaPlayer.getOverDuration().toSeconds());
-                Root.endTime.setText(rf.ebanina.ebanina.Player.Track.getFormattedTotalDuration((int) soundSlider.getMax()));
+                rootImpl.soundSlider.setMax(mediaPlayer.getOverDuration().toSeconds());
+                rootImpl.endTime.setText(rf.ebanina.ebanina.Player.Track.getFormattedTotalDuration((int) rootImpl.soundSlider.getMax()));
 
                 if(track.metadata.get("netty_file_path", String.class).equalsIgnoreCase("null")) {
-                    soundSlider.setupDefaultBox();
+                    rootImpl.soundSlider.setupDefaultBox();
                 } else {
-                    Root.rootImpl.loadRectangleOfGainVolumeSlider(new File(track.metadata.get("netty_file_path", String.class)));
+                    rootImpl.loadRectangleOfGainVolumeSlider(new File(track.metadata.get("netty_file_path", String.class)));
                 }
             });
         } else {
-            Root.rootImpl.loadRectangleOfGainVolumeSlider(new File(track.getPath()));
+            rootImpl.loadRectangleOfGainVolumeSlider(new File(track.getPath()));
 
             String endTime = track.getFormattedTotalDuration();
             String author = new String(track.getArtist().getBytes(), StandardCharsets.UTF_8);
@@ -601,10 +600,10 @@ public class MediaProcessor
             playProcessor.getTracks().get(playProcessor.getTrackIter()).setTitle(title);
 
             Platform.runLater(() -> {
-                Root.endTime.setText(endTime);
-                Root.beginTime.setText(startTime);
-                Root.currentArtist.setText(author);
-                Root.currentTrackName.setText(title);
+                rootImpl.endTime.setText(endTime);
+                rootImpl.beginTime.setText(startTime);
+                rootImpl.currentArtist.setText(author);
+                rootImpl.currentTrackName.setText(title);
             });
         }
 
@@ -622,7 +621,7 @@ public class MediaProcessor
         trackCacheIter.incrementAndGet();
 
         if(ConfigurationManager.instance.getBooleanItem("translate_track_title", "false")) {
-            Root.currentTrackName.setText(Translator.instance.TranslateNodeText(
+            rootImpl.currentTrackName.setText(Translator.instance.TranslateNodeText(
                     playProcessor.getTracks().get(playProcessor.getTrackIter()).getTitle(),
                     LocalizationManager.instance.lang.substring(LocalizationManager.instance.lang.indexOf("_") + 1)
             ));
@@ -971,8 +970,8 @@ public class MediaProcessor
             double durationSeconds = mediaPlayer.recalculateOverDuration().toSeconds();
 
             Platform.runLater(() -> {
-                Root.soundSlider.setMax(durationSeconds);
-                endTime.setText(Track.getFormattedTotalDuration((float) soundSlider.getMax()));
+                rootImpl.soundSlider.setMax(durationSeconds);
+                rootImpl.endTime.setText(Track.getFormattedTotalDuration((float) rootImpl.soundSlider.getMax()));
             });
 
             ColorProcessor.core.scaleHue(tempo);
@@ -1024,11 +1023,11 @@ public class MediaProcessor
         }
 
         Platform.runLater(() -> {
-            soundSlider.setValue(sec);
-            soundSlider.setMax(MetadataOfFile.iMetadataOfFiles.getDuration(playProcessor.getTracks().get(playProcessor.getTrackIter()).toString()));
+            rootImpl.soundSlider.setValue(sec);
+            rootImpl.soundSlider.setMax(MetadataOfFile.iMetadataOfFiles.getDuration(playProcessor.getTracks().get(playProcessor.getTrackIter()).toString()));
 
-            Root.trackSelectionModel.select(playProcessor.getTrackIter());
-            Root.beginTime.setText((Track.getFormattedTotalDuration(sec)));
+            rootImpl.tracksListView.getTrackListView().getSelectionModel().select(playProcessor.getTrackIter());
+            rootImpl.beginTime.setText((Track.getFormattedTotalDuration(sec)));
         });
     }
     /**
@@ -1139,12 +1138,12 @@ public class MediaProcessor
                     }
                 }
             }
-            case "skip_intro" -> soundSlider.setOnLoadedSliderBackground(() -> setCurrentTime(Duration.seconds(getSkipIntroPoint(track.getPath()))));
-            case "skip_pit" -> soundSlider.setOnLoadedSliderBackground(() -> setCurrentTime(Duration.seconds(getSkipPitPoint(track.getPath(), mediaPlayer.getCurrentTime().toSeconds(), mediaPlayer.getOverDuration().toSeconds()))));
-            case "skip_drop" -> soundSlider.setOnLoadedSliderBackground(() -> setCurrentTime(Duration.seconds(getSkipDropPoint(track.getPath(), mediaPlayer.getCurrentTime().toSeconds(), mediaPlayer.getOverDuration().toSeconds()))));
+            case "skip_intro" -> rootImpl.soundSlider.setOnLoadedSliderBackground(() -> setCurrentTime(Duration.seconds(getSkipIntroPoint(track.getPath()))));
+            case "skip_pit" -> rootImpl.soundSlider.setOnLoadedSliderBackground(() -> setCurrentTime(Duration.seconds(getSkipPitPoint(track.getPath(), mediaPlayer.getCurrentTime().toSeconds(), mediaPlayer.getOverDuration().toSeconds()))));
+            case "skip_drop" -> rootImpl.soundSlider.setOnLoadedSliderBackground(() -> setCurrentTime(Duration.seconds(getSkipDropPoint(track.getPath(), mediaPlayer.getCurrentTime().toSeconds(), mediaPlayer.getOverDuration().toSeconds()))));
             case "like_moment" -> {
                 Duration dura = Duration.seconds(Double.parseDouble(
-                        FileManager.instance.read(path.toString(), playProcessor.getTracks().get(playProcessor.getTrackIter()).toString(), "like_moment_start", String.valueOf(soundSlider.getValue()))
+                        FileManager.instance.read(path.toString(), playProcessor.getTracks().get(playProcessor.getTrackIter()).toString(), "like_moment_start", String.valueOf(rootImpl.soundSlider.getValue()))
                 ));
 
                 mediaPlayer.setStartTime(dura);
@@ -1242,8 +1241,8 @@ public class MediaProcessor
                 }
 
                 Platform.runLater(() -> {
-                    Root.soundSlider.setValue(currentTimeSeconds);
-                    Root.soundSlider.setMax(durationSeconds);
+                    rootImpl.soundSlider.setValue(currentTimeSeconds);
+                    rootImpl.soundSlider.setMax(durationSeconds);
                 });
             });
 
@@ -1387,17 +1386,6 @@ public class MediaProcessor
         return subsets;
     }
     /**
-     * Ссылка на глобальный SoundSlider для waveform анализа.
-     * <p>
-     * <b>Назначение:</b> передача в {@code getSubsets()} для извлечения сэмплов
-     * и вычисления высот столбцов. Обеспечивает доступ к методам:
-     * {@code getSamples(File)}, {@code clearSamples()}, {@code getSize().height}.
-     * </p>
-     * <p><b>Инициализация:</b> из конструктора {@code MediaProcessor(soundSlider)}.</p>
-     * <p><b>Критично:</b> используется всеми методами скипа (intro/pit/drop).</p>
-     */
-    public SoundSlider soundSliderPointer;
-    /**
      * <h1>Intellectual Drop Detection</h1> — алгоритм поиска "дропа" через паттерн-распознавание.
      * <p>
      * <b>Музыкальный контекст:</b> дроп = момент перехода от тихой части (build-up)
@@ -1452,7 +1440,7 @@ public class MediaProcessor
      * @return секунды дропа или 0
      */
     public int getSkipDropPoint(String path, double currentTime, double duration) {
-        final float[] subsets = getSubsets(path, soundSliderPointer, mediaPlayer);
+        final float[] subsets = getSubsets(path, rootImpl.soundSlider, mediaPlayer);
 
         int n = subsets.length;
 
@@ -1520,13 +1508,13 @@ public class MediaProcessor
      * <p><b>Вызывается:</b> {@code readState("skip_intro")} → {@code setCurrentTime()}.</p>
      */
     public int getSkipIntroPoint(String path) {
-        final float[] subsets = getSubsets(path, soundSlider, mediaPlayer);
+        final float[] subsets = getSubsets(path, rootImpl.soundSlider, mediaPlayer);
 
         for (int i = 0; i < subsets.length - 1; i++) {
             int next_sample = (int) subsets[i + 1];
 
-            int posY = (soundSlider.getSize().height / 2) - next_sample;
-            int negY = (soundSlider.getSize().height / 2) + next_sample;
+            int posY = (rootImpl.soundSlider.getSize().height / 2) - next_sample;
+            int negY = (rootImpl.soundSlider.getSize().height / 2) + next_sample;
 
             if((negY - posY + 2) >= 20) {
                 return i;
@@ -1568,7 +1556,7 @@ public class MediaProcessor
      * <p><b>Вызывается:</b> {@code readState("skip_pit")} → {@code setCurrentTime()}.</p>
      */
     public int getSkipPitPoint(String path, double currentTime, double duration) {
-        final float[] subsets = getSubsets(path, soundSlider, mediaPlayer);
+        final float[] subsets = getSubsets(path, rootImpl.soundSlider, mediaPlayer);
 
         int n = subsets.length;
 
@@ -1611,7 +1599,7 @@ public class MediaProcessor
      * <p><b>Используется:</b> {@link #skipIntro(String)}} с реальной высотой слайдера.</p>
      */
     public int getSkipIntroPoint(String path, int height) {
-        final float[] subsets = getSubsets(path, soundSlider, mediaPlayer);
+        final float[] subsets = getSubsets(path, rootImpl.soundSlider, mediaPlayer);
 
         for (int i = 0; i < subsets.length - 1; i++) {
             int next_sample = (int) subsets[i + 1];
@@ -1642,7 +1630,7 @@ public class MediaProcessor
             playProcessor.next();
         }
 
-        skipExec.submit(() -> setCurrentTime(Duration.seconds(getSkipIntroPoint(path, soundSlider.getSize().height))));
+        skipExec.submit(() -> setCurrentTime(Duration.seconds(getSkipIntroPoint(path, rootImpl.soundSlider.getSize().height))));
     }
     /**
      * Асинхронный скип пита без дополнительных проверок.
@@ -1684,14 +1672,14 @@ public class MediaProcessor
      */
     public void skipOutro(String path) {
         skipExec.submit(() -> {
-            final float[] subsets = getSubsets(path, soundSlider, mediaPlayer);
+            final float[] subsets = getSubsets(path, rootImpl.soundSlider, mediaPlayer);
 
             if(mediaPlayer.getCurrentTime().toSeconds() > (mediaPlayer.getStopTime().toSeconds() - 20)) {
                 for (int i = subsets.length - 20; i < subsets.length; i++) {
                     int sample = (int) subsets[i];
 
-                    int posY = (soundSlider.getSize().height / 2) - sample;
-                    int negY = (soundSlider.getSize().height / 2) + sample;
+                    int posY = (rootImpl.soundSlider.getSize().height / 2) - sample;
+                    int negY = (rootImpl.soundSlider.getSize().height / 2) + sample;
 
                     if ((negY - posY + 2) <= 6) {
                         playProcessor.next();
@@ -1710,10 +1698,10 @@ public class MediaProcessor
      * <p><b>Вызывается:</b> при старте приложения (post UI init).</p>
      */
     public void initialize() {
-        if(Root.tracksHistory != null) {
-            Root.tracksHistory.setOnAction((e) -> {
+        if(rootImpl.tracksHistory != null) {
+            rootImpl.tracksHistory.setOnAction((e) -> {
                 if(playProcessor.getTrackHistoryGlobal() != null) {
-                    playProcessor.getTrackHistoryGlobal().getTrackHistoryContextMenu().show(Root.stage.getScene().getWindow());
+                    playProcessor.getTrackHistoryGlobal().getTrackHistoryContextMenu().show(rootImpl.stage.getScene().getWindow());
                 }
             });
         }

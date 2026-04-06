@@ -2,12 +2,12 @@
   "name": "Mizuka",
   "subscription": "Fix",
   "version": {
-    "serial": "1.4.9",
+    "serial": "1.4.10",
     "subSerial": "0.1",
-    "fullSerial": "1.4.9-0.1"
+    "fullSerial": "1.4.10-1"
   },
   "date": {
-    "build": "18.03.2026",
+    "build": "06.04.2026",
     "releaseDate": "18-03-2026"
   },
   "environment": {

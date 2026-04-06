@@ -8,6 +8,7 @@ import rf.ebanina.Network.Illegal.Similar.Apple;
 import rf.ebanina.Network.Illegal.Similar.LastFM;
 import rf.ebanina.Network.Illegal.Similar.SoundCloud;
 import rf.ebanina.Network.Illegal.Similar.Spotify;
+import rf.ebanina.UI.Root;
 import rf.ebanina.ebanina.Music;
 import rf.ebanina.ebanina.Player.Track;
 import rf.ebanina.utils.concurrency.LonelyThreadPool;
@@ -17,9 +18,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static rf.ebanina.UI.Root.similar;
-import static rf.ebanina.UI.Root.tracksListView;
 
 @logging(tag = "NetworkHost/Info")
 public class Info {
@@ -59,7 +57,7 @@ public class Info {
     public void similarStart() {
         isSimilarUpdateState = true;
 
-        Platform.runLater(() -> similar.getTrackListView().getItems().clear());
+        Platform.runLater(() -> Root.rootImpl.similar.getTrackListView().getItems().clear());
 
         exec.runNewTask(() -> Info.instance.updateSimilarList());
     }
@@ -136,11 +134,11 @@ public class Info {
     }
 
     public void updateSimilarList() {
-        if (similar.isVisible()) {
-            String artist = tracksListView.getTrackListView().getSelectionModel().getSelectedItem().getArtist();
-            String name = tracksListView.getTrackListView().getSelectionModel().getSelectedItem().getTitle();
+        if (Root.rootImpl.similar.isVisible()) {
+            String artist = Root.rootImpl.tracksListView.getTrackListView().getSelectionModel().getSelectedItem().getArtist();
+            String name = Root.rootImpl.tracksListView.getTrackListView().getSelectionModel().getSelectedItem().getTitle();
 
-            Platform.runLater(() -> similar.getCurrentPlaylistText().setText(artist + " - " + name));
+            Platform.runLater(() -> Root.rootImpl.similar.getCurrentPlaylistText().setText(artist + " - " + name));
 
             updateSimilarList(artist, name);
         }
@@ -162,8 +160,8 @@ public class Info {
     }
 
     public void updateSimilarList(Track what) {
-        if (similar.isVisible()) {
-            Platform.runLater(() -> similar.getCurrentPlaylistText().setText(what.viewName()));
+        if (Root.rootImpl.similar.isVisible()) {
+            Platform.runLater(() -> Root.rootImpl.similar.getCurrentPlaylistText().setText(what.viewName()));
 
             for(ISimilar i : similarList) {
                 if(!isSimilarUpdateState) {

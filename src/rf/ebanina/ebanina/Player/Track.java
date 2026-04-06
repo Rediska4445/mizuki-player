@@ -1442,7 +1442,7 @@ public class Track
             }
 
             MetadataOfFile.iMetadataOfFiles.setArt(directory + File.separator + newValue.viewName() + ext,
-                    SwingFXUtils.fromFXImage(Root.artProcessor.parseImage(newValue.viewName()), null));
+                    SwingFXUtils.fromFXImage(Root.rootImpl.artProcessor.parseImage(newValue.viewName()), null));
         }
     }
 

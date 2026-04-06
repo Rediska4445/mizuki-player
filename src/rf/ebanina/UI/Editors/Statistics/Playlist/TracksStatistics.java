@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import rf.ebanina.File.DataTypes;
 import rf.ebanina.File.Field;
 import rf.ebanina.UI.Editors.Statistics.Track.TrackStatistics;
+import rf.ebanina.UI.Root;
 import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
 import rf.ebanina.ebanina.Player.Track;
 
@@ -21,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static rf.ebanina.File.Field.getStat;
-import static rf.ebanina.UI.Root.stage;
 
 public class TracksStatistics
         extends Stage
@@ -63,7 +63,7 @@ public class TracksStatistics
                 int row = pos.getRow();
                 TrackData rowData = table.getItems().get(row);
 
-                TrackStatistics.instance.open(stage, rowData.track);
+                TrackStatistics.instance.open(Root.rootImpl.stage, rowData.track);
             }
         });
 

@@ -141,12 +141,12 @@ public class Controller
 
                         PlayProcessor.playProcessor.setTrackIter(tracks.getSelectionModel().getSelectedIndex());
 
-                        Root.similar.getTrackListView().getItems().clear();
-                        Root.similar.getTrackListView().getItems().addAll(PlayProcessor.playProcessor.getTracks());
-                        Root.similar.getTrackListView().getSelectionModel().select(PlayProcessor.playProcessor.getTrackIter());
+                        Root.rootImpl.similar.getTrackListView().getItems().clear();
+                        Root.rootImpl.similar.getTrackListView().getItems().addAll(PlayProcessor.playProcessor.getTracks());
+                        Root.rootImpl.similar.getTrackListView().getSelectionModel().select(PlayProcessor.playProcessor.getTrackIter());
 
-                        Root.PlaylistHandler.playlistSimilar.clear();
-                        Root.PlaylistHandler.playlistSimilar.addAll(PlayProcessor.playProcessor.getTracks());
+                        Root.PlaylistHandler.playlistHandler.playlistSimilar.clear();
+                        Root.PlaylistHandler.playlistHandler.playlistSimilar.addAll(PlayProcessor.playProcessor.getTracks());
                     }
 
                     Music.mainLogger.info("Play from networkHost: " + tracks.getSelectionModel().getSelectedItem());
@@ -157,24 +157,24 @@ public class Controller
         });
 
         addToPlaylist.setOnAction(e -> Platform.runLater(() -> {
-            int point = Root.similar.getTrackListView().getItems().size();
+            int point = Root.rootImpl.similar.getTrackListView().getItems().size();
 
-            Root.similar.getTrackListView().getItems().addAll(tracks.getItems());
-            Root.PlaylistHandler.playlistSimilar.addAll(tracks.getItems());
+            Root.rootImpl.similar.getTrackListView().getItems().addAll(tracks.getItems());
+            Root.PlaylistHandler.playlistHandler.playlistSimilar.addAll(tracks.getItems());
 
-            Root.similar.getTrackListView().getSelectionModel().select(point + Math.max(tracks.getSelectionModel().getSelectedIndex(), 0));
+            Root.rootImpl.similar.getTrackListView().getSelectionModel().select(point + Math.max(tracks.getSelectionModel().getSelectedIndex(), 0));
         }));
 
         setToPlaylist.setOnAction(e -> Platform.runLater(() -> {
-            int point = Root.similar.getTrackListView().getItems().size();
+            int point = Root.rootImpl.similar.getTrackListView().getItems().size();
 
-            Root.similar.getTrackListView().getItems().setAll(tracks.getItems());
-            Root.PlaylistHandler.playlistSimilar.addAll(tracks.getItems());
+            Root.rootImpl.similar.getTrackListView().getItems().setAll(tracks.getItems());
+            Root.PlaylistHandler.playlistHandler.playlistSimilar.addAll(tracks.getItems());
 
-            Root.similar.getTrackListView().getSelectionModel().select(point + Math.max(tracks.getSelectionModel().getSelectedIndex(), 0));
+            Root.rootImpl.similar.getTrackListView().getSelectionModel().select(point + Math.max(tracks.getSelectionModel().getSelectedIndex(), 0));
 
             PlayProcessor.playProcessor.getTracks().clear();
-            PlayProcessor.playProcessor.getTracks().addAll(Root.similar.getTrackListView().getItems());
+            PlayProcessor.playProcessor.getTracks().addAll(Root.rootImpl.similar.getTrackListView().getItems());
 
             PlayProcessor.playProcessor.setTrackIter(0);
         }));

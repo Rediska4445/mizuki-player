@@ -29,7 +29,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import rf.ebanina.File.Configuration.ConfigurableField;
@@ -45,7 +44,6 @@ import rf.ebanina.Network.Illegal.Similar.Spotify;
 import rf.ebanina.Network.Info;
 import rf.ebanina.UI.Editors.Metadata.Track.Metadata;
 import rf.ebanina.UI.UI.Context.Tooltip.ContextTooltip;
-import rf.ebanina.UI.UI.Element.AnimationDialog;
 import rf.ebanina.UI.UI.Element.Art;
 import rf.ebanina.UI.UI.Element.Buttons.Commons;
 import rf.ebanina.UI.UI.Element.Buttons.Player.NextButton;
@@ -4699,30 +4697,7 @@ public class Root
 
         mainFunctions.addCenteredButton(new Commons());
         mainFunctions.getMainButton().setOnAction(e -> {
-            AnimationDialog agreementDialog = new AnimationDialog(
-                    stage, root
-            );
 
-            VBox content = new VBox(20);
-            content.setAlignment(Pos.CENTER);
-            content.setPadding(new Insets(30));
-
-            rf.ebanina.UI.UI.Element.Text.Label title = new rf.ebanina.UI.UI.Element.Text.Label("Пользовательское соглашение");
-            title.setStyle("-fx-font-size: 24px; -fx-text-fill: white; -fx-font-weight: bold;");
-
-            Text terms = new Text("Здесь должен быть очень длинный и важный текст " +
-                    "о том, что пользователь согласен на всё...");
-            terms.setFill(Color.LIGHTGRAY);
-            terms.setWrappingWidth(400);
-
-            javafx.scene.control.Button closeBtn = new javafx.scene.control.Button("ПРИНЯТЬ");
-
-            content.getChildren().addAll(title, terms, closeBtn);
-
-            agreementDialog.getChildren().add(content);
-            agreementDialog.setDialogMaxSize(0.7, 0.85);
-            agreementDialog.animationTopBorder(ColorProcessor.core.getMainClr()).play();
-            agreementDialog.show();
         });
 
         root.getChildren().add(mainFunctions);
@@ -5193,7 +5168,7 @@ public class Root
      * Единственный безопасный способ получить готовый UI.</p>
      *
      * @return Готовый <code>Pane</code> со всеми компонентами
-     * @see #init(Pane) Инициализация через singleton
+     * @see Root#init() Инициализация через singleton
      * @see Objects#requireNonNullElseGet Double-checked ленивость
      */
     public Pane getRoot() {
@@ -6634,7 +6609,6 @@ public class Root
      * </ul>
      *
      * <p><strong>public static class</strong> — глобальный singleton.
-     * Инициализация через {@link Root#trackSelectionModel}, {@link Root#playlistSelectionModel}.</p>
      *
      * @see TrackListView Локальные треки
      * @see SimilarListView Сетевые треки
@@ -6662,8 +6636,6 @@ public class Root
         public static boolean playlistExit = false;
         /**
          * Переключатель режимов ListView: треки ↔ плейлисты.
-         *
-         * <p><strong>Ctrl+Scroll</strong> в {@link Root#onScroll()}.</p>
          *
          * <table>
          * <tr><th>Значение</th><th>Активный ListView</th></tr>
@@ -6762,8 +6734,6 @@ public class Root
          * <p><strong>public static</strong> — вызывается из {@link Root#init()}.
          * Предусловие: {@link TrackListView#set()}, {@link SimilarListView#set()}.</p>
          *
-         * @see Root#trackSelectionModel UI SelectionModel
-         * @see PlayProcessor#trackIter Текущий трек
          */
         public static void initialize() {
             Root.rootImpl.tracksListView.getTrackListView().setOnKeyPressed(keyEvent -> {
@@ -6917,8 +6887,6 @@ public class Root
          * Часть цепочки {@link PlaylistHandler} → {@link PlayProcessor} → {@link MediaProcessor}.</p>
          *
          * @param newValue Выбранный трек из ListView
-         * @see ListCellTrack#onMouseClicked() Источник вызова
-         * @see PlayProcessor#setTrackIter() Установка позиции
          */
         public void openTrack(Track newValue) {
             playlistSelected = true;

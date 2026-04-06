@@ -27,7 +27,6 @@ import java.nio.file.Paths;
 import java.util.Iterator;
 
 import static rf.ebanina.File.Localization.LocalizationManager.getLocaleString;
-import static rf.ebanina.UI.Root.similar;
 import static rf.ebanina.UI.UI.Context.Menu.Playlist.TrackContextMenu.copyToFolder;
 import static rf.ebanina.UI.UI.Context.Menu.Playlist.TrackContextMenu.createNewPlaylist;
 
@@ -40,13 +39,13 @@ public class SimilarContextMenu
 
     private void deleteFromPlaylist() {
         if(item.getPath() == null) {
-            Platform.runLater(() -> similar.getTrackListView().getItems().remove(similar.getTrackListView().getSelectionModel().getSelectedIndex()));
+            Platform.runLater(() -> Root.rootImpl.similar.getTrackListView().getItems().remove(Root.rootImpl.similar.getTrackListView().getSelectionModel().getSelectedIndex()));
 
             return;
         }
 
         Platform.runLater(() -> {
-            similar.getTrackListView().getItems().remove(item);
+            Root.rootImpl.similar.getTrackListView().getItems().remove(item);
         });
     }
 

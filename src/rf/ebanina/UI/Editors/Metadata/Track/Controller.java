@@ -193,7 +193,7 @@ public class Controller
                             url = new URL(Info.info.search(URLEncoder.encode(searchQuery, StandardCharsets.UTF_8)).getAwesomeAlbumArt().getUrl());
                         } else if (query.startsWith("@current")) {
                             url = new URL(Info.info.search(URLEncoder.encode(
-                                    Root.currentArtist.getText() + " - " + Root.currentTrackName.getText(),
+                                Root.rootImpl.currentArtist.getText() + " - " + Root.rootImpl.currentTrackName.getText(),
                                     StandardCharsets.UTF_8)).getAwesomeAlbumArt().getUrl());
                         } if (query.startsWith("@dat")) {
                             url = new URL(Info.info.search(URLEncoder.encode(

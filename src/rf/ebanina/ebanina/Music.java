@@ -240,7 +240,7 @@ public final class Music
 
         // Ссылка на объект приложения.
         // Используется во всём приложении, не должно меняться по идеи.
-        Root.stage = stage;
+        Root.rootImpl.stage = stage;
 
         // Окно приложения инициализировано
         mainLogger.info("Root stage reference set");
@@ -312,7 +312,7 @@ public final class Music
                 MediaProcessor.mediaProcessor.mediaPlayer.close();
 
             // Закрытие графического слайдера плеера
-            Root.SliderHandler.stop();
+            Root.SliderHandler.sliderHandler.stop();
 
             // Очистка кеша из inet папки
             FileManager.instance.clearCacheData(Resources.Properties.DEFAULT_INET_CACHE_PATH.getKey());
@@ -341,10 +341,10 @@ public final class Music
 
             // Смена иконки
             if (
-                    onHidden /* Если приложение скрыто */ && Root.art.getImage() != null
+                    onHidden /* Если приложение скрыто */ && Root.rootImpl.art.getImage() != null
             ) {
-                stage.setTitle(Root.currentArtist.getText() + " - " + Root.currentTrackName.getText());
-                stage.getIcons().setAll(Root.art.getImage());
+                stage.setTitle(Root.rootImpl.currentArtist.getText() + " - " + Root.rootImpl.currentTrackName.getText());
+                stage.getIcons().setAll(Root.rootImpl.art.getImage());
 
                 mainLogger.printf("Focus lost - Track title: %s", stage.getTitle());
             } else {
@@ -445,7 +445,7 @@ public final class Music
         // Их нужно удалить, методы разнести по классам
         Root.PlaylistHandler.initialize();
         Root.ButtonHandler.initialize();
-        Root.SliderHandler.initialize();
+        Root.SliderHandler.sliderHandler.initialize();
 
         mainLogger.info("All UI handlers initialized");
 

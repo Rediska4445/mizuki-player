@@ -21,8 +21,6 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static rf.ebanina.UI.Root.tracksListView;
-
 /**
  * <h1>PlaylistController</h1>
  * Контроллер управления плейлистами музыкального плеера.
@@ -94,6 +92,8 @@ import static rf.ebanina.UI.Root.tracksListView;
 public class PlaylistController
         implements IPlaylistController
 {
+    private final Root rootImpl = Root.rootImpl;
+
     /**
      * Единственный глобальный экземпляр контроллера плейлистов.
      * <p>
@@ -133,7 +133,7 @@ public class PlaylistController
 
         checkIndexOutOfBoundPlaylist();
 
-        tracksListView.getCurrentPlaylistText().setText(PlayProcessor.playProcessor.getCurrentPlaylist().get(PlayProcessor.playProcessor.getCurrentPlaylistIter()).getPath());
+        rootImpl.tracksListView.getCurrentPlaylistText().setText(PlayProcessor.playProcessor.getCurrentPlaylist().get(PlayProcessor.playProcessor.getCurrentPlaylistIter()).getPath());
     };
 
     /**
@@ -152,8 +152,8 @@ public class PlaylistController
      * @throws RuntimeException при ошибках чтения папки с музыкой
      * @see FileManager#getMusic(Path)
      */
-    public static void _refreshPlaylist() {
-        tracksListView.getTrackListView().getItems().clear();
+    public void _refreshPlaylist() {
+        rootImpl.tracksListView.getTrackListView().getItems().clear();
 
         try {
             PlayProcessor.playProcessor.getTracks().clear();
@@ -164,9 +164,9 @@ public class PlaylistController
 
         Platform.runLater(() -> {
             for (Track track : PlayProcessor.playProcessor.getTracks())
-                tracksListView.getTrackListView().getItems().add(new Track(track.toString()));
+                rootImpl.tracksListView.getTrackListView().getItems().add(new Track(track.toString()));
 
-            Root.trackSelectionModel.select(PlayProcessor.playProcessor.getTrackIter());
+            Root.rootImpl.tracksListView.getTrackListView().getSelectionModel().select(PlayProcessor.playProcessor.getTrackIter());
         });
     }
 
@@ -394,19 +394,19 @@ public class PlaylistController
             PlayProcessor.playProcessor.setCurrentMusicDir(path);
 
             Platform.runLater(() -> {
-                tracksListView.getTrackListView().getItems().clear();
+                rootImpl.tracksListView.getTrackListView().getItems().clear();
 
                 for(Track track : newList) {
-                    tracksListView.getTrackListView().getItems().add(track);
+                    rootImpl.tracksListView.getTrackListView().getItems().add(track);
                 }
 
                 Music.mainLogger.info(PlayProcessor.playProcessor.getTrackIter());
 
-                tracksListView.getTrackListView().getSelectionModel().select(PlayProcessor.playProcessor.getTrackIter());
+                rootImpl.tracksListView.getTrackListView().getSelectionModel().select(PlayProcessor.playProcessor.getTrackIter());
 
-                Music.mainLogger.info(tracksListView.getTrackListView().getSelectionModel().getSelectedIndex());
+                Music.mainLogger.info(rootImpl.tracksListView.getTrackListView().getSelectionModel().getSelectedIndex());
 
-                tracksListView.getCurrentPlaylistText().setText(PlayProcessor.playProcessor.getCurrentPlaylist().get(PlayProcessor.playProcessor.getCurrentPlaylistIter()).getPath());
+                rootImpl.tracksListView.getCurrentPlaylistText().setText(PlayProcessor.playProcessor.getCurrentPlaylist().get(PlayProcessor.playProcessor.getCurrentPlaylistIter()).getPath());
             });
         }
     }

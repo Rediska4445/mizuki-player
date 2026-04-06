@@ -34,7 +34,6 @@ import java.util.List;
 import java.util.concurrent.*;
 
 import static rf.ebanina.UI.Root.PlaylistHandler.playlistSelected;
-import static rf.ebanina.UI.Root.*;
 import static rf.ebanina.UI.UI.Paint.ColorProcessor.*;
 
 /**
@@ -186,40 +185,40 @@ public class ArtProcessor
      * </p>
      */
     public void updateButtonsColors(Color color) {
-        btn.setColorIconHover(color);
-        btnNext.setColorIconHover(color);
-        btnDown.setColorIconHover(color);
+        Root.rootImpl.btn.setColorIconHover(color);
+        Root.rootImpl.btnNext.setColorIconHover(color);
+        Root.rootImpl.btnDown.setColorIconHover(color);
 
-        btn.setColorBgPressed(color);
-        btnNext.setColorBgPressed(color);
-        btnDown.setColorBgPressed(color);
+        Root.rootImpl.btn.setColorBgPressed(color);
+        Root.rootImpl.btnNext.setColorBgPressed(color);
+        Root.rootImpl.btnDown.setColorBgPressed(color);
 
-        tracksListView.getBtnPlaylist().setColorIconHover(color);
-        ((Button) tracksListView.getBtnPlaylistNext()).setColorIconHover(color);
-        ((Button) tracksListView.getBtnPlaylistDown()).setColorIconHover(color);
+        Root.rootImpl.tracksListView.getBtnPlaylist().setColorIconHover(color);
+        ((Button) Root.rootImpl.tracksListView.getBtnPlaylistNext()).setColorIconHover(color);
+        ((Button) Root.rootImpl.tracksListView.getBtnPlaylistDown()).setColorIconHover(color);
 
-        tracksListView.getBtnPlaylist().setColorBgPressed(color);
-        ((Button) tracksListView.getBtnPlaylistNext()).setColorBgPressed(color);
-        ((Button) tracksListView.getBtnPlaylistDown()).setColorBgPressed(color);
+        Root.rootImpl.tracksListView.getBtnPlaylist().setColorBgPressed(color);
+        ((Button) Root.rootImpl.tracksListView.getBtnPlaylistNext()).setColorBgPressed(color);
+        ((Button) Root.rootImpl.tracksListView.getBtnPlaylistDown()).setColorBgPressed(color);
 
-        similar.getBtnPlaylist().setColorIconHover(color);
-        ((Button) similar.getBtnPlaylistNext()).setColorIconHover(color);
-        ((Button) similar.getBtnPlaylistDown()).setColorIconHover(color);
+        Root.rootImpl.similar.getBtnPlaylist().setColorIconHover(color);
+        ((Button) Root.rootImpl.similar.getBtnPlaylistNext()).setColorIconHover(color);
+        ((Button) Root.rootImpl.similar.getBtnPlaylistDown()).setColorIconHover(color);
 
-        similar.getBtnPlaylist().setColorBgPressed(color);
-        ((Button) similar.getBtnPlaylistNext()).setColorBgPressed(color);
-        ((Button) similar.getBtnPlaylistDown()).setColorBgPressed(color);
+        Root.rootImpl.similar.getBtnPlaylist().setColorBgPressed(color);
+        ((Button) Root.rootImpl.similar.getBtnPlaylistNext()).setColorBgPressed(color);
+        ((Button) Root.rootImpl.similar.getBtnPlaylistDown()).setColorBgPressed(color);
 
-        if(Root.mainFunctions.getMainButton() instanceof Button i) {
+        if(Root.rootImpl.mainFunctions.getMainButton() instanceof Button i) {
             i.setColorIconHover(color);
             i.setColorBgPressed(color);
         }
 
-        hideControlLeft.setColorIconHover(color);
-        hideControlRight.setColorIconHover(color);
+        Root.rootImpl.hideControlLeft.setColorIconHover(color);
+        Root.rootImpl.hideControlRight.setColorIconHover(color);
 
-        hideControlLeft.setColorBgPressed(color);
-        hideControlRight.setColorBgPressed(color);
+        Root.rootImpl.hideControlLeft.setColorBgPressed(color);
+        Root.rootImpl.hideControlRight.setColorBgPressed(color);
     }
     /**
      * Обновляет цвет текста чекбокса плейлиста с учетом фокуса окна.
@@ -232,10 +231,10 @@ public class ArtProcessor
      * </ul>
      */
     public void updateCheckBoxColors(Color color) {
-        if(!stage.isFocused()) {
-            tracksListView.getBtnPlaylist().setTextFill(color);
+        if(!Root.rootImpl.stage.isFocused()) {
+            Root.rootImpl.tracksListView.getBtnPlaylist().setTextFill(color);
         } else {
-            animateColorChange(tracksListView.getBtnPlaylist().getTextFill(), color, tracksListView.getBtnPlaylist().textFillProperty());
+            animateColorChange(Root.rootImpl.tracksListView.getBtnPlaylist().getTextFill(), color, Root.rootImpl.tracksListView.getBtnPlaylist().textFillProperty());
         }
     }
     /**
@@ -253,28 +252,28 @@ public class ArtProcessor
      * <p><b>Логика:</b> мгновенно (без фокуса) / анимировано (с фокусом)</p>
      */
     protected void updateTextsColors(Color color) {
-        if(!stage.isFocused()) {
-            currentArtist.updateColor(color);
-            currentTrackName.updateColor(color);
-            beginTime.updateColor(color);
-            endTime.updateColor(color);
-            soundSlider.setColor(color);
+        if(!Root.rootImpl.stage.isFocused()) {
+            Root.rootImpl.currentArtist.updateColor(color);
+            Root.rootImpl.currentTrackName.updateColor(color);
+            Root.rootImpl.beginTime.updateColor(color);
+            Root.rootImpl.endTime.updateColor(color);
+            Root.rootImpl.soundSlider.setColor(color);
 
-            tracksListView.getCurrentPlaylistText().updateColor(color);
+            Root.rootImpl.tracksListView.getCurrentPlaylistText().updateColor(color);
 
-            similar.getCurrentPlaylistText().updateColor(color);
+            Root.rootImpl.similar.getCurrentPlaylistText().updateColor(color);
         } else {
-            animateColorChange(soundSlider.getColorProperty().get(), color, soundSlider.getColorProperty());
-            animateColorChange(currentArtist.getColorProperty().get(), color, currentArtist.getColorProperty());
-            animateColorChange(currentTrackName.getColorProperty().get(), color, currentTrackName.getColorProperty());
-            animateColorChange(beginTime.getColorProperty().get(), color, beginTime.getColorProperty());
-            animateColorChange(endTime.getColorProperty().get(), color, endTime.getColorProperty());
+            animateColorChange(Root.rootImpl.soundSlider.getColorProperty().get(), color, Root.rootImpl.soundSlider.getColorProperty());
+            animateColorChange(Root.rootImpl.currentArtist.getColorProperty().get(), color, Root.rootImpl.currentArtist.getColorProperty());
+            animateColorChange(Root.rootImpl.currentTrackName.getColorProperty().get(), color, Root.rootImpl.currentTrackName.getColorProperty());
+            animateColorChange(Root.rootImpl.beginTime.getColorProperty().get(), color, Root.rootImpl.beginTime.getColorProperty());
+            animateColorChange(Root.rootImpl.endTime.getColorProperty().get(), color, Root.rootImpl.endTime.getColorProperty());
 
-            animateColorChange(tracksListView.getSearchBar().getColorProperty().get(), color, tracksListView.getSearchBar().getColorProperty());
-            animateColorChange(tracksListView.getCurrentPlaylistText().getColorProperty().get(), color, tracksListView.getCurrentPlaylistText().getColorProperty());
+            animateColorChange(Root.rootImpl.tracksListView.getSearchBar().getColorProperty().get(), color, Root.rootImpl.tracksListView.getSearchBar().getColorProperty());
+            animateColorChange(Root.rootImpl.tracksListView.getCurrentPlaylistText().getColorProperty().get(), color, Root.rootImpl.tracksListView.getCurrentPlaylistText().getColorProperty());
 
-            animateColorChange(similar.getSearchBar().getColorProperty().get(), color, similar.getSearchBar().getColorProperty());
-            animateColorChange(similar.getCurrentPlaylistText().getColorProperty().get(), color, similar.getCurrentPlaylistText().getColorProperty());
+            animateColorChange(Root.rootImpl.similar.getSearchBar().getColorProperty().get(), color, Root.rootImpl.similar.getSearchBar().getColorProperty());
+            animateColorChange(Root.rootImpl.similar.getCurrentPlaylistText().getColorProperty().get(), color, Root.rootImpl.similar.getCurrentPlaylistText().getColorProperty());
         }
     }
     /**
@@ -332,7 +331,7 @@ public class ArtProcessor
      * <p>Используется при смене обложки альбома.</p>
      */
     public void setRootColor(Pane pane, Color r, Image image) {
-        setRootColor(pane, r, /* previousImageArt */ art != null ? art.getPreviousImage() : image, image);
+        setRootColor(pane, r, /* previousImageArt */ Root.rootImpl.art != null ? Root.rootImpl.art.getPreviousImage() : image, image);
     }
     /**
      * {@link #setRootColor(Pane, Color, Image)} с явным previous/current изображениями.
@@ -348,21 +347,21 @@ public class ArtProcessor
     public void setRootColor(Pane pane, Color r, Image previous, Image image) {
         pane.setBackground(new Background(new BackgroundFill(r, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        background.setImage(image);
-        background_under.setImage(previous);
+        Root.rootImpl.background.setImage(image);
+        Root.rootImpl.background_under.setImage(previous);
 
-        if(background_under.getImage() != null && background.getImage() != null) {
-            background.setOpacity(0);
-            background_under.setOpacity(1);
+        if(Root.rootImpl.background_under.getImage() != null && Root.rootImpl.background.getImage() != null) {
+            Root.rootImpl.background.setOpacity(0);
+            Root.rootImpl.background_under.setOpacity(1);
 
             Timeline fadeIn = new Timeline(
-                    new KeyFrame(Duration.ZERO, new KeyValue(background.opacityProperty(), 0)),
-                    new KeyFrame(durationIn, new KeyValue(background.opacityProperty(), 1.0))
+                    new KeyFrame(Duration.ZERO, new KeyValue(Root.rootImpl.background.opacityProperty(), 0)),
+                    new KeyFrame(durationIn, new KeyValue(Root.rootImpl.background.opacityProperty(), 1.0))
             );
 
             Timeline fadeOut = new Timeline(
-                    new KeyFrame(Duration.ZERO, new KeyValue(background_under.opacityProperty(), 1.0)),
-                    new KeyFrame(durationIn, new KeyValue(background_under.opacityProperty(), 0))
+                    new KeyFrame(Duration.ZERO, new KeyValue(Root.rootImpl.background_under.opacityProperty(), 1.0)),
+                    new KeyFrame(durationIn, new KeyValue(Root.rootImpl.background_under.opacityProperty(), 0))
             );
 
             ParallelTransition parallelTransition = new ParallelTransition(fadeIn, fadeOut);
@@ -387,7 +386,7 @@ public class ArtProcessor
     public Timeline dropShadowColor(Color c) {
         Timeline timeline = new Timeline(
                 new KeyFrame(durationIn,
-                        new KeyValue(imgTrackShadow.colorProperty(), c)
+                        new KeyValue(Root.rootImpl.imgTrackShadow.colorProperty(), c)
                 )
         );
 
@@ -429,7 +428,7 @@ public class ArtProcessor
                 Platform.runLater(() -> {
                     ColorProcessor.core.setMainClr(newColor);
 
-                    Animations.instance.play(dropShadowColor(newColor), "dropShadowColor", () -> imgTrackShadow.setColor(newColor));
+                    Animations.instance.play(dropShadowColor(newColor), "dropShadowColor", () -> Root.rootImpl.imgTrackShadow.setColor(newColor));
 
                     if (ConfigurationManager.instance.getBooleanItem("rainbow", "true")) {
                         updateColors(newColor);
@@ -438,10 +437,10 @@ public class ArtProcessor
                     }
 
                     if (ConfigurationManager.instance.getBooleanItem("is_blur_background", "true")) {
-                        setRootColor(root, ColorProcessor.core.getMainClr(), image);
+                        setRootColor(Root.rootImpl.root, ColorProcessor.core.getMainClr(), image);
                     }
 
-                    Root.rootImpl.setStageCaptionColor(stage, newColor);
+                    Root.rootImpl.setStageCaptionColor(Root.rootImpl.stage, newColor);
                 });
             }
         });
@@ -498,8 +497,8 @@ public class ArtProcessor
      * </ul>
      */
     public void setIcon() {
-        stage.getIcons().setAll(!stage.isFocused() ? art.getImage() : logo);
-        stage.setTitle(!stage.isFocused() ? currentArtist.getText() + " - " + currentTrackName.getText() : Music.name);
+        Root.rootImpl.stage.getIcons().setAll(!Root.rootImpl.stage.isFocused() ? Root.rootImpl.art.getImage() : logo);
+        Root.rootImpl.stage.setTitle(!Root.rootImpl.stage.isFocused() ? Root.rootImpl.currentArtist.getText() + " - " + Root.rootImpl.currentTrackName.getText() : Music.name);
     }
     /**
      * {@inheritDoc}
@@ -531,8 +530,8 @@ public class ArtProcessor
         if (outDropShadowAnimation != null)
             outDropShadowAnimation.stop();
 
-        double width = art.getBoundsInParent().getWidth();
-        double height = art.getBoundsInParent().getHeight();
+        double width = Root.rootImpl.art.getBoundsInParent().getWidth();
+        double height = Root.rootImpl.art.getBoundsInParent().getHeight();
 
         boolean goLeftOrDown = PlayProcessor.playProcessor.getPreviousIndex() < PlayProcessor.playProcessor.getTrackIter();
 
@@ -577,7 +576,7 @@ public class ArtProcessor
         translateOutFromY = 0;
         translateInToY = 0;
 
-        TranslateTransition moveOut = new TranslateTransition(durationIn, art);
+        TranslateTransition moveOut = new TranslateTransition(durationIn, Root.rootImpl.art);
         moveOut.setFromX(translateOutFromX);
         moveOut.setToX(translateOutToX);
         moveOut.setFromY(translateOutFromY);
@@ -585,26 +584,26 @@ public class ArtProcessor
         moveOut.setInterpolator(acceleratingInterpolator);
 
         Timeline fadeOut = new Timeline(
-                new KeyFrame(Duration.ZERO, new KeyValue(art.opacityProperty(), 1, acceleratingInterpolator)),
-                new KeyFrame(durationIn, new KeyValue(art.opacityProperty(), 0, acceleratingInterpolator))
+                new KeyFrame(Duration.ZERO, new KeyValue(Root.rootImpl.art.opacityProperty(), 1, acceleratingInterpolator)),
+                new KeyFrame(durationIn, new KeyValue(Root.rootImpl.art.opacityProperty(), 0, acceleratingInterpolator))
         );
 
         Timeline scaleOut = new Timeline(
                 new KeyFrame(Duration.ZERO,
-                        new KeyValue(art.scaleXProperty(), 1, acceleratingInterpolator),
-                        new KeyValue(art.scaleYProperty(), 1, acceleratingInterpolator)),
+                        new KeyValue(Root.rootImpl.art.scaleXProperty(), 1, acceleratingInterpolator),
+                        new KeyValue(Root.rootImpl.art.scaleYProperty(), 1, acceleratingInterpolator)),
                 new KeyFrame(durationIn,
-                        new KeyValue(art.scaleXProperty(), scaleOutTarget, acceleratingInterpolator),
-                        new KeyValue(art.scaleYProperty(), scaleOutTarget, acceleratingInterpolator))
+                        new KeyValue(Root.rootImpl.art.scaleXProperty(), scaleOutTarget, acceleratingInterpolator),
+                        new KeyValue(Root.rootImpl.art.scaleYProperty(), scaleOutTarget, acceleratingInterpolator))
         );
 
         outTransition = new ParallelTransition(moveOut, fadeOut, scaleOut);
 
         inDropShadowAnimation = dropShadowTimeLine(
-                art,
+                Root.rootImpl.art,
                 250,
                 0,
-                general_interpolator
+                Root.rootImpl.general_interpolator
         );
         Animations.instance.play(inDropShadowAnimation, "inDropShadowAnimation");
 
@@ -619,58 +618,58 @@ public class ArtProcessor
 
                 Platform.runLater(() -> {
                     setImage(img);
-                    initColor(art.getImage());
+                    initColor(Root.rootImpl.art.getImage());
                     setIcon();
 
-                    art.setTranslateX(finalTranslateInFromX);
-                    art.setTranslateY(finalTranslateInFromY);
-                    art.setOpacity(0);
-                    art.setScaleX(scaleInStart);
-                    art.setScaleY(scaleInStart);
+                    Root.rootImpl.art.setTranslateX(finalTranslateInFromX);
+                    Root.rootImpl.art.setTranslateY(finalTranslateInFromY);
+                    Root.rootImpl.art.setOpacity(0);
+                    Root.rootImpl.art.setScaleX(scaleInStart);
+                    Root.rootImpl.art.setScaleY(scaleInStart);
 
                     outDropShadowAnimation = dropShadowTimeLine(
-                            art,
+                            Root.rootImpl.art,
                             250,
                             size,
-                            general_interpolator
+                            Root.rootImpl.general_interpolator
                     );
 
                     Animations.instance.play(outDropShadowAnimation, "outDropShadowAnimation", () -> {
-                        if(art.getEffect() instanceof DropShadow dropShadow) {
+                        if(Root.rootImpl.art.getEffect() instanceof DropShadow dropShadow) {
                             dropShadow.setWidth(size);
                             dropShadow.setHeight(size);
                         }
                     });
 
-                    TranslateTransition moveIn = new TranslateTransition(durationOut, art);
+                    TranslateTransition moveIn = new TranslateTransition(durationOut, Root.rootImpl.art);
                     moveIn.setFromX(finalTranslateInFromX);
                     moveIn.setToX(finalTranslateInToX);
                     moveIn.setFromY(finalTranslateInFromY);
                     moveIn.setToY(finalTranslateInToY);
                     moveIn.setInterpolator(acceleratingInterpolator);
 
-                    FadeTransition fadeIn = new FadeTransition(durationOut, art);
+                    FadeTransition fadeIn = new FadeTransition(durationOut, Root.rootImpl.art);
                     fadeIn.setFromValue(0);
                     fadeIn.setToValue(1);
                     fadeIn.setInterpolator(acceleratingInterpolator);
 
                     Timeline scaleIn = new Timeline(
                             new KeyFrame(Duration.ZERO,
-                                    new KeyValue(art.scaleXProperty(), scaleInStart, acceleratingInterpolator),
-                                    new KeyValue(art.scaleYProperty(), scaleInStart, acceleratingInterpolator)),
+                                    new KeyValue(Root.rootImpl.art.scaleXProperty(), scaleInStart, acceleratingInterpolator),
+                                    new KeyValue(Root.rootImpl.art.scaleYProperty(), scaleInStart, acceleratingInterpolator)),
                             new KeyFrame(durationOut,
-                                    new KeyValue(art.scaleXProperty(), scaleInEnd, acceleratingInterpolator),
-                                    new KeyValue(art.scaleYProperty(), scaleInEnd, acceleratingInterpolator))
+                                    new KeyValue(Root.rootImpl.art.scaleXProperty(), scaleInEnd, acceleratingInterpolator),
+                                    new KeyValue(Root.rootImpl.art.scaleYProperty(), scaleInEnd, acceleratingInterpolator))
                     );
 
                     inTransition = new ParallelTransition(moveIn, fadeIn, scaleIn);
 
                     Animations.instance.play(inTransition, "inTransition", () -> {
-                        art.setTranslateX(0);
-                        art.setTranslateY(0);
-                        art.setOpacity(1);
-                        art.setScaleX(scaleInEnd);
-                        art.setScaleY(scaleInEnd);
+                        Root.rootImpl.art.setTranslateX(0);
+                        Root.rootImpl.art.setTranslateY(0);
+                        Root.rootImpl.art.setOpacity(1);
+                        Root.rootImpl.art.setScaleX(scaleInEnd);
+                        Root.rootImpl.art.setScaleY(scaleInEnd);
                     });
                 });
             }
@@ -684,14 +683,14 @@ public class ArtProcessor
                 Image img = track.getAlbumArt();
 
                 Platform.runLater(() -> {
-                    art.setTranslateX(0);
-                    art.setTranslateY(0);
-                    art.setOpacity(1);
-                    art.setScaleX(scaleInEnd);
-                    art.setScaleY(scaleInEnd);
+                    Root.rootImpl.art.setTranslateX(0);
+                    Root.rootImpl.art.setTranslateY(0);
+                    Root.rootImpl.art.setOpacity(1);
+                    Root.rootImpl.art.setScaleX(scaleInEnd);
+                    Root.rootImpl.art.setScaleY(scaleInEnd);
 
                     setImage(img);
-                    initColor(art.getImage());
+                    initColor(Root.rootImpl.art.getImage());
                     setIcon();
                 });
             }
@@ -707,7 +706,7 @@ public class ArtProcessor
      *       применяет {@link ColorProcessor#changeHue} с текущим hue значением</li>
      *   <li>Иначе: использует оригинальное изображение</li>
      * </ul>
-     * <p>Обновляет {@code art.setImage(img)}.</p>
+     * <p>Обновляет {@code Root.rootImpl.art.setImage(img)}.</p>
      *
      * @param img оригинальное изображение обложки
      */
@@ -715,7 +714,7 @@ public class ArtProcessor
         if (ColorProcessor.core.getHue() != 0)
             img = ColorProcessor.core.changeHue(img, ConfigurationManager.instance.getBooleanItem("is_hue_change", "true") ? ColorProcessor.core.getHue() : 0);
 
-        art.setImage(img);
+        Root.rootImpl.art.setImage(img);
     }
     /**
      * Обновляет цветовые схемы всех PlayView в root.
@@ -732,7 +731,7 @@ public class ArtProcessor
      * <p>Вызывается из {@link #initColor} при <code>"rainbow" = true</code>.</p>
      */
     public void initListViews() {
-          for(Node n : root.getChildren()) {
+          for(Node n : Root.rootImpl.root.getChildren()) {
               if(n instanceof PlayView<?, ?> listView) {
                   listView.getTrackListView().updateSelectedBackground(core.getMainClr());
                   listView.getTrackListView().updateBorderColor(core.getMainClr());

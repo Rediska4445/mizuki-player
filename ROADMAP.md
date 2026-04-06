@@ -15,3 +15,4 @@ This is even easier than messing around with Maven).
 * Add feature to view clip of track
 * Add preload track in netty playlist mode
 * Fix history for network tracks
+* Update the readme.m, add to her description about architecture and code view, and technical challenges (top 10)
