@@ -122,7 +122,7 @@ public class TrackContextMenu
         editTags = new ContextMenuItem();
         editTags.setGraphic(new Label(getLocaleString("context_menu_edit_item", "Edit Item") + " - " + track.viewName));
         editTags.setOnAction(e -> {
-            Metadata.getInstance().prepare(track);
+            Metadata.getInstance().setTrack(track);
             Metadata.getInstance().open(Root.rootImpl.stage);
         });
 
@@ -284,7 +284,7 @@ public class TrackContextMenu
     }
 
     private void openTagEditor() {
-        Tags.getInstance().prepare(track);
+        Tags.getInstance().setTrack(track);
         Tags.getInstance().open(Root.rootImpl.stage);
 
         if (sourceCell != null) {

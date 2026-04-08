@@ -1,26 +1,25 @@
 package rf.ebanina.UI.Editors.Settings;
 
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import rf.ebanina.File.Localization.LocalizationManager;
 import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.UI.Editors.IEditor;
+import rf.ebanina.UI.Editors.IViewable;
+import rf.ebanina.UI.Editors.Viewable;
 import rf.ebanina.UI.Root;
 import rf.ebanina.UI.UI.Element.AnimationDialog;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
 
 import java.io.IOException;
 
+@Viewable
 public final class Settings
-        implements IEditor
+        implements IEditor, IViewable
 {
-    private Stage stageSet;
-
     private static Settings instance;
-
-    private rf.ebanina.UI.Editors.Statistics.Track.Controller currentController;
 
     public static Settings getInstance() {
         if(instance == null) {
@@ -33,14 +32,7 @@ public final class Settings
     @Override
     public void open(Stage stage) {
         try {
-            stageSet = new Stage();
-
-            FXMLLoader loader = ResourceManager.Instance.loadFxmlLoader(
-                    ResourceManager.Instance.resourcesPaths.get("FXMLTrackStatisticsPath")
-            );
-            Parent root = loader.load();
-
-            this.currentController = loader.getController();
+            Parent root = parent();
 
             AnimationDialog statsDialog = new AnimationDialog(stage, Root.rootImpl.getRoot());
             statsDialog.setDialogMaxSize(0.75, 0.85);
@@ -54,5 +46,20 @@ public final class Settings
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public Parent parent() throws IOException {
+        return ResourceManager.Instance.loadFXML("FXMLSettingsPath");
+    }
+
+    @Override
+    public String name() {
+        return LocalizationManager.getLocaleString("settings_title", "Settings");
+    }
+
+    @Override
+    public String description() {
+        return LocalizationManager.getLocaleString("settings_description", "Description");
     }
 }

@@ -20,9 +20,13 @@ import java.util.List;
 import static rf.ebanina.utils.Math.scale;
 
 public class ColorProcessor {
-    protected String color_type = ConfigurationManager.instance.getItem("album_art_get_color_type", "average");
+    protected String color_type;
 
     protected SimpleIntegerProperty hueProperty = new SimpleIntegerProperty(0);
+
+    public ColorProcessor(String color_type) {
+        this.color_type = color_type;
+    }
 
     public int getHue() {
         return hueProperty.get();
@@ -55,7 +59,7 @@ public class ColorProcessor {
         return core;
     }
 
-    public static ColorProcessor core = new ColorProcessor();
+    public static ColorProcessor core = new ColorProcessor(ConfigurationManager.instance.getItem("album_art_get_color_type", "average"));
 
     protected ObjectProperty<Paint> mainClr = new SimpleObjectProperty<>();
 

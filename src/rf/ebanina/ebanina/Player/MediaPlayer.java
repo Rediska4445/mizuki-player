@@ -2557,7 +2557,7 @@ public class MediaPlayer
         Header firstHeader = bitstream.readFrame();
 
         if (firstHeader == null)
-            throw new IOException(AvailableFormat.MP3.getTitle() + ": Не удалось прочитать первый фрейм");
+            throw new IOException(AvailableFormat.MP3.getTitle() + ": Не удалось прочитать первый фрейм файла:: " + getMedia().getPath());
 
         int sampleRate = firstHeader.frequency();
         int channels = firstHeader.mode() == Header.SINGLE_CHANNEL ? 1 : 2;

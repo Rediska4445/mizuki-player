@@ -84,6 +84,7 @@ stats {
 }
 
 metadata {
+    metadata_host_title: Метаданные;
     metadata_save: Сохранить;
     metadata_remove: Удалить;
     metadata_search: Поиск;
@@ -118,6 +119,7 @@ tags {
 }
 
 vst_editor {
+    audio_host_title: Аудио-Хост;
     vst_editor_tab_vst: VST;
     vst_editor_tab_own_plugins: Плагины приложения;
     vst_editor_tab_parameters: Параметры;
@@ -154,6 +156,8 @@ track_statistics {
 }
 
 network {
+    network_host_title: Сетевой хост;
+    network_host_description: Хост позволяющий взаимодействовать с сетевыми ресурсами, для скачивания и прослушивания;
     network_host_add_to_playlist: Добавить к текущему плейлисту;
     network_host_set_to_playlist: Установить в текущий плейлист;
     network_host_quantity: Количество;
@@ -162,5 +166,6 @@ network {
     network_host_addict_promt_text: Параметры;
 }
 
+settings_title: Настройки;
 gui_config: Настройки;
 configuration_is_zero: равен нулю;

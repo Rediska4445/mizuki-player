@@ -5,47 +5,45 @@ import javafx.scene.Parent;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import rf.ebanina.File.Localization.LocalizationManager;
 import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.UI.Editors.IEditor;
+import rf.ebanina.UI.Editors.IViewable;
+import rf.ebanina.UI.Editors.Viewable;
 import rf.ebanina.UI.Root;
 import rf.ebanina.UI.UI.Element.AnimationDialog;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
+import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
 import rf.ebanina.ebanina.Player.Track;
 
 import java.io.IOException;
 
+@Viewable
 public class Metadata
-        implements IEditor
+        implements IEditor, IViewable
 {
-    private static Metadata instance;
+    protected static Metadata instance;
+    protected Parent parent;
+    protected Track track;
 
-    private Metadata() {}
+    public Metadata() {}
 
     public static synchronized Metadata getInstance() {
         if (instance == null) {
             instance = new Metadata();
         }
+
         return instance;
     }
 
-    private Track track;
-
-    public void prepare(Track track) {
+    public void setTrack(Track track) {
         this.track = track;
     }
 
     @Override
     public void open(Stage ownerStage) {
         try {
-            Controller controller = new Controller();
-            controller.setTrack((Track) track.clone());
-
-            FXMLLoader loader = ResourceManager.Instance.loadFxmlLoader(
-                    ResourceManager.Instance.resourcesPaths.get("FXMLMetaDataPath")
-            );
-
-            loader.setController(controller);
-            Parent root = loader.load();
+            Parent root = parent();
 
             AnimationDialog metaDialog = new AnimationDialog(ownerStage, Root.rootImpl.getRoot());
             metaDialog.setDialogMaxSize(0.35, 0.75);
@@ -56,8 +54,34 @@ public class Metadata
             VBox.setVgrow(root, Priority.ALWAYS);
 
             metaDialog.show();
-        } catch (IOException | CloneNotSupportedException e) {
+
+            metaDialog.setOnHide((e) -> track = null);
+        } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public Parent parent() throws IOException {
+        FXMLLoader loader = ResourceManager.Instance.loadFxmlLoader(
+                ResourceManager.Instance.resourcesPaths.get("FXMLMetaDataPath")
+        );
+
+        Controller controller = new Controller();
+        controller.setTrack(track == null ? PlayProcessor.playProcessor.getCurrentTrack() : track);
+
+        loader.setController(controller);
+
+        return parent = loader.load();
+    }
+
+    @Override
+    public String name() {
+        return LocalizationManager.getLocaleString("metadata_host_title", "Metadata");
+    }
+
+    @Override
+    public String description() {
+        return LocalizationManager.getLocaleString("metadata_host_description", "Description");
     }
 }

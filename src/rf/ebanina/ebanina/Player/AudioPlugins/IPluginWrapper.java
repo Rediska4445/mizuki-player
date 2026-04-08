@@ -33,7 +33,7 @@ import java.util.Map;
  *
  * <h3>Основной цикл обработки</h3>
  * <pre>{@code
- * IPluginWrapper&lt;VST3&gt; wrapper = new Vst3Wrapper(vst3Plugin);
+ * IPluginWrapper = new VST3(vst3Plugin);
  *
  * // В реальном времени (каждые 512 сэмплов)
  * wrapper.processReplacing(inputBuffer, outputBuffer, 512);
@@ -56,7 +56,7 @@ import java.util.Map;
  * </table>
  *
  * @author Ebanina Std
- * @since 1.4.9
+ * @since 1.4.7
  * @param <Plugin> тип нативного VST плагина (VST2/VST3/JNA)
  * @see rf.ebanina.ebanina.Player.AudioPlugins.VST.VST
  * @see rf.ebanina.ebanina.Player.AudioPlugins.VST.VST3

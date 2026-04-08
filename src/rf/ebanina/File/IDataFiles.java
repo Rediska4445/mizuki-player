@@ -10,7 +10,8 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface IDataFiles {
+public interface IDataFiles
+{
     File getFileFromOpenFileDialog(Stage stage);
 
     boolean hasSupportedExtension(Path path);

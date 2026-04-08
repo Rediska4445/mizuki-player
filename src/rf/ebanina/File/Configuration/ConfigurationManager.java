@@ -108,7 +108,8 @@ public class ConfigurationManager
     public static ConfigurationManager instance = new ConfigurationManager(
             Path.of("config", "settings.cfg"),
             Path.of("config", "bindings"),
-            Path.of("config"));
+            Path.of("config")
+    );
 
     /**
      * Кэш конфигурационных значений.

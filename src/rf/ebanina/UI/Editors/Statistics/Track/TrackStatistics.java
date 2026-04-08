@@ -5,8 +5,11 @@ import javafx.scene.Parent;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import rf.ebanina.File.Localization.LocalizationManager;
 import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.UI.Editors.IEditor;
+import rf.ebanina.UI.Editors.IViewable;
+import rf.ebanina.UI.Editors.Viewable;
 import rf.ebanina.UI.Root;
 import rf.ebanina.UI.UI.Element.AnimationDialog;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
@@ -15,12 +18,15 @@ import rf.ebanina.ebanina.Player.Track;
 
 import java.io.IOException;
 
+@Viewable
 public class TrackStatistics
-        implements IEditor
+        implements IEditor, IViewable
 {
     public static TrackStatistics instance = new TrackStatistics();
 
     protected Controller currentController;
+
+    protected Track track;
 
     public Controller currentController() {
         return currentController;
@@ -43,15 +49,9 @@ public class TrackStatistics
 
     public void open(Stage stage, Track track) {
         try {
-            FXMLLoader loader = ResourceManager.Instance.loadFxmlLoader(
-                    ResourceManager.Instance.resourcesPaths.get("FXMLTrackStatisticsPath")
-            );
-            Parent root = loader.load();
+            this.track = track;
 
-            Controller controller = loader.getController();
-            controller.setTrack(track);
-
-            this.currentController = controller;
+            Parent root = parent();
 
             AnimationDialog statsDialog = new AnimationDialog(stage, Root.rootImpl.getRoot());
             statsDialog.setDialogMaxSize(0.75, 0.85);
@@ -65,5 +65,31 @@ public class TrackStatistics
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public Parent parent() throws IOException {
+        FXMLLoader loader = ResourceManager.Instance.loadFxmlLoader(
+                ResourceManager.Instance.resourcesPaths.get("FXMLTrackStatisticsPath")
+        );
+
+        Parent root = loader.load();
+
+        Controller controller = loader.getController();
+        controller.setTrack(track);
+
+        this.currentController = controller;
+
+        return root;
+    }
+
+    @Override
+    public String name() {
+        return LocalizationManager.getLocaleString("track_statistics_title", "Tracks Statistics");
+    }
+
+    @Override
+    public String description() {
+        return LocalizationManager.getLocaleString("track_statistics_description", "Description");
     }
 }

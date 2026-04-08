@@ -2,6 +2,7 @@ package rf.ebanina.File;
 
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import org.json.simple.parser.ParseException;
 import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.File.Resources.Resources;
 import rf.ebanina.UI.Root;
@@ -15,10 +16,7 @@ import rf.ebanina.ebanina.Player.Track;
 import java.io.*;
 import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
+import java.nio.file.*;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.BiFunction;
@@ -209,6 +207,18 @@ public class FileManager
 
     private final Map<String, String> loadedSharedMap = new HashMap<>();
 
+    public String getVersion() {
+        try {
+            return rf.ebanina.utils.formats.json.JsonProcess.getJsonItem(rf.ebanina.utils.formats.json.JsonProcess.getJsonItem(String.join("", FileManager.instance.findParams(
+                    null, Path.of("version.json"), List::of, s -> true
+            )), "version"), "serial");
+        } catch (ParseException e) {
+            e.printStackTrace();
+
+            return "0";
+        }
+    }
+
     public record SharedDataEntry(
             String category,
             String key,
@@ -298,14 +308,12 @@ public class FileManager
     }
 
     public void loadSession() {
-        Map<String, String> map = new HashMap<>(Map.ofEntries(
+        FileManager.instance.loadSession(new HashMap<>(Map.ofEntries(
                 Map.entry("user.name", System.getProperty("user.name")),
                 Map.entry("application.name", appName),
                 Map.entry("version", version),
                 Map.entry("starting.time", LocalDateTime.now().toString())
-        ));
-
-        FileManager.instance.loadSession(map);
+        )));
     }
 
     public void writeObject(Object obj, String filePath) {
@@ -411,6 +419,61 @@ public class FileManager
         }, s -> stdProcessor.apply(s, key));
     }
 
+    /**
+     * Читает и фильтрует строки из файла по заданному пути.
+     *
+     * <p>Метод выполняет следующие шаги:</p>
+     * <ol>
+     *   <li>Проверяет существование файла по пути {@code path}.
+     *       Если файл отсутствует — возвращает результат {@code ifNull.get()}.</li>
+     *   <li>Открывает поток строк из файла с помощью {@link Files#lines(Path)}
+     *       в блоке try-with-resources (автоматическое закрытие).</li>
+     *   <li>Если {@code key == null} — возвращает ВСЕ строки файла
+     *       ({@code lines.toList()}).</li>
+     *   <li>Если {@code key != null} — применяет фильтрацию через
+     *       {@code processor} ко всем строкам и возвращает отфильтрованный список.</li>
+     *   <li>При ЛЮБОМ исключении ({@link Exception}, включая {@link IOException})
+     *       возвращает результат {@code ifNull.get()}.</li>
+     * </ol>
+     *
+     * <p>Метод <b>НЕ выбрасывает исключения</b> — все ошибки обрабатываются
+     * возвратом дефолтного значения из {@code ifNull}.</p>
+     *
+     * <h3>Точное поведение параметров:</h3>
+     * <ul>
+     *   <li>{@code key == null} → игнорируется {@code processor},
+     *      возвращаются все строки файла</li>
+     *   <li>{@code key != null} → применяется {@code processor} к каждой строке</li>
+     *   <li>{@code processor} вызывается ТОЛЬКО при {@code key != null}</li>
+     *   <li>{@code ifNull.get()} вызывается при:
+     *     <ul>
+     *       <li>!{@link Files#exists(Path, LinkOption...)}}</li>
+     *       <li>любом {@link Exception} при чтении/фильтрации</li>
+     *     </ul>
+     *   </li>
+     * </ul>
+     *
+     * <h3>Примеры ЛОГИКИ (строго по коду):</h3>
+     * <pre>{@code
+     * // key == null → все строки
+     * findParams(null, path, ifNull, ignoredProcessor); // lines.toList()
+     *
+     * // файл НЕ существует → ifNull
+     * findParams(key, nonExistentPath, ifNull, processor); // ifNull.get()
+     *
+     * // IOException → ifNull
+     * findParams(key, corruptedPath, ifNull, processor); // ifNull.get()
+     *
+     * // key != null + processor.filter() → отфильтрованные строки
+     * findParams("abc", validPath, ifNull, line -> line.contains("abc"));
+     * }</pre>
+     *
+     * @param key если {@code null} — возвращает все строки, иначе фильтрует через processor
+     * @param path путь к файлу для чтения строк
+     * @param ifNull вызывается при отсутствии файла ИЛИ любой ошибке чтения
+     * @param processor применяется к строкам ТОЛЬКО при {@code key != null}
+     * @return список строк из файла или результат {@code ifNull.get()}
+     */
     public List<String> findParams(String key, Path path, Supplier<List<String>> ifNull, Predicate<String> processor) {
         if (!Files.exists(path)) {
             return ifNull.get();

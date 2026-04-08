@@ -8,7 +8,6 @@ import rf.ebanina.File.Configuration.ConfigurationManager;
 import rf.ebanina.UI.Editors.Network.NetworkHost;
 import rf.ebanina.UI.Editors.Player.AudioHost;
 import rf.ebanina.UI.Editors.Settings.Settings;
-import rf.ebanina.UI.Editors.Statistics.Playlist.TracksStatistics;
 import rf.ebanina.UI.Editors.Statistics.Track.TrackStatistics;
 import rf.ebanina.UI.Root;
 import rf.ebanina.ebanina.Music;
@@ -191,8 +190,6 @@ public class Keys {
             )
     ));
 
-    // TODO: Сделать горячие клавиши под аспектное
-
     /**
      * Список <b>контекстных</b> горячих клавиш (работают только при активном окне).
      * <p>
@@ -209,11 +206,6 @@ public class Keys {
                     "ebanina_open_history",
                     new int[] {NativeKeyEvent.VC_SHIFT, NativeKeyEvent.VC_ALT, NativeKeyEvent.VC_C},
                     () -> Platform.runLater(() -> PlayProcessor.playProcessor.getTrackHistoryGlobal().getTrackHistoryContextMenu().show(Root.rootImpl.stage.getScene().getWindow()))
-            ),
-            new HotKey(
-                    "ebanina_open_playlist_statistics",
-                    new int[] {NativeKeyEvent.VC_SHIFT, NativeKeyEvent.VC_ALT, NativeKeyEvent.VC_A},
-                    () -> Platform.runLater(() -> new TracksStatistics().show())
             ),
             new HotKey(
                     "ebanina_set_trackListView_to_currentMusics",
@@ -440,7 +432,8 @@ public class Keys {
             for (Method method : clazz.getDeclaredMethods()) {
                 KeyBind[] binds = method.getAnnotationsByType(KeyBind.class);
 
-                if (binds.length == 0) continue;
+                if (binds.length == 0)
+                    continue;
 
                 method.setAccessible(true);
 
@@ -448,7 +441,7 @@ public class Keys {
                     try {
                         method.invoke(target);
                     } catch (Exception e) {
-                        System.err.println("KeyBind '" + method.getName() + "' failed: " + e.getMessage());
+                        Music.mainLogger.severe("KeyBind '" + method.getName() + "' failed: " + e.getMessage());
                         e.printStackTrace();
                     }
                 };

@@ -136,7 +136,7 @@ public final class Music
      *
      * @since -1.0.0
      */
-    public static String version = "v1.4.9";
+    public static String version = FileManager.instance.getVersion();
     /**
      * Официальное название приложения.
      *

@@ -161,11 +161,6 @@ public class LightAudio
                 tr.setViewName(tr.artist + " - " + tr.title.replace("-", ""));
                 tr.setExternalUrl(Info.PlayersTypes.LIGHT_AUDIO.getCode());
 
-                Music.mainLogger.info(String.format(
-                        "Parsed track: '%s' by '%s', duration: %d, url: %s",
-                        title, artist, tr.getTotalDuraSec(), fullUrl
-                ));
-
                 res.add(tr);
                 i2++;
             }

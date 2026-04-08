@@ -15,7 +15,9 @@ import java.util.ResourceBundle;
 
 import static rf.ebanina.File.Localization.LocalizationManager.getLocaleString;
 
-public class Controller implements Initializable {
+public class Controller
+        implements Initializable
+{
     public TabPane tabPane;
     public Label main_text;
 

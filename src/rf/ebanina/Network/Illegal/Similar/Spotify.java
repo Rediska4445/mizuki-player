@@ -76,6 +76,8 @@ public class Spotify
                         }
 
                         if (uri.getPath() != null) {
+                            Music.mainLogger.info("Track uri from Spotify: " + uri.getPath());
+
                             tr.setPath(uri.getPath());
                             tr.setTotalDuraSec(uri.getTotalDuraSec());
                         } else {

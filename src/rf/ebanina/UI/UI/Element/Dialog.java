@@ -118,6 +118,7 @@ public abstract class Dialog
      * </p>
      */
     protected final Stage ownerStage;
+
     /**
      * Создаёт новый диалог, привязанный к указанному родительскому окну.
      * <p>

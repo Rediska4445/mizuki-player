@@ -143,8 +143,10 @@ public class AnimationDialog
             this.setVisible(false);
             dialogBox.setTranslateY(0);
             dialogBox.setOpacity(1.0);
-            if (getOnHide() != null) getOnHide().handle(new Event(Event.ANY));
-            if (onAction != null) onAction.run();
+            if (getOnHide() != null)
+                getOnHide().handle(new Event(Event.ANY));
+            if (onAction != null)
+                onAction.run();
         });
     }
     /**

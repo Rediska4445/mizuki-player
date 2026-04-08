@@ -42,7 +42,12 @@ import rf.ebanina.File.Resources.Resources;
 import rf.ebanina.Network.ISimilar;
 import rf.ebanina.Network.Illegal.Similar.Spotify;
 import rf.ebanina.Network.Info;
+import rf.ebanina.UI.Editors.IViewable;
 import rf.ebanina.UI.Editors.Metadata.Track.Metadata;
+import rf.ebanina.UI.Editors.Network.NetworkHost;
+import rf.ebanina.UI.Editors.Player.AudioHost;
+import rf.ebanina.UI.Editors.Settings.Settings;
+import rf.ebanina.UI.Editors.Statistics.Track.TrackStatistics;
 import rf.ebanina.UI.UI.Context.Tooltip.ContextTooltip;
 import rf.ebanina.UI.UI.Element.Art;
 import rf.ebanina.UI.UI.Element.Buttons.Commons;
@@ -56,6 +61,7 @@ import rf.ebanina.UI.UI.Element.LicenseDialog;
 import rf.ebanina.UI.UI.Element.ListViews.ListCells.Playlists.ListCellPlaylist;
 import rf.ebanina.UI.UI.Element.ListViews.ListCells.Playlists.ListCellTrack;
 import rf.ebanina.UI.UI.Element.ListViews.Playlist.PlayView;
+import rf.ebanina.UI.UI.Element.MainFunctionDialog;
 import rf.ebanina.UI.UI.Element.Slider.SoundSlider;
 import rf.ebanina.UI.UI.Element.Text.TextField;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
@@ -82,14 +88,13 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Objects;
-import java.util.WeakHashMap;
+import java.util.List;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -2211,7 +2216,6 @@ public class Root
          *
          * @see #getHideControlLeftLayoutX()
          * @see #initBinds() - применение фиксированной позиции
-         * @see #hideControlRight - симметричная правая кнопка с адаптивным X
          */
         public Layout setHideControlLeft(float hideControlLeftLayoutX) {
             this.hideControlLeftLayoutX = hideControlLeftLayoutX;
@@ -2284,7 +2288,6 @@ public class Root
          *
          * @see #getHideControlRightToImgTrackArtHeightMultiplier()
          * @see #initBinds() - биндинг layoutY правой кнопки
-         * @see #hideControlLeftToImgTrackArtHeight - симметричный параметр для левой кнопки
          */
         public Layout setHideControlRightToImgTrackArtHeightMultiplier(float hideControlRightToImgTrackArtHeightMultiplier) {
             this.hideControlRightToImgTrackArtHeightMultiplier = hideControlRightToImgTrackArtHeightMultiplier;
@@ -2434,7 +2437,6 @@ public class Root
          *
          * @see #getSliderBlurBackgroundBeginTimeMultiplier()
          * @see #initBinds() - биндинг layoutY временной метки
-         * @see #beginTime - позиционируемый элемент
          */
         public Layout setSliderBlurBackgroundBeginTimeMultiplier(float sliderBlurBackgroundBeginTimeMultiplier) {
             this.sliderBlurBackgroundBeginTimeMultiplier = sliderBlurBackgroundBeginTimeMultiplier;
@@ -2506,7 +2508,6 @@ public class Root
          *
          * @see #getSliderBlurBackgroundWidthAdd()
          * @see #initBinds() - биндинг ширины подложки
-         * @see #sliderBlurBackground - расширяемый элемент
          */
         public Layout setSliderBlurBackgroundWidthAdd(float sliderBlurBackgroundWidthAdd) {
             this.sliderBlurBackgroundWidthAdd = sliderBlurBackgroundWidthAdd;
@@ -2578,7 +2579,6 @@ public class Root
          *
          * @see #getSliderBlurBackgroundHeightAdd()
          * @see #initBinds() - биндинг высоты подложки
-         * @see #sliderBlurBackground - расширяемый элемент
          */
         public Layout setSliderBlurBackgroundHeightAdd(float sliderBlurBackgroundHeightAdd) {
             this.sliderBlurBackgroundHeightAdd = sliderBlurBackgroundHeightAdd;
@@ -2650,7 +2650,6 @@ public class Root
          *
          * @see #getSliderBlurBackgroundYSubtract()
          * @see #initBinds() - биндинг layoutY подложки
-         * @see #sliderBlurBackground - позиционируемый элемент
          */
         public Layout setSliderBlurBackgroundYSubtract(float sliderBlurBackgroundYSubtract) {
             this.sliderBlurBackgroundYSubtract = sliderBlurBackgroundYSubtract;
@@ -2723,7 +2722,6 @@ public class Root
          *
          * @see #getSliderBlurBackgroundXSubtract()
          * @see #initBinds() - биндинг layoutX подложки
-         * @see #sliderBlurBackgroundWidthAdd - комплементарный параметр ширины
          */
         public Layout setSliderBlurBackgroundXSubtract(float sliderBlurBackgroundXSubtract) {
             this.sliderBlurBackgroundXSubtract = sliderBlurBackgroundXSubtract;
@@ -2798,7 +2796,6 @@ public class Root
          *
          * @see #getTopDataPaneWidthXMultiplier()
          * @see #initBinds() - биндинг layoutX информационной панели
-         * @see #topDataPane - выравниваемый элемент
          */
         public Layout setTopDataPaneWidthXMultiplier(float topDataPaneWidthXMultiplier) {
             this.topDataPaneWidthXMultiplier = topDataPaneWidthXMultiplier;
@@ -2875,7 +2872,6 @@ public class Root
          *
          * @see #getImgTrackArtRoundWidthYMultiplier()
          * @see #initBinds() - биндинг layoutY обложки
-         * @see #imgTrackArtRoundYMultiplier - комплементарный множитель stage.height
          */
         public Layout setImgTrackArtRoundWidthYMultiplier(float imgTrackArtRoundWidthYMultiplier) {
             this.imgTrackArtRoundWidthYMultiplier = imgTrackArtRoundWidthYMultiplier;
@@ -2953,7 +2949,6 @@ public class Root
          *
          * @see #getImgTrackArtRoundYMultiplier()
          * @see #initBinds() - биндинг layoutY обложки
-         * @see #imgTrackArtRoundWidthYMultiplier - коррекция размера art
          */
         public Layout setImgTrackArtRoundYMultiplier(float imgTrackArtRoundYMultiplier) {
             this.imgTrackArtRoundYMultiplier = imgTrackArtRoundYMultiplier;
@@ -3034,8 +3029,6 @@ public class Root
          *
          * @see #getImgTrackArtRoundWidthXMultiplier()
          * @see #initBinds() - биндинг layoutX обложки
-         * @see #imgTrackArtRoundXMultiplier - базовый множитель stage.width
-         * @see #corners - учитывается в финальном смещении
          */
         public Layout setImgTrackArtRoundWidthXMultiplier(float imgTrackArtRoundWidthXMultiplier) {
             this.imgTrackArtRoundWidthXMultiplier = imgTrackArtRoundWidthXMultiplier;
@@ -3115,8 +3108,6 @@ public class Root
          *
          * @see #getImgTrackArtRoundXMultiplier()
          * @see #initBinds() - биндинг layoutX обложки
-         * @see #imgTrackArtRoundWidthXMultiplier - коррекция размера art
-         * @see #corners - дополнительное смещение скругления
          */
         public Layout setImgTrackArtRoundXMultiplier(float imgTrackArtRoundXMultiplier) {
             this.imgTrackArtRoundXMultiplier = imgTrackArtRoundXMultiplier;
@@ -4514,6 +4505,19 @@ public class Root
     public void error(String title, String msg) {
         rootImpl.alert(title, msg, Alert.AlertType.ERROR);
     }
+
+    protected final List<IViewable> iViewableList = new ArrayList<>(List.<IViewable>of(
+            new Metadata(),
+            new NetworkHost(),
+            new AudioHost(),
+            new Settings(),
+            new TrackStatistics()
+    ));
+
+    public List<IViewable> getiViewableList() {
+        return iViewableList;
+    }
+
     /**
      * Инициализирует все UI-компоненты плеера с точной настройкой позиций, размеров и эффектов.
      *
@@ -4611,7 +4615,7 @@ public class Root
         art.setOpacity(1);
         art.setOnMouseClicked(t -> {
             if(t.getButton() == MouseButton.PRIMARY) {
-                Metadata.getInstance().prepare(PlayProcessor.playProcessor.getTracks().get(PlayProcessor.playProcessor.getTrackIter()));
+                Metadata.getInstance().setTrack(PlayProcessor.playProcessor.getTracks().get(PlayProcessor.playProcessor.getTrackIter()));
                 Metadata.getInstance().open(stage);
             }
         });
@@ -4697,7 +4701,14 @@ public class Root
 
         mainFunctions.addCenteredButton(new Commons());
         mainFunctions.getMainButton().setOnAction(e -> {
+            MainFunctionDialog agreementDialog = new MainFunctionDialog(Root.rootImpl.stage, Root.rootImpl.root);
+            agreementDialog.setDialogMaxSize(0.7, 0.85);
 
+            agreementDialog.getLeftListView().getItems().clear();
+            agreementDialog.getLeftListView().getItems().addAll(iViewableList);
+
+            agreementDialog.animationTopBorder(ColorProcessor.core.getMainClr()).play();
+            agreementDialog.show();
         });
 
         root.getChildren().add(mainFunctions);
@@ -4864,13 +4875,13 @@ public class Root
      * }
      * }</pre>
      *
-     * <p><strong>public static Runnable</strong> — переиспользуемый хук. Делает плеер
+     * <p><strong>Runnable</strong> — переиспользуемый хук. Делает плеер
      * полностью responsive без хардкода координат.</p>
      *
-     * @see Layout#rootLayout Математические коэффициенты позиционирования
-     * @see #initListViewsBinds() Дополнение для списков
+     * @see Layout Математические коэффициенты позиционирования
+     * @see Root#initListViewsBinds() Дополнение для списков
      */
-    public Runnable initBinds = () -> {
+    protected Runnable initBinds = () -> {
         art.layoutXProperty().bind(stage.widthProperty().multiply(rootLayout.getImgTrackArtRoundWidthXMultiplier()).subtract(art.widthProperty().multiply(rootLayout.getImgTrackArtRoundWidthXMultiplier())).subtract(corners * rootLayout.getImgTrackArtRoundWidthXMultiplier()));
         art.layoutYProperty().bind(stage.heightProperty().multiply(rootLayout.getImgTrackArtRoundYMultiplier()).subtract(art.heightProperty().multiply(rootLayout.getImgTrackArtRoundWidthYMultiplier())));
 
@@ -5065,7 +5076,7 @@ public class Root
      * <tr><td>{@link #btn} (Play/Pause)</td><td>{@code TOOLTIPMAINPLAY}</td></tr>
      * <tr><td>{@link #mainFunctions}</td><td>{@code TOOLTIPMAINFUNCTIONSBUTTON}</td></tr>
      * <tr><td>Поиск в плейлистах</td><td>{@code TOOLTIPPLAYLISTSEARCH}</td></tr>
-     * <tr><td>{@link #hideControlRight/Left}</td><td>{@code TOOLTIPOPENLOCAL/NETWORKPLAYLIST}</td></tr>
+     * <tr><td>{@link Root#hideControlRight}</td><td>{@code TOOLTIPOPENLOCAL/NETWORKPLAYLIST}</td></tr>
      * </table>
      *
      * <h3>Динамические tooltips (треки)</h3>
@@ -5169,7 +5180,7 @@ public class Root
      *
      * @return Готовый <code>Pane</code> со всеми компонентами
      * @see Root#init() Инициализация через singleton
-     * @see Objects#requireNonNullElseGet Double-checked ленивость
+     * @see Objects#requireNonNullElseGet(Object, Supplier)  Double-checked ленивость
      */
     public Pane getRoot() {
         return Objects.requireNonNullElseGet(root, () -> root = new Pane());
@@ -5206,8 +5217,6 @@ public class Root
      * <p><strong>public</strong> — точка входа из стартового кода. После set() и до стилей.
      * Критично для responsive поведения и native интеграции.</p>
      *
-     * @see Runnable#initBinds Лямбда с 15+ Property.bind()
-     * @see WeakConst#HWND Кэширование нативного handle
      */
     public void initBinds() {
         if(!stage.isShowing()) {
@@ -5269,7 +5278,7 @@ public class Root
      * <p><strong>private</strong> — вызывается в {@link #set()} дважды.
      * {@code resizeBackground()} обеспечивает идеальное заполнение без искажений.</p>
      *
-     * @param background {@link #background} или {@link #backgroundunder}
+     * @param background {@link #background} или {@link Root#background_under}
      * @return Настроенный ImageView (для root.getChildren().add())
      * @see #resizeBackground(ImageView) Адаптация размера
      */
@@ -5391,7 +5400,7 @@ public class Root
      * toBack(sliderBlurBackground, soundSlider.getSliderBackground());  // Под кнопками
      * }</pre>
      *
-     * <p>Симметричная пара {@link #toFront()}. Обеспечивает четкий Z-order:
+     * <p>Симметричная пара {@link Root#toFront(Node...)} ()}. Обеспечивает четкий Z-order:
      * фон → blur → UI → активные элементы.</p>
      *
      * @param a Фоновые элементы (background, Rectangle...)
@@ -5438,10 +5447,10 @@ public class Root
      * <li>Центрирование: <code>(container - fitted) / 2</code></li>
      * </ul>
      *
-     * <p><strong>private</strong> — внутренняя утилита {@link #createBackground()}.
+     * <p><strong>private</strong> — внутренняя утилита {@link Root#createBackground(ImageView)} ()}.
      * Обеспечивает responsive фон без растяжки изображения.</p>
      *
-     * @param background {@link #background} или {@link #backgroundunder}
+     * @param background {@link #background} или {@link Root#background_under}
      * @see ImageView#setPreserveRatio(boolean) Сохранение пропорций
      */
     private void resizeBackground(ImageView background) {
@@ -5511,7 +5520,6 @@ public class Root
      * Название "pantyhose" — метафора полупрозрачности.</p>
      *
      * @param regions ControlPane, PopupPane, Region...
-     * @see Background#BackgroundFill(Color, CornerRadii, Insets) Полупрозрачный фон
      */
     public void initPantyhose(Region... regions) {
         for(Region region : regions) {
@@ -5529,7 +5537,40 @@ public class Root
             )));
         }
     }
-
+    /**
+     * Полная инициализация плеера: UI + конфигурация + лицензия + биндинги.
+     *
+     * <p><strong>Главная функция старта</strong> — вызывается из {@link #getRoot()}.
+     * Координирует все подсистемы в правильном порядке.</p>
+     *
+     * <h3>Последовательность инициализации (критический порядок)</h3>
+     *
+     * <ol>
+     *   <li><strong>Конфигурация:</strong> {@link ConfigurationManager#initializeVariables(Class[])} ()}</li>
+     *   <li><strong>Интерполятор:</strong> {@link Root#general_interpolator} из настроек</li>
+     *   <li><strong>Фон:</strong> Загрузка background/backgroundunder (если настроено)</li>
+     *   <li><strong>Стили:</strong> root.css + contextmenu.css</li>
+     *   <li><strong>Эффекты:</strong> {@link #imgTrackShadow}, GaussianBlur root</li>
+     *   <li><strong>UI:</strong> {@link #set()} → создание 20+ компонентов</li>
+     *   <li><strong>Callback:</strong> {@link #onInit}.run()</li>
+     *   <li><strong>Биндинги:</strong> {@link #initBinds()} + {@link #initListViewsBinds()}</li>
+     *   <li><strong>Tooltips:</strong> {@link #initTooltips()}</li>
+     *   <li><strong>Natives:</strong> {@link Root#loadDwmApiLibrary(String)} (dwm.dll)}</li>
+     *   <li><strong>Лицензия:</strong> Проверка/показ LicenseDialog</li>
+     * </ol>
+     *
+     * <pre>{@code
+     * public void init(Pane root) {
+     *     ConfigurationManager.initializeVariables(Root.class);
+     *     // ... 200+ строк полной настройки
+     * }
+     * }</pre>
+     *
+     * <p><strong>private</strong> — точка входа для всего плеера. После init()
+     * Scene готова к {@link Stage#show()}.</p>
+     *
+     * @see #getRoot() Вызывающий метод
+     */
     public void init() {
         root = getRoot();
 
@@ -5577,46 +5618,11 @@ public class Root
         if(onInit != null)
             onInit.run();
     }
-    /**
-     * Полная инициализация плеера: UI + конфигурация + лицензия + биндинги.
-     *
-     * <p><strong>Главная функция старта</strong> — вызывается из {@link #getRoot()}.
-     * Координирует все подсистемы в правильном порядке.</p>
-     *
-     * <h3>Последовательность инициализации (критический порядок)</h3>
-     *
-     * <ol>
-     *   <li><strong>Конфигурация:</strong> {@link ConfigurationManager#initializeVariables()}</li>
-     *   <li><strong>Интерполятор:</strong> {@link #generalinterpolator} из настроек</li>
-     *   <li><strong>Фон:</strong> Загрузка background/backgroundunder (если настроено)</li>
-     *   <li><strong>Стили:</strong> root.css + contextmenu.css</li>
-     *   <li><strong>Эффекты:</strong> {@link #imgTrackShadow}, GaussianBlur root</li>
-     *   <li><strong>UI:</strong> {@link #set()} → создание 20+ компонентов</li>
-     *   <li><strong>Callback:</strong> {@link #onInit}.run()</li>
-     *   <li><strong>Биндинги:</strong> {@link #initBinds()} + {@link #initListViewsBinds()}</li>
-     *   <li><strong>Tooltips:</strong> {@link #initTooltips()}</li>
-     *   <li><strong>Natives:</strong> {@link #loadDwmApiLibrary("dwm.dll")}</li>
-     *   <li><strong>Лицензия:</strong> Проверка/показ LicenseDialog</li>
-     * </ol>
-     *
-     * <pre>{@code
-     * public void init(Pane root) {
-     *     ConfigurationManager.initializeVariables(Root.class);
-     *     // ... 200+ строк полной настройки
-     * }
-     * }</pre>
-     *
-     * <p><strong>private</strong> — точка входа для всего плеера. После init()
-     * Scene готова к {@link Stage#show()}.</p>
-     *
-     * @param root Корневой контейнер (создается в {@link #getRoot()})
-     * @see #getRoot() Вызывающий метод
-     */
+
     public void loadRectangleOfGainVolumeSlider(File file) {
-        loadSlider.runNewTask(() -> {
-            soundSlider.loadSliderBackground(file);
-        });
+        loadSlider.runNewTask(() -> soundSlider.loadSliderBackground(file));
     }
+
     /**
      * Открывает URL во внешнем браузере пользователя (Desktop API).
      *
@@ -5750,10 +5756,9 @@ public class Root
      * }</pre>
      *
      * <p><strong>public static</strong> — глобальный handler. Интегрируется с
-     * {@link SliderHandler#isHandling} флагом основной активности.</p>
+     * SliderHandler.sliderHandler.isHandling флагом основной активности.</p>
      *
      * @see SoundSlider Реальный слайдер UI
-     * @see MediaProcessor#mediaPlayer Источник времени
      */
     public static class SliderHandler {
         /**
@@ -5790,7 +5795,6 @@ public class Root
          * Связующее звено между UI-состоянием и медиа-позицией.</p>
          *
          * @see SliderHandler#initialize() Настройка событий + thread
-         * @see #isHandling Флаг активности мониторинга
          * @see SoundSlider Целевой UI-компонент
          */
         public static SliderHandler sliderHandler = new SliderHandler();
@@ -5828,7 +5832,6 @@ public class Root
          * <p><strong>public static</strong> — глобальная настройка для {@link SliderHandler}.
          * Улучшает восприятие точного управления воспроизведением.</p>
          *
-         * @see SliderHandler#worry Флаг активного drag
          * @see SoundSlider#setCursor(Cursor) Применение курсора
          */
         public Cursor cursor = Cursor.NONE;
@@ -5876,8 +5879,6 @@ public class Root
          * <p><strong>private static</strong> — внутренний флаг {@link SliderHandler}.
          * Предотвращает "борьбу" между ручным управлением и автообновлением.</p>
          *
-         * @see SliderHandler#thread Фоновая нить мониторинга
-         * @see #isHandling Глобальный флаг активности
          */
         private boolean worry;
         /**
@@ -5915,11 +5916,10 @@ public class Root
          * <tr><td>2000мс</td><td>Минимальный</td><td>Грубая</td><td>Экономия батареи</td></tr>
          * </table>
          *
-         * <p><strong>public final static</strong> — неизменяемая настройка производительности.
+         * <p><strong>public final</strong> — неизменяемая настройка производительности.
          * Доступна для тонкой настройки через config.properties.</p>
          *
-         * @see SliderHandler#thread Мониторинговая нить
-         * @see ConfigurationManager#getIntItem("slider_thread_sleep") Источник значения
+         * @see ConfigurationManager#getIntItem(String, int) Источник значения
          */
         public final int sleep = ConfigurationManager.instance.getIntItem("slider_thread_sleep", "1000");
         /**
@@ -5972,8 +5972,6 @@ public class Root
          * <p><strong>public static</strong> — точка входа для SliderHandler.
          * Автоматический запуск при инициализации singleton'а.</p>
          *
-         * @see #worry Флаг ручного управления
-         * @see #thread Фоновая задача синхронизации
          */
         public void initialize() {
             Root.rootImpl.soundSlider.setOnMousePressed((EventHandler<Event>) event -> {
@@ -6038,8 +6036,8 @@ public class Root
         /**
          * Безопасно останавливает мониторинговую нить слайдера.
          *
-         * <p>Устанавливает {@link SliderHandler#isHandling} = <code>false</code>,
-         * корректно завершая цикл {@link SliderHandler#thread} без InterruptedException.</p>
+         * <p>Устанавливает isHandling = <code>false</code>,
+         * корректно завершая цикл thread без InterruptedException.</p>
          *
          * <h3>Сценарии вызова</h3>
          *
@@ -6085,8 +6083,6 @@ public class Root
          * <p><strong>public static</strong> — точка входа для graceful shutdown.
          * Предотвращает утечки ресурсов и "зависшие" Platform.runLater вызовы.</p>
          *
-         * @see #isHandling Глобальный флаг жизненного цикла
-         * @see #thread Мониторинговая нить
          */
         public void stop() {
             Root.rootImpl.isHandling = false;
@@ -6143,10 +6139,6 @@ public class Root
          * <p><strong>public</strong> — доступ для анализа/дебаггинга.
          * {@link Thread} с lambda — современный Java 8+ подход.</p>
          *
-         * @see #sleep Интервал обновления (1000мс по умолчанию)
-         * @see SliderHandler#worry Флаг ручного управления
-         * @see SliderHandler#isHandling Флаг жизненного цикла
-         * @see Platform#runLater JavaFX Thread Safety
          */
         public Thread soundSliderThread = new Thread(() -> {
             while (Root.rootImpl.isHandling) {
@@ -6212,7 +6204,6 @@ public class Root
      *
      * @see SliderHandler Аналог для слайдера
      * @see PlaylistHandler Список/плейлист события
-     * @see KeyBindingController Модификаторы Shift/Alt/Ctrl
      */
     public static class ButtonHandler {
         /**
@@ -6259,7 +6250,6 @@ public class Root
          * Идемпотентно, безопасно для повторного вызова.</p>
          *
          * @see SliderHandler#initialize() Аналог для слайдера
-         * @see KeyBindingController#isKeyPressed() Модификаторы
          */
         public static void initialize() {
             Root.rootImpl.hideControlRight.setOnMouseClicked((EventHandler<javafx.event.Event>) event -> {
@@ -6381,9 +6371,9 @@ public class Root
     /**
      * Внутренний класс локального списка треков/плейлистов.
      *
-     * <p>Обертка над {@link PlayView&lt;Track, Playlist&gt;} для основной панели
+     * <p>Обертка над {@link Track} и {@link Playlist} для основной панели
      * (tracksListView). Управляет отображением, поиском, навигацией и drag'n'drop.
-     * Связан с {@link hideControlRight} через toggle анимацию.</p>
+     * Связан с {@link Root#hideControlRight} через toggle анимацию.</p>
      *
      * <h3>Структура компонентов</h3>
      *
@@ -6419,13 +6409,13 @@ public class Root
      * Инициализация: <code>TrackListView.set()</code>, bindings в <code>initListViewsBinds()</code>.</p>
      *
      * @see SimilarListView Близнец для похожих треков (hideControlLeft)
-     * @see PlayView&lt;Track, Playlist&gt; Базовый контейнер
+     * @see PlayView Базовый контейнер
      */
     private static class TrackListView {
         /**
          * Инициализирует {@link Root#tracksListView} как локальный TrackListView.
          *
-         * <p>Создает и настраивает {@link PlayView&lt;Track, Playlist&gt;} для основной панели:
+         * <p>Создает и настраивает {@link PlayView} для основной панели:
          * ListView треков/плейлистов, search bar, навигационные кнопки, стилизация.</p>
          *
          * <h3>Настройка компонентов</h3>
@@ -6457,7 +6447,6 @@ public class Root
          * Вызывается в {@link Root#init()}. Layout/bindings в {@link Root#initListViewsBinds()}.</p>
          *
          * @see SimilarListView#set() Сетевая панель (аналог)
-         * @see PlayView&lt;Track, Playlist&gt; Контейнер ListView'ов
          */
         public static void set() {
             Root.rootImpl.root.getChildren().add(Root.rootImpl.tracksListView);
@@ -6471,7 +6460,7 @@ public class Root
     /**
      * Внутренний класс сетевого списка похожих треков.
      *
-     * <p>Близнец {@link TrackListView} для панели "Similar" (связан с {@link hideControlLeft}).
+     * <p>Близнец {@link TrackListView} для панели "Similar" (связан с {@link Root#hideControlLeft}).
      * Отображает треки из внешних источников (Spotify, etc.) через {@link Info#similarList}.
      * Поддерживает динамический поиск и асинхронное обновление.</p>
      *
@@ -6507,7 +6496,6 @@ public class Root
      * Toggle через {@link ButtonHandler#initialize()}. Layout: слева от art.</p>
      *
      * @see TrackListView Локальный список (близнец)
-     * @see Info#similarList Источник данных (ISimilar)
      * @see Spotify#clearTasks() Асинхронная очистка
      */
     private static class SimilarListView {
