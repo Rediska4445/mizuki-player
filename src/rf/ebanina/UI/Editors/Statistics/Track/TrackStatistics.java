@@ -13,8 +13,10 @@ import rf.ebanina.UI.Editors.Viewable;
 import rf.ebanina.UI.Root;
 import rf.ebanina.UI.UI.Element.AnimationDialog;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
+import rf.ebanina.ebanina.Music;
 import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
 import rf.ebanina.ebanina.Player.Track;
+import rf.ebanina.utils.loggining.Prefix;
 
 import java.io.IOException;
 
@@ -49,9 +51,15 @@ public class TrackStatistics
 
     public void open(Stage stage, Track track) {
         try {
+            Music.mainLogger.println(Prefix.SUPPRESS, "this.track = " + this.track, stackTraceElement -> true);
+
             this.track = track;
 
+            Music.mainLogger.println(Prefix.SUPPRESS, "this.track = " + this.track, stackTraceElement -> true);
+
             Parent root = parent();
+
+            Music.mainLogger.println(Prefix.SUPPRESS, "this.track = " + this.track, stackTraceElement -> true);
 
             AnimationDialog statsDialog = new AnimationDialog(stage, Root.rootImpl.getRoot());
             statsDialog.setDialogMaxSize(0.75, 0.85);
@@ -62,6 +70,8 @@ public class TrackStatistics
             VBox.setVgrow(root, Priority.ALWAYS);
 
             statsDialog.show();
+
+            Music.mainLogger.println(Prefix.SUPPRESS, "this.track = " + this.track, stackTraceElement -> true);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -69,14 +79,23 @@ public class TrackStatistics
 
     @Override
     public Parent parent() throws IOException {
+        Music.mainLogger.println(Prefix.SUPPRESS, "this.track = " + this.track, stackTraceElement -> true);
+
         FXMLLoader loader = ResourceManager.Instance.loadFxmlLoader(
                 ResourceManager.Instance.resourcesPaths.get("FXMLTrackStatisticsPath")
         );
 
+        Music.mainLogger.println(Prefix.SUPPRESS, "this.track = " + this.track, stackTraceElement -> true);
+
         Parent root = loader.load();
+
+        Music.mainLogger.println(Prefix.SUPPRESS, "this.track = " + this.track, stackTraceElement -> true);
 
         Controller controller = loader.getController();
         controller.setTrack(track);
+        controller.initializeData();
+
+        Music.mainLogger.println(Prefix.SUPPRESS, "this.track = " + this.track, stackTraceElement -> true);
 
         this.currentController = controller;
 
@@ -85,7 +104,7 @@ public class TrackStatistics
 
     @Override
     public String name() {
-        return LocalizationManager.getLocaleString("track_statistics_title", "Tracks Statistics");
+        return LocalizationManager.getLocaleString("window_statistics_title", "Tracks Statistics");
     }
 
     @Override

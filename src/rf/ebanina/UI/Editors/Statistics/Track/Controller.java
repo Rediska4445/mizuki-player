@@ -15,6 +15,7 @@ import rf.ebanina.Network.Illegal.Similar.SoundCloud;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
 import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
 import rf.ebanina.ebanina.Player.Track;
+import rf.ebanina.utils.loggining.logging;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,10 +26,13 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.function.Supplier;
 
 import static rf.ebanina.File.Localization.LocalizationManager.getLocaleString;
 import static rf.ebanina.Network.Illegal.Similar.LastFM.LASTFM_API_KEY;
 
+//FIXME: Потоки теряют ссылку на track
+@logging(tag = "TrackStatisticsController")
 public class Controller
         implements Initializable
 {
@@ -45,13 +49,14 @@ public class Controller
     @FXML private TableColumn<StatItem, String> lastfmNameColumn, lastfmValueColumn;
     @FXML private TableColumn<StatItem, String> itunesNameColumn, itunesValueColumn;
 
-    protected Track track;
-    protected final ExecutorService executorService = Executors.newFixedThreadPool(2);
+    protected volatile Track track;
 
     public Controller setTrack(Track track) {
         this.track = track;
         return this;
     }
+
+    protected final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     public Label getTitleLabel() {
         return titleLabel;
@@ -77,14 +82,16 @@ public class Controller
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        if (track == null) {
-            track = PlayProcessor.playProcessor.getTracks()
-                    .get(PlayProcessor.playProcessor.getTrackIter());
+        setupTables();
+    }
+
+    public void initializeData() {
+        if (this.track == null) {
+            this.track = PlayProcessor.playProcessor.getCurrentTrack();
         }
 
         applyColorScheme();
 
-        setupTables();
         setupLocalTab();
         setContents();
     }
@@ -159,6 +166,7 @@ public class Controller
                 Resources.Properties.DEFAULT_CACHE_TRACKS_PATH.getKey() +
                         File.separator + FileManager.instance.name(track.getPlaylistName())
         );
+
         List<StatItem> stats = collectStats(path, track.getPath());
         localStatsTable.getItems().addAll(stats);
     }
@@ -167,35 +175,20 @@ public class Controller
         titleLabel.setText(track.getTitle());
         titleLabel.setFont(ResourceManager.Instance.loadFont("main_font", 20));
 
-        executorService.submit(() -> {
-            try {
-                TableView<StatItem> table = createSpotifyTableView();
-                Platform.runLater(() -> spotifyTable.getItems().addAll(table.getItems()));
-            } catch (Exception e) {
-                Platform.runLater(() -> spotifyTable.getItems().add(
-                        new StatItem("Error", "Failed to load Spotify data")));
-            }
-        });
+        executorService.submit(() -> loadRemoteStats("Spotify", this::createSpotifyTableView, spotifyTable));
+        executorService.submit(() -> loadRemoteStats("SoundCloud", this::createSoundCloudTableView, soundcloudTable));
+        executorService.submit(() -> loadRemoteStats("LastFM", this::createLastFMTableView, lastfmTable));
+    }
 
-        executorService.submit(() -> {
-            try {
-                TableView<StatItem> table = createSoundCloudTableView();
-                Platform.runLater(() -> soundcloudTable.getItems().addAll(table.getItems()));
-            } catch (Exception e) {
-                Platform.runLater(() -> soundcloudTable.getItems().add(
-                        new StatItem("Error", "Failed to load SoundCloud data")));
-            }
-        });
-
-        executorService.submit(() -> {
-            try {
-                TableView<StatItem> table = createLastFMTableView();
-                Platform.runLater(() -> lastfmTable.getItems().addAll(table.getItems()));
-            } catch (Exception e) {
-                Platform.runLater(() -> lastfmTable.getItems().add(
-                        new StatItem("Error", "Failed to load LastFM data")));
-            }
-        });
+    private void loadRemoteStats(String service, Supplier<TableView<StatItem>> loader,
+                                 TableView<StatItem> targetTable) {
+        try {
+            TableView<StatItem> table = loader.get();
+            Platform.runLater(() -> targetTable.getItems().addAll(table.getItems()));
+        } catch (Exception e) {
+            Platform.runLater(() -> targetTable.getItems().add(
+                    new StatItem("Error", String.format("Failed to load %s data", service))));
+        }
     }
 
     private TableView<StatItem> createLastFMTableView() {
@@ -237,6 +230,7 @@ public class Controller
 
     private TableView<StatItem> createSpotifyTableView() {
         TableView<StatItem> tableView = createDefaultTable();
+
         try {
             me.API.Album.Track track1 = Info.info.search(track.viewName());
             tableView.getItems().add(new StatItem(getLocaleString("spotify_track_statistics_title", "title"), track1.getTitle()));
@@ -262,14 +256,17 @@ public class Controller
         valueColumn.setCellValueFactory(new PropertyValueFactory<>("statValue"));
 
         tableView.getColumns().addAll(nameColumn, valueColumn);
+
         return tableView;
     }
 
     private List<StatItem> collectStats(String path, String trackName) {
         List<StatItem> list = new ArrayList<>();
+
         for(Map.Entry<String, String> entry : FileManager.instance.readArray(path, trackName, Map.of()).entrySet()) {
             list.add(new StatItem(getLocaleString("track_statistics_" + entry.getKey(), entry.getKey()), entry.getValue()));
         }
+
         return list;
     }
 
