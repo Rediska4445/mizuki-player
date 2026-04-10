@@ -1,7 +1,9 @@
 package rf.ebanina.UI.UI.Element.Text;
 
 import javafx.animation.*;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Bounds;
@@ -10,6 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.TextField;
 import javafx.scene.control.skin.TextFieldSkin;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
@@ -36,7 +39,7 @@ public class IceTextFieldSkin
 
     private double lastX = 0;
 
-    public IceTextFieldSkin(TextField control) {
+    public IceTextFieldSkin(TextField control, ObjectProperty<Color> colorProperty) {
         super(control);
 
         icePulse.setAutoReverse(true);
@@ -47,7 +50,10 @@ public class IceTextFieldSkin
         selectionRect.setArcWidth(10);
         selectionRect.setArcHeight(10);
         selectionRect.setOpacity(0);
-        selectionRect.fillProperty().bind(ColorProcessor.core.mainClrProperty());
+        selectionRect.fillProperty().bind(Bindings.createObjectBinding(() -> {
+            Color c = colorProperty.get();
+            return c == null ? Color.TRANSPARENT : c.darker();
+        }, colorProperty));
 
         targetWidth.addListener((obs, old, newValue) -> {
             Timeline t = new Timeline(new KeyFrame(Duration.millis(150),
@@ -107,13 +113,26 @@ public class IceTextFieldSkin
 
         if (highlightNode instanceof Path highlightPath && hasSelection) {
             highlightPath.setOpacity(0);
-            if (!getChildren().contains(selectionRect)) getChildren().add(0, selectionRect);
+            if (!getChildren().contains(selectionRect))
+                getChildren().add(0, selectionRect);
 
             Bounds bounds = highlightPath.getBoundsInParent();
 
+            // Явное ограничение видимости
+            Rectangle clip = new Rectangle();
+            clip.setX(0);
+            clip.setY(0);
+            clip.setWidth(w);
+            clip.setHeight(h);
+            selectionRect.setClip(clip);
+
+            double minX = Math.max(0, bounds.getMinX());
+            double maxX = Math.min(w, bounds.getMaxX());
+            double width = Math.max(0, maxX - minX);
+
             if (isFirstSelection) {
                 selectionRect.setX(bounds.getMinX());
-                selectionRect.setWidth(bounds.getWidth());
+                selectionRect.setWidth(width);
                 targetMinX.set(bounds.getMinX());
                 targetMaxX.set(bounds.getMaxX());
                 isFirstSelection = false;

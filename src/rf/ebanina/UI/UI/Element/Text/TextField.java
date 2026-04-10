@@ -66,7 +66,6 @@ public class TextField
      * <p>
      * При изменении значения свойства автоматически:
      * <ul>
-     *   <li>Обновляются CSS-стили выделения через {@link #updateSelectionColors(Color)}.</li>
      *   <li>Обновляется цвет текста через {@link #updateColor(Color)}.</li>
      * </ul>
      * </p>
@@ -127,7 +126,6 @@ public class TextField
         colorProperty = new SimpleObjectProperty<>();
         colorProperty.addListener(colorListener = (obs, oldVal, newVal) -> {
             if (newVal != null) {
-                updateSelectionColors(newVal);
                 Platform.runLater(() -> updateColor(newVal));
             }
         });
@@ -176,31 +174,7 @@ public class TextField
             fade.play();
         });
 
-        setSkin(new IceTextFieldSkin(this));
-    }
-
-    /**
-     * Обновляет CSS-стили выделения текста на основе базового цвета.
-     * <p>
-     * Вычисляет полупрозрачный цвет выделения как <code>baseColor.deriveColor(0, 0.8, 0.6, 0.5)</code>
-     * и применяет его к свойствам <code>-fx-selection-bar</code> и <code>-fx-highlight-fill</code>.
-     * </p>
-     *
-     * @param baseColor базовый цвет для вычисления оттенков выделения
-     * @see ColorProcessor#core
-     */
-    private void updateSelectionColors(Color baseColor) {
-        Color selectionColor = baseColor.deriveColor(0, 0.8, 0.6, 0.5);
-
-        String hexSelection = ColorProcessor.core.toHex(selectionColor);
-
-        setStyle(String.format(
-                "-fx-background-color: transparent; " +
-                        "-fx-selection-bar: %s; " +
-                        "-fx-selection-fill: white; " +
-                        "-fx-highlight-fill: %s;",
-                hexSelection, hexSelection
-        ));
+        setSkin(new IceTextFieldSkin(this, colorProperty));
     }
 
     /**
