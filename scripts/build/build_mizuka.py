@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+import json
 import os
 import shutil
 import subprocess
@@ -18,23 +19,21 @@ def run_command(cmd, cwd=None):
     else:
         return subprocess.run(cmd, cwd=cwd, capture_output=True, text=True).returncode == 0
 
+
 def clean_cache_selective(cache_src, cache_dst):
     """Очистка cache: оставить файлы только в корне cache/ и cache/cache/, удалить всё остальное"""
     print("Очистка cache (оставляем корень + cache/cache/)...")
 
-    # 1. Создаём структуру папок
     for root, dirs, _ in os.walk(cache_src):
         rel_path = os.path.relpath(root, cache_src)
         target_dir = os.path.join(cache_dst, rel_path)
         Path(target_dir).mkdir(parents=True, exist_ok=True)
 
-    # 2. Копируем ТОЛЬКО разрешённые файлы
     allowed_roots = {".", "cache"}  # корень и cache/cache/
 
     for root, _, files in os.walk(cache_src):
         rel_root = os.path.relpath(root, cache_src)
         if rel_root in allowed_roots:
-            # Копируем файлы из разрешённых корней
             for file in files:
                 src_file = os.path.join(root, file)
                 rel_path = os.path.relpath(src_file, cache_src)
@@ -42,21 +41,49 @@ def clean_cache_selective(cache_src, cache_dst):
                 shutil.copy2(src_file, dst_file)
                 print(f"  Копирован: {rel_path}")
         else:
-            # Игнорируем НЕразрешённые подпапки (не копируем)
             print(f"  ПРОПУЩЕНА подпапка: {rel_root}")
 
     print("Cache очищен!")
 
+
+def read_version_serial(rootdir):
+    """Читает version.serial из version.json -> version.serial"""
+    version_file = os.path.join(rootdir, "version.json")
+    if not os.path.exists(version_file):
+        print(f"ОШИБКА: version.json не найден: {version_file}")
+        return None
+
+    try:
+        with open(version_file, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+            version_info = data.get("version", {})
+            version_serial = version_info.get("serial")
+            if version_serial is None:
+                print("ОШИБКА: поле 'version.serial' не найдено в version.json")
+                print("Структура должна быть: {'version': {'serial': '1.4.10'}}")
+                return None
+            return str(version_serial)
+    except (json.JSONDecodeError, KeyError) as e:
+        print(f"ОШИБКА чтения version.json: {e}")
+        return None
+
+
 def main():
     print("=" * 47)
-    print(" Ebanina build script (Java 17)")
+    print(" Mizuka build script (Java 21)")
     print("=" * 47)
     print()
 
-    # ---- ВВОД ПУТЕЙ ----
     rootdir = input("ROOTDIR (пусто = текущая папка): ").strip()
     if not rootdir:
         rootdir = os.getcwd()
+
+    version_serial = read_version_serial(rootdir)
+    if version_serial is None:
+        input("Нажмите Enter...")
+        return 1
+
+    print(f"Используется версия: {version_serial}")
 
     manifest_file = input("MANIFEST_FILE (пусто = src/META-INF/MANIFEST.MF): ").strip()
     if not manifest_file:
@@ -75,7 +102,6 @@ def main():
     resources_path = input("RESOURCES_PATH (пусто = ROOTDIR/res): ").strip() or os.path.join(rootdir, "res")
     config_path = input("CONFIG_PATH (пусто = ROOTDIR/config): ").strip() or os.path.join(rootdir, "config")
 
-    # 🔥 ИЗМЕНЕНО: новый дефолт для cache_path
     default_cache = os.path.join(rootdir, "package", "cache")
     cache_path = input(f"CACHE_PATH (пусто = ROOTDIR/package/cache): ").strip()
     if not cache_path:
@@ -83,17 +109,24 @@ def main():
 
     license_path = input("LICENSE_PATH (пусто = ROOTDIR/license): ").strip() or os.path.join(rootdir, "license")
     libs_path = input("LIBS_PATH (пусто = ROOTDIR/libraries): ").strip() or os.path.join(rootdir, "libraries")
-    build_output = input("BUILD_OUTPUT (пусто = out): ").strip() or "out"
 
-    # 🔥 НОВОЕ: Название JAR файла
-    jar_name = input("JAR_NAME (пусто = ebanina.jar): ").strip()
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    default_out = os.path.join(script_dir, "out")
+    out_path = input(f"OUT_PATH (пусто = {default_out}): ").strip()
+    if not out_path:
+        out_path = default_out
+    else:
+        out_path = os.path.abspath(out_path)
+
+    print(f"BUILD_OUTPUT = {out_path}")
+
+    jar_name = input("JAR_NAME (пусто = mizuka.jar): ").strip()
     if not jar_name:
-        jar_name = "ebanina.jar"
+        jar_name = f"mizuka-{version_serial}.jar"
     if not jar_name.endswith('.jar'):
         jar_name += '.jar'
 
-    # Вычисляем пути
-    classes_output = os.path.join(build_output, "classes")
+    classes_output = os.path.join(out_path, "classes")
     libs_modules_path = os.path.join(libs_path, "modules")
     libs_classes_path = os.path.join(libs_path, "classes")
 
@@ -107,7 +140,7 @@ def main():
     print(f"CACHE_PATH      = {cache_path}")
     print(f"LICENSE_PATH    = {license_path}")
     print(f"LIBS_PATH       = {libs_path}")
-    print(f"BUILD_OUTPUT    = {build_output}")
+    print(f"BUILD_OUTPUT    = {out_path}")
     print(f"CLASSES_OUTPUT  = {classes_output}")
     print()
     input("Нажмите Enter для продолжения...")
@@ -115,25 +148,36 @@ def main():
     # ---- ПРОВЕРКА JAVA ----
     if not shutil.which("javac"):
         print("ОШИБКА: javac не найден в PATH.")
+        print("Убедитесь, что JDK установлен и добавлен в PATH")
         input("Нажмите Enter...")
         return 1
 
     # ---- ОЧИСТКА/СОЗДАНИЕ ПАПОК ----
-    if os.path.exists(build_output):
-        print(f"Удаление '{build_output}'...")
-        shutil.rmtree(build_output)
+    if os.path.exists(out_path):
+        print(f"Удаление '{out_path}'...")
+        shutil.rmtree(out_path)
 
     print("Создание структуры...")
-    Path(build_output).mkdir(exist_ok=True)
+    Path(out_path).mkdir(exist_ok=True)
     Path(classes_output).mkdir(exist_ok=True)
-    Path(build_output, "libraries").mkdir(exist_ok=True)
-    Path(build_output, "res").mkdir(exist_ok=True)
-    Path(build_output, "cache").mkdir(exist_ok=True)
-    Path(build_output, "license").mkdir(exist_ok=True)
-    Path(build_output, "config").mkdir(exist_ok=True)
+    Path(out_path, "libraries").mkdir(exist_ok=True)
+    Path(out_path, "res").mkdir(exist_ok=True)
+    Path(out_path, "cache").mkdir(exist_ok=True)
+    Path(out_path, "license").mkdir(exist_ok=True)
+    Path(out_path, "config").mkdir(exist_ok=True)
+
+    # Копируем version.json и README.md из корня
+    print("Копирование version.json и README.md...")
+    for src_file in ["version.json", "README.md"]:
+        src_path_full = os.path.join(rootdir, src_file)
+        if os.path.exists(src_path_full):
+            shutil.copy2(src_path_full, out_path)
+            print(f"  Копирован: {src_file}")
+        else:
+            print(f"  {src_file} не найден: {src_path_full}")
 
     # ---- СПИСОК ИСХОДНИКОВ ----
-    sources_file = os.path.join(tempfile.gettempdir(), "ebanina_sources.txt")
+    sources_file = os.path.join(tempfile.gettempdir(), "mizuka_sources.txt")
 
     java_files = list(Path(src_path).rglob("*.java"))
     if not java_files:
@@ -146,12 +190,12 @@ def main():
         for java_file in java_files:
             f.write(str(java_file) + '\n')
 
-    # ---- КОМПИЛЯЦИЯ ----
+    # ---- КОМПИЛЯЦИЯ (Java 21) ----
     classpath = f"{libs_modules_path}/*{os.pathsep}{libs_classes_path}/*"
 
-    print("Компиляция...")
+    print("Компиляция (Java 21)...")
     javac_cmd = [
-        "javac", "-source", "17", "-target", "17",
+        "javac", "-source", "21", "-target", "21",
         "-encoding", "UTF-8",
         "-d", classes_output,
         "-cp", classpath,
@@ -159,7 +203,9 @@ def main():
     ]
 
     if not run_command(javac_cmd):
-        os.unlink(sources_file)
+        print("ОШИБКА компиляции!")
+        if os.path.exists(sources_file):
+            os.unlink(sources_file)
         input("Нажмите Enter...")
         return 1
 
@@ -167,45 +213,48 @@ def main():
 
     # ---- JAR с внешним манифестом ----
     print("Создание JAR...")
-    jar_output = os.path.join(build_output, jar_name)
+    jar_output = os.path.join(out_path, jar_name)
     jar_cmd = [
         "jar", "cfm", jar_output,
         manifest_file,
         "-C", classes_output, "."
     ]
     if not run_command(jar_cmd):
+        print("ОШИБКА создания JAR!")
         input("Нажмите Enter...")
         return 1
 
     # ---- КОПИРОВАНИЕ LIBS ----
     print("Копирование libraries...")
     if os.path.exists(libs_path):
-        shutil.copytree(libs_path, os.path.join(build_output, "libraries"), dirs_exist_ok=True)
+        shutil.copytree(libs_path, os.path.join(out_path, "libraries"), dirs_exist_ok=True)
 
         # Удаление тестовых JAR
         test_patterns = ["*test*.jar", "testfx*.jar", "mockito*.jar",
                          "junit*.jar", "assertj*.jar", "byte*.jar"]
         for pattern in test_patterns:
-            for testjar in Path(build_output, "libraries").rglob(pattern):
+            for testjar in Path(out_path, "libraries").rglob(pattern):
                 try:
                     testjar.unlink()
+                    print(f"  Удалён тест: {testjar.name}")
                 except:
                     pass
 
     # Копирование остальных папок
     for src_folder, dst_folder in [
-        (resources_path, os.path.join(build_output, "res")),
-        (config_path, os.path.join(build_output, "config")),
-        (license_path, os.path.join(build_output, "license"))
+        (resources_path, os.path.join(out_path, "res")),
+        (config_path, os.path.join(out_path, "config")),
+        (license_path, os.path.join(out_path, "license"))
     ]:
         if os.path.exists(src_folder):
             shutil.copytree(src_folder, dst_folder, dirs_exist_ok=True)
+            print(f"  Скопирована папка: {os.path.basename(src_folder)}")
 
     # ---- КОПИРОВАНИЕ CACHE ----
     print("Копирование cache...")
     if os.path.exists(cache_path):
         print(f"Используется cache из: {cache_path}")
-        clean_cache_selective(cache_path, os.path.join(build_output, "cache"))
+        clean_cache_selective(cache_path, os.path.join(out_path, "cache"))
     else:
         print(f"Папка cache не найдена: {cache_path}")
 
@@ -213,16 +262,24 @@ def main():
     scripts_launch = os.path.join(rootdir, "scripts", "launch.bat")
     if os.path.exists(scripts_launch):
         print("Копирование launch.bat...")
-        shutil.copy2(scripts_launch, build_output)
+        shutil.copy2(scripts_launch, out_path)
     else:
         print(f"launch.bat не найден: {scripts_launch}")
 
     print()
     print("=" * 47)
     print(" СБОРКА УСПЕШНО ЗАВЕРШЕНА")
-    print(f" JAR: {build_output}/{jar_name}")
+    print(f" Папка: {out_path}/")
+    print(f" JAR: {out_path}/{jar_name}")
     print("=" * 47)
     input("Нажмите Enter для выхода...")
 
 if __name__ == "__main__":
-    sys.exit(main() or 0)
+    try:
+        sys.exit(main() or 0)
+    except KeyboardInterrupt:
+        print("\nПрервано пользователем")
+        input("Нажмите Enter для выхода...")
+    except Exception as e:
+        print(f"\nКРИТИЧЕСКАЯ ОШИБКА: {e}")
+        input("Нажмите Enter для выхода...")

@@ -6,16 +6,24 @@ import zipfile
 from datetime import datetime
 from pathlib import Path
 
-
 def zip_out_folder():
-    out_dir = Path("out")
+    # Ввод пути к папке out (дефолт: ./out)
+    default_out = Path("out")
+    out_input = input(f"Путь к папке OUT (пусто = {default_out}): ").strip()
+    out_dir = Path(out_input) if out_input else default_out
+    
     if not out_dir.exists():
-        print("ОШИБКА: папка 'out' не найдена!")
+        print(f"ОШИБКА: папка '{out_dir}' не найдена!")
         return 1
 
-    # Имя архива с датой/версией
+    # Ввод имени ZIP (дефолт: ebanina-YYYYMMDD_HHMMSS.zip)
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    zip_name = f"ebanina-{timestamp}.zip"
+    default_zip = f"ebanina-{timestamp}.zip"
+    zip_input = input(f"Имя ZIP (пусто = {default_zip}): ").strip()
+    zip_name = zip_input if zip_input else default_zip
+    
+    if zip_name and not zip_name.endswith('.zip'):
+        zip_name += '.zip'
 
     print(f"Архивируем '{out_dir}' → '{zip_name}'...")
 
@@ -28,7 +36,8 @@ def zip_out_folder():
                 zf.write(file_path, arcname)
                 print(f"  {arcname}")
 
-    print(f"ГОТОВО: {zip_name} ({os.path.getsize(zip_name)/1024/1024:.1f} MB)")
+    size_mb = os.path.getsize(zip_name) / 1024 / 1024
+    print(f"ГОТОВО: {zip_name} ({size_mb:.1f} MB)")
     return 0
 
 if __name__ == "__main__":
