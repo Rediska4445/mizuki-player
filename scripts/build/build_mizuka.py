@@ -22,19 +22,16 @@ def clean_cache_selective(cache_src, cache_dst):
     """Очистка cache: оставить файлы только в корне cache/ и cache/cache/, удалить всё остальное"""
     print("Очистка cache (оставляем корень + cache/cache/)...")
 
-    # 1. Создаём структуру папок
     for root, dirs, _ in os.walk(cache_src):
         rel_path = os.path.relpath(root, cache_src)
         target_dir = os.path.join(cache_dst, rel_path)
         Path(target_dir).mkdir(parents=True, exist_ok=True)
 
-    # 2. Копируем ТОЛЬКО разрешённые файлы
-    allowed_roots = {".", "cache"}  # корень и cache/cache/
+    allowed_roots = {".", "cache"}
 
     for root, _, files in os.walk(cache_src):
         rel_root = os.path.relpath(root, cache_src)
         if rel_root in allowed_roots:
-            # Копируем файлы из разрешённых корней
             for file in files:
                 src_file = os.path.join(root, file)
                 rel_path = os.path.relpath(src_file, cache_src)
@@ -53,7 +50,6 @@ def main():
     print("=" * 47)
     print()
 
-    # ---- ВВОД ПУТЕЙ ----
     rootdir = input("ROOTDIR (пусто = текущая папка): ").strip()
     if not rootdir:
         rootdir = os.getcwd()
@@ -75,7 +71,6 @@ def main():
     resources_path = input("RESOURCES_PATH (пусто = ROOTDIR/res): ").strip() or os.path.join(rootdir, "res")
     config_path = input("CONFIG_PATH (пусто = ROOTDIR/config): ").strip() or os.path.join(rootdir, "config")
 
-    # 🔥 ИЗМЕНЕНО: новый дефолт для cache_path
     default_cache = os.path.join(rootdir, "package", "cache")
     cache_path = input(f"CACHE_PATH (пусто = ROOTDIR/package/cache): ").strip()
     if not cache_path:
@@ -85,14 +80,12 @@ def main():
     libs_path = input("LIBS_PATH (пусто = ROOTDIR/libraries): ").strip() or os.path.join(rootdir, "libraries")
     build_output = input("BUILD_OUTPUT (пусто = out): ").strip() or "out"
 
-    # 🔥 НОВОЕ: Название JAR файла
     jar_name = input("JAR_NAME (пусто = ebanina.jar): ").strip()
     if not jar_name:
         jar_name = "ebanina.jar"
     if not jar_name.endswith('.jar'):
         jar_name += '.jar'
 
-    # Вычисляем пути
     classes_output = os.path.join(build_output, "classes")
     libs_modules_path = os.path.join(libs_path, "modules")
     libs_classes_path = os.path.join(libs_path, "classes")
@@ -112,13 +105,11 @@ def main():
     print()
     input("Нажмите Enter для продолжения...")
 
-    # ---- ПРОВЕРКА JAVA ----
     if not shutil.which("javac"):
         print("ОШИБКА: javac не найден в PATH.")
         input("Нажмите Enter...")
         return 1
 
-    # ---- ОЧИСТКА/СОЗДАНИЕ ПАПОК ----
     if os.path.exists(build_output):
         print(f"Удаление '{build_output}'...")
         shutil.rmtree(build_output)
@@ -132,7 +123,6 @@ def main():
     Path(build_output, "license").mkdir(exist_ok=True)
     Path(build_output, "config").mkdir(exist_ok=True)
 
-    # ---- СПИСОК ИСХОДНИКОВ ----
     sources_file = os.path.join(tempfile.gettempdir(), "ebanina_sources.txt")
 
     java_files = list(Path(src_path).rglob("*.java"))
@@ -146,7 +136,6 @@ def main():
         for java_file in java_files:
             f.write(str(java_file) + '\n')
 
-    # ---- КОМПИЛЯЦИЯ ----
     classpath = f"{libs_modules_path}/*{os.pathsep}{libs_classes_path}/*"
 
     print("Компиляция...")
@@ -165,7 +154,6 @@ def main():
 
     os.unlink(sources_file)
 
-    # ---- JAR с внешним манифестом ----
     print("Создание JAR...")
     jar_output = os.path.join(build_output, jar_name)
     jar_cmd = [
@@ -177,12 +165,10 @@ def main():
         input("Нажмите Enter...")
         return 1
 
-    # ---- КОПИРОВАНИЕ LIBS ----
     print("Копирование libraries...")
     if os.path.exists(libs_path):
         shutil.copytree(libs_path, os.path.join(build_output, "libraries"), dirs_exist_ok=True)
 
-        # Удаление тестовых JAR
         test_patterns = ["*test*.jar", "testfx*.jar", "mockito*.jar",
                          "junit*.jar", "assertj*.jar", "byte*.jar"]
         for pattern in test_patterns:
@@ -192,7 +178,6 @@ def main():
                 except:
                     pass
 
-    # Копирование остальных папок
     for src_folder, dst_folder in [
         (resources_path, os.path.join(build_output, "res")),
         (config_path, os.path.join(build_output, "config")),
@@ -201,7 +186,6 @@ def main():
         if os.path.exists(src_folder):
             shutil.copytree(src_folder, dst_folder, dirs_exist_ok=True)
 
-    # ---- КОПИРОВАНИЕ CACHE ----
     print("Копирование cache...")
     if os.path.exists(cache_path):
         print(f"Используется cache из: {cache_path}")
@@ -209,7 +193,6 @@ def main():
     else:
         print(f"Папка cache не найдена: {cache_path}")
 
-    # ---- LAUNCH.BAT ----
     scripts_launch = os.path.join(rootdir, "scripts", "launch.bat")
     if os.path.exists(scripts_launch):
         print("Копирование launch.bat...")
