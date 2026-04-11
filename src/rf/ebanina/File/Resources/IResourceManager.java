@@ -8,10 +8,10 @@ import javafx.scene.text.Font;
 import java.io.File;
 import java.io.IOException;
 
-public interface IResourceManager {
+public interface IResourceManager
+        extends IResource
+{
     void loadResources(String filePath);
-    <R> R loadResource(Class<R> resourceClazz, String resourceType, String resourceId, String[] extensions);
-    <R> R loadResource(String resourceId);
 
     String loadStylesheet(String name);
     String loadSVG(String id);
