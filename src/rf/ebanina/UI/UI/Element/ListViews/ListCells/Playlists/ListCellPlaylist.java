@@ -5,7 +5,6 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import rf.ebanina.File.FileManager;
@@ -24,7 +23,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -82,10 +80,6 @@ public class ListCellPlaylist<T>
             setText(null);
             setGraphic(null);
         } else {
-            ImagePattern cached = patternsMipmapCache.get(item.getPath());
-
-            cover.setFill(Objects.requireNonNullElseGet(cached, () -> new ImagePattern(defaultLogo)));
-
             initArt(item);
 
             setContextMenu(new PlaylistContextMenu(item, this));
@@ -114,50 +108,38 @@ public class ListCellPlaylist<T>
 
     private void initArt(Playlist item) {
         currentTask = exec.submit(() -> {
-            ImagePattern patternMipmap = patternsMipmapCache.get(item.getPath());
-            ImagePattern patternArt = patternsCache.get(item.getPath());
+            File firstFile = getFirstFile(item);
 
-            if(patternMipmap == null) {
-                File firstFile = getFirstFile(item);
+            final Image mipmap;
 
-                final Image mipmap;
-                final Image art;
+            final Image art;
 
-                if (firstFile != null) {
-                    Image temp = MetadataOfFile.iMetadataOfFiles.getArt(new Track(firstFile.getAbsolutePath()), 40, 40, isPreserveRatio, isSmooth);
-                    mipmap = temp == null ? defaultLogo : temp;
+            if (firstFile != null) {
+                Image temp = MetadataOfFile.iMetadataOfFiles.getArt(new Track(firstFile.getAbsolutePath()), 40, 40, isPreserveRatio, isSmooth);
+                mipmap = temp == null ? defaultLogo : temp;
 
-                    Image temp1 = MetadataOfFile.iMetadataOfFiles.getArt(new Track(firstFile.getAbsolutePath()), size, size, isPreserveRatio, isSmooth);
-                    art = temp1 == null ? defaultLogo : temp1;
-                } else {
-                    art = defaultLogo;
-                    mipmap = defaultLogo;
-                }
+                Image temp1 = MetadataOfFile.iMetadataOfFiles.getArt(new Track(firstFile.getAbsolutePath()), size, size, isPreserveRatio, isSmooth);
+                art = temp1 == null ? defaultLogo : temp1;
+            } else {
+                art = null;
 
-                patternArt = new ImagePattern(art, 0, art.getHeight() * 0.7, Math.min(getWidth(), art.getWidth()), art.getHeight(), false);
-                patternMipmap = new ImagePattern(mipmap);
-
-                patternsMipmapCache.put(item.getPath(), new ImagePattern(mipmap));
-                patternsCache.put(item.getPath(), new ImagePattern(art, 0, art.getHeight() * 0.7, Math.min(getWidth(), art.getWidth()), art.getHeight(), false));
+                mipmap = defaultLogo;
             }
 
-            final ImagePattern finalPatternArt = patternArt;
-            final ImagePattern finalPatternMipmap = patternMipmap;
-
             Platform.runLater(() -> {
-                cover.setFill(finalPatternMipmap);
+                cover.setFill(new ImagePattern(mipmap));
 
                 cover.setEffect(shadow);
                 title.setText(item.getName());
 
-                super.setBackgroundImageCentered(finalPatternArt, background);
+                super.setBackgroundImageCentered(new ImagePattern(art), background);
             });
         });
     }
 
     @Override
     protected Node createExtraInfoContent() {
-        return new VBox(3);
+        return null;
     }
 
     @Override

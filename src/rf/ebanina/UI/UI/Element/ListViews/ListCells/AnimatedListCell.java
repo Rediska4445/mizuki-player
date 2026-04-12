@@ -18,9 +18,7 @@ import javafx.util.Duration;
 import rf.ebanina.UI.Root;
 import rf.ebanina.UI.UI.Element.ListViews.ListView;
 
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.concurrent.Future;
 
 //FIXME: Пофиксить баги
 //FIXME: Редко, но фон не прогружается (дефолтный цвет вместо него)
@@ -35,28 +33,6 @@ public abstract class AnimatedListCell<T>
     protected Rectangle cover;
     // Тени для покрывала
     protected DropShadow shadow;
-    // Размер кэша
-    protected static int maxCacheSize = 25;
-    protected static final java.util.Map<String, ImagePattern> patternsCache =
-            new java.util.LinkedHashMap<>(maxCacheSize, 0.75f, true) {
-                @Override
-                protected boolean removeEldestEntry(java.util.Map.Entry<String, ImagePattern> eldest) {
-                    return size() > maxCacheSize;
-                }
-            };
-
-    protected static final java.util.Map<String, ImagePattern> patternsMipmapCache =
-            new java.util.LinkedHashMap<>(maxCacheSize, 0.75f, true) {
-                @Override
-                protected boolean removeEldestEntry(java.util.Map.Entry<String, ImagePattern> eldest) {
-                    return size() > maxCacheSize;
-                }
-            };
-    protected static final Map<String, Color> colorsCache = Collections.synchronizedMap(new LinkedHashMap<>(100, 0.75f, true) {
-        protected boolean removeEldestEntry(Map.Entry eldest) {
-            return size() > maxCacheSize;
-        }
-    });
 
     protected java.util.concurrent.Future<?> currentTask = null;
     protected java.util.concurrent.Future<?> currentBgTask = null;
@@ -75,6 +51,16 @@ public abstract class AnimatedListCell<T>
             currentTask.cancel(true);
         if (currentBgTask != null)
             currentBgTask.cancel(true);
+    }
+
+    protected boolean isActive(T item, Future<?> task) {
+        T cellItem = getItem();
+        return item == cellItem && (task != null && !task.isCancelled());
+    }
+
+    protected boolean isActive(T item) {
+        T cellItem = getItem();
+        return item == cellItem && (currentTask != null && !currentTask.isCancelled());
     }
 
     @Override

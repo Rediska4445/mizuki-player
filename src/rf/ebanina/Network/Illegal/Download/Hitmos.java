@@ -1,12 +1,10 @@
 package rf.ebanina.Network.Illegal.Download;
 
-import javafx.scene.image.Image;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import rf.ebanina.File.Configuration.ConfigurationManager;
-import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.Network.Info;
 import rf.ebanina.ebanina.Music;
 import rf.ebanina.ebanina.Player.Track;
@@ -17,38 +15,24 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-import static rf.ebanina.UI.UI.Paint.ColorProcessor.isPreserveRatio;
-import static rf.ebanina.UI.UI.Paint.ColorProcessor.isSmooth;
-
 public class Hitmos
         implements Info.IInfo
 {
-    protected static final String urlForDownload = "https://rus.hitmotop.com/search?q=";
+    protected final String url = "https://rus.hitmotop.com";
+    protected final String urlForDownload = "search?q=";
 
     @Override
     public Track getTrackDownloadLink(String track) {
-        Track at = new Track();
+        List<Track> trackList = getTracksDownloadLinksList(track, 1);
 
-        Document doc;
-
-        try {
-            doc = Jsoup.connect(urlForDownload + URLEncoder.encode(track, StandardCharsets.UTF_8)).get();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if(trackList.size() > 0) {
+            return trackList.get(0);
         }
 
-        Elements media = doc.select("#pjax-container > div.content-inner > div > ul > li:nth-child(1) > div.track__info > div > a");
-
-        for (Element src : media) {
-            at.setPath(src.getElementsByTag("a").attr("href"));
-        }
-
-        //FIXME: парсит общее время
-        at.setTotalDuraSec(125);
-
-        return at;
+        return new Track();
     }
 
+    // TODO: Make it!
     @Override
     public Track getTrackFromDownloadLink(String track) {
         Track at = new Track();
@@ -56,7 +40,7 @@ public class Hitmos
         Document doc;
 
         try {
-            doc = Jsoup.connect(urlForDownload + URLEncoder.encode(track, StandardCharsets.UTF_8)).get();
+            doc = Jsoup.connect(url + "/" + urlForDownload + URLEncoder.encode(track, StandardCharsets.UTF_8)).get();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -64,8 +48,7 @@ public class Hitmos
         Elements media = doc.select("#pjax-container > div.content-inner > div > ul > li:nth-child(1) > div.track__info > div > a");
 
         for (Element src : media) {
-            at.setPath(src.getElementsByTag("a").attr("href"));
-
+            at.setPath(url + "/" + src.getElementsByTag("a").attr("href"));
             at.setTotalDuraSec(Integer.parseInt(src.select("div.track__fulltime").text()));
         }
 
@@ -74,26 +57,35 @@ public class Hitmos
 
     @Override
     public List<Track> getTracksDownloadLinksList(String track) {
+        return getTracksDownloadLinksList(track, 35);
+    }
+
+    public List<Track> getTracksDownloadLinksList(String track, int max) {
         ArrayList<rf.ebanina.ebanina.Player.Track> A = new ArrayList<>();
 
         try {
-            Document doc = Jsoup.connect(urlForDownload + URLEncoder.encode(track, StandardCharsets.UTF_8))
+            Document doc = Jsoup.connect(url + "/" + urlForDownload + URLEncoder.encode(track, StandardCharsets.UTF_8))
                     .userAgent(Info.instance.getActiveUserAgent())
                     .timeout(ConfigurationManager.instance.getIntItem("network_pre_download_timeout", "5000"))
                     .get();
 
-            for (int i = 0; i < 50; i++) {
-                for (Element src : doc.select("#pjax-container > div.content-inner > div > ul > li:nth-child(" + i + ") > div.track__info > a")) {
-                    rf.ebanina.ebanina.Player.Track tr = new rf.ebanina.ebanina.Player.Track(
-                            doc.select("#pjax-container > div.content-inner > div > ul > li:nth-child(" + i + ") > div.track__info > div > a")
-                                    .get(0).getElementsByTag("a").attr("href"));
-                    tr.title = src.select("div.track__title").text();
-                    tr.artist = src.select("div.track__desc").text();
+            for (int i = 0; i < max; i++) {
+                Elements elements = doc.select("#pjax-container > div.content-inner > div > ul");
+
+                for(Element track1 : elements) {
+                    final String imgStyle = track1.select(".track__img").first().attr("style");
+
+                    rf.ebanina.ebanina.Player.Track tr = new rf.ebanina.ebanina.Player.Track(url + track1.select("a.track__download-btn").attr("href"));
+                    tr.title = track1.select(".track__title").first().text().trim();
+                    tr.artist = track1.select(".track__desc").first().text().trim();
+                    tr.setTotalDuraSec(Track.getFormattedTotalDuration(track1.select(".track__fulltime").first().text().trim()));
                     tr.viewName = tr.artist + " - " + tr.title;
 
-                    Image img = ResourceManager.Instance.loadImage(Info.PlayersTypes.HIT_MO.getCode(), 40, 40, isPreserveRatio, isSmooth);
+                    final String imgUrl = imgStyle.replace("background-image: url('", "").replace("');", "");
 
-                    tr.setMipmap(img);
+                    tr.metadata.put("mipmap_is_loaded", true, boolean.class);
+
+                    tr.setMipmap(Track.createMipmap(imgUrl));
                     tr.setExternalUrl(Info.PlayersTypes.HIT_MO.getCode());
                     tr.setNetty(true);
 
@@ -104,13 +96,16 @@ public class Hitmos
             Music.mainLogger.warn(e);
         }
 
-        Music.mainLogger.println(A);
-
         return A;
     }
 
     @Override
     public String toString() {
         return "Hitmos{}";
+    }
+
+    public static void main(String[] args) {
+        Hitmos hitmos = new Hitmos();
+        System.out.println(hitmos.getTrackDownloadLink("dvrst - close eyes"));
     }
 }
