@@ -6,7 +6,7 @@
 
 <div align="center">
 <span style="font-size: 36px; font-weight: bold;">Ebanina (Mizuki)</span><br>
-<sup style="font-size: 18px;">v1.4.9</sup>
+<sup style="font-size: 18px;">v1.4.10</sup>
 </div>
 
 ---
