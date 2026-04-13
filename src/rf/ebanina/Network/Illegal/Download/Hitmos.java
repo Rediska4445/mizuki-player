@@ -64,32 +64,52 @@ public class Hitmos
         ArrayList<rf.ebanina.ebanina.Player.Track> A = new ArrayList<>();
 
         try {
-            Document doc = Jsoup.connect(url + "/" + urlForDownload + URLEncoder.encode(track, StandardCharsets.UTF_8))
+            Document doc0 = Jsoup.connect(url + "/" + urlForDownload + URLEncoder.encode(track, StandardCharsets.UTF_8))
                     .userAgent(Info.instance.getActiveUserAgent())
                     .timeout(ConfigurationManager.instance.getIntItem("network_pre_download_timeout", "5000"))
                     .get();
 
-            for (int i = 0; i < max; i++) {
-                Elements elements = doc.select("#pjax-container > div.content-inner > div > ul");
+            List<String> links = new ArrayList<>(List.of(url + "/" + urlForDownload + URLEncoder.encode(track, StandardCharsets.UTF_8)));
 
-                for(Element track1 : elements) {
-                    final String imgStyle = track1.select(".track__img").first().attr("style");
+            Elements linkElements = doc0.select("ul.pagination__list a.pagination__link");
 
-                    rf.ebanina.ebanina.Player.Track tr = new rf.ebanina.ebanina.Player.Track(url + track1.select("a.track__download-btn").attr("href"));
-                    tr.title = track1.select(".track__title").first().text().trim();
-                    tr.artist = track1.select(".track__desc").first().text().trim();
-                    tr.setTotalDuraSec(Track.getFormattedTotalDuration(track1.select(".track__fulltime").first().text().trim()));
-                    tr.viewName = tr.artist + " - " + tr.title;
+            for (Element a : linkElements) {
+                String href = a.attr("href");
 
-                    final String imgUrl = imgStyle.replace("background-image: url('", "").replace("');", "");
+                if (!href.isEmpty()) {
+                    links.add(url + href);
+                }
+            }
 
-                    tr.metadata.put("mipmap_is_loaded", true, boolean.class);
+            Music.mainLogger.info(links);
 
-                    tr.setMipmap(Track.createMipmap(imgUrl));
-                    tr.setExternalUrl(Info.PlayersTypes.HIT_MO.getCode());
-                    tr.setNetty(true);
+            for (String link : links) {
+                Document doc = Jsoup.connect(link)
+                        .userAgent(Info.instance.getActiveUserAgent())
+                        .timeout(ConfigurationManager.instance.getIntItem("network_pre_download_timeout", "5000"))
+                        .get();
 
-                    A.add(tr);
+                Elements elements = doc.select("#pjax-container > div.content-inner > div > ul.tracks__list");
+
+                for(Element track0 : elements) {
+                    for(Element track1 : track0.select("ul.tracks__list > li.tracks__item")) {
+                        final String imgStyle = track1.select(".track__img").first().attr("style");
+
+                        rf.ebanina.ebanina.Player.Track tr = new rf.ebanina.ebanina.Player.Track(url + track1.select("a.track__download-btn").attr("href"));
+                        tr.title = track1.select(".track__title").first().text().trim();
+                        tr.artist = track1.select(".track__desc").first().text().trim();
+                        tr.setTotalDuraSec(Track.getFormattedTotalDuration(track1.select(".track__fulltime").first().text().trim()));
+                        tr.viewName = tr.artist + " - " + tr.title;
+
+                        final String imgUrl = imgStyle.replace("background-image: url('", "").replace("');", "");
+
+                        tr.metadata.put("mipmap_is_loaded", true, boolean.class);
+                        tr.setMipmap(Track.createMipmap(imgUrl));
+                        tr.setExternalUrl(Info.PlayersTypes.HIT_MO.getCode());
+                        tr.setNetty(true);
+
+                        A.add(tr);
+                    }
                 }
             }
         } catch (IOException e) {
@@ -104,5 +124,10 @@ public class Hitmos
         return "Hitmos{" +
                 "url='" + url + '\'' +
                 '}';
+    }
+
+    public static void main(String[] args) {
+        Hitmos hitmos = new Hitmos();
+        System.out.println(hitmos.getTracksDownloadLinksList("kute").size());
     }
 }
