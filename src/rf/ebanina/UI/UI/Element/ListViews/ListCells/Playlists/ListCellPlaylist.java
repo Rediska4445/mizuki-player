@@ -73,9 +73,6 @@ public class ListCellPlaylist<T>
     public void updateItem(Playlist item, boolean empty) {
         super.updateItem(item, empty);
 
-        if (currentTask != null)
-            currentTask.cancel(true);
-
         if (empty || item == null) {
             setText(null);
             setGraphic(null);
@@ -115,20 +112,18 @@ public class ListCellPlaylist<T>
             final Image art;
 
             if (firstFile != null) {
-                Image temp = MetadataOfFile.iMetadataOfFiles.getArt(new Track(firstFile.getAbsolutePath()), 40, 40, isPreserveRatio, isSmooth);
+                Image temp = MetadataOfFile.iMetadataOfFiles.getArt(new Track(firstFile.getAbsolutePath()), Track.mipmapSize, Track.mipmapSize, isPreserveRatio, isSmooth);
                 mipmap = temp == null ? defaultLogo : temp;
 
                 Image temp1 = MetadataOfFile.iMetadataOfFiles.getArt(new Track(firstFile.getAbsolutePath()), size, size, isPreserveRatio, isSmooth);
                 art = temp1 == null ? defaultLogo : temp1;
             } else {
-                art = null;
-
+                art = defaultLogo;
                 mipmap = defaultLogo;
             }
 
             Platform.runLater(() -> {
                 cover.setFill(new ImagePattern(mipmap));
-
                 cover.setEffect(shadow);
                 title.setText(item.getName());
 

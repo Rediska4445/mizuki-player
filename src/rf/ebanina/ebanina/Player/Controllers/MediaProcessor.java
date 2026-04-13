@@ -49,7 +49,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
-import static rf.ebanina.File.Field.fields;
 import static rf.ebanina.Network.Info.playersMap;
 import static rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor.playProcessor;
 import static rf.ebanina.ebanina.Player.Controllers.Playlist.PlaylistController.checkIndexOutOfBoundPlaylist;
@@ -1156,7 +1155,7 @@ public class MediaProcessor
                     FileManager.instance.read(
                             path.toString(),
                             playProcessor.getTracks().get(playProcessor.getTrackIter()).getPath(),
-                            fields.get(DataTypes.LIKE_MOMENT_START.code).getLocalName(),
+                            DataTypes.LIKE_MOMENT_START.code,
                             "0"))
             ));
 
@@ -1164,7 +1163,7 @@ public class MediaProcessor
                     FileManager.instance.read(
                             path.toString(),
                             playProcessor.getTracks().get(playProcessor.getTrackIter()).getPath(),
-                            fields.get(DataTypes.LIKE_MOMENT_START.code).getLocalName(),
+                            DataTypes.LIKE_MOMENT_START.code,
                             mediaPlayer.getOverDuration().toString()))
             ));
         }

@@ -20,9 +20,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-import static rf.ebanina.UI.UI.Paint.ColorProcessor.isPreserveRatio;
-import static rf.ebanina.UI.UI.Paint.ColorProcessor.isSmooth;
-
 public class Apple
         implements ISimilar
 {
@@ -98,7 +95,7 @@ public class Apple
                     track.artist = artist.replace(" - EP", "").replace(" - Single", "");
                     track.title = title.replace(" - EP", "").replace(" - Single", "");
 
-                    track.mipmap = (ResourceManager.Instance.loadImage(Info.PlayersTypes.APPLE.getCode(), 40, 40, isPreserveRatio, isSmooth));
+                    track.mipmap = Track.createMipmap(ResourceManager.Instance.loadResource(Info.PlayersTypes.APPLE.getCode()));
                     track.viewName = track.artist + " - " + track.title;
 
                     tracks.add(track);

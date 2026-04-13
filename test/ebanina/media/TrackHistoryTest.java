@@ -92,8 +92,18 @@ public class TrackHistoryTest extends ApplicationTest {
     @Test
     public void testRemoveTrackFromHistoryAndMenu() throws Exception {
         Track track = new Track("file:///music/remove.mp3");
+
+        if(history.contains(track))
+            history.remove(track);
+
         history.add(track);
+
+        System.out.println(history.contains(track));
+
         assertTrue(history.contains(track));
+
+        System.out.println(contextMenu.getItems().size());
+
         assertEquals(1, contextMenu.getItems().size());
 
         history.remove(track);

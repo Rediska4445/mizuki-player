@@ -30,13 +30,17 @@ bool EasyVst::init(const std::string& path, int sampleRate, int maxBlockSize, in
 	++_standardPluginContextRefCount;
 	_printDebug("Standard plugin context ref count incremented: " + std::to_string(_standardPluginContextRefCount));
 
-	if (!_standardPluginContext) {
+	if (!_standardPluginContext)
+	{
 		_printDebug("Creating standard plugin context...");
+
 		_standardPluginContext = owned(new HostApplication());
 		PluginContextFactory::instance().setPluginContext(_standardPluginContext);
+
 		_printDebug("Standard plugin context created and set to PluginContextFactory.");
 	}
-	else {
+	else
+	{
 		_printDebug("Standard plugin context already exists.");
 	}
 
@@ -63,66 +67,93 @@ bool EasyVst::init(const std::string& path, int sampleRate, int maxBlockSize, in
 
 	std::string error;
 	_module = VST3::Hosting::Module::create(path, error);
-	if (!_module) {
+
+	if (!_module)
+	{
 		_printError("Failed to create module for path: " + path + ". Error: " + error);
 		return false;
 	}
+
 	_printDebug("Module created successfully for path: " + path);
 
 	VST3::Hosting::PluginFactory factory = _module->getFactory();
+
 	_printDebug("Got plugin factory from module.");
 
 	bool audioEffectClassFound = false;
+
 	for (auto& classInfo : factory.classInfos()) {
 		_printDebug("Checking class: " + classInfo.name() + ", category: " + classInfo.category() + ", vendor: " + classInfo.vendor() + ", version: " + classInfo.version());
+
 		EasyVst::_classInfo = classInfo;
 
-		if (classInfo.category() == kVstAudioEffectClass) {
+		if (classInfo.category() == kVstAudioEffectClass)
+		{
 			audioEffectClassFound = true;
 			_printDebug("Found audio effect class: " + classInfo.name());
 
-			try {
+			try
+			{
 				_printDebug("Creating PlugProvider...");
 				_plugProvider = owned(new PlugProvider(factory, classInfo, true));
-				if (!_plugProvider) {
+
+				if (!_plugProvider)
+				{
 					_printError("No PlugProvider found for class: " + classInfo.name());
 					return false;
 				}
-				_printDebug("PlugProvider created: " + std::to_string(reinterpret_cast<uintptr_t>(_plugProvider.get())));
 
+				_printDebug("PlugProvider created: " + std::to_string(reinterpret_cast<uintptr_t>(_plugProvider.get())));
 				_printDebug("Getting plugin component from PlugProvider...");
+
 				_vstPlug = _plugProvider->getComponent();
-				if (!_vstPlug) {
+
+				if (!_vstPlug)
+				{
 					_printError("Failed to get plugin component (nullptr).");
+
 					return false;
 				}
+
 				_printDebug("Plugin component acquired: " + std::to_string(reinterpret_cast<uintptr_t>((IComponent*)_vstPlug)));
 			}
-			catch (const std::exception& ex) {
+			catch (const std::exception& ex)
+			{
 				_printError(std::string("Exception caught while creating PlugProvider or getting component: ") + ex.what());
+
 				return false;
 			}
-			catch (...) {
+			catch (...)
+			{
 				_printError("Unknown exception caught while creating PlugProvider or getting component");
+
 				return false;
 			}
 
 			_audioEffect = nullptr;
 			tresult res = _vstPlug->queryInterface(Steinberg::Vst::IAudioProcessor::iid, (void**)&_audioEffect);
-			if (res != Steinberg::kResultOk || !_audioEffect) {
+
+			if (res != Steinberg::kResultOk || !_audioEffect)
+			{
 				_printError("Could not get IAudioProcessor interface");
 				return false;
 			}
+
 			_audioEffect->addRef();
+
 			_printDebug("IAudioProcessor interface acquired and addRef'd");
 
 			_editController = nullptr;
 			res = _plugProvider->getController()->queryInterface(Steinberg::Vst::IEditController::iid, (void**)&_editController);
-			if (res != Steinberg::kResultOk || !_editController) {
+
+			if (res != Steinberg::kResultOk || !_editController)
+			{
 				_printError("Could not get IEditController interface");
 				return false;
 			}
+
 			_editController->addRef();
+
 			_printDebug("IEditController interface acquired and addRef'd");
 
 			_editController = _plugProvider->getController();
@@ -132,16 +163,19 @@ bool EasyVst::init(const std::string& path, int sampleRate, int maxBlockSize, in
 			Steinberg::Vst::IConnectionPoint* controllerCP = nullptr;
 
 			res = _audioEffect->queryInterface(Steinberg::Vst::IConnectionPoint::iid, (void**)&processorCP);
-			if (res == Steinberg::kResultOk && processorCP) {
+			if (res == Steinberg::kResultOk && processorCP)
+			{
 				processorCP->addRef();
 			}
 
 			res = _editController->queryInterface(Steinberg::Vst::IConnectionPoint::iid, (void**)&controllerCP);
-			if (res == Steinberg::kResultOk && controllerCP) {
+			if (res == Steinberg::kResultOk && controllerCP)
+			{
 				controllerCP->addRef();
 			}
 
-			if (processorCP && controllerCP) {
+			if (processorCP && controllerCP)
+			{
 				processorCP->connect(controllerCP);
 				controllerCP->connect(processorCP);
 
@@ -150,12 +184,15 @@ bool EasyVst::init(const std::string& path, int sampleRate, int maxBlockSize, in
 
 				_printDebug("Processor and controller connected via IConnectionPoint.");
 			}
-			else {
+			else
+			{
 				_printDebug("IConnectionPoint interface not supported by processor or controller.");
 			}
 
-			if (processorCP) processorCP->release();
-			if (controllerCP) controllerCP->release();
+			if (processorCP)
+				processorCP->release();
+			if (controllerCP)
+				controllerCP->release();
 
 			_numInAudioBuses = _vstPlug->getBusCount(MediaTypes::kAudio, BusDirections::kInput);
 			_numOutAudioBuses = _vstPlug->getBusCount(MediaTypes::kAudio, BusDirections::kOutput);
@@ -167,27 +204,37 @@ bool EasyVst::init(const std::string& path, int sampleRate, int maxBlockSize, in
 			_inSpeakerArrs.clear();
 			_outSpeakerArrs.clear();
 
-			for (int i = 0; i < _numInAudioBuses; ++i) {
+			for (int i = 0; i < _numInAudioBuses; ++i)
+			{
 				BusInfo info;
 				auto result = _vstPlug->getBusInfo(kAudio, kInput, i, info);
-				if (result == kResultOk) {
+
+				if (result == kResultOk)
+				{
 					_inAudioBusInfos.push_back(info);
 					_vstPlug->activateBus(kAudio, kInput, i, true);
 					SpeakerArrangement arr;
-					if (_audioEffect->getBusArrangement(kInput, i, arr) == kResultOk) {
+
+					if (_audioEffect->getBusArrangement(kInput, i, arr) == kResultOk)
+					{
 						_inSpeakerArrs.push_back(arr);
 					}
 				}
 			}
 
-			for (int i = 0; i < _numOutAudioBuses; ++i) {
+			for (int i = 0; i < _numOutAudioBuses; ++i)
+			{
 				BusInfo info;
 				auto result = _vstPlug->getBusInfo(kAudio, kOutput, i, info);
-				if (result == kResultOk) {
+
+				if (result == kResultOk)
+				{
 					_outAudioBusInfos.push_back(info);
 					_vstPlug->activateBus(kAudio, kOutput, i, true);
 					SpeakerArrangement arr;
-					if (_audioEffect->getBusArrangement(kOutput, i, arr) == kResultOk) {
+
+					if (_audioEffect->getBusArrangement(kOutput, i, arr) == kResultOk)
+					{
 						_outSpeakerArrs.push_back(arr);
 					}
 				}
@@ -195,12 +242,14 @@ bool EasyVst::init(const std::string& path, int sampleRate, int maxBlockSize, in
 
 			_audioEffect->setBusArrangements(
 				_inSpeakerArrs.data(), static_cast<uint32>(_numInAudioBuses),
-				_outSpeakerArrs.data(), static_cast<uint32>(_numOutAudioBuses));
+				_outSpeakerArrs.data(), static_cast<uint32>(_numOutAudioBuses)
+			);
 
 			_vstPlug->setActive(true);
 
 			tresult res1 = _audioEffect->setupProcessing(_processSetup);
-			if (res1 != kResultOk) {
+			if (res1 != kResultOk)
+			{
 				_printError("Failed to setup processing, result: " + std::to_string(res1));
 				return false;
 			}
@@ -209,24 +258,33 @@ bool EasyVst::init(const std::string& path, int sampleRate, int maxBlockSize, in
 			_processData = {};
 			_processData.prepare(*_vstPlug, _maxBlockSize, _processSetup.symbolicSampleSize);
 
-			if (!_processData.inputs) {
+			if (!_processData.inputs)
+			{
 				_processData.inputs = new AudioBusBuffers[_numInAudioBuses];
-				for (int i = 0; i < _numInAudioBuses; ++i) {
+				for (int i = 0; i < _numInAudioBuses; ++i)
+				{
 					int numChannels = _inAudioBusInfos[i].channelCount;
 					_processData.inputs[i].numChannels = numChannels;
 					_processData.inputs[i].channelBuffers32 = new Sample32 * [numChannels];
-					for (int ch = 0; ch < numChannels; ++ch) {
+
+					for (int ch = 0; ch < numChannels; ++ch)
+					{
 						_processData.inputs[i].channelBuffers32[ch] = new float[_maxBlockSize];
 					}
 				}
 			}
-			if (!_processData.outputs) {
+			if (!_processData.outputs)
+			{
 				_processData.outputs = new AudioBusBuffers[_numOutAudioBuses];
-				for (int i = 0; i < _numOutAudioBuses; ++i) {
+
+				for (int i = 0; i < _numOutAudioBuses; ++i)
+				{
 					int numChannels = _outAudioBusInfos[i].channelCount;
 					_processData.outputs[i].numChannels = numChannels;
 					_processData.outputs[i].channelBuffers32 = new Sample32 * [numChannels];
-					for (int ch = 0; ch < numChannels; ++ch) {
+
+					for (int ch = 0; ch < numChannels; ++ch)
+					{
 						_processData.outputs[i].channelBuffers32[ch] = new float[_maxBlockSize];
 					}
 				}
@@ -237,33 +295,41 @@ bool EasyVst::init(const std::string& path, int sampleRate, int maxBlockSize, in
 
 			isDestroyed = false;
 			_printDebug("Plugin '" + _name + "' initialized successfully.");
+
 			return true;
 		}
 	}
 
-	if (!audioEffectClassFound) {
+	if (!audioEffectClassFound)
+	{
 		_printError("No audio effect plugin found in factory: " + error);
 	}
+
 	return false;
 }
 
-std::string EasyVst::getVendor() const {
+std::string EasyVst::getVendor() const
+{
 	return _classInfo.vendor();
 }
 
-std::string EasyVst::getPluginName() const {
+std::string EasyVst::getPluginName() const
+{
 	return _classInfo.name();
 }
 
-std::string EasyVst::getCategory() const {
+std::string EasyVst::getCategory() const
+{
 	return _classInfo.category();
 }
 
-std::string EasyVst::getVersion() const {
+std::string EasyVst::getVersion() const
+{
 	return _classInfo.version();
 }
 
-std::string EasyVst::getSdkVersion() const {
+std::string EasyVst::getSdkVersion() const
+{
 	return _classInfo.sdkVersion();
 }
 
@@ -275,22 +341,25 @@ void EasyVst::destroy()
 
 bool EasyVst::process(float** in, float** out, int framesRead)
 {
-	if (framesRead > _maxBlockSize) {
+	if (framesRead > _maxBlockSize)
+	{
 		_printError("framesRead > _maxBlockSize");
+
 		framesRead = _maxBlockSize;
 	}
 
 	_processData.numSamples = framesRead;
 
-	if (_processorConnection) {
+	if (_processorConnection)
+	{
 		_printDebug("processorConnection is alive");
 	}
 
-	if (_controllerConnection) {
+	if (_controllerConnection)
+	{
 		_printDebug("controllerConnection is alive");
 	}
 
-	// === Обновляем ProcessContext ===
 	_processContext.sampleRate = _sampleRate;
 	_processContext.projectTimeSamples += framesRead;
 
@@ -313,59 +382,86 @@ bool EasyVst::process(float** in, float** out, int framesRead)
 	_processData.numSamples = framesRead;
 	_processData.processContext = &_processContext;
 
-	if (!_processData.inputs || !_processData.outputs) {
+	if (!_processData.inputs || !_processData.outputs)
+	{
 		_printError("ProcessData inputs or outputs buffers not set");
+
 		return false;
 	}
 
-	// === Назначение указателей ===
 	size_t inChannelOffset = 0;
-	for (int busIdx = 0; busIdx < _numInAudioBuses; ++busIdx) {
+	for (int busIdx = 0; busIdx < _numInAudioBuses; ++busIdx)
+	{
 		int numChannels = _processData.inputs[busIdx].numChannels;
-		for (int ch = 0; ch < numChannels; ++ch) {
+
+		for (int ch = 0; ch < numChannels; ++ch)
+		{
 			size_t globalChannelIndex = inChannelOffset + ch;
-			if (!in || !in[globalChannelIndex]) {
+
+			if (!in || !in[globalChannelIndex])
+			{
 				_printError("Input buffer pointer null or out-of-range for channel " + std::to_string(globalChannelIndex));
+
 				return false;
 			}
+
 			_processData.inputs[busIdx].channelBuffers32[ch] = in[globalChannelIndex];
 		}
+
 		inChannelOffset += numChannels;
 	}
 
 	size_t outChannelOffset = 0;
-	for (int busIdx = 0; busIdx < _numOutAudioBuses; ++busIdx) {
+	for (int busIdx = 0; busIdx < _numOutAudioBuses; ++busIdx)
+	{
 		int numChannels = _processData.outputs[busIdx].numChannels;
-		for (int ch = 0; ch < numChannels; ++ch) {
+
+		for (int ch = 0; ch < numChannels; ++ch)
+		{
 			size_t globalChannelIndex = outChannelOffset + ch;
-			if (!out || !out[globalChannelIndex]) {
+
+			if (!out || !out[globalChannelIndex])
+			{
 				_printError("Output buffer pointer null or out-of-range for channel " + std::to_string(globalChannelIndex));
 				return false;
 			}
+
 			_processData.outputs[busIdx].channelBuffers32[ch] = out[globalChannelIndex];
 		}
+
 		outChannelOffset += numChannels;
 	}
 
 	_printDebug("Before process call");
+
 	tresult result = _audioEffect->process(_processData);
+
 	_printDebug("After process call, result: " + std::to_string(result));
-	if (result != kResultOk) {
+
+	if (result != kResultOk)
+	{
 		_printError("VST process call failed with code: " + std::to_string(result));
 		return false;
 	}
 
-	for (int busIdx = 0; busIdx < _numInAudioBuses; ++busIdx) {
+	for (int busIdx = 0; busIdx < _numInAudioBuses; ++busIdx)
+	{
 		int numChannels = _processData.inputs[busIdx].numChannels;
-		for (int ch = 0; ch < numChannels; ++ch) {
+
+		for (int ch = 0; ch < numChannels; ++ch)
+		{
 			float* buf = _processData.inputs[busIdx].channelBuffers32[ch];
 			bool silent = true;
-			for (int i = 0; i < framesRead; ++i) {
+
+			for (int i = 0; i < framesRead; ++i)
+			{
 				if (fabsf(buf[i]) > 1e-6f) {
 					silent = false;
+
 					break;
 				}
 			}
+
 			_printDebug("Input bus " + std::to_string(busIdx) + ", ch " + std::to_string(ch) + " is " + (silent ? "silent" : "active"));
 		}
 	}
@@ -375,79 +471,101 @@ bool EasyVst::process(float** in, float** out, int framesRead)
 
 bool EasyVst::process(int numSamples)
 {
-	if (numSamples > _maxBlockSize) {
-#ifdef _DEBUG
+	if (numSamples > _maxBlockSize)
+	{
+		#ifdef _DEBUG
 		_printError("numSamples > _maxBlockSize");
-#endif
+		#endif
 		numSamples = _maxBlockSize;
 	}
 
 	_processData.numSamples = numSamples;
 	tresult result = _audioEffect->process(_processData);
-	if (result != kResultOk) {
-#ifdef _DEBUG
+
+	if (result != kResultOk)
+	{
+		#ifdef _DEBUG
 		std::cerr << "VST process failed" << std::endl;
-#endif
+		#endif
+
 		return false;
 	}
 
 	return true;
 }
- 
+
 const Steinberg::Vst::BusInfo* EasyVst::busInfo(Steinberg::Vst::MediaType type, Steinberg::Vst::BusDirection direction, int which)
 {
-	if (type == kAudio) {
-		if (direction == kInput) {
+	if (type == kAudio)
+	{
+		if (direction == kInput)
+		{
 			return &_inAudioBusInfos[which];
 		}
-		else if (direction == kOutput) {
+		else if (direction == kOutput)
+		{
 			return &_outAudioBusInfos[which];
 		}
-		else {
+		else
+		{
 			return nullptr;
 		}
 	}
-	else if (type == kEvent) {
-		if (direction == kInput) {
+	else if (type == kEvent)
+	{
+		if (direction == kInput)
+		{
 			return &_inEventBusInfos[which];
 		}
-		else if (direction == kOutput) {
+		else if (direction == kOutput)
+		{
 			return &_outEventBusInfos[which];
 		}
-		else {
+		else
+		{
 			return nullptr;
 		}
 	}
-	else {
+	else
+	{
 		return nullptr;
 	}
 }
 
 int EasyVst::numBuses(Steinberg::Vst::MediaType type, Steinberg::Vst::BusDirection direction)
 {
-	if (type == kAudio) {
-		if (direction == kInput) {
+	if (type == kAudio)
+	{
+		if (direction == kInput)
+		{
 			return _numInAudioBuses;
 		}
-		else if (direction == kOutput) {
+		else if (direction == kOutput)
+		{
 			return _numOutAudioBuses;
 		}
-		else {
+		else
+		{
 			return 0;
 		}
 	}
-	else if (type == kEvent) {
-		if (direction == kInput) {
+	else if (type == kEvent)
+	{
+		if (direction == kInput)
+		{
 			return _numInEventBuses;
 		}
-		else if (direction == kOutput) {
+		else if (direction == kOutput)
+		{
 			return _numOutEventBuses;
 		}
-		else {
+		else
+		{
 			return 0;
 		}
 	}
-	else {
+	else
+	{
 		return 0;
 	}
 }
@@ -469,52 +587,64 @@ Steinberg::Vst::ProcessContext* EasyVst::processContext()
 
 Steinberg::Vst::Sample32* EasyVst::channelBuffer32(BusDirection direction, int which)
 {
-	if (direction == kInput) {
+	if (direction == kInput)
+	{
 		return _processData.inputs->channelBuffers32[which];
 	}
-	else if (direction == kOutput) {
+	else if (direction == kOutput)
+	{
 		return _processData.outputs->channelBuffers32[which];
 	}
-	else {
+	else
+	{
 		return nullptr;
 	}
 }
 
 Steinberg::Vst::Sample64* EasyVst::channelBuffer64(BusDirection direction, int which)
 {
-	if (direction == kInput) {
+	if (direction == kInput)
+	{
 		return _processData.inputs->channelBuffers64[which];
 	}
-	else if (direction == kOutput) {
+	else if (direction == kOutput)
+	{
 		return _processData.outputs->channelBuffers64[which];
 	}
-	else {
+	else
+	{
 		return nullptr;
 	}
 }
 
 Steinberg::Vst::EventList* EasyVst::eventList(Steinberg::Vst::BusDirection direction, int which)
 {
-	if (direction == kInput) {
+	if (direction == kInput)
+	{
 		return static_cast<Steinberg::Vst::EventList*>(&_processData.inputEvents[which]);
 	}
-	else if (direction == kOutput) {
+	else if (direction == kOutput)
+	{
 		return static_cast<Steinberg::Vst::EventList*>(&_processData.outputEvents[which]);
 	}
-	else {
+	else
+	{
 		return nullptr;
 	}
 }
 
 Steinberg::Vst::ParameterChanges* EasyVst::parameterChanges(Steinberg::Vst::BusDirection direction, int which)
 {
-	if (direction == kInput) {
+	if (direction == kInput)
+	{
 		return static_cast<Steinberg::Vst::ParameterChanges*>(&_processData.inputParameterChanges[which]);
 	}
-	else if (direction == kOutput) {
+	else if (direction == kOutput)
+	{
 		return static_cast<Steinberg::Vst::ParameterChanges*>(&_processData.outputParameterChanges[which]);
 	}
-	else {
+	else
+	{
 		return nullptr;
 	}
 }
@@ -528,16 +658,19 @@ void EasyVst::_destroy(bool decrementRefCount)
 {
 	isDestroyed = true;
 
-	if (_processorConnection) {
+	if (_processorConnection)
+	{
 		_processorConnection->release();
 		_processorConnection = nullptr;
 	}
-	if (_controllerConnection) {
+	if (_controllerConnection)
+	{
 		_controllerConnection->release();
 		_controllerConnection = nullptr;
 	}
 
-	if (_audioEffect) {
+	if (_audioEffect)
+	{
 		_audioEffect->release();
 		_audioEffect = nullptr;
 	}
@@ -568,10 +701,12 @@ void EasyVst::_destroy(bool decrementRefCount)
 	_inSpeakerArrs.clear();
 	_outSpeakerArrs.clear();
 
-	if (_processData.inputEvents) {
+	if (_processData.inputEvents)
+	{
 		delete[] static_cast<Steinberg::Vst::EventList*>(_processData.inputEvents);
 	}
-	if (_processData.outputEvents) {
+	if (_processData.outputEvents)
+	{
 		delete[] static_cast<Steinberg::Vst::EventList*>(_processData.outputEvents);
 	}
 	_processData.unprepare();
@@ -588,11 +723,14 @@ void EasyVst::_destroy(bool decrementRefCount)
 	_path = "";
 	_name = "";
 
-	if (decrementRefCount) {
-		if (_standardPluginContextRefCount > 0) {
+	if (decrementRefCount)
+	{
+		if (_standardPluginContextRefCount > 0)
+		{
 			--_standardPluginContextRefCount;
 		}
-		if (_standardPluginContext && _standardPluginContextRefCount == 0) {
+		if (_standardPluginContext && _standardPluginContextRefCount == 0)
+		{
 			PluginContextFactory::instance().setPluginContext(nullptr);
 			_standardPluginContext->release();
 			delete _standardPluginContext;
@@ -672,11 +810,12 @@ Steinberg::tresult PLUGIN_API EasyVst::notify(Steinberg::Vst::IMessage* message)
 		return Steinberg::kInvalidArgument;
 
 	const char* msgID = message->getMessageID();
-	_printDebug("Message received: " + std::string(msgID ? msgID : "nullptr"));
 
+	_printDebug("Message received: " + std::string(msgID ? msgID : "nullptr"));
 	_printDebug("notify called with message ID: " + std::string(msgID ? msgID : "nullptr"));
 
-	if (_controllerConnection) {
+	if (_controllerConnection)
+	{
 		_printDebug("Forwarding message to controller: " + std::string(msgID ? msgID : "nullptr"));
 		_controllerConnection->notify(message);
 	}
@@ -697,7 +836,6 @@ int EasyVst::getNumChannelsForOutputBus(int busIndex) const
 		return 0;
 	return _outAudioBusInfos[busIndex].channelCount;
 }
-
 
 bool EasyVst::ensureWindowClassRegistered()
 {
@@ -722,8 +860,10 @@ bool EasyVst::ensureWindowClassRegistered()
 		{
 			_printError("Failed to register window class, error code: " + std::to_string(err));
 		}
+
 		return false;
 	}
+
 	return true;
 }
 
@@ -753,7 +893,6 @@ bool EasyVst::createView()
 	}
 
 	_printDebug("No existing view or window detected.");
-
 	_printDebug("Requesting editor view from edit controller...");
 
 	_view = _editController->createView(ViewType::kEditor);
@@ -786,7 +925,7 @@ bool EasyVst::createView()
 		" width=" + std::to_string(viewRect.getWidth()) +
 		" height=" + std::to_string(viewRect.getHeight()));
 
-#ifdef _WIN32
+	#ifdef _WIN32
 	tresult platformSupported = _view->isPlatformTypeSupported(Steinberg::kPlatformTypeHWND);
 
 	_printDebug("Checking HWND platform support, result: " + std::to_string(platformSupported));
@@ -931,13 +1070,15 @@ void EasyVst::setLoggingEnabled(bool enabled) {
 }
 
 void EasyVst::_printDebug(const std::string& info) {
-	if (_loggingEnabled) {
+	if (_loggingEnabled)
+	{
 		std::cout << "Debug info for VST3 plugin \"" << _path << "\": " << info << std::endl;
 	}
 }
 
 void EasyVst::_printError(const std::string& error) {
-	if (_loggingEnabled) {
+	if (_loggingEnabled)
+	{
 		std::cerr << "Error loading VST3 plugin \"" << _path << "\": " << error << std::endl;
 	}
 }

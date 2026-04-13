@@ -118,7 +118,6 @@ public class FileManager
         return t;
     }
 
-    @Override
     public File getFileFromOpenFileDialog(Stage stage) {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle(name);
@@ -252,6 +251,27 @@ public class FileManager
                 }
             }, "-100")
     ));
+
+    public Properties readProperties(String filePath) {
+        Properties props = new Properties();
+
+        try (FileInputStream fis = new FileInputStream(filePath)) {
+            props.load(fis);
+            String tmpDir = System.getProperty("java.io.tmpdir");
+
+            for (String key : props.stringPropertyNames()) {
+                String value = props.getProperty(key);
+
+                if (value != null) {
+                    props.setProperty(key, value.replace("java.io.tmpdir", tmpDir).replace("/", File.separator));
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return props;
+    }
 
     public void saveSharedData() {
         Map<String, Map<String, String>> groupedData = new HashMap<>();

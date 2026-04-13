@@ -3775,7 +3775,7 @@ public class Root
      * @see Art#setImage(Image) Точка входа для artProcessor
      * @see ConfigurationManager#getIntItem(String, int) ) Радиус скругления
      */
-    public ArtProcessor artProcessor = new ArtProcessor();
+    public ArtProcessor artProcessor;
 
     /**
      * Коэффициент "ледяного трения" для кастомного интерполятора анимаций.
@@ -4642,7 +4642,6 @@ public class Root
         soundSlider.setPrefWidth(width > art.getWidth() ? width : art.getWidth());
         soundSlider.setSize(new Dimension((int) soundSlider.getPrefWidth(), (int) soundSlider.getPrefHeight()));
         soundSlider.setInterpolator(general_interpolator);
-        soundSlider.setColor(Color.BLACK);
         soundSlider.initializeBox();
         soundSlider.setupSliderBoxAsync().start();
 
@@ -4702,7 +4701,7 @@ public class Root
         mainFunctions.addCenteredButton(new Commons());
         mainFunctions.getMainButton().setOnAction(e -> {
             MainFunctionDialog agreementDialog = new MainFunctionDialog(Root.rootImpl.stage, Root.rootImpl.root);
-            agreementDialog.setDialogMaxSize(0.7, 0.85);
+            agreementDialog.setDialogMaxSize(0.9, 0.85);
 
             agreementDialog.getLeftListView().getItems().clear();
             agreementDialog.getLeftListView().getItems().addAll(iViewableList);
@@ -4828,7 +4827,7 @@ public class Root
                 Platform.runLater(() -> root.getChildren().remove(agreementDialog));
             });
 
-            agreementDialog.setDialogMaxSize(0.7, 0.85);
+            agreementDialog.setDialogMaxSize(0.9, 0.85);
             agreementDialog.animationTopBorder(ColorProcessor.core.getMainClr()).play();
             agreementDialog.show();
         }
@@ -5578,6 +5577,7 @@ public class Root
 
         rootExecService.submit(() -> {
             rf.ebanina.UI.UI.Context.Menu.ContextMenu trackHistoryContextMenu = new rf.ebanina.UI.UI.Context.Menu.ContextMenu();
+            trackHistoryContextMenu.setHeight(200);
             trackHistoryContextMenu.setMaxHeight(500);
 
             PlayProcessor.playProcessor.setTrackHistoryGlobal(
@@ -5612,8 +5612,8 @@ public class Root
         tracksListView.getPlaylistListView().getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         soundSlider = new SoundSlider(0, 120, 0);
-
         topDataPane = new BorderPane();
+        artProcessor = new ArtProcessor();
 
         if(onInit != null)
             onInit.run();

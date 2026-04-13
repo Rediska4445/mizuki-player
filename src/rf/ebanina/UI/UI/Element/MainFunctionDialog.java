@@ -17,14 +17,14 @@ public class MainFunctionDialog
         extends AnimationDialog {
 
     protected final ListView<IViewable> leftListView = new ListView<>();
-    private final StackPane leftPane = new StackPane();
-    private final StackPane rightPane = new StackPane();
+    protected final StackPane leftPane = new StackPane();
+    protected final StackPane rightPane = new StackPane();
 
-    private final VBox rightLayout = new VBox();
-    private final VBox topSpacer = new VBox();
+    protected final VBox rightLayout = new VBox();
+    protected final VBox topSpacer = new VBox();
 
-    private final VBox modsPanel = new VBox();
-    private final ScrollPane scrollPane = new ScrollPane();
+    protected final VBox modsPanel = new VBox();
+    protected final ScrollPane scrollPane = new ScrollPane();
 
     public ListView<IViewable> getLeftListView() {
         return leftListView;

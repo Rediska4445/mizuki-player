@@ -101,11 +101,8 @@ public class Hitmos
 
     @Override
     public String toString() {
-        return "Hitmos{}";
-    }
-
-    public static void main(String[] args) {
-        Hitmos hitmos = new Hitmos();
-        System.out.println(hitmos.getTrackDownloadLink("dvrst - close eyes"));
+        return "Hitmos{" +
+                "url='" + url + '\'' +
+                '}';
     }
 }

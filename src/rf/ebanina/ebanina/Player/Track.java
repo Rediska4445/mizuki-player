@@ -29,7 +29,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static rf.ebanina.Network.Info.playersMap;
-import static rf.ebanina.UI.UI.Paint.ColorProcessor.size;
+import static rf.ebanina.UI.UI.Paint.ColorProcessor.*;
 
 /**
  * <h1>Track</h1>
@@ -556,6 +556,12 @@ public class Track
         return this;
     }
 
+    public static int mipmapSize = 40;
+
+    public static Image createMipmap(String url) {
+        return new Image(url, mipmapSize, mipmapSize, isPreserveRatio, isSmooth);
+    }
+
     /**
      * <h3>Ленивая загрузка мипмапа</h3>
      * Минималистичная обложка для списков.
@@ -837,7 +843,7 @@ public class Track
      * @return готовый мипмап стандартного размера
      */
     public Image getMipmap() {
-        return mipmap == null ? mipmap = getIndependentAlbumArt(size, size, ColorProcessor.isPreserveRatio, ColorProcessor.isSmooth) : mipmap;
+        return mipmap == null ? mipmap = getIndependentAlbumArt(mipmapSize, mipmapSize, ColorProcessor.isPreserveRatio, ColorProcessor.isSmooth) : mipmap;
     }
 
     /**

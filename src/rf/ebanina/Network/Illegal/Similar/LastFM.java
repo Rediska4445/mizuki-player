@@ -10,9 +10,6 @@ import rf.ebanina.ebanina.Player.Track;
 
 import java.util.List;
 
-import static rf.ebanina.UI.UI.Paint.ColorProcessor.isPreserveRatio;
-import static rf.ebanina.UI.UI.Paint.ColorProcessor.isSmooth;
-
 // FIXME: Не работает блять! (из рф)
 public class LastFM
         implements ISimilar
@@ -24,7 +21,7 @@ public class LastFM
         for (de.umass.lastfm.Track t : de.umass.lastfm.Track.getSimilar(track.artist, track.title, LASTFM_API_KEY)) {
             Track tr = new Track(Info.PlayersTypes.URI_NULL.getCode());
             tr.setExternalUrl(Info.PlayersTypes.LASTFM.getCode());
-            tr.mipmap = ResourceManager.Instance.loadImage(Info.PlayersTypes.LASTFM.getCode(), 40, 40, isPreserveRatio, isSmooth);
+            tr.mipmap = Track.createMipmap(ResourceManager.Instance.loadResource(Info.PlayersTypes.LASTFM.getCode()));
             tr.artist = t.getArtist();
             tr.title = t.getName();
             tr.totalDuraSec = t.getDuration();

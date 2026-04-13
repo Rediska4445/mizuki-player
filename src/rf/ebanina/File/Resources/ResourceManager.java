@@ -423,6 +423,7 @@ public class ResourceManager
 
         String lowerPath = path.toLowerCase();
         int dotIndex = lowerPath.lastIndexOf('.');
+
         if (dotIndex == -1 || dotIndex == lowerPath.length() - 1) {
             return (R) loadResource(File.class, Resources.Types.FILE, resourceId);
         }
@@ -430,25 +431,15 @@ public class ResourceManager
         String ext = lowerPath.substring(dotIndex + 1);
 
         try {
-            switch (ext) {
-                case "png":
-                case "jpg":
-                case "jpeg":
-                case "gif":
-                case "ico":
-                    return (R) loadResource(Image.class, Resources.Types.IMAGE, resourceId);
-                case "css":
-                    return (R) loadResource(String.class, Resources.Types.STYLESHEET, resourceId);
-                case "fxml":
-                    return (R) loadResource(Parent.class, Resources.Types.FXML, resourceId);
-                case "ttf":
-                case "otf":
-                    return (R) loadResource(Font.class, Resources.Types.FONT, resourceId);
-                case "svg":
-                    return (R) loadResource(String.class, Resources.Types.SVG, resourceId);
-                default:
-                    return (R) loadResource(File.class, Resources.Types.FILE, resourceId);
-            }
+            return switch (ext) {
+                case "png", "jpg", "jpeg", "gif", "ico" ->
+                        (R) loadResource(Image.class, Resources.Types.IMAGE, resourceId);
+                case "css" -> (R) loadResource(String.class, Resources.Types.STYLESHEET, resourceId);
+                case "fxml" -> (R) loadResource(Parent.class, Resources.Types.FXML, resourceId);
+                case "ttf", "otf" -> (R) loadResource(Font.class, Resources.Types.FONT, resourceId);
+                case "svg" -> (R) loadResource(String.class, Resources.Types.SVG, resourceId);
+                default -> (R) loadResource(File.class, Resources.Types.FILE, resourceId);
+            };
         } catch (ClassCastException e) {
             e.printStackTrace();
             return null;
@@ -466,7 +457,6 @@ public class ResourceManager
         if (clazz == Image.class) {
             return Resources.Types.IMAGE;
         } else if (clazz == String.class) {
-            // возможно, ресурс CSS или SVG, требует уточнения, но по умолчанию стиль
             return Resources.Types.STYLESHEET;
         } else if (clazz == Parent.class) {
             return Resources.Types.FXML;

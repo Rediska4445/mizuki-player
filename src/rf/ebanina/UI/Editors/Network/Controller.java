@@ -141,10 +141,6 @@ public class Controller
 
                         PlayProcessor.playProcessor.setTrackIter(tracks.getSelectionModel().getSelectedIndex());
 
-                        Root.rootImpl.similar.getTrackListView().getItems().clear();
-                        Root.rootImpl.similar.getTrackListView().getItems().addAll(PlayProcessor.playProcessor.getTracks());
-                        Root.rootImpl.similar.getTrackListView().getSelectionModel().select(PlayProcessor.playProcessor.getTrackIter());
-
                         Root.PlaylistHandler.playlistHandler.playlistSimilar.clear();
                         Root.PlaylistHandler.playlistHandler.playlistSimilar.addAll(PlayProcessor.playProcessor.getTracks());
                     }

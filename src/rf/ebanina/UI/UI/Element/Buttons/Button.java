@@ -14,9 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
 import javafx.util.Duration;
 
-public class Button
-        extends javafx.scene.control.Button
-{
+public abstract class Button extends javafx.scene.control.Button {
     private static final Color COLOR_BG_NORMAL_DEFAULT = Color.web("#212121");
     private static final Color COLOR_BG_HOVER_DEFAULT = Color.web("#333333");
     private static final Color COLOR_BG_PRESSED_DEFAULT = Color.web("#FDD835");
@@ -35,12 +33,12 @@ public class Button
     private Color currentBgColor;
     private Color currentIconColor;
 
-    private Color colorBgNormal = COLOR_BG_NORMAL_DEFAULT;
-    private Color colorBgHover = COLOR_BG_HOVER_DEFAULT;
-    private Color colorBgPressed = COLOR_BG_PRESSED_DEFAULT;
-    private Color colorIconNormal = COLOR_ICON_NORMAL_DEFAULT;
-    private Color colorIconHover = COLOR_ICON_HOVER_DEFAULT;
-    private Color colorIconPressed = COLOR_ICON_PRESSED_DEFAULT;
+    private SimpleObjectProperty<Color> colorBgNormal = new SimpleObjectProperty<>(COLOR_BG_NORMAL_DEFAULT);
+    private SimpleObjectProperty<Color> colorBgHover = new SimpleObjectProperty<>(COLOR_BG_HOVER_DEFAULT);
+    private SimpleObjectProperty<Color> colorBgPressed = new SimpleObjectProperty<>();
+    private SimpleObjectProperty<Color> colorIconNormal = new SimpleObjectProperty<>(COLOR_ICON_NORMAL_DEFAULT);
+    private SimpleObjectProperty<Color> colorIconHover = new SimpleObjectProperty<>(COLOR_ICON_HOVER_DEFAULT);
+    private SimpleObjectProperty<Color> colorIconPressed = new SimpleObjectProperty<>(COLOR_ICON_PRESSED_DEFAULT);
 
     private CornerRadii cornerRadii = new CornerRadii(25);
 
@@ -54,8 +52,8 @@ public class Button
         setPrefSize(BUTTON_SIZE, BUTTON_SIZE);
         setMaxSize(BUTTON_SIZE, BUTTON_SIZE);
 
-        currentBgColor = colorBgNormal;
-        currentIconColor = colorIconNormal;
+        currentBgColor = colorBgNormal.get();
+        currentIconColor = colorIconNormal.get();
 
         updateBackground(currentBgColor);
         setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
@@ -76,8 +74,8 @@ public class Button
         setPrefSize(BUTTON_SIZE, BUTTON_SIZE);
         setMaxSize(BUTTON_SIZE, BUTTON_SIZE);
 
-        currentBgColor = colorBgNormal;
-        currentIconColor = colorIconNormal;
+        currentBgColor = colorBgNormal.get();
+        currentIconColor = colorIconNormal.get();
 
         updateBackground(currentBgColor);
         setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
@@ -100,8 +98,8 @@ public class Button
         setPrefSize(BUTTON_SIZE, BUTTON_SIZE);
         setMaxSize(BUTTON_SIZE, BUTTON_SIZE);
 
-        currentBgColor = colorBgNormal;
-        currentIconColor = colorIconNormal;
+        currentBgColor = colorBgNormal.get();
+        currentIconColor = colorIconNormal.get();
 
         updateBackground(currentBgColor);
         setGraphic(icon);
@@ -120,18 +118,21 @@ public class Button
     }
 
     private void setupAnimations() {
-        setOnMouseEntered(e -> animateColors(colorBgHover, colorIconHover));
-        setOnMouseExited(e -> animateColors(colorBgNormal, colorIconNormal));
-        setOnMousePressed(e -> animateColors(colorBgPressed, colorIconPressed));
+        setOnMouseEntered(e -> animateColors(colorBgHover.get(), colorIconHover.get()));
+        setOnMouseExited(e -> animateColors(colorBgNormal.get(), colorIconNormal.get()));
+        setOnMousePressed(e -> animateColors(colorBgPressed.get(), colorIconPressed.get()));
         setOnMouseReleased(e -> {
-            if (isHover()) animateColors(colorBgHover, colorIconHover);
-            else animateColors(colorBgNormal, colorIconNormal);
+            if (isHover())
+                animateColors(colorBgHover.get(), colorIconHover.get());
+            else
+                animateColors(colorBgNormal.get(), colorIconNormal.get());
         });
     }
 
     private void animateColors(Color targetBg, Color targetIcon) {
         ObjectProperty<Color> bgProperty = new SimpleObjectProperty<>(currentBgColor);
         bgProperty.addListener((obs, oldColor, newColor) -> updateBackground(newColor));
+
         bgTimeline = new Timeline(
                 new KeyFrame(Duration.ZERO, new KeyValue(bgProperty, currentBgColor)),
                 new KeyFrame(Duration.millis(300), new KeyValue(bgProperty, targetBg, Interpolator.EASE_BOTH))
@@ -139,6 +140,7 @@ public class Button
 
         ObjectProperty<Color> iconColProperty = new SimpleObjectProperty<>(currentIconColor);
         iconColProperty.addListener((obs, oldColor, newColor) -> icon.setFill(newColor));
+
         iconTimeline = new Timeline(
                 new KeyFrame(Duration.ZERO, new KeyValue(iconColProperty, currentIconColor)),
                 new KeyFrame(Duration.millis(300), new KeyValue(iconColProperty, targetIcon, Interpolator.EASE_BOTH))
@@ -170,58 +172,74 @@ public class Button
     }
 
     public Color getColorBgNormal() {
+        return colorBgNormal.get();
+    }
+
+    public SimpleObjectProperty<Color> colorBgNormalProperty() {
         return colorBgNormal;
     }
 
     public void setColorBgNormal(Color colorBgNormal) {
-        this.colorBgNormal = colorBgNormal != null ? colorBgNormal : COLOR_BG_NORMAL_DEFAULT;
-        if (!isHover() && !isPressed()) {
-            currentBgColor = this.colorBgNormal;
-            updateBackground(currentBgColor);
-        }
+        this.colorBgNormal.set(colorBgNormal);
     }
 
     public Color getColorBgHover() {
+        return colorBgHover.get();
+    }
+
+    public SimpleObjectProperty<Color> colorBgHoverProperty() {
         return colorBgHover;
     }
 
     public void setColorBgHover(Color colorBgHover) {
-        this.colorBgHover = colorBgHover != null ? colorBgHover : COLOR_BG_HOVER_DEFAULT;
+        this.colorBgHover.set(colorBgHover);
     }
 
     public Color getColorBgPressed() {
+        return colorBgPressed.get();
+    }
+
+    public SimpleObjectProperty<Color> colorBgPressedProperty() {
         return colorBgPressed;
     }
 
     public void setColorBgPressed(Color colorBgPressed) {
-        this.colorBgPressed = colorBgPressed != null ? colorBgPressed : COLOR_BG_PRESSED_DEFAULT;
+        this.colorBgPressed.set(colorBgPressed);
     }
 
     public Color getColorIconNormal() {
+        return colorIconNormal.get();
+    }
+
+    public SimpleObjectProperty<Color> colorIconNormalProperty() {
         return colorIconNormal;
     }
 
     public void setColorIconNormal(Color colorIconNormal) {
-        this.colorIconNormal = colorIconNormal != null ? colorIconNormal : COLOR_ICON_NORMAL_DEFAULT;
-        if (!isHover() && !isPressed()) {
-            currentIconColor = this.colorIconNormal;
-            icon.setFill(currentIconColor);
-        }
+        this.colorIconNormal.set(colorIconNormal);
     }
 
     public Color getColorIconHover() {
+        return colorIconHover.get();
+    }
+
+    public SimpleObjectProperty<Color> colorIconHoverProperty() {
         return colorIconHover;
     }
 
     public void setColorIconHover(Color colorIconHover) {
-        this.colorIconHover = colorIconHover != null ? colorIconHover : COLOR_ICON_HOVER_DEFAULT;
+        this.colorIconHover.set(colorIconHover);
     }
 
     public Color getColorIconPressed() {
+        return colorIconPressed.get();
+    }
+
+    public SimpleObjectProperty<Color> colorIconPressedProperty() {
         return colorIconPressed;
     }
 
     public void setColorIconPressed(Color colorIconPressed) {
-        this.colorIconPressed = colorIconPressed != null ? colorIconPressed : COLOR_ICON_PRESSED_DEFAULT;
+        this.colorIconPressed.set(colorIconPressed);
     }
 }

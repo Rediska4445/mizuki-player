@@ -9,7 +9,6 @@ import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.paint.Paint;
 import rf.ebanina.File.Configuration.ConfigurationManager;
 import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.UI.UI.Paint.IdentifyColorAlgorithms.*;
@@ -21,8 +20,17 @@ import static rf.ebanina.utils.Math.scale;
 
 public class ColorProcessor {
     protected String color_type;
+    public static final int size = ConfigurationManager.instance.getIntItem("album_art_image_size", "200");
+    public static final boolean isSmooth = true;
+    public static final boolean isPreserveRatio = false;
 
+    public static final javafx.scene.image.Image logo = ResourceManager.Instance.loadImage("album_art_logo", size, size, isPreserveRatio, isSmooth);
+    private final ImagePattern logoPattern = new ImagePattern(logo);
     protected SimpleIntegerProperty hueProperty = new SimpleIntegerProperty(0);
+
+    public static ColorProcessor core = new ColorProcessor(ConfigurationManager.instance.getItem("album_art_get_color_type", "average"));
+
+    protected ObjectProperty<Color> mainClr = new SimpleObjectProperty<>();
 
     public ColorProcessor(String color_type) {
         this.color_type = color_type;
@@ -40,13 +48,6 @@ public class ColorProcessor {
         this.hueProperty.set(hueProperty);
     }
 
-    public static final int size = ConfigurationManager.instance.getIntItem("album_art_image_size", "200");
-    public static final boolean isSmooth = true;
-    public static final boolean isPreserveRatio = false;
-
-    public static final javafx.scene.image.Image logo = ResourceManager.Instance.loadImage("album_art_logo", size, size, isPreserveRatio, isSmooth);
-    private final ImagePattern logoPattern = new ImagePattern(logo);
-
     public ImagePattern getLogoPattern() {
         return logoPattern;
     }
@@ -59,19 +60,15 @@ public class ColorProcessor {
         return core;
     }
 
-    public static ColorProcessor core = new ColorProcessor(ConfigurationManager.instance.getItem("album_art_get_color_type", "average"));
-
-    protected ObjectProperty<Paint> mainClr = new SimpleObjectProperty<>();
-
-    public ObjectProperty<Paint> mainClrProperty() {
+    public ObjectProperty<Color> mainClrProperty() {
         return mainClr;
     }
 
     public Color getMainClr() {
-        return (Color) mainClr.get();
+        return mainClr.get();
     }
 
-    public void setMainClr(Paint mainClr) {
+    public void setMainClr(Color mainClr) {
         this.mainClr.set(mainClr);
     }
 

@@ -3,6 +3,7 @@ package rf.ebanina.ebanina.Player.Controllers;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.effect.DropShadow;
@@ -12,14 +13,12 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.util.Duration;
 import org.json.simple.parser.ParseException;
 import rf.ebanina.File.Configuration.ConfigurationManager;
 import rf.ebanina.Network.IParseAlbumArt;
 import rf.ebanina.UI.Root;
 import rf.ebanina.UI.UI.Animations;
-import rf.ebanina.UI.UI.Element.Buttons.Button;
 import rf.ebanina.UI.UI.Element.ListViews.Playlist.PlayView;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
 import rf.ebanina.ebanina.Music;
@@ -156,6 +155,34 @@ public class ArtProcessor
      * <p>Используется в {@link #initColor} и {@link #initArt}.</p>
      */
     protected final Object imageLock = new Object();
+
+    protected ObjectProperty<Color> mainClrAnimated = new SimpleObjectProperty<>();
+
+    private Timeline currentAnimation;
+
+    public ArtProcessor() {
+        core.mainClrProperty().addListener((observableValue, color, t1) -> {
+            if (currentAnimation != null) {
+                currentAnimation.stop();
+            }
+
+            currentAnimation = buildColorChange(color, t1, mainClrAnimated);
+            currentAnimation.play();
+        });
+
+        initTextFieldColorsProperty();
+    }
+
+    public void initTextFieldColorsProperty() {
+        Root.rootImpl.currentTrackName.getColorProperty().bind(mainClrAnimated);
+        Root.rootImpl.currentArtist.getColorProperty().bind(mainClrAnimated);
+        Root.rootImpl.beginTime.getColorProperty().bind(mainClrAnimated);
+        Root.rootImpl.endTime.getColorProperty().bind(mainClrAnimated);
+        Root.rootImpl.soundSlider.getColorProperty().bind(mainClrAnimated);
+        Root.rootImpl.tracksListView.getCurrentPlaylistText().getColorProperty().bind(mainClrAnimated);
+        Root.rootImpl.similar.getCurrentPlaylistText().getColorProperty().bind(mainClrAnimated);
+    }
+
     /**
      * {@inheritDoc}
      * <p>
@@ -165,10 +192,9 @@ public class ArtProcessor
      */
     @Override
     public void updateColors(Color color) {
-        updateTextsColors(color);
-        updateCheckBoxColors(color);
         updateButtonsColors(color);
     }
+
     /**
      * Обновляет цвета hover/pressed состояний всех кнопок приложения.
      * <p>
@@ -185,96 +211,72 @@ public class ArtProcessor
      * </p>
      */
     public void updateButtonsColors(Color color) {
-        Root.rootImpl.btn.setColorIconHover(color);
-        Root.rootImpl.btnNext.setColorIconHover(color);
-        Root.rootImpl.btnDown.setColorIconHover(color);
+        Root.rootImpl.btn.colorBgPressedProperty().bind(mainClrAnimated);
+        Root.rootImpl.btn.colorIconHoverProperty().bind(mainClrAnimated);
 
-        Root.rootImpl.btn.setColorBgPressed(color);
-        Root.rootImpl.btnNext.setColorBgPressed(color);
-        Root.rootImpl.btnDown.setColorBgPressed(color);
+        Root.rootImpl.btnNext.colorBgPressedProperty().bind(mainClrAnimated);
+        Root.rootImpl.btnNext.colorIconHoverProperty().bind(mainClrAnimated);
 
-        Root.rootImpl.tracksListView.getBtnPlaylist().setColorIconHover(color);
-        ((Button) Root.rootImpl.tracksListView.getBtnPlaylistNext()).setColorIconHover(color);
-        ((Button) Root.rootImpl.tracksListView.getBtnPlaylistDown()).setColorIconHover(color);
+        Root.rootImpl.btnDown.colorBgPressedProperty().bind(mainClrAnimated);
+        Root.rootImpl.btnDown.colorIconHoverProperty().bind(mainClrAnimated);
 
-        Root.rootImpl.tracksListView.getBtnPlaylist().setColorBgPressed(color);
-        ((Button) Root.rootImpl.tracksListView.getBtnPlaylistNext()).setColorBgPressed(color);
-        ((Button) Root.rootImpl.tracksListView.getBtnPlaylistDown()).setColorBgPressed(color);
+        Root.rootImpl.hideControlLeft.colorBgPressedProperty().bind(mainClrAnimated);
+        Root.rootImpl.hideControlLeft.colorIconHoverProperty().bind(mainClrAnimated);
 
-        Root.rootImpl.similar.getBtnPlaylist().setColorIconHover(color);
-        ((Button) Root.rootImpl.similar.getBtnPlaylistNext()).setColorIconHover(color);
-        ((Button) Root.rootImpl.similar.getBtnPlaylistDown()).setColorIconHover(color);
+        Root.rootImpl.hideControlRight.colorBgPressedProperty().bind(mainClrAnimated);
+        Root.rootImpl.hideControlRight.colorIconHoverProperty().bind(mainClrAnimated);
 
-        Root.rootImpl.similar.getBtnPlaylist().setColorBgPressed(color);
-        ((Button) Root.rootImpl.similar.getBtnPlaylistNext()).setColorBgPressed(color);
-        ((Button) Root.rootImpl.similar.getBtnPlaylistDown()).setColorBgPressed(color);
+        Root.rootImpl.tracksListView.getBtnPlaylist().colorBgPressedProperty().bind(mainClrAnimated);
+        Root.rootImpl.tracksListView.getBtnPlaylist().colorIconHoverProperty().bind(mainClrAnimated);
 
-        if(Root.rootImpl.mainFunctions.getMainButton() instanceof Button i) {
-            i.setColorIconHover(color);
-            i.setColorBgPressed(color);
-        }
+        Root.rootImpl.tracksListView.getBtnPlaylistNext().colorBgPressedProperty().bind(mainClrAnimated);
+        Root.rootImpl.tracksListView.getBtnPlaylistNext().colorIconHoverProperty().bind(mainClrAnimated);
 
-        Root.rootImpl.hideControlLeft.setColorIconHover(color);
-        Root.rootImpl.hideControlRight.setColorIconHover(color);
+        Root.rootImpl.tracksListView.getBtnPlaylistDown().colorBgPressedProperty().bind(mainClrAnimated);
+        Root.rootImpl.tracksListView.getBtnPlaylistDown().colorIconHoverProperty().bind(mainClrAnimated);
 
-        Root.rootImpl.hideControlLeft.setColorBgPressed(color);
-        Root.rootImpl.hideControlRight.setColorBgPressed(color);
-    }
-    /**
-     * Обновляет цвет текста чекбокса плейлиста с учетом фокуса окна.
-     * <p>
-     * <b>Логика:</b>
-     * </p>
-     * <ul>
-     *   <li>Без фокуса: мгновенная замена цвета</li>
-     *   <li>С фокусом: плавная анимация {@link #animateColorChange}</li>
-     * </ul>
-     */
-    public void updateCheckBoxColors(Color color) {
-        if(!Root.rootImpl.stage.isFocused()) {
-            Root.rootImpl.tracksListView.getBtnPlaylist().setTextFill(color);
-        } else {
-            animateColorChange(Root.rootImpl.tracksListView.getBtnPlaylist().getTextFill(), color, Root.rootImpl.tracksListView.getBtnPlaylist().textFillProperty());
-        }
-    }
-    /**
-     * Обновляет цвета текстовых элементов UI.
-     * <p>
-     * <b>FIXME:</b> Требует рефакторинга в класс Animations для унификации.
-     * </p>
-     * <p><b>Элементы:</b></p>
-     * <ul>
-     *   <li>currentArtist, currentTrackName (текущий трек)</li>
-     *   <li>beginTime, endTime (таймеры)</li>
-     *   <li>soundSlider</li>
-     *   <li>SearchBar и PlaylistText в TrackListView/Similar</li>
-     * </ul>
-     * <p><b>Логика:</b> мгновенно (без фокуса) / анимировано (с фокусом)</p>
-     */
-    protected void updateTextsColors(Color color) {
-        if(!Root.rootImpl.stage.isFocused()) {
-            Root.rootImpl.currentArtist.updateColor(color);
-            Root.rootImpl.currentTrackName.updateColor(color);
-            Root.rootImpl.beginTime.updateColor(color);
-            Root.rootImpl.endTime.updateColor(color);
-            Root.rootImpl.soundSlider.setColor(color);
+        Root.rootImpl.similar.getBtnPlaylist().colorBgPressedProperty().bind(mainClrAnimated);
+        Root.rootImpl.similar.getBtnPlaylist().colorIconHoverProperty().bind(mainClrAnimated);
 
-            Root.rootImpl.tracksListView.getCurrentPlaylistText().updateColor(color);
+        Root.rootImpl.similar.getBtnPlaylistNext().colorBgPressedProperty().bind(mainClrAnimated);
+        Root.rootImpl.similar.getBtnPlaylistNext().colorIconHoverProperty().bind(mainClrAnimated);
 
-            Root.rootImpl.similar.getCurrentPlaylistText().updateColor(color);
-        } else {
-            animateColorChange(Root.rootImpl.soundSlider.getColorProperty().get(), color, Root.rootImpl.soundSlider.getColorProperty());
-            animateColorChange(Root.rootImpl.currentArtist.getColorProperty().get(), color, Root.rootImpl.currentArtist.getColorProperty());
-            animateColorChange(Root.rootImpl.currentTrackName.getColorProperty().get(), color, Root.rootImpl.currentTrackName.getColorProperty());
-            animateColorChange(Root.rootImpl.beginTime.getColorProperty().get(), color, Root.rootImpl.beginTime.getColorProperty());
-            animateColorChange(Root.rootImpl.endTime.getColorProperty().get(), color, Root.rootImpl.endTime.getColorProperty());
+        Root.rootImpl.similar.getBtnPlaylistDown().colorBgPressedProperty().bind(mainClrAnimated);
+        Root.rootImpl.similar.getBtnPlaylistDown().colorIconHoverProperty().bind(mainClrAnimated);
 
-            animateColorChange(Root.rootImpl.tracksListView.getSearchBar().getColorProperty().get(), color, Root.rootImpl.tracksListView.getSearchBar().getColorProperty());
-            animateColorChange(Root.rootImpl.tracksListView.getCurrentPlaylistText().getColorProperty().get(), color, Root.rootImpl.tracksListView.getCurrentPlaylistText().getColorProperty());
-
-            animateColorChange(Root.rootImpl.similar.getSearchBar().getColorProperty().get(), color, Root.rootImpl.similar.getSearchBar().getColorProperty());
-            animateColorChange(Root.rootImpl.similar.getCurrentPlaylistText().getColorProperty().get(), color, Root.rootImpl.similar.getCurrentPlaylistText().getColorProperty());
-        }
+//        Root.rootImpl.btnNext.setColorIconHover(color);
+//        Root.rootImpl.btnDown.setColorIconHover(color);
+//
+//        Root.rootImpl.btn.setColorBgPressed(color);
+//        Root.rootImpl.btnNext.setColorBgPressed(color);
+//        Root.rootImpl.btnDown.setColorBgPressed(color);
+//
+//        Root.rootImpl.tracksListView.getBtnPlaylist().setColorIconHover(color);
+//        ((Button) Root.rootImpl.tracksListView.getBtnPlaylistNext()).setColorIconHover(color);
+//        ((Button) Root.rootImpl.tracksListView.getBtnPlaylistDown()).setColorIconHover(color);
+//
+//        Root.rootImpl.tracksListView.getBtnPlaylist().setColorBgPressed(color);
+//        ((Button) Root.rootImpl.tracksListView.getBtnPlaylistNext()).setColorBgPressed(color);
+//        ((Button) Root.rootImpl.tracksListView.getBtnPlaylistDown()).setColorBgPressed(color);
+//
+//        Root.rootImpl.similar.getBtnPlaylist().setColorIconHover(color);
+//        ((Button) Root.rootImpl.similar.getBtnPlaylistNext()).setColorIconHover(color);
+//        ((Button) Root.rootImpl.similar.getBtnPlaylistDown()).setColorIconHover(color);
+//
+//        Root.rootImpl.similar.getBtnPlaylist().setColorBgPressed(color);
+//        ((Button) Root.rootImpl.similar.getBtnPlaylistNext()).setColorBgPressed(color);
+//        ((Button) Root.rootImpl.similar.getBtnPlaylistDown()).setColorBgPressed(color);
+//
+//        if(Root.rootImpl.mainFunctions.getMainButton() instanceof Button i) {
+//            i.setColorIconHover(color);
+//            i.setColorBgPressed(color);
+//        }
+//
+//        Root.rootImpl.hideControlLeft.setColorIconHover(color);
+//        Root.rootImpl.hideControlRight.setColorIconHover(color);
+//
+//        Root.rootImpl.hideControlLeft.setColorBgPressed(color);
+//        Root.rootImpl.hideControlRight.setColorBgPressed(color);
     }
     /**
      * Создает плавную анимацию изменения цвета (250ms).
@@ -289,6 +291,14 @@ public class ArtProcessor
      * @return Timeline объект анимации
      */
     protected Timeline animateColorChange(Color startColor, Color endColor, ObjectProperty<Color> colorProperty) {
+        Timeline timeline = buildColorChange(startColor, endColor, colorProperty);
+
+        Platform.runLater(timeline::play);
+
+        return timeline;
+    }
+
+    protected Timeline buildColorChange(Color startColor, Color endColor, ObjectProperty<Color> colorProperty) {
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.ZERO, new KeyValue(colorProperty, startColor)),
                 new KeyFrame(animateColorChangeDura, new KeyValue(colorProperty, endColor))
@@ -296,28 +306,7 @@ public class ArtProcessor
 
         timeline.setOnFinished((e) -> colorProperty.set(endColor));
 
-        Platform.runLater(timeline::play);
-
         return timeline;
-    }
-    /**
-     * Создает плавную анимацию изменения Paint (Color/LinearGradient).
-     * <p>
-     * Не thread-safe: вызывается только из FX Platform thread.
-     * Используется для stroke/fill анимаций.
-     * </p>
-     *
-     * @param startColor начальный Paint
-     * @param endColor целевой Paint
-     * @param colorProperty свойство для анимации
-     */
-    protected void animateColorChange(Paint startColor, Paint endColor, ObjectProperty<Paint> colorProperty) {
-        Timeline timeline = new Timeline(
-                new KeyFrame(Duration.ZERO, new KeyValue(colorProperty, startColor)),
-                new KeyFrame(animateColorChangeDura, new KeyValue(colorProperty, endColor))
-        );
-
-        timeline.play();
     }
     /**
      * Устанавливает цвет фона root Pane с crossfade переходом.
@@ -356,12 +345,12 @@ public class ArtProcessor
 
             Timeline fadeIn = new Timeline(
                     new KeyFrame(Duration.ZERO, new KeyValue(Root.rootImpl.background.opacityProperty(), 0)),
-                    new KeyFrame(durationIn, new KeyValue(Root.rootImpl.background.opacityProperty(), 1.0))
+                    new KeyFrame(durationIn, new KeyValue(Root.rootImpl.background.opacityProperty(), 1.0, Interpolator.EASE_OUT))
             );
 
             Timeline fadeOut = new Timeline(
                     new KeyFrame(Duration.ZERO, new KeyValue(Root.rootImpl.background_under.opacityProperty(), 1.0)),
-                    new KeyFrame(durationIn, new KeyValue(Root.rootImpl.background_under.opacityProperty(), 0))
+                    new KeyFrame(durationOut, new KeyValue(Root.rootImpl.background_under.opacityProperty(), 0, Interpolator.EASE_OUT))
             );
 
             ParallelTransition parallelTransition = new ParallelTransition(fadeIn, fadeOut);

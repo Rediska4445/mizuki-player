@@ -88,8 +88,10 @@ public class Controller
 
             scrollTarget -= scrollStep;
 
-            if (scrollTarget < 0) scrollTarget = 0;
-            if (scrollTarget > 1) scrollTarget = 1;
+            if (scrollTarget < 0)
+                scrollTarget = 0;
+            if (scrollTarget > 1)
+                scrollTarget = 1;
 
             Timeline timeline = new Timeline(
                     new KeyFrame(Duration.millis(700),

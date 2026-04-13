@@ -333,8 +333,6 @@ public class ConfigurationManager
     public <T> T getItem(Class<T> type, String key, T ifNull) {
         String value = FileManager.instance.findFirstParam(key, settingsDirectoryPath, ifNull.toString());
 
-        Music.mainLogger.println("Getting config value from <T> T getItem(Class<T> type, String key, T ifNull): " + value);
-
         if (value == null)
             return ifNull;
 

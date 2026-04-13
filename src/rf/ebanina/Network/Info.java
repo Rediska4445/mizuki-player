@@ -4,12 +4,8 @@ import javafx.application.Platform;
 import rf.ebanina.Network.Illegal.Download.Hitmos;
 import rf.ebanina.Network.Illegal.Download.LightAudio;
 import rf.ebanina.Network.Illegal.Download.MusMore;
-import rf.ebanina.Network.Illegal.Similar.Apple;
-import rf.ebanina.Network.Illegal.Similar.LastFM;
-import rf.ebanina.Network.Illegal.Similar.SoundCloud;
-import rf.ebanina.Network.Illegal.Similar.Spotify;
+import rf.ebanina.Network.Illegal.Similar.*;
 import rf.ebanina.UI.Root;
-import rf.ebanina.ebanina.Music;
 import rf.ebanina.ebanina.Player.Track;
 import rf.ebanina.utils.concurrency.LonelyThreadPool;
 import rf.ebanina.utils.loggining.logging;
@@ -18,6 +14,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 @logging(tag = "NetworkHost/Info")
 public class Info {
@@ -51,6 +50,7 @@ public class Info {
         }
 
         cachedUserAgent = USER_AGENTS.getOrDefault(activeAgentKey, DEFAULT_AGENT);
+
         return cachedUserAgent;
     }
 
@@ -74,6 +74,7 @@ public class Info {
         LASTFM("lastfm"),
         SPOTIFY("spotify"),
         SOUNDCLOUD("sound_cloud"),
+        DEEZER("deezer"),
         URI_NULL("uri_null");
 
         String code;
@@ -95,6 +96,7 @@ public class Info {
 
     public static List<ISimilar> similarList = List.of(
             new Spotify(),
+            new Deezer(),
             new LastFM(),
             new Apple(),
             new SoundCloud()
@@ -104,8 +106,6 @@ public class Info {
         List<Track> res = new ArrayList<>();
 
         for(Info.IInfo info : playersMap.values()) {
-            Music.mainLogger.info("Now will be " + info);
-
             List<Track> tracks = null;
 
             try {
@@ -114,14 +114,10 @@ public class Info {
                 e.printStackTrace();
             }
 
-            Music.mainLogger.info(tracks);
-
             if(tracks != null) {
                 res.addAll(tracks);
             }
         }
-
-        Music.mainLogger.info("return");
 
         return res;
     }
@@ -158,6 +154,20 @@ public class Info {
     public void updateSimilarListAsync(String what) {
         updateSimilarListThread.runNewTask(() -> updateSimilarList(new Track(PlayersTypes.URI_NULL.getCode()).setViewName(what)));
     }
+
+    private final List<Future<?>> currentSimilarTasks = new ArrayList<>();
+
+    public void clearTasks() {
+        for (Future<?> f : currentSimilarTasks) {
+            if (!f.isDone()) {
+                f.cancel(true);
+            }
+        }
+
+        currentSimilarTasks.clear();
+    }
+
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     public void updateSimilarList(Track what) {
         if (Root.rootImpl.similar.isVisible()) {

@@ -57,14 +57,14 @@ public class IceTextFieldSkin
 
         targetWidth.addListener((obs, old, newValue) -> {
             Timeline t = new Timeline(new KeyFrame(Duration.millis(150),
-                    new KeyValue(selectionRect.widthProperty(), newValue, Interpolator.EASE_OUT)));
+                    new KeyValue(selectionRect.widthProperty(), newValue, Root.iceInterpolator)));
             t.play();
         });
 
         ChangeListener<Number> boundaryListener = (obs, old, val) -> {
-            Timeline t = new Timeline(new KeyFrame(Duration.millis(200),
-                    new KeyValue(selectionRect.xProperty(), targetMinX.get(), Interpolator.EASE_OUT),
-                    new KeyValue(selectionRect.widthProperty(), targetMaxX.get() - targetMinX.get(), Interpolator.EASE_OUT)
+            Timeline t = new Timeline(new KeyFrame(Duration.millis(150),
+                    new KeyValue(selectionRect.xProperty(), targetMinX.get(), Root.iceInterpolator),
+                    new KeyValue(selectionRect.widthProperty(), targetMaxX.get() - targetMinX.get(), Root.iceInterpolator)
             ));
             t.play();
         };
@@ -101,8 +101,8 @@ public class IceTextFieldSkin
                     double delta = lastX - currentX;
                     caret.setTranslateX(delta);
 
-                    TranslateTransition move = new TranslateTransition(Duration.millis(200), caret);
-                    move.setInterpolator(Root.iceInterpolator);
+                    TranslateTransition move = new TranslateTransition(Duration.millis(150), caret);
+                    move.setInterpolator(Interpolator.EASE_IN);
                     move.setToX(0);
                     move.play();
 
@@ -158,8 +158,10 @@ public class IceTextFieldSkin
                 if (n instanceof Path path && path.getElements().size() == 5) {
                     return n;
                 }
+
                 Node f = findHighlightNode(n);
-                if (f != null) return f;
+                if (f != null)
+                    return f;
             }
         }
 
@@ -177,8 +179,8 @@ public class IceTextFieldSkin
 
         icePulse.stop();
         icePulse.getKeyFrames().setAll(
-                new KeyFrame(Duration.ZERO, new KeyValue(caret.opacityProperty(), 1.0, Interpolator.EASE_IN)),
-                new KeyFrame(Duration.millis(750), new KeyValue(caret.opacityProperty(), 0.15, Interpolator.EASE_IN))
+                new KeyFrame(Duration.ZERO, new KeyValue(caret.opacityProperty(), 1.0, Root.iceInterpolator)),
+                new KeyFrame(Duration.millis(500), new KeyValue(caret.opacityProperty(), 0.15, Root.iceInterpolator))
         );
 
         getSkinnable().focusedProperty().addListener((obs, old, isFocused) -> {
@@ -191,7 +193,8 @@ public class IceTextFieldSkin
             }
         });
 
-        if (getSkinnable().isFocused()) icePulse.play();
+        if (getSkinnable().isFocused())
+            icePulse.play();
     }
 
     private Node findCaretNode(Node root) {
@@ -204,7 +207,8 @@ public class IceTextFieldSkin
                 }
 
                 Node found = findCaretNode(node);
-                if (found != null) return found;
+                if (found != null)
+                    return found;
             }
         }
 

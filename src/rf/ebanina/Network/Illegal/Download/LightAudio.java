@@ -1,12 +1,10 @@
 package rf.ebanina.Network.Illegal.Download;
 
-import javafx.scene.image.Image;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import rf.ebanina.File.Configuration.ConfigurationManager;
-import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.Network.Info;
 import rf.ebanina.ebanina.Music;
 import rf.ebanina.ebanina.Player.Track;
@@ -17,37 +15,20 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-import static rf.ebanina.UI.UI.Paint.ColorProcessor.isPreserveRatio;
-import static rf.ebanina.UI.UI.Paint.ColorProcessor.isSmooth;
-
 public class LightAudio
         implements Info.IInfo
 {
-    protected static final String light_audio_url = "https://web.ligaudio.ru/mp3/";
+    protected final String light_audio_url = "https://web.ligaudio.ru/mp3/";
 
     @Override
     public Track getTrackDownloadLink(String track) {
-        Track at = new Track();
+        List<Track> trackList = getTracksDownloadLinksList(track, 1);
 
-        List<Track> tr = getTracksDownloadLinksList(URLEncoder.encode(track, StandardCharsets.UTF_8));
-
-        for (Track value : tr) {
-            if (value.viewName.replace(" ", "").equalsIgnoreCase(track.replace(" ", ""))) {
-                at.setPath(value.getPath());
-                at.setTotalDuraSec(value.getTotalDuraSec());
-                return at;
-            }
+        if(trackList.size() > 0) {
+            return trackList.get(0);
         }
 
-        for (Track value : tr) {
-            if (value.viewName.replace(" ", "").toLowerCase().contains(track.replace(" ", "").toLowerCase())) {
-                at.setPath(value.getPath());
-                at.setTotalDuraSec(value.getTotalDuraSec());
-                return at;
-            }
-        }
-
-        return at;
+        return new Track();
     }
 
     @Override
@@ -74,21 +55,21 @@ public class LightAudio
 
     @Override
     public List<Track> getTracksDownloadLinksList(String c) {
+        return getTracksDownloadLinksList(c, -1);
+    }
+
+    public List<Track> getTracksDownloadLinksList(String c, int max) {
         ArrayList<rf.ebanina.ebanina.Player.Track> res = new ArrayList<>();
 
         c = URLEncoder.encode(c, StandardCharsets.UTF_8);
 
-        Music.mainLogger.info("getTracksDownloadLinksList: start for category/query = " + c);
-
         try {
             String currentUserAgent = Info.instance.getActiveUserAgent();
-            Music.mainLogger.info("Using user-agent: " + currentUserAgent);
 
             int i3 = 1;
             int i2 = 0;
 
             String urlRoot = light_audio_url + c;
-            Music.mainLogger.info("Fetching root page: " + urlRoot);
 
             Document doc = Jsoup.connect(urlRoot)
                     .userAgent(currentUserAgent)
@@ -96,7 +77,6 @@ public class LightAudio
                     .get();
 
             String linksUrl = light_audio_url + c + "/";
-            Music.mainLogger.info("Fetching links block: " + linksUrl);
 
             Elements links = Jsoup.connect(linksUrl)
                     .userAgent(currentUserAgent)
@@ -105,21 +85,23 @@ public class LightAudio
                     .getElementsByClass("item");
 
             int found = 0;
+
             try {
                 found = Integer.parseInt(doc.getElementById("main")
                         .getElementsByClass("foundnum")
                         .text()
                         .replaceAll("\\D+", ""));
-                Music.mainLogger.info("Found tracks count: " + found);
             } catch (Exception e) {
                 Music.mainLogger.warn("Could not parse found tracks count, fallback to 0", e);
             }
 
-            for (int i1 = 1; i1 < found; i1++) {
+            max += 1;
+            max = max < 0 ? found : max;
+
+            for (int i1 = 1; i1 < max; i1++) {
                 if (i2 > 39) {
                     i2 = 1;
                     String pageUrl = light_audio_url + c + "/" + i3++;
-                    Music.mainLogger.info("Fetching next page: " + pageUrl);
 
                     links = Jsoup.connect(pageUrl)
                             .userAgent(currentUserAgent)
@@ -153,20 +135,19 @@ public class LightAudio
                         .text();
                 String duraText = item.getElementsByClass("d").text();
 
+                tr.metadata.put("mipmap_is_loaded", true, boolean.class);
+
                 tr.setTitle(title);
                 tr.setArtist(artist);
                 tr.setTotalDuraSec(Track.getFormattedTotalDuration(duraText));
-                Image img = ResourceManager.Instance.loadImage(Info.PlayersTypes.LIGHT_AUDIO.getCode(), 40, 40, isPreserveRatio, isSmooth);
-                tr.setMipmap(img);
+//                Image img = ResourceManager.Instance.loadImage(Info.PlayersTypes.LIGHT_AUDIO.getCode(), 40, 40, isPreserveRatio, isSmooth);
+//                tr.setMipmap(img);
                 tr.setViewName(tr.artist + " - " + tr.title.replace("-", ""));
                 tr.setExternalUrl(Info.PlayersTypes.LIGHT_AUDIO.getCode());
 
                 res.add(tr);
                 i2++;
             }
-
-            Music.mainLogger.info("getTracksDownloadLinksList: finished, tracks parsed: " + res.size());
-
         } catch (IOException e) {
             Music.mainLogger.severe("getTracksDownloadLinksList: network error for category/query = " + c, e);
             throw new RuntimeException(e);
@@ -180,6 +161,13 @@ public class LightAudio
 
     @Override
     public String toString() {
-        return "LightAudio{}";
+        return "LightAudio{" +
+                "light_audio_url='" + light_audio_url + '\'' +
+                '}';
+    }
+
+    public static void main(String[] args) {
+        LightAudio lightAudio = new LightAudio();
+        System.out.println(lightAudio.getTrackDownloadLink("dvrst - close eyes"));
     }
 }

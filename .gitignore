@@ -24,3 +24,8 @@ session.ini
 /config/media.properties
 /config/application.properties
 /src/rf/ebanina/util/
+/mods/Ebanina-VST.jar
+/mods/ebanina-vst-ipc-host-mod/
+/mods/mizuka-youtube-downloader/
+/mods/ebanina-std-mod-controller/
+/mods/mizuka-std-background-player/

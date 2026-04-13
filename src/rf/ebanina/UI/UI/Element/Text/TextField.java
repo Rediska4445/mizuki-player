@@ -133,25 +133,6 @@ public class TextField
         textProperty().addListener((obs, oldText, newText) -> updateAlignment());
         widthProperty().addListener((obs, oldWidth, newWidth) -> updateAlignment());
 
-//        focusedProperty().addListener((obs, wasFocused, isFocused) -> {
-//            Node textNode = lookup(".text");
-//
-//            if (textNode instanceof Text t) {
-//                Color nativeColor = colorProperty.get() != null ? colorProperty.get() : Color.BLACK;
-//
-//                Color highlightColor = (nativeColor.equals(Color.BLACK) || nativeColor.getBrightness() < 0.1)
-//                        ? Color.WHITE
-//                        : nativeColor.deriveColor(0, 1.0, 1.5, 1.0);
-//
-//                if (!t.fillProperty().isBound()) {
-//                    FillTransition ft = new FillTransition(Duration.millis(400), t);
-//                    ft.setToValue(isFocused ? highlightColor : nativeColor);
-//                    ft.setInterpolator(Root.iceInterpolator);
-//                    ft.play();
-//                }
-//            }
-//        });
-
         setOnMouseEntered(e -> {
             ScaleTransition st = new ScaleTransition(Duration.millis(250), this);
             st.setInterpolator(Root.iceInterpolator);

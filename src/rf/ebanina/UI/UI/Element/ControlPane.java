@@ -128,23 +128,11 @@ public class ControlPane
 
         hoverZone.toBack();
 
-        //hoverZone.setBackground(new Background(new BackgroundFill(Color.color(0, 0, 1, 0.2), null, null))); // For debug
+        hoverZone.setOnMouseEntered(e -> animateHeight(expandedHeight, () -> animateButtonOpacity(mainButton, mainButton.getOpacity(), 1, 125)));
+        hoverZone.setOnMouseExited(e -> animateHeight(expandedHeight * COLLAPSED_HEIGHT_RATIO, () -> animateButtonOpacity(mainButton, mainButton.getOpacity(), 0, 125)));
 
-        hoverZone.setOnMouseEntered(e -> animateHeight(expandedHeight, () -> {
-            animateButtonOpacity(mainButton, mainButton.getOpacity(), 1, 125);
-        }));
-
-        hoverZone.setOnMouseExited(e -> animateHeight(expandedHeight * COLLAPSED_HEIGHT_RATIO, () -> {
-            animateButtonOpacity(mainButton, mainButton.getOpacity(), 0, 125);
-        }));
-
-        setOnMouseEntered(e -> animateHeight(expandedHeight, () -> {
-            animateButtonOpacity(mainButton, mainButton.getOpacity(), 1, 125);
-        }));
-
-        setOnMouseExited(e -> animateHeight(expandedHeight * COLLAPSED_HEIGHT_RATIO, () -> {
-            animateButtonOpacity(mainButton, mainButton.getOpacity(), 0, 125);
-        }));
+        setOnMouseEntered(e -> animateHeight(expandedHeight, () -> animateButtonOpacity(mainButton, mainButton.getOpacity(), 1, 125)));
+        setOnMouseExited(e -> animateHeight(expandedHeight * COLLAPSED_HEIGHT_RATIO, () -> animateButtonOpacity(mainButton, mainButton.getOpacity(), 0, 125)));
 
         if(root.getChildren().contains(this)) {
             root.getChildren().remove(hoverZone);

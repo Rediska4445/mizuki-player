@@ -25,6 +25,7 @@ window_title {
 }
 
 stats {
+    window_statistics_title: Статистика;
     track_statistics: Статистика треков;
     track_statistics_key: Ключевое значение статистики;
     track_statistics_value: Значение статистики;
@@ -166,5 +167,6 @@ network {
     network_host_addict_promt_text: Параметры;
 }
 
+settings_title: Настройки;
 gui_config: Настройки;
 configuration_is_zero: равен нулю;

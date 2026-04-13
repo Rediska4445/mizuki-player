@@ -25,6 +25,7 @@ window_title {
 }
 
 stats {
+    window_statistics_title: Статистика;
     track_statistics: Статистика треков;
     track_statistics_key: Ключевое значение статистики;
     track_statistics_value: Значение статистики;

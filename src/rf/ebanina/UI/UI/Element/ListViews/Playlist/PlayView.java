@@ -8,7 +8,6 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
-import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -56,8 +55,8 @@ public class PlayView<T extends Track, J extends Playlist>
     private BorderPane bottomPane;
 
     private rf.ebanina.UI.UI.Element.Buttons.Button btnPlaylist;
-    private Button btnPlaylistNext;
-    private Button btnPlaylistDown;
+    private rf.ebanina.UI.UI.Element.Buttons.Button btnPlaylistNext;
+    private rf.ebanina.UI.UI.Element.Buttons.Button btnPlaylistDown;
 
     protected final DoubleProperty topHeight = new SimpleDoubleProperty(this, "topHeight", 60);
     protected final DoubleProperty bottomHeight = new SimpleDoubleProperty(this, "bottomHeight", 50);
@@ -636,11 +635,11 @@ public class PlayView<T extends Track, J extends Playlist>
         return btnPlaylist;
     }
 
-    public Button getBtnPlaylistNext() {
+    public rf.ebanina.UI.UI.Element.Buttons.Button getBtnPlaylistNext() {
         return btnPlaylistNext;
     }
 
-    public Button getBtnPlaylistDown() {
+    public rf.ebanina.UI.UI.Element.Buttons.Button getBtnPlaylistDown() {
         return btnPlaylistDown;
     }
 
