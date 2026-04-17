@@ -7,3 +7,6 @@
 [submodule "modules/untitled10"]
 	path = modules/untitled10
 	url = https://github.com/Rediska4445/mizuki-std-network-spotify-api-wrapper
+[submodule "modules/mizuka-deezer-api-wrapper"]
+	path = modules/mizuka-deezer-api-wrapper
+	url = https://github.com/Rediska4445/mizuki-std-network-deezer-api-wrapper-
