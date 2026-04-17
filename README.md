@@ -266,12 +266,4 @@ Your contributions are welcome! Open an issue or submit a PR to help grow this p
 
 ## License
 
-**Free for open-source use with restrictions:**
-
-- **Free modification** and mod creation
-- **Free distribution** of source code
-- **No selling** code or software
-- **Changes require** author approval
-- **Open-source use only**
-
-> If you wish to use the project commercially or release code-modifications without permission, please contact the authors.
+Mizuka is developed and distributed under licens
