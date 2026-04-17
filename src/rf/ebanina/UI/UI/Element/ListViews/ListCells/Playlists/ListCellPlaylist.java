@@ -28,7 +28,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Stream;
 
-import static rf.ebanina.UI.UI.Paint.ColorProcessor.*;
+import static rf.ebanina.UI.UI.Paint.ColorProcessor.isPreserveRatio;
+import static rf.ebanina.UI.UI.Paint.ColorProcessor.isSmooth;
 
 public class ListCellPlaylist<T>
         extends AnimatedListCell<Playlist>
@@ -108,14 +109,13 @@ public class ListCellPlaylist<T>
             File firstFile = getFirstFile(item);
 
             final Image mipmap;
-
             final Image art;
 
             if (firstFile != null) {
                 Image temp = MetadataOfFile.iMetadataOfFiles.getArt(new Track(firstFile.getAbsolutePath()), Track.mipmapSize, Track.mipmapSize, isPreserveRatio, isSmooth);
                 mipmap = temp == null ? defaultLogo : temp;
 
-                Image temp1 = MetadataOfFile.iMetadataOfFiles.getArt(new Track(firstFile.getAbsolutePath()), size, size, isPreserveRatio, isSmooth);
+                Image temp1 = MetadataOfFile.iMetadataOfFiles.getArt(new Track(firstFile.getAbsolutePath()), Track.albumArtSize, Track.albumArtSize, isPreserveRatio, isSmooth);
                 art = temp1 == null ? defaultLogo : temp1;
             } else {
                 art = defaultLogo;
@@ -127,7 +127,7 @@ public class ListCellPlaylist<T>
                 cover.setEffect(shadow);
                 title.setText(item.getName());
 
-                super.setBackgroundImageCentered(new ImagePattern(art), background);
+                super.setBackgroundImageCentered(art, getWidth(), background);
             });
         });
     }
