@@ -10,3 +10,5 @@
 [submodule "modules/mizuka-deezer-api-wrapper"]
 	path = modules/mizuka-deezer-api-wrapper
 	url = https://github.com/Rediska4445/mizuki-std-network-deezer-api-wrapper-
+[submodule "ebanina-std-utils"]
+	branch = main
