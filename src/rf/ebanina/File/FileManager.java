@@ -12,6 +12,7 @@ import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
 import rf.ebanina.ebanina.Player.MediaPlayer;
 import rf.ebanina.ebanina.Player.Playlist;
 import rf.ebanina.ebanina.Player.Track;
+import rf.ebanina.utils.formats.xml.XmlProcess;
 
 import java.io.*;
 import java.lang.reflect.Array;
@@ -41,60 +42,53 @@ public class FileManager
         this.sharedPath = sharedPath;
     }
 
-    public static void createCacheDirectoryIfNotExist() {
-        String cacheDir = "cache";
+    // TODO: Сделать создание исходя из xml файла
+    public TreeMap<String, String> getCacheStructure(Path baseDir) throws Exception {
+        return XmlProcess.parseXmlToTreeMap(new FileInputStream(baseDir.toFile()));
+    }
+
+    public static void createCacheDirectoryIfNotExist(Path baseDir) {
+        Path cache   = baseDir.resolve("cache");
+        Path inet    = baseDir.resolve("inet");
 
         try {
-            final Path of = Path.of(cacheDir);
+            if (!Files.exists(baseDir)) {
+                Files.createDirectories(baseDir);
+            }
 
-            if(!Files.exists(of)) {
-                Files.createDirectories(of);
+            Path playlists   = cache.resolve("playlists");
+            Path tags        = cache.resolve("tags");
+            Path tracks      = cache.resolve("tracks");
+            Path historyPath = cache.resolve("history.txt");
 
-                final Path cache = Path.of(of.toString(), "cache");
+            if (!Files.exists(cache)) {
+                Files.createDirectories(cache);
+            }
 
-                if(!Files.exists(cache)) {
-                    Files.createDirectories(cache);
+            if (!Files.exists(playlists))
+                Files.createDirectories(playlists);
+            if (!Files.exists(tags))
+                Files.createDirectories(tags);
+            if (!Files.exists(tracks))
+                Files.createDirectories(tracks);
 
-                    final Path playlists = Path.of(cache.toString(), "playlists");
+            if (!Files.exists(historyPath)) {
+                Files.writeString(historyPath, "", StandardOpenOption.CREATE_NEW);
+            }
 
-                    if(!Files.exists(playlists)) {
-                        Files.createDirectories(playlists);
-                    }
+            if (!Files.exists(inet)) {
+                Files.createDirectories(inet);
+            }
 
-                    final Path tags = Path.of(cache.toString(), "tags");
-
-                    if(!Files.exists(tags)) {
-                        Files.createDirectories(tags);
-                    }
-
-                    final Path tracks = Path.of(cache.toString(), "tracks");
-
-                    if(!Files.exists(tracks)) {
-                        Files.createDirectories(tracks);
-                    }
-
-                    Path historyPath = cache.resolve("history.txt");
-                    if (!Files.exists(historyPath)) {
-                        Files.writeString(historyPath, "", StandardOpenOption.CREATE_NEW);
-                    }
-                }
-
-                final Path inet = Path.of(of.toString(), "inet");
-
-                if(!Files.exists(inet)) {
-                    Files.createDirectories(inet);
-                }
-
-                Path sharedPath = of.resolve("shared.txt");
-                if (!Files.exists(sharedPath)) {
-                    String content = """
-                        array of (app) = [license_agreed=false, full_time=0];
-                        array of (main_window) = [right_list_open=true, left_list_open=true, width=1132.0, layout_x=68.0, layout_y=304.0, height=711.0];
-                        array of (mediaPlayer) = [volume=1.0, tempo=1.0, pitch=1.0, pan=0.05, pause=false];
-                        array of (player) = [last_track_index_playlist_local=0, last_track_index_local=0, last_track_time=0.0]
-                        """;
-                    Files.writeString(sharedPath, content, StandardOpenOption.CREATE_NEW);
-                }
+            Path sharedPath = baseDir.resolve("shared.txt");
+            if (!Files.exists(sharedPath)) {
+                String content = """
+                array of (app) = [license_agreed=false, full_time=0];
+                array of (main_window) = [right_list_open=true, left_list_open=true, width=1132.0, layout_x=68.0, layout_y=304.0, height=711.0];
+                array of (mediaPlayer) = [volume=1.0, tempo=1.0, pitch=1.0, pan=0.05, pause=false];
+                array of (player) = [last_track_index_playlist_local=0, last_track_index_local=0, last_track_time=0.0]
+                """;
+                Files.writeString(sharedPath, content, StandardOpenOption.CREATE_NEW);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -382,7 +376,7 @@ public class FileManager
         }
     }
 
-    public final String splitDataWithSpaces(String data, String begin) {
+    public String splitDataWithSpaces(String data, String begin) {
         if(!data.endsWith(";"))
             return data;
 
@@ -391,11 +385,11 @@ public class FileManager
 
     public BiFunction<String, String, Boolean> stdProcessor = String::startsWith;
 
-    public final String findFirstParam(Path path, String ifNull) {
+    public String findFirstParam(Path path, String ifNull) {
         return findParams(null, path, ifNull).get(0);
     }
 
-    public final String findFirstParam(String key, Path path, String ifNull) {
+    public String findFirstParam(String key, Path path, String ifNull) {
         List<String> a = findParams(key, path, ifNull);
 
         if(a == null || a.size() == 0) {
@@ -405,7 +399,7 @@ public class FileManager
         return a.get(0);
     }
 
-    public final String findFirstParam(String key, Path path, Exception ifNull) {
+    public String findFirstParam(String key, Path path, Exception ifNull) {
         List<String> a = findParams(key, path, ifNull);
 
         if(a == null || a.size() == 0) {
@@ -415,7 +409,7 @@ public class FileManager
         return a.get(0);
     }
 
-    public final String findFirstParam(Path path, String ifNull, Predicate<String> processor) {
+    public String findFirstParam(Path path, String ifNull, Predicate<String> processor) {
         List<String> a = findParams(path, ifNull, processor);
 
         if(a == null || a.size() == 0) {
@@ -425,15 +419,15 @@ public class FileManager
         return a.get(0);
     }
 
-    public final List<String> findParams(Path path, String ifNull, Predicate<String> processor) {
+    public List<String> findParams(Path path, String ifNull, Predicate<String> processor) {
         return findParams("", path, () -> List.of(ifNull), processor);
     }
 
-    public final List<String> findParams(String key, Path path, String ifNull) {
+    public List<String> findParams(String key, Path path, String ifNull) {
         return findParams(key, path, () -> List.of(ifNull), s -> stdProcessor.apply(s, key));
     }
 
-    public final List<String> findParams(String key, Path path, Exception ifNull) {
+    public List<String> findParams(String key, Path path, Exception ifNull) {
         return findParams(key, path, () -> {
             throw new RuntimeException(ifNull);
         }, s -> stdProcessor.apply(s, key));

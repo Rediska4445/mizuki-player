@@ -26,7 +26,7 @@ import java.util.Map;
  *
  * <h2>Особенности реализации</h2>
  * <ul>
- *   <li>Статический экземпляр {@link #instance} обеспечивает глобальный доступ.</li>
+ *   <li>Статический экземпляр {@link ResourceManager#localizationManager} обеспечивает глобальный доступ.</li>
  *   <li>Текущий язык определяется по конфигурации или автоматически в случае "auto".</li>
  *   <li>Файлы локализации расположены в папке, указанной в {@link ResourceManager}.</li>
  *   <li>Переводы кешируются в {@link #locale_map} для оптимизации.</li>
@@ -45,29 +45,24 @@ import java.util.Map;
 public class LocalizationManager
 {
     /**
-     * Глобальный синглтон-экземпляр класса {@code LocalizationManager}.
+     * Инкапсулированная ссылка на ресурсный менеджер. Нужен для DI.
      * <p>
-     * Это статическое поле обеспечивает единственный доступный во всём приложении объект,
-     * который создаётся при загрузке класса и используется повторно.
+     * Это поле обеспечивает единственный доступный во всём классе к работе с ресурсами,
+     * который создаётся при загрузке класса.
      * </p>
      * <p>
      * Особенности:
      * <ul>
-     *   <li><b>Инициализация при загрузке класса</b> — объект создаётся сразу, что гарантирует потокобезопасность.</li>
-     *   <li><b>Публичный доступ</b> — поле {@code instance} предоставляет единичный экземпляр для потребителей класса.</li>
-     *   <li><b>Нет возможности создать других экземпляров</b>, так как конструктор класса {@code LocalizationManager} <b>публичный, но фактически класс используется как синглтон.</b></li>
+     *   <li><b>Это ссылка</b> — это нужно для возможности создания собственного {@link FileManager}.</li>
+     *   <li><b>Приватный доступ</b> — поле предоставляет единичный экземпляр для класса.</li>
      * </ul>
      * </p>
      *
-     * @see #LocalizationManager(FileManager, String, Path)
+     * @see ResourceManager
      */
-    public static LocalizationManager instance = new LocalizationManager(
-            FileManager.instance,
-            ConfigurationManager.instance.getItem("lang", "EN_en"),
-            Path.of(ResourceManager.Instance.resourcesPaths.get("lang"))
-    );
+    private final ResourceManager resourceManager;
     /**
-     * Инкапсулированная ссылка на файловый процессор. Нужен для DI.
+     * Инкапсулированная ссылка на файловый менеджер. Нужен для DI.
      * <p>
      * Это поле обеспечивает единственный доступный во всём классе к работе с файлами,
      * который создаётся при загрузке класса.
@@ -90,10 +85,11 @@ public class LocalizationManager
      * Конструктор публичный, но класс предполагается использовать через синглтон.
      * </p>
      */
-    public LocalizationManager(FileManager fileManager, String lang, Path langPath) {
+    public LocalizationManager(FileManager fileManager, ResourceManager resourceManager, String lang, Path langPath) {
         this.fileManager = fileManager;
         this.langPath = langPath;
         this.lang = getCurrentLocaleLanguage(lang);
+        this.resourceManager = resourceManager;
     }
     /**
      * Текущий язык локализации.
@@ -104,6 +100,13 @@ public class LocalizationManager
      */
     public String lang;
 
+    /**
+     * Текущий путь к файлу с языком.
+     * <p>
+     * Значение инициализируется вызовом {@link #getCurrentLocaleLanguage(String)},
+     * определяющего файл на основании конфигураций.
+     * </p>
+     */
     public Path langPath;
 
     /**
@@ -136,7 +139,7 @@ public class LocalizationManager
      *
      * @return строка с кодом текущего языка локализации
      */
-    private String getCurrentLocaleLanguage(String defaultLang) {
+    protected String getCurrentLocaleLanguage(String defaultLang) {
         if(defaultLang.equalsIgnoreCase("auto")) {
             return identifyLocale();
         }
@@ -204,7 +207,7 @@ public class LocalizationManager
      * @throws IllegalArgumentException если путь указан неверно или не является директорией
      * @throws RuntimeException при ошибках чтения файлов
      */
-    private Map<String, String> getAvailableLanguage() {
+    protected Map<String, String> getAvailableLanguage() {
         Map<String, String> languageMap = new LinkedHashMap<>();
 
         String langFolderPath = langPath.toString();
@@ -334,19 +337,24 @@ public class LocalizationManager
         }
 
         if (!locale_map.containsKey(word)) {
-            locale_map.put(word, fileManager.splitDataWithSpaces(
-                    fileManager.findFirstParam(
-                            Path.of(ResourceManager.Instance.resourcesPaths.get("lang") + File.separator + lang + ".locale"),
-                            ifResultIsNull,
-                            t -> t.contains(word)),
-                    ":")
-            );
+            putLocale(word, ifResultIsNull);
         }
 
         return locale_map.get(word);
     }
+
+    protected void putLocale(String word, String ifResultIsNull) {
+        locale_map.put(word, fileManager.splitDataWithSpaces(
+                fileManager.findFirstParam(
+                        Path.of(resourceManager.resourcesPaths.get("lang") + File.separator + lang + ".locale"),
+                        ifResultIsNull,
+                        t -> t.contains(word)),
+                ":")
+        );
+    }
+
     /**
-     * Статический метод для получения локализованной строки через синглтон {@link #instance}.
+     * Статический метод для получения локализованной строки через синглтон {@link ResourceManager#localizationManager}.
      * <p>
      * Удобен для быстрого вызова из любого места без необходимости создавать объект {@code LocalizationManager}.
      * </p>
@@ -370,10 +378,10 @@ public class LocalizationManager
      * @return перевод или значение по умолчанию
      */
     public static String getLocaleString(String word, String ifResultIsNull) {
-        return instance.getLocalizationString(word, ifResultIsNull);
+        return ResourceManager.localizationManager.getLocalizationString(word, ifResultIsNull);
     }
     /**
-     * Статический метод для получения локализованной строки через синглтон {@link #instance}.
+     * Статический метод для получения локализованной строки через синглтон {@link ResourceManager#localizationManager}.
      * <p>
      * Удобен для быстрого вызова из любого места без необходимости создавать объект {@code LocalizationManager}.
      * </p>
@@ -396,6 +404,10 @@ public class LocalizationManager
      * @return перевод или значение по умолчанию
      */
     public static String getLocaleString(Locales word) {
-        return instance.getLocalizationString(word.code, word.defaultValue);
+        return ResourceManager.localizationManager.getLocalizationString(word.code, word.defaultValue);
+    }
+
+    public Map<String, String> localeMap() {
+        return locale_map;
     }
 }

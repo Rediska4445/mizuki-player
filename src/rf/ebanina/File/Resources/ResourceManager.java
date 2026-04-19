@@ -6,6 +6,8 @@ import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 import rf.ebanina.File.Configuration.ConfigurationManager;
 import rf.ebanina.File.FileManager;
+import rf.ebanina.File.Localization.JsonLocalizationManager;
+import rf.ebanina.File.Localization.LocalizationManager;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -97,6 +99,60 @@ import java.util.Properties;
 public class ResourceManager
     implements IResourceManager
 {
+    /**
+     * Глобальный синглтон-экземпляр класса {@code LocalizationManager}.
+     * <p>
+     * Это статическое поле обеспечивает единственный доступный во всём приложении объект,
+     * который создаётся при загрузке класса и используется повторно.
+     * </p>
+     * <p>
+     * Особенности:
+     * <ul>
+     *   <li><b>Инициализация при загрузке класса</b> — объект создаётся сразу, что гарантирует потокобезопасность.</li>
+     *   <li><b>Публичный доступ</b> — поле {@code instance} предоставляет единичный экземпляр для потребителей класса.</li>
+     *   <li><b>Нет возможности создать других экземпляров</b>, так как конструктор класса {@code LocalizationManager} <b>публичный, но фактически класс используется как синглтон.</b></li>
+     * </ul>
+     * </p>
+     */
+    public static LocalizationManager localizationManager = defaultLocalizationManager();
+    /**
+     * Возвращает экземпляр {@code LocalizationManager}, созданный в формате,
+     * указанном в конфигурации приложения (по умолчанию — в формате JSON).
+     * <p>
+     * Особенности:
+     * <ul>
+     *   <li><b>Гарантия возврата значения</b> — метод всегда возвращает не {@code null}-экземпляр,
+     *       либо созданный {@code JsonLocalizationManager}, либо базовый {@code LocalizationManager},
+     *       либо ранее инициализированный объект из поля {@code localizationManager}.</li>
+     *   <li><b>Зависимость от конфигурации</b> — использует значение ключа {@code "lang_file_format"}
+     *       из {@code ConfigurationManager.instance}, чтобы выбрать реализацию локализации.</li>
+     *   <li><b>Использует текущий язык</b> — берёт значение ключа {@code "lang"} из конфигурации
+     *       и использует его как текущий язык локализации.</li>
+     * </ul>
+     * </p>
+     */
+    public static LocalizationManager defaultLocalizationManager() {
+        if(localizationManager == null) {
+            if (ConfigurationManager.instance.getItem("lang_file_format", "json").equals("json")) {
+                return new JsonLocalizationManager(
+                        FileManager.instance,
+                        ResourceManager.Instance,
+                        ConfigurationManager.instance.getItem("lang", "EN_en"),
+                        Path.of(ResourceManager.getInstance().resourcesPaths.get("lang"))
+                );
+            }
+
+            return new LocalizationManager(
+                    FileManager.instance,
+                    ResourceManager.Instance,
+                    ConfigurationManager.instance.getItem("lang", "EN_en"),
+                    Path.of(ResourceManager.getInstance().resourcesPaths.get("lang"))
+            );
+        }
+
+        return localizationManager;
+    }
+
     /**
      * Абсолютный путь к директории, содержащей бинарные библиотеки, необходимые для работы приложения.
      * <p>Данный путь используется для загрузки нативных модулей и расширений.</p>
@@ -230,9 +286,20 @@ public class ResourceManager
         return value;
     }
 
-    public static ResourceManager Instance = new ResourceManager(
-            ConfigurationManager.instance.getItem("theme", "res" + File.separator + "resources.properties")
-    );
+    public static ResourceManager defaultResourceManager() {
+        return new ResourceManager(
+                ConfigurationManager.instance.getItem("theme", "res" + File.separator + "resources.properties")
+        );
+    }
+
+    public static ResourceManager Instance = defaultResourceManager();
+
+    public static ResourceManager getInstance() {
+        if(Instance == null)
+            return Instance = defaultResourceManager();
+
+        return Instance;
+    }
 
     /**
      * Универсальный метод для загрузки ресурса по типу и идентификатору с возможностью дополнительных настроек.
@@ -630,6 +697,17 @@ public class ResourceManager
      */
     public ResourceManager(String path) {
         loadResources(path);
+    }
+
+    /**
+     * Конструктор класса, инициализирующий загрузку ресурсов из
+     * файла <code>res/resources.properties</code>.
+     * <p><b>Версия:</b> 0.1.4.4</p>
+     */
+    public ResourceManager(String... paths) {
+        for(String path : paths) {
+            loadResources(path);
+        }
     }
 
     /**
