@@ -6,7 +6,7 @@
 
 <div align="center">
 <span style="font-size: 36px; font-weight: bold;">Ebanina (Mizuki)</span><br>
-<sup style="font-size: 18px;">v1.4.10</sup>
+<sup style="font-size: 18px;">v1.4.11</sup>
 </div>
 
 ---
@@ -192,7 +192,7 @@ Automatic Maven/Gradle dependency download and workspace preparation is not avai
 
 ---
 
-## Built With
+## Technical Stack
 
 | Framework/Library                                            | Description                    |
 |--------------------------------------------------------------|--------------------------------|
@@ -232,6 +232,12 @@ Automatic Maven/Gradle dependency download and workspace preparation is not avai
 
 ---
 <div id='300'/>
+
+## Issues
+
+All resolved and (mostly) unresolved issues are listed in a directory of the same name. 
+
+This allows us to keep track of issues (not just bugs) and resolve them over time, according to priority.
 
 ## Modifications
   
