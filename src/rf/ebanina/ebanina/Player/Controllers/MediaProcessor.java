@@ -10,10 +10,10 @@ import javafx.util.Duration;
 import rf.ebanina.File.Configuration.ConfigurationManager;
 import rf.ebanina.File.DataTypes;
 import rf.ebanina.File.FileManager;
-import rf.ebanina.File.Localization.LocalizationManager;
 import rf.ebanina.File.Metadata.MetadataOfFile;
+import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.File.Resources.Resources;
-import rf.ebanina.Network.Info;
+import rf.ebanina.Network.Net;
 import rf.ebanina.Network.Translator;
 import rf.ebanina.UI.Editors.Player.AudioHost;
 import rf.ebanina.UI.Root;
@@ -35,12 +35,13 @@ import rf.ebanina.utils.loggining.Prefix;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.StandardOpenOption;
 import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -49,7 +50,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
-import static rf.ebanina.Network.Info.playersMap;
+import static rf.ebanina.Network.Net.playersMap;
 import static rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor.playProcessor;
 import static rf.ebanina.ebanina.Player.Controllers.Playlist.PlaylistController.checkIndexOutOfBoundPlaylist;
 
@@ -341,7 +342,7 @@ public class MediaProcessor
      * </p>
      * <p><b>Использование:</b> {@code _trackSingleAloneThread.runNewTask()}</p>
      */
-    private final LonelyThreadPool _trackSingleAloneThread = new LonelyThreadPool();
+    protected LonelyThreadPool playTrackThreadPool = new LonelyThreadPool();
     /**
      * Атомарный счетчик кэша обложек треков.
      * <p>
@@ -454,6 +455,19 @@ public class MediaProcessor
             }
         }
     }
+
+    protected void closeCurrentNetworkStream() {
+        if (currentNetworkStream != null) {
+            try {
+                currentNetworkStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            currentNetworkStream = null;
+        }
+    }
+
     // Дефолтный переключатель.
     // Просто вызвав его, плеер будет автоматически переключать трек на текущий указатель trackIter в PlayProcessor.
     // Запускает новую одинокую-задачу (LonelyThreadPool).
@@ -477,32 +491,36 @@ public class MediaProcessor
      * <p><b>Цепочка:</b> коррекция → {@link PlaylistController#checkIndexOutOfBoundPlaylist()}} → {@link #_track(Track)}.</p>
      */
     public void _track() {
-        _trackSingleAloneThread.runNewTask(() -> {
-            // Проверка на выход за границы
-            if(playProcessor.getTrackIter() >= playProcessor.getTracks().size()) {
-                if (mediaParameters.get(MediaParameters.IS_PLAYLIST_LOOP.code, BooleanProperty.class).getValue().equals(true)) {
-                    playProcessor.setTrackIter(0);
-                } else {
-                    PlaylistController.playlistController.next();
-                }
-            } else if(playProcessor.getTrackIter() < 0) {
-                if(getPlaylistLoopProperty().getValue().equals(true)) {
-                    playProcessor.setTrackIter(PlayProcessor.playProcessor.getTracks().size() - 1);
-                } else {
-                    PlaylistController.playlistController.down();
-                }
-            }
+        closeCurrentNetworkStream();
+        clearNetworkBuffer();
+
+        playTrackThreadPool.runNewTask(() -> {
+            checkOnOutOfBounds();
 
             // Проверка на выход за пределы плейлиста
             checkIndexOutOfBoundPlaylist();
 
             _track(playProcessor.getTracks().get(playProcessor.getTrackIter()));
-        }, () -> {
-//            mediaPlayer.stop();
-//            mediaPlayer.close();
-//            mediaPlayer.dispose();
         });
     }
+
+    public void checkOnOutOfBounds() {
+        // Проверка на выход за границы
+        if(playProcessor.getTrackIter() >= playProcessor.getTracks().size()) {
+            if (mediaParameters.get(MediaParameters.IS_PLAYLIST_LOOP.code, BooleanProperty.class).getValue().equals(true)) {
+                playProcessor.setTrackIter(0);
+            } else {
+                PlaylistController.playlistController.next();
+            }
+        } else if(playProcessor.getTrackIter() < 0) {
+            if(getPlaylistLoopProperty().getValue().equals(true)) {
+                playProcessor.setTrackIter(PlayProcessor.playProcessor.getTracks().size() - 1);
+            } else {
+                PlaylistController.playlistController.down();
+            }
+        }
+    }
+
     /**
      * Подготовка трека с задержкой (2s) и полным UI синхронизацией.
      * <p>
@@ -536,7 +554,6 @@ public class MediaProcessor
         if (mediaPlayer != null) {
 
             // Фокус ячейки
-            // TODO: Перевести в свойство, дабы не мусорить поток FX
             Platform.runLater(() -> {
                 if(track.isNetty()) {
                     rootImpl.similar.getTrackListView().getSelectionModel().select(playProcessor.getTrackIter());
@@ -622,7 +639,7 @@ public class MediaProcessor
         if(ConfigurationManager.instance.getBooleanItem("translate_track_title", "false")) {
             rootImpl.currentTrackName.setText(Translator.instance.TranslateNodeText(
                     playProcessor.getTracks().get(playProcessor.getTrackIter()).getTitle(),
-                    LocalizationManager.instance.lang.substring(LocalizationManager.instance.lang.indexOf("_") + 1)
+                    ResourceManager.localizationManager.lang.substring(ResourceManager.localizationManager.lang.indexOf("_") + 1)
             ));
         }
     }
@@ -645,7 +662,7 @@ public class MediaProcessor
             try {
                 List<Callable<Track>> tasks = new ArrayList<>();
 
-                for (Info.IInfo a : playersMap.values()) {
+                for (Net.IInfo a : playersMap.values()) {
                     tasks.add(() -> {
                         Track url = a.getTrackDownloadLink(track);
 
@@ -682,7 +699,7 @@ public class MediaProcessor
         try {
             String urlString = newValue.toString();
 
-            if (urlString == null || urlString.equalsIgnoreCase(Info.PlayersTypes.URI_NULL.getCode())) {
+            if (urlString == null || urlString.equalsIgnoreCase(Net.PlayersTypes.URI_NULL.getCode())) {
 
                 urlString = Objects.requireNonNull(trackParseAsync(newValue.viewName())).getPath();
 
@@ -709,7 +726,18 @@ public class MediaProcessor
      * </p>
      * <p><b>Автоочистка:</b> {@code FileManager.isOccupiedSpace(64)} → clearCache().</p>
      */
-    final boolean isPreDownload = ConfigurationManager.instance.getBooleanItem("network_pre_download", "false");
+    private final boolean isPreDownload = ConfigurationManager.instance.getBooleanItem("network_pre_download", "false");
+
+    private long networkBufferSize = 32 * 1024 * 1024;
+
+    private byte[] networkStreamBuffer;
+
+    public void clearNetworkBuffer() {
+        this.networkStreamBuffer = null;
+    }
+
+    private volatile InputStream currentNetworkStream;
+
     /**
      * Полная регенерация MediaPlayer для нового трека.
      * <p>
@@ -747,7 +775,7 @@ public class MediaProcessor
         if(track.isNetty()) {
             try {
                 // Если у трека нет пути, то получить через сетевые сервисы
-                URL res = track.getPath() == null || track.getPath().equals(Info.PlayersTypes.URI_NULL.getCode())
+                URL res = track.getPath() == null || track.getPath().equals(Net.PlayersTypes.URI_NULL.getCode())
                         ? getURIFromTrack(track) : new URL(track.getPath());
 
                 Music.mainLogger.info("public void regenerateMediaPlayer(Track track): " + res);
@@ -759,9 +787,10 @@ public class MediaProcessor
                     // Бля, оно нормально будет работать только при true, ибо даже с JavaFX MediaPlayer без скачивания работал криво.
                     // Много нюансов, которых заёб полный учитывать (не всегда получается длительность, разные форматы потоков, разные типы форматов, разные заголовки, и прочая хуйня)
                     if (isPreDownload) {
+                        Music.mainLogger.info(FileManager.instance.isOccupiedSpace(Resources.Properties.DEFAULT_INET_CACHE_PATH.getKey(), 8));
 
-                        // Очистить папку с треками, если больше чем 64 чего то
-                        if(FileManager.instance.isOccupiedSpace(Resources.Properties.DEFAULT_INET_CACHE_PATH.getKey(), 16)) {
+                        // Очистить папку с треками, если больше чем 8 чего то
+                        if(FileManager.instance.isOccupiedSpace(Resources.Properties.DEFAULT_INET_CACHE_PATH.getKey(), 8)) {
 
                             // Чистка
                             FileManager.instance.clearCacheData(Resources.Properties.DEFAULT_INET_CACHE_PATH.getKey());
@@ -775,9 +804,45 @@ public class MediaProcessor
 
                         // Если файл уже скачан, нехуй его скачивать ещё раз.
                         if(!Files.exists(path)) {
+                            Music.mainLogger.info("Follow redirects");
 
                             // Скачивание с сетевого потока на локальный путь
-                            Files.copy(rf.ebanina.utils.network.Network.followRedirects(res), path, StandardCopyOption.REPLACE_EXISTING);
+                            try (InputStream stream = rf.ebanina.utils.network.Network.followRedirects(res)) {
+                                currentNetworkStream = stream;
+
+                                // 1. Проверка доступного размера
+                                int available = stream.available();
+                                if (available > networkBufferSize) {
+                                    throw new IOException("Too big (" + available + " > " + networkBufferSize + " bytes)");
+                                }
+
+                                Music.mainLogger.info("Read bytes from stream");
+
+                                // 2. Читаем всё в буфер
+                                networkStreamBuffer = currentNetworkStream.readAllBytes();
+
+                                Music.mainLogger.info("Bytes from stream: " + networkStreamBuffer.length);
+
+                                // 3. Проверяем размер
+                                if (networkStreamBuffer.length > networkBufferSize) {
+                                    long size = networkStreamBuffer.length;
+
+                                    clearNetworkBuffer();
+                                    closeCurrentNetworkStream();
+
+                                    throw new IOException("Too big (" + size + " > " + networkBufferSize + " bytes)");
+                                }
+
+                                // 4. Если успех, записываем в файл
+                                Files.write(path, networkStreamBuffer, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+                            } catch (Exception e) {
+                                clearNetworkBuffer();
+                                closeCurrentNetworkStream();
+
+                                throw new RuntimeException(e);
+                            }
+
+                            Music.mainLogger.info("File is downloaded: " + path);
                         }
 
                         // Путь к локальному файлу
@@ -798,15 +863,14 @@ public class MediaProcessor
                     media = null;
                 }
 
+                Music.mainLogger.info("Stop mediaplayer");
+
                 // Остановка и пауза на новом треке.
                 // Это конечно пиздец, но поток может не остановится.
                 // Поток также проскипает байты, если не поставить на паузу
                 MediaProcessor.mediaProcessor.mediaPlayer.stop();
                 MediaProcessor.mediaProcessor.mediaPlayer.dispose();
                 MediaProcessor.mediaProcessor.mediaPlayer.pause();
-
-                // Генерация
-                setNewMedia(hit = new Media(media, track.isNetty()));
 
                 // Длительность из потока не вычислить.
                 // Берётся длительность из самого трека, которая должна быть заложена при парсинге.
@@ -831,8 +895,12 @@ public class MediaProcessor
             throw new RuntimeException("Media is null");
         }
 
+        Music.mainLogger.info("New media");
+
         // Генерация
         setNewMedia(hit = new Media(media, track.isNetty()));
+
+        Music.mainLogger.info("New media prepared");
     }
     /**
      * JavaFX Property для длительности стриминговых треков.
