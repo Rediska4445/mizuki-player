@@ -148,7 +148,7 @@
          * @see MediaPlayer
          * @since 0.1.3.2
          */
-        private Path introSoundFile;
+        private Intro introSoundFile;
 
         /**
          * Флаг, определяющий тип источника медиа-ресурса: локальный или сетевой.
@@ -283,7 +283,7 @@
             this.isNetty = isNetty;
 
             if(audioIntro != null) {
-                this.introSoundFile = new File(audioIntro).toPath();
+                this.introSoundFile = new Intro(new File(audioIntro).toPath());
             }
         }
 
@@ -409,7 +409,7 @@
          * @since 0.1.3.2
          */
         public void setIntroSoundFile(Path file) {
-            this.introSoundFile = file;
+            this.introSoundFile = new Intro(file);
         }
 
         /**
@@ -425,7 +425,7 @@
          * @since 0.1.3.2
          */
         public File getIntroSoundFile() {
-            return introSoundFile.toFile();
+            return introSoundFile.getFileSource();
         }
 
         /**
@@ -441,7 +441,7 @@
          * @since 0.1.3.2
          */
         public Path getIntroSound() {
-            return introSoundFile;
+            return introSoundFile.getFileSource().toPath();
         }
 
         /**
