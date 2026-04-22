@@ -803,92 +803,7 @@ public class MediaPlayer
     public float getPan() {
         return pan;
     }
-    /**
-     * Отдельный поток для проигрывания интро.
-     * <p>
-     * Загружает аудиофайл, проверяет формат (поддерживается только 16-bit PCM signed little-endian),
-     * применяет fade-in и кроссфейд, затем проигрывает интро перед основным треком.
-     * Автоматически освобождает ресурсы и вызывает {@link #play()} после завершения.
-     * </p>
-     * <h2>Пример использования</h2>
-     * <pre>{@code
-     * player.playIntro();
-     * }</pre>
-     * @see #playIntro()
-     * @see Media#getIntroSoundFile()
-     */
-    public Thread introThread = new Thread(() -> {
-        try (AudioInputStream introStream = AudioSystem.getAudioInputStream(media.getIntroSoundFile())) {
-            AudioFormat format = introStream.getFormat();
 
-            if (format.getEncoding() != AudioFormat.Encoding.PCM_SIGNED || format.getSampleSizeInBits() != 16 || format.isBigEndian()) {
-                throw new UnsupportedOperationException("Требуется 16-bit PCM signed little endian аудио для интро");
-            }
-
-            SourceDataLine introLine = AudioSystem.getSourceDataLine(format);
-            introLine.open(format);
-            introLine.start();
-
-            int frameSize = format.getFrameSize();
-            int sampleRate = (int) format.getSampleRate();
-
-            int fadeInMs = 1000;
-            int fadeInFrames = (fadeInMs * sampleRate) / 1000;
-
-            int crossfadeMs = 1000;
-            int crossfadeFrames = (crossfadeMs * sampleRate) / 1000;
-
-            byte[] buffer = new byte[4096];
-            int bytesRead;
-            int totalFramesRead = 0;
-
-            while ((bytesRead = introStream.read(buffer)) != -1) {
-                int framesRead = bytesRead / frameSize;
-
-                for (int frame = 0; frame < framesRead; frame++) {
-                    double amp = 1.0;
-                    int currentFrame = totalFramesRead + frame;
-                    if (currentFrame < fadeInFrames) {
-                        amp = (double) currentFrame / fadeInFrames;
-                    }
-
-                    for (int byteIndex = 0; byteIndex < frameSize; byteIndex += 2) {
-                        int sampleIndex = frame * frameSize + byteIndex;
-
-                        int low = buffer[sampleIndex] & 0xFF;
-                        int high = buffer[sampleIndex + 1];
-                        int sample = (high << 8) | low;
-
-                        int newSample = (int) (sample * amp);
-
-                        if (newSample > 32767) newSample = 32767;
-                        if (newSample < -32768) newSample = -32768;
-
-                        buffer[sampleIndex] = (byte) (newSample & 0xFF);
-                        buffer[sampleIndex + 1] = (byte) ((newSample >> 8) & 0xFF);
-                    }
-                }
-
-                introLine.write(buffer, 0, bytesRead);
-                totalFramesRead += framesRead;
-
-                if (totalFramesRead >= crossfadeFrames) {
-                    break;
-                }
-            }
-
-            while ((bytesRead = introStream.read(buffer)) != -1) {
-                introLine.write(buffer, 0, bytesRead);
-            }
-
-            introLine.drain();
-            introLine.stop();
-            introLine.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }, "intro");
     /**
      * Запускает проигрывание интро-аудио.
      * <p>
@@ -899,7 +814,6 @@ public class MediaPlayer
      * <pre>{@code
      * player.playIntro();
      * }</pre>
-     * @see #introThread
      */
     public void playIntro() {
         if (!media.getIntroSoundFile().exists()) {
@@ -908,9 +822,7 @@ public class MediaPlayer
             return;
         }
 
-        if(introThread.getState() != Thread.State.RUNNABLE) {
-            introThread.start();
-        }
+        media.getIntro().play();
     }
     /**
      * Устанавливает темп (скорость воспроизведения): 1.0 — оригинальный темп.
@@ -3010,7 +2922,6 @@ public class MediaPlayer
                 ", pan=" + pan +
                 ", panProperty=" + panProperty +
                 ", currentFormat='" + currentFormat + '\'' +
-                ", introThread=" + introThread +
                 ", onStopTimeReached=" + onStopTimeReached +
                 ", playbackListener=" + playbackListener +
                 ", onPrepared=" + onPrepared +

@@ -392,6 +392,15 @@
             this(uri.toString(), true);
         }
 
+        public Media setIntroSoundFile(Intro introSoundFile) {
+            this.introSoundFile = introSoundFile;
+            return this;
+        }
+
+        public Intro getIntro() {
+            return introSoundFile;
+        }
+
         /**
          * Устанавливает файл аудиодорожки интро, проигрываемой перед основным медиа-ресурсом.
          * <p>
