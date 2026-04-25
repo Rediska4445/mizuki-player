@@ -1,3 +1,5 @@
+![Mizuka](res/visual/gui/logo-hd.png)
+
 <div align="center" style="margin-bottom: 22px;">
   <img src="https://img.shields.io/badge/Java-19-orange?style=for-the-badge&logo=java&logoColor=white" alt="Java 19"/>
   <img src="https://img.shields.io/badge/JavaFX-21-blue?style=for-the-badge&logo=javafx&logoColor=white" alt="JavaFX"/>
