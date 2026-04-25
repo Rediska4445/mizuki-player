@@ -4,76 +4,76 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.Rectangle?>
-<ScrollPane fx:id="mainScrollPane" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="436.0" style="-fx-background-color: #1e1e1e;" vbarPolicy="NEVER" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+<ScrollPane fx:id="mainScrollPane" fitToWidth="true" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" style="-fx-background-color: #1e1e1e;" vbarPolicy="NEVER" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
    <content>
       <VBox fx:id="mainBox" prefHeight="518.0" prefWidth="434.0" style="-fx-background-color: #1e1e1e">
          <children>
-            <HBox prefHeight="0.0" prefWidth="434.0">
+            <HBox prefHeight="0.0" prefWidth="434.0" VBox.vgrow="ALWAYS">
                <children>
                   <Rectangle fx:id="album_art" arcHeight="15.0" arcWidth="10.0" fill="#ffffff00" height="100.0" stroke="#0000004a" strokeType="INSIDE" width="100.0" />
                   <VBox prefHeight="100.0" prefWidth="351.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <TextField fx:id="title" prefHeight="47.0" prefWidth="304.0" style="-fx-background-color: #333333; -fx-text-fill: white; -fx-prompt-text-fill: #AAAAAA;" VBox.vgrow="ALWAYS">
+                        <TextField fx:id="title" prefHeight="50.0" prefWidth="304.0" style="-fx-background-color: #333333; -fx-text-fill: white; -fx-prompt-text-fill: #AAAAAA; -fx-background-radius: 5;" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
                            </VBox.margin>
                         </TextField>
-                        <TextField fx:id="author" prefHeight="53.0" prefWidth="304.0" style="-fx-background-color: #333333; -fx-text-fill: white; -fx-prompt-text-fill: #AAAAAA;" VBox.vgrow="ALWAYS">
+                        <TextField fx:id="author" prefHeight="50.0" prefWidth="304.0" style="-fx-background-color: #333333; -fx-text-fill: white; -fx-prompt-text-fill: #AAAAAA; -fx-background-radius: 5;" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
                            </VBox.margin>
                         </TextField>
-                        <Rectangle fill="#333333" height="2.0" width="292.0">
+                        <StackPane prefHeight="23.0" prefWidth="304.0" style="-fx-background-color: #333333;" VBox.vgrow="ALWAYS">
                            <VBox.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" />
+                              <Insets left="10.0" right="10.0" />
                            </VBox.margin>
-                        </Rectangle>
+                        </StackPane>
                      </children>
                   </VBox>
                </children>
                <VBox.margin>
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                </VBox.margin></HBox>
-            <VBox prefHeight="325.0" prefWidth="404.0" spacing="5.0">
+            <VBox prefHeight="325.0" prefWidth="404.0" spacing="5.0" VBox.vgrow="ALWAYS">
                <children>
-                  <TextArea fx:id="lyrics" minHeight="157.0" prefHeight="157.0" prefWidth="404.0" style="-fx-background-color: #333333; -fx-control-inner-background: #333333; -fx-text-fill: white; -fx-prompt-text-fill: #AAAAAA;" VBox.vgrow="ALWAYS" />
-                  <VBox fx:id="metadata" prefHeight="158.0" prefWidth="404.0" VBox.vgrow="ALWAYS">
+                  <TextArea fx:id="lyrics" prefHeight="0.0" prefWidth="404.0" style="-fx-background-color: #333333; -fx-control-inner-background: #333333; -fx-text-fill: white; -fx-prompt-text-fill: #AAAAAA; -fx-background-radius: 5;" VBox.vgrow="ALWAYS" />
+                  <VBox fx:id="metadata" prefWidth="404.0" style="-fx-background-color: #333333; -fx-background-radius: 5;" VBox.vgrow="ALWAYS">
                      <padding>
                         <Insets top="5.0" />
                      </padding></VBox>
                </children>
                <VBox.margin>
-                  <Insets bottom="15.0" left="15.0" right="15.0" />
+                  <Insets bottom="10.0" left="15.0" right="15.0" />
                </VBox.margin>
             </VBox>
-            <VBox prefHeight="94.0" prefWidth="404.0">
+            <VBox prefHeight="94.0" prefWidth="404.0" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets bottom="15.0" left="15.0" right="15.0" />
                </VBox.margin>
                <children>
-                  <Rectangle fill="#333333" height="2.0" width="393.0">
+                  <StackPane prefHeight="21.0" style="-fx-background-color: #333333;">
                      <VBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" />
+                        <Insets left="10.0" right="10.0" />
                      </VBox.margin>
-                  </Rectangle>
-                  <TextField xmlns:fx="http://javafx.com" fx:id="command_field" prefHeight="40.0" prefWidth="404.0" style="-fx-background-color: #333333; -fx-text-fill: white; -fx-prompt-text-fill: #AAAAAA;" VBox.vgrow="ALWAYS">
+                  </StackPane>
+                  <TextField fx:id="command_field" prefHeight="45.0" prefWidth="394.0" style="-fx-background-color: #333333; -fx-text-fill: white; -fx-prompt-text-fill: #AAAAAA; -fx-background-radius: 5;" VBox.vgrow="ALWAYS" xmlns:fx="http://javafx.com">
                      <VBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </VBox.margin>
                   </TextField>
                   <HBox alignment="CENTER" prefHeight="46.0" prefWidth="404.0">
                      <children>
-                        <Button fx:id="save" alignment="CENTER" mnemonicParsing="false" prefHeight="64.0" prefWidth="290.0" style="-fx-background-color: #333333; -fx-text-fill: white;" text="Button" HBox.hgrow="ALWAYS">
+                        <Button fx:id="save" alignment="CENTER" mnemonicParsing="false" prefHeight="64.0" prefWidth="290.0" style="-fx-background-color: #333333; -fx-text-fill: white; -fx-background-radius: 5;" text="Button" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="5.0" right="5.0" />
                            </HBox.margin></Button>
-                        <Button fx:id="remove" alignment="CENTER" mnemonicParsing="false" prefHeight="98.0" prefWidth="302.0" style="-fx-background-color: #333333; -fx-text-fill: white;" text="Button" HBox.hgrow="ALWAYS">
+                        <Button fx:id="remove" alignment="CENTER" mnemonicParsing="false" prefHeight="98.0" prefWidth="302.0" style="-fx-background-color: #333333; -fx-text-fill: white; -fx-background-radius: 5;" text="Button" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="5.0" right="5.0" />
                            </HBox.margin></Button>
                      </children>
                      <VBox.margin>
-                        <Insets bottom="5.0" />
+                        <Insets />
                      </VBox.margin>
                   </HBox>
                </children>
