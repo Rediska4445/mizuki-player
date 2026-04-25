@@ -1,4 +1,7 @@
-![Mizuka](res/visual/gui/logo-hd.png)
+<div align="center">
+  <img src="res/visual/gui/logo-hd.png" width="500">
+</div>
+
 
 <div align="center" style="margin-bottom: 22px;">
   <img src="https://img.shields.io/badge/Java-19-orange?style=for-the-badge&logo=java&logoColor=white" alt="Java 19"/>
@@ -8,7 +11,7 @@
 
 <div align="center">
 <span style="font-size: 36px; font-weight: bold;">Ebanina (Mizuki)</span><br>
-<sup style="font-size: 18px;">v1.4.11</sup>
+<sup style="font-size: 18px;">v1.4</sup>
 </div>
 
 ---
@@ -39,18 +42,23 @@ In fact, a README is also unnecessary!
 
 ---
 
-# Easy start
+# Easy Start
 
-To open the app, you need to download it from the GitHub release page.
-The fastest way to do this is to run the `download_mizuka` script, which will download and unzip the latest release.
+To open the app, you don't need any technical skills. Just:
 
-### Windows:
-  - Launch [download-mizuka.bat](scripts/build/win/download-mizuka.bat) from directory: `scripts\build\win`
+### Launch the Setup Script
+The fastest way to get started is to run the automated script, which handles the latest engine download and setup:
 
-### Linux:
-  - Launch [download_mizuka.sh](scripts/build/lin/download_mizuka.sh) from directory `scripts/build/lin`
+#### **Windows:**
+*   [Download download-mizuka.bat](https://github.com/Rediska4445/mizuki-player/blob/main/scripts/build/win/download-mizuka.bat)
+*   Run: `download-mizuka.bat`
+
+#### **Linux:**
+*   [Download download-mizuka.sh](https://github.com/Rediska4445/mizuki-player/blob/main/scripts/build/lin/download-mizuka.sh)
+*   Run: `bash download_mizuka.sh`
 
 ---
+
 
 # Features 
 
@@ -133,13 +141,13 @@ The fastest way to do this is to run the `download_mizuka` script, which will do
 2. Add all dependencies per file structure
 3. Use these **VM parameters**:
 
-Between, launch parameters:
+Launch parameters:
 ```c
 -Dfile.encoding=UTF-8
 --module-path
 "libraries\modules"
 --add-modules
-javafx.controls,javafx.fxml,javafx.graphics,javafx.swing,javafx.media,org.controlsfx.controls,jdk.management,java.management,mp3agic,java.prefs,com.jfoenix,com.github.kwhat.jnativehook,jsoup,lastfm.java,java.desktop,com.sun.jna,com.sun.jna.platform,org.apache.commons.io,untitled10
+javafx.controls,javafx.fxml,javafx.graphics,javafx.swing,javafx.media,org.controlsfx.controls,jdk.management,java.management,mp3agic,java.prefs,com.jfoenix,com.github.kwhat.jnativehook,jsoup,lastfm.java,java.desktop,com.sun.jna,com.sun.jna.platform,org.apache.commons.io
 --add-opens
 java.base/java.lang.reflect=com.jfoenix
 --add-opens
@@ -237,9 +245,12 @@ Automatic Maven/Gradle dependency download and workspace preparation is not avai
 
 ## Issues
 
-All resolved and (mostly) unresolved issues are listed in a directory of the same name. 
-
+All resolved and (mostly) unresolved issues are listed in a directory of the same name.  
 This allows us to keep track of issues (not just bugs) and resolve them over time, according to priority.
+
+[Issues here](https://github.com/Rediska4445/mizuki-player/tree/main/issues)
+
+---
 
 ## Modifications
   
@@ -264,14 +275,3 @@ public class mod implements AudioMod {
 4. **Build JAR and place** in the folder from `resources.properties`
 
 ---
-
-## Contributing
-
-**Solo project**<br>
-Your contributions are welcome! Open an issue or submit a PR to help grow this project.
-
----
-
-## License
-
-Mizuka is developed and distributed under licens
