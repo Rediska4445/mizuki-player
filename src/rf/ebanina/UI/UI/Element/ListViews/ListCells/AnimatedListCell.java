@@ -138,12 +138,6 @@ public abstract class AnimatedListCell<T>
         }
     }
 
-    protected void setBackgroundImageCentered(ImagePattern image, Rectangle background) {
-        if(image != null) {
-            background.setFill(image);
-        }
-    }
-
     public FadeTransition showFadeAnimation() {
         showFadeAnimation.stop();
 

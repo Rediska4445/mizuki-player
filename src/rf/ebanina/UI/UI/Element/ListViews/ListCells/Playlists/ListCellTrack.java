@@ -56,10 +56,6 @@ public class ListCellTrack<T>
     private static final AtomicInteger albumArtCounter = new AtomicInteger(0);
 
     public ListCellTrack() {
-        this(ColorProcessor.core.getMainClr());
-    }
-
-    public ListCellTrack(Color color) {
         super();
 
         pane = createBackgroundPane(28);
@@ -111,7 +107,7 @@ public class ListCellTrack<T>
 
     private Runnable loadBackgroundLocalTrack(Track item) {
         return () -> {
-            Image img1 = !item.isNetty() ? item.getAlbumArt() : null;
+            Image img1 = item.getAlbumArt();
 
             if (isActive(item, currentBgTask)) {
                 Platform.runLater(() -> setBackgroundImageCentered(img1, getWidth(), background));
@@ -135,7 +131,7 @@ public class ListCellTrack<T>
                 }
 
                 if (buff != null) {
-                    if (isActive(item, currentBgTask)) {
+                    if (super.isActive(item, currentBgTask)) {
                         Platform.runLater(() -> setBackgroundImageCentered(buff, getWidth(), background));
                     }
                 }
@@ -172,10 +168,18 @@ public class ListCellTrack<T>
             try {
                 Image buff = item.mipmap;
 
-                if(buff == null || !item.metadata.get("mipmap_is_loaded", boolean.class)) {
-                    item.setMipmap(Track.createMipmap(item.metadata.get("album_art", String.class))).getMipmap();
+                if(item.getProperties().get("mipmap_is_loaded", boolean.class) == null) {
+                    item.getProperties().put("mipmap_is_loaded", false, boolean.class);
+                }
 
-                    item.metadata.put("mipmap_is_loaded", true, boolean.class);
+                if(buff == null || !item.getProperties().get("mipmap_is_loaded", boolean.class)) {
+                    if(item.getProperties().get("album_art", String.class) == null) {
+                        item.getProperties().put("album_art", ColorProcessor.getCore().getLogo().getUrl(), String.class);
+                    }
+
+                    item.setMipmap(Track.createMipmap(item.getProperties().get("album_art", String.class))).getMipmap();
+
+                    item.getProperties().put("mipmap_is_loaded", true, boolean.class);
                 }
 
                 Color color = ColorProcessor.core.getGeneralColorFromImage(buff);
@@ -251,17 +255,11 @@ public class ListCellTrack<T>
     }
 
     private String getTopLabelText(Track item) {
-        String duration = Track.getFormattedTotalDuration(Float.parseFloat(item.getLastTimeTrack())) +
+        return Track.getFormattedTotalDuration(Float.parseFloat(item.getLastTimeTrack())) +
                 " / " +
                 Track.getFormattedTotalDuration(item.getTotalDurationInSeconds()) +
                 " " +
-                item.viewName() +
-                " - " +
-                (getIndex() + 1) +
-                " - " +
-                item.getExtension();
-
-        return duration;
+                item.viewName();
     }
 
     @Override
