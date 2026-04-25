@@ -14,8 +14,9 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TrackHistoryTest extends ApplicationTest {
-
+public class TrackHistoryTest
+        extends ApplicationTest
+{
     private ContextMenu contextMenu;
     private TrackHistory history;
 

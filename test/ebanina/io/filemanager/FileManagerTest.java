@@ -5,6 +5,7 @@ import org.junit.jupiter.api.io.TempDir;
 import rf.ebanina.File.FileManager;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
@@ -16,11 +17,102 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FileManagerTest {
-
     private final FileManager fileManager = new FileManager("");
 
     @TempDir
     Path tempDir;
+
+    @Test
+    void createCacheDirectoryIfNotExist_createsFilesOnlyIfTheyDoNotExist(@TempDir Path tempDir) throws IOException {
+        Path baseDir = tempDir.resolve("cache");
+        Path cache   = baseDir.resolve("cache");
+        Path inet    = baseDir.resolve("inet");
+
+        Files.deleteIfExists(tempDir.resolve("cache"));
+
+        FileManager.createCacheDirectoryIfNotExist(baseDir);
+
+        // Проверяем, что все директории и файлы существуют
+        System.out.println(baseDir);
+
+        assertTrue(Files.exists(baseDir));
+        assertTrue(Files.isDirectory(baseDir));
+        assertTrue(Files.exists(cache));
+        assertTrue(Files.isDirectory(cache));
+        assertTrue(Files.exists(cache.resolve("playlists")));
+        assertTrue(Files.isDirectory(cache.resolve("playlists")));
+        assertTrue(Files.exists(cache.resolve("tags")));
+        assertTrue(Files.isDirectory(cache.resolve("tags")));
+        assertTrue(Files.exists(cache.resolve("tracks")));
+        assertTrue(Files.isDirectory(cache.resolve("tracks")));
+        assertTrue(Files.exists(inet));
+        assertTrue(Files.isDirectory(inet));
+
+        Path historyPath = cache.resolve("history.txt");
+        Path sharedPath  = baseDir.resolve("shared.txt");
+
+        assertTrue(Files.exists(historyPath));
+        assertTrue(Files.exists(sharedPath));
+    }
+
+    @Test
+    void createCacheDirectoryIfNotExist_doesNotOverwriteExistingFiles(@TempDir Path tempDir) throws IOException {
+        Path baseDir = tempDir.resolve("cache");
+        Path cache   = baseDir.resolve("cache");
+        Path historyPath = cache.resolve("history.txt");
+        Path sharedPath  = baseDir.resolve("shared.txt");
+
+        // создадим уже существующие файлы с другим содержимым
+        Files.createDirectories(baseDir);
+        Files.createDirectories(cache);
+        Files.writeString(historyPath, "already exists history", StandardCharsets.UTF_8);
+        Files.writeString(sharedPath, "already exists shared", StandardCharsets.UTF_8);
+
+        FileManager.createCacheDirectoryIfNotExist(baseDir);
+
+        // проверяем, что файлы не перезаписались (содержимое осталось прежнее)
+        String historyContent = Files.readString(historyPath, StandardCharsets.UTF_8);
+        String sharedContent  = Files.readString(sharedPath, StandardCharsets.UTF_8);
+
+        assertEquals("already exists history", historyContent);
+        assertEquals("already exists shared", sharedContent);
+    }
+
+    @Test
+    void createCacheDirectoryIfNotExist_createsMissingFilesOnly(@TempDir Path tempDir) throws IOException {
+        Path baseDir = tempDir.resolve("cache");
+        Path cache   = baseDir.resolve("cache");
+        Path inet    = baseDir.resolve("inet");
+
+        // изначально есть только cache/cache, остальное отсутствует
+        Files.createDirectories(baseDir);
+        Files.createDirectories(cache); // cache/cache существует
+
+        // history.txt и shared.txt — нет
+        Path historyPath = cache.resolve("history.txt");
+        Path sharedPath  = baseDir.resolve("shared.txt");
+
+        assertFalse(Files.exists(historyPath));
+        assertFalse(Files.exists(sharedPath));
+
+        // playlist, tags, tracks — тоже нет
+        assertFalse(Files.exists(cache.resolve("playlists")));
+        assertFalse(Files.exists(cache.resolve("tags")));
+        assertFalse(Files.exists(cache.resolve("tracks")));
+        assertFalse(Files.exists(inet));
+
+        FileManager.createCacheDirectoryIfNotExist(baseDir);
+
+        // проверяем, что:
+        // - cache/cache не пересоздаётся (но это не важно, Files.createDirectories не ломает)
+        // - недостающие директории и файлы появились
+        assertTrue(Files.exists(cache.resolve("playlists")));
+        assertTrue(Files.exists(cache.resolve("tags")));
+        assertTrue(Files.exists(cache.resolve("tracks")));
+        assertTrue(Files.exists(inet));
+        assertTrue(Files.exists(historyPath));
+        assertTrue(Files.exists(sharedPath));
+    }
 
     /**
      * Тест: успешное сохранение коллекции.
