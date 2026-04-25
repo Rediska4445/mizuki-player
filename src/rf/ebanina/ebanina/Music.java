@@ -1,14 +1,11 @@
-// -----------------------------------------------
-// Основной пакет приложения - rf.ebanina.ebanina.
 package rf.ebanina.ebanina;
-
-// -----------------------------------------------------------------
-// Пакеты для регистрации глобальных нажатий клавиш (вне приложения).
 
 import com.github.kwhat.jnativehook.GlobalScreen;
 import com.sun.jna.platform.win32.Kernel32;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
+import javafx.scene.control.ProgressBar;
 import javafx.stage.Stage;
 import rf.ebanina.File.Configuration.ConfigurationManager;
 import rf.ebanina.File.FileManager;
@@ -17,6 +14,7 @@ import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.File.Resources.Resources;
 import rf.ebanina.UI.Root;
 import rf.ebanina.UI.UI.Animations;
+import rf.ebanina.UI.UI.Element.SplashScreen;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
 import rf.ebanina.ebanina.KeyBindings.KeyBindingController;
 import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
@@ -29,6 +27,7 @@ import rf.ebanina.utils.weakly.WeakConst;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
@@ -217,12 +216,42 @@ public final class Music
      * @throws IOException при различных ошибках внутри метода
      */
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage)
+            throws IOException
+    {
+        mainLogger.info(ResourceManager.getLocalizationManager().getLocale(), "EN_en");
+
+        SplashScreen splashScreen = new SplashScreen(
+                FileManager.getInstance().getJsonList(Path.of(ResourceManager.getInstance().getResourcesPaths().get("splashesMessages")),
+                        ResourceManager.getLocalizationManager().getLocale(), "EN_en")
+        ) {
+            @Override
+            public void showMainWindow() {
+                // Отображение окна
+                stage.show();
+            }
+
+            @Override
+            public void onClose() {
+                System.exit(130);
+            }
+        };
+
+        splashScreen.show((progressBar -> initialize(stage, progressBar)));
+    }
+
+    private void initialize(Stage stage, ProgressBar progressBar) {
+        // Прогресс = 0%
+        Platform.runLater(() -> progressBar.setProgress(0.0));
+
         // Вывод лога о версии и названии версии
         mainLogger.println("Application version: " + version);
 
         // Создать все недостающие папки для кэша
-        FileManager.createCacheDirectoryIfNotExist();
+        FileManager.createCacheDirectoryIfNotExist(Paths.get("cache"));
+
+        // Прогресс = 10%
+        Platform.runLater(() -> progressBar.setProgress(0.1));
 
         // Установка времени при старте.
         // Это будет определять временную точку для дельты времени.
@@ -240,32 +269,39 @@ public final class Music
 
         // Ссылка на объект приложения.
         // Используется во всём приложении, не должно меняться по идеи.
-        Root.rootImpl.stage = stage;
+        Platform.runLater(() -> Root.rootImpl.stage = stage);
 
         // Окно приложения инициализировано
         mainLogger.info("Root stage reference set");
 
         // Ссылка на сцену приложения.
-        Root.rootImpl.scene = new Scene(Root.rootImpl.getRoot());
+        Platform.runLater(() -> Root.rootImpl.scene = new Scene(Root.rootImpl.getRoot()));
 
         // Сцена приложения инициализировано
         mainLogger.info("Main scene created with root node");
 
-        // Параметры приложения
-        // Название
-        stage.setTitle(name);
-        // Сцена
-        stage.setScene(Root.rootImpl.scene);
+        Platform.runLater(() -> {
+            // Параметры приложения
+            // Название
+            stage.setTitle(name);
+            // Сцена
+            stage.setScene(Root.rootImpl.scene);
+
+            // Прогресс = 20%
+            progressBar.setProgress(0.2);
+        });
 
         // Вывод названия приложения
         mainLogger.info("Stage configured with title: %s", name);
 
         // Последние данные о положении и размерах
         try {
-            stage.setX(Float.parseFloat(FileManager.instance.readSharedData().get("layout_x")));
-            stage.setY(Float.parseFloat(FileManager.instance.readSharedData().get("layout_y")));
-            stage.setWidth(Float.parseFloat(FileManager.instance.readSharedData().get("width")));
-            stage.setHeight(Float.parseFloat(FileManager.instance.readSharedData().get("height")));
+            Platform.runLater(() -> {
+                stage.setX(Float.parseFloat(FileManager.instance.readSharedData().get("layout_x")));
+                stage.setY(Float.parseFloat(FileManager.instance.readSharedData().get("layout_y")));
+                stage.setWidth(Float.parseFloat(FileManager.instance.readSharedData().get("width")));
+                stage.setHeight(Float.parseFloat(FileManager.instance.readSharedData().get("height")));
+            });
         } catch (Exception e) {
             mainLogger.warn("Failed to restore window geometry: %s", e.getMessage());
         }
@@ -288,54 +324,191 @@ public final class Music
         mainLogger.printf("\nCalculated maxHeight: {%d}px (16:9 from maxWidth)", (int)maxHeight);
 
         // Установка максимальных размеров с приведением к int (JavaFX Stage API)
-        stage.setMaxWidth((int)maxWidth);
-        stage.setMaxHeight((int)maxHeight);
+        Platform.runLater(() -> {
+            stage.setMaxWidth((int) maxWidth);
+            stage.setMaxHeight((int) maxHeight);
+        });
 
-        // Отображение окна
-        stage.show();
-        mainLogger.printf("\nStage displayed - maxSize: {%d}x{%d}px (screen: {%d}x{%d}px, ratio 16:9)",
+        mainLogger.printf("\nStage displayed - maxSize: {%d}x{%d}px (screen: {%d}x{%d}px, ratio 16:9)\n",
                 (int)maxWidth, (int)maxHeight, (int)screenWidth, (int)screenHeight);
 
         // Инициализировать контроллер анимаций.
         // В частности, эта хуйня оптимизирует работу анимаций (см. класс)
-        Animations.instance.init(stage);
+        Platform.runLater(() -> {
+            Animations.instance.init(stage);
+
+            progressBar.setProgress(0.3);
+        });
 
         // Контроллер анимаций инициализирован
         mainLogger.info("Animations controller initialized");
 
         // При закрытии закрыть все потоки и записать кеш.
-        stage.setOnCloseRequest(windowEvent -> {
-            // Закрыть медиа-плеер.
-            // Плеер может быть нулевым в некоторых предсказуемых ситуациях,
-            // поэтому проверка необходима и намеренна.
-            if (MediaProcessor.mediaProcessor.mediaPlayer != null)
-                MediaProcessor.mediaProcessor.mediaPlayer.close();
+        Platform.runLater(() -> {
+            stage.setOnCloseRequest(windowEvent -> {
+                // Закрыть медиа-плеер.
+                // Плеер может быть нулевым в некоторых предсказуемых ситуациях,
+                // поэтому проверка необходима и намеренна.
+                if (MediaProcessor.mediaProcessor.mediaPlayer != null)
+                    MediaProcessor.mediaProcessor.mediaPlayer.close();
 
-            // Закрытие графического слайдера плеера
-            Root.SliderHandler.sliderHandler.stop();
+                // Закрытие графического слайдера плеера
+                Root.SliderHandler.sliderHandler.stop();
 
-            // Очистка кеша из inet папки
-            FileManager.instance.clearCacheData(Resources.Properties.DEFAULT_INET_CACHE_PATH.getKey());
+                // Очистка кеша из inet папки
+                FileManager.instance.clearCacheData(Resources.Properties.DEFAULT_INET_CACHE_PATH.getKey());
 
-            // Сохранение общих данных о приложении
-            FileManager.instance.saveSharedData();
+                // Сохранение общих данных о приложении
+                FileManager.instance.saveSharedData();
 
-            // Сохранение истории в файл
-            if(PlayProcessor.playProcessor.getTrackHistoryGlobal() != null) {
-                PlayProcessor.playProcessor.getTrackHistoryGlobal().saveToFile(new File(Resources.Properties.HISTORY_FILE_PATH.getKey()));
-            }
+                // Сохранение истории в файл
+                if (PlayProcessor.playProcessor.getTrackHistoryGlobal() != null) {
+                    PlayProcessor.playProcessor.getTrackHistoryGlobal().saveToFile(new File(Resources.Properties.HISTORY_FILE_PATH.getKey()));
+                }
 
-            //TODO: Выяснить, почему оно вызывает лаг
-            //      System.exit(130);
-            Kernel32.INSTANCE.ExitProcess(130);
+                //TODO: Выяснить, почему оно вызывает лаг
+                //      System.exit(130);
+                stage.setIconified(true);
+                stage.hide();
+
+                System.gc();
+
+                Thread terminator = new Thread(() -> {
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException ignored) {}
+
+                    Kernel32.INSTANCE.ExitProcess(0);
+                });
+
+                terminator.setDaemon(true);
+                terminator.start();
+            });
+
+            progressBar.setProgress(0.4);
         });
+
+        //<------------------------Ручная подготовка индексатора-------------------------->//
+
+        mainLogger.info("Playlist cursorus prepare");
+
+        // Курсор на текущий плейлист
+        PlayProcessor.playProcessor.setCurrentPlaylistIter(Integer.parseInt(FileManager.instance.readSharedData().get("last_track_index_playlist_local")));
+
+        // Курсор на текущий трек
+        PlayProcessor.playProcessor.setTrackIter(Integer.parseInt(FileManager.instance.readSharedData().get("last_track_index_local")));
+
+        mainLogger.info("Playlist iter: %d, Track iter: %d",
+                PlayProcessor.playProcessor.getCurrentPlaylistIter(),
+                PlayProcessor.playProcessor.getTrackIter()
+        );
+
+        Platform.runLater(() -> progressBar.setProgress(0.45));
+
+        try {
+            FileManager.instance.setPlaylists(PlayProcessor.playProcessor.getCurrentDefaultMusicDir());
+            PlayProcessor.playProcessor.setCurrentMusicDir(PlayProcessor.playProcessor.getCurrentPlaylist().get(PlayProcessor.playProcessor.getCurrentPlaylistIter()).getPath());
+
+            mainLogger.info("Playlist and tracks loaded from: %s", PlayProcessor.playProcessor.getCurrentMusicDir());
+
+            PlayProcessor.playProcessor.getTracks().clear();
+            PlayProcessor.playProcessor.getTracks().addAll(FileManager.instance.getMusic(Paths.get(PlayProcessor.playProcessor.getCurrentMusicDir())));
+        } catch (IndexOutOfBoundsException e) {
+            PlayProcessor.playProcessor.setCurrentMusicDir(PlayProcessor.playProcessor.getCurrentPlaylist().get(PlayProcessor.playProcessor.setCurrentPlaylistIter(0).getCurrentPlaylistIter()).getPath());
+
+            mainLogger.warn("Playlist index out of bounds, resetting to 0");
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            mainLogger.severe("Playlist restoration failed: %s", e.getMessage());
+        }
+
+        Platform.runLater(() -> progressBar.setProgress(0.5));
+
+        if (PlayProcessor.playProcessor.getCurrentPlaylistIter() >= PlayProcessor.playProcessor.getCurrentPlaylist().size()
+                || PlayProcessor.playProcessor.getTrackIter() >= PlayProcessor.playProcessor.getTracks().size()
+                || PlayProcessor.playProcessor.getCurrentPlaylistIter() < 0
+                || PlayProcessor.playProcessor.getTrackIter() < 0) {
+            PlayProcessor.playProcessor.setCurrentPlaylistIter(0);
+            PlayProcessor.playProcessor.setTrackIter(0);
+        }
+
+        //<-------------------------------------------------------------------------------->//
+
+        // Инициализация графических компонентов.
+        // Начало профилирования инициализации Root.rootImpl.init()
+        mainLogger.profiler("Root UI initialization start");
+
+        // Инициализация графических компонентов приложения.
+        Platform.runLater(() -> {
+            Root.rootImpl.init(); // <- ~290 ms
+
+            progressBar.setProgress(0.6);
+        });
+
+        // Конец профилирования инициализации Root.rootImpl.init()
+        mainLogger.profiler("Root UI initialization complete");
+
+        // Загрузка общего кеша для плеера (громкость, темп и т.д.).
+        MediaProcessor.mediaProcessor.initGlobalMap();
+
+        Platform.runLater(() -> {
+            progressBar.setProgress(0.65);
+        });
+
+        mainLogger.info("Media cache (global map) initialized");
+
+        // Установка новой медиа.
+        MediaProcessor.mediaProcessor.setNewMedia(
+                new Media(new File(PlayProcessor.playProcessor.getTracks().get(PlayProcessor.playProcessor.getTrackIter()).getPath()).toURI().toString())
+        );
+
+        Platform.runLater(() -> progressBar.setProgress(0.7));
+
+        mainLogger.info("Current track media loaded");
+
+        // Обновление медиаплеера
+        Platform.runLater(() -> MediaProcessor.mediaProcessor.updateMediaPlayer());
+
+        mainLogger.info("MediaPlayer updated with new track");
+
+        // Инициализация графики
+        Platform.runLater(() -> {
+            Root.rootImpl.set();
+
+            progressBar.setProgress(0.75);
+        });
+
+        mainLogger.info("Root UI final setup complete");
+
+        // Нахуй не нужные классы.
+        // Их нужно удалить, методы разнести по классам
+        Platform.runLater(() -> {
+            Root.PlaylistHandler.initialize();
+            Root.ButtonHandler.initialize();
+            Root.SliderHandler.sliderHandler.initialize();
+
+            progressBar.setProgress(0.8);
+        });
+
+        mainLogger.info("All UI handlers initialized");
+
+        // Инициализация медиа-контроллера (не самого, а того что логически к нему подходит)
+        MediaProcessor.mediaProcessor.initialize();
+
+        mainLogger.info("MediaProcessor fully initialized");
+
+        // Инициализация контроллера горячих клавиш.
+        KeyBindingController.setupKeyListeners(stage.getScene());
 
         // Обработчик событий выхода инициализирован
         mainLogger.info("Exit event handler registered");
 
+        Platform.runLater(() -> progressBar.setProgress(0.9));
+
         // Иконка меняется, в соответствии с текущей обложкой трека.
         // Прикольная идея возникла ещё в 2022 году.
-        stage.focusedProperty().addListener((ov, onHidden, onShown) -> {
+        Platform.runLater(() -> stage.focusedProperty().addListener((ov, onHidden, onShown) -> {
             // Удалить предыдущие иконки
             stage.getIcons().clear();
 
@@ -353,7 +526,9 @@ public final class Music
 
                 mainLogger.info("Focus gained - App title restored");
             }
-        });
+        }));
+
+        mainLogger.info("Configuration FXML converter executed");
 
         // Эта хуйня пишет файл для графического отображения настроек.
         // На основе того что есть в файле настроек, он будет создавать окно настроек в приложении.
@@ -362,100 +537,6 @@ public final class Music
         //      и я не помню, что я там добавлял.
         //      Мне похуй, я знаю как приложение настроить, через файл, а окно добавил просто так (оно вполне может не работать).
         ConfigurationManager.fxmlConverter.convert();
-
-        mainLogger.info("Configuration FXML converter executed");
-
-        //<------------------------Ручная подготовка индексатора-------------------------->//
-
-        mainLogger.info("Playlist cursorus prepare");
-
-        // Курсор на текущий плейлист
-        PlayProcessor.playProcessor.setCurrentPlaylistIter(Integer.parseInt(FileManager.instance.readSharedData().get("last_track_index_playlist_local")));
-
-        // Курсор на текущий трек
-        PlayProcessor.playProcessor.setTrackIter(Integer.parseInt(FileManager.instance.readSharedData().get("last_track_index_local")));
-
-        mainLogger.info("Playlist iter: %d, Track iter: %d",
-                PlayProcessor.playProcessor.getCurrentPlaylistIter(),
-                PlayProcessor.playProcessor.getTrackIter()
-        );
-
-        try {
-            FileManager.instance.setPlaylists(PlayProcessor.playProcessor.getCurrentDefaultMusicDir());
-
-            PlayProcessor.playProcessor.setCurrentMusicDir(PlayProcessor.playProcessor.getCurrentPlaylist().get(PlayProcessor.playProcessor.getCurrentPlaylistIter()).getPath());
-
-            mainLogger.info("Playlist and tracks loaded from: %s", PlayProcessor.playProcessor.getCurrentMusicDir());
-
-            PlayProcessor.playProcessor.getTracks().clear();
-            PlayProcessor.playProcessor.getTracks().addAll(FileManager.instance.getMusic(Paths.get(PlayProcessor.playProcessor.getCurrentMusicDir())));
-        } catch (IndexOutOfBoundsException e) {
-            PlayProcessor.playProcessor.setCurrentMusicDir(PlayProcessor.playProcessor.getCurrentPlaylist().get(PlayProcessor.playProcessor.setCurrentPlaylistIter(0).getCurrentPlaylistIter()).getPath());
-
-            mainLogger.warn("Playlist index out of bounds, resetting to 0");
-        } catch (Exception e) {
-            e.printStackTrace();
-
-            mainLogger.severe("Playlist restoration failed: %s", e.getMessage());
-        }
-
-        if (PlayProcessor.playProcessor.getCurrentPlaylistIter() >= PlayProcessor.playProcessor.getCurrentPlaylist().size()
-                || PlayProcessor.playProcessor.getTrackIter() >= PlayProcessor.playProcessor.getTracks().size()
-                || PlayProcessor.playProcessor.getCurrentPlaylistIter() < 0
-                || PlayProcessor.playProcessor.getTrackIter() < 0) {
-            PlayProcessor.playProcessor.setCurrentPlaylistIter(0);
-            PlayProcessor.playProcessor.setTrackIter(0);
-        }
-
-        //<-------------------------------------------------------------------------------->//
-
-        // Инициализация графических компонентов.
-        // Начало профилирования инициализации Root.rootImpl.init()
-        mainLogger.profiler("Root UI initialization start");
-
-        // Инициализация графических компонентов приложения.
-        Root.rootImpl.init(); // <- ~290 ms
-
-        // Конец профилирования инициализации Root.rootImpl.init()
-        mainLogger.profiler("Root UI initialization complete");
-
-        // Загрузка общего кеша для плеера (громкость, темп и т.д.).
-        MediaProcessor.mediaProcessor.initGlobalMap();
-
-        mainLogger.info("Media cache (global map) initialized");
-
-        // Установка новой медиа.
-        MediaProcessor.mediaProcessor.setNewMedia(
-                new Media(new File(PlayProcessor.playProcessor.getTracks().get(PlayProcessor.playProcessor.getTrackIter()).getPath()).toURI().toString())
-        );
-
-        mainLogger.info("Current track media loaded");
-
-        // Обновление медиаплеера
-        MediaProcessor.mediaProcessor.updateMediaPlayer();
-
-        mainLogger.info("MediaPlayer updated with new track");
-
-        // Инициализация графики
-        Root.rootImpl.set();
-
-        mainLogger.info("Root UI final setup complete");
-
-        // Нахуй не нужные классы.
-        // Их нужно удалить, методы разнести по классам
-        Root.PlaylistHandler.initialize();
-        Root.ButtonHandler.initialize();
-        Root.SliderHandler.sliderHandler.initialize();
-
-        mainLogger.info("All UI handlers initialized");
-
-        // Инициализация медиа-контроллера (не самого, а того что логически к нему подходит)
-        MediaProcessor.mediaProcessor.initialize();
-
-        mainLogger.info("MediaProcessor fully initialized");
-
-        // Инициализация контроллера горячих клавиш.
-        KeyBindingController.setupKeyListeners(stage.getScene());
 
         // Создание сессии.
         // Сессия - это файл загружающий обобщённый данные для внешней отладки.
@@ -469,9 +550,11 @@ public final class Music
         // Здесь происходит проверка на то, включена ли загрузка модов в настройках.
         if(ConfigurationManager.instance.getBooleanItem("mod_load", "false")) {
             // Здесь происходит загрузка модов из папки указанной в resources.properties.
-            Anvil.anvil.loadAllModsFromFolder(ResourceManager.Instance.resourcesPaths.get(Resources.Properties.MODS.getKey()),
+            Anvil.anvil.loadAllModsFromFolder(ResourceManager.Instance.getResourcesPaths().get(Resources.Properties.MODS.getKey()),
                     ConfigurationManager.instance.getItem("disable_mods", ""));
         }
+
+        Platform.runLater(() -> progressBar.setProgress(0.9));
 
         // Приложение инициализировано и запущенно
         mainLogger.info("All mods loaded from folder");
