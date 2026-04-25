@@ -5,7 +5,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import rf.ebanina.File.FileManager;
 import rf.ebanina.File.Resources.ResourceManager;
-import rf.ebanina.utils.formats.json.JsonProcess;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,8 +15,7 @@ import java.util.HashMap;
 public class JsonLocalizationManager
         extends LocalizationManager
 {
-    private StringBuilder fullLocales;
-    private JSONParser parser = new JSONParser();
+    private final JSONParser parser = new JSONParser();
 
     public JsonLocalizationManager(FileManager fileManager, ResourceManager resourceManager, String lang, Path langPath) {
         super(fileManager, resourceManager, lang, langPath);
@@ -51,15 +49,11 @@ public class JsonLocalizationManager
     @Override
     protected void putLocale(String word, String ifResultIsNull) {
         try {
-            if (fullLocales == null) {
-                fullLocales = new StringBuilder(Files.readString(Path.of(ResourceManager.getInstance().resourcesPaths.get("lang") + File.separator + lang + ".json")));
+            if (localeMap().size() == 0) {
+                localeMap().putAll(parseJsonToMap(Files.readString(Path.of(ResourceManager.getInstance().resourcesPaths.get("lang") + File.separator + lang + ".json"))));
             }
 
-            if(localeMap().get(word) == null) {
-                localeMap().putAll(parseJsonToMap(fullLocales.toString()));
-            }
-
-            localeMap().put(word, JsonProcess.getJsonItem(fullLocales.toString(), word));
+            localeMap().putIfAbsent(word, ifResultIsNull);
         } catch (RuntimeException | ParseException | IOException e) {
             throw new RuntimeException(e);
         }

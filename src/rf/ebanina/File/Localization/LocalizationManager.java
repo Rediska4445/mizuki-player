@@ -98,7 +98,11 @@ public class LocalizationManager
      * определяющего язык на основании конфигураций.
      * </p>
      */
-    public String lang;
+    protected String lang;
+
+    public String getLang() {
+        return lang;
+    }
 
     /**
      * Текущий путь к файлу с языком.
@@ -108,6 +112,12 @@ public class LocalizationManager
      * </p>
      */
     public Path langPath;
+
+    private String locale;
+
+    public String getLocale() {
+        return locale;
+    }
 
     /**
      * Определяет текущий язык локализации на основе конфигурационных настроек.
@@ -141,10 +151,10 @@ public class LocalizationManager
      */
     protected String getCurrentLocaleLanguage(String defaultLang) {
         if(defaultLang.equalsIgnoreCase("auto")) {
-            return identifyLocale();
+            return locale = identifyLocale();
         }
 
-        return defaultLang;
+        return locale = defaultLang;
     }
     /**
      * Карта доступных языков локализации.

@@ -115,6 +115,11 @@ public class ResourceManager
      * </p>
      */
     public static LocalizationManager localizationManager = defaultLocalizationManager();
+
+    public static LocalizationManager getLocalizationManager() {
+        return localizationManager;
+    }
+
     /**
      * Возвращает экземпляр {@code LocalizationManager}, созданный в формате,
      * указанном в конфигурации приложения (по умолчанию — в формате JSON).
@@ -177,6 +182,11 @@ public class ResourceManager
      * }</pre>
      */
     public Map<String, String> resourcesPaths = new HashMap<>();
+
+    public Map<String, String> getResourcesPaths() {
+        return resourcesPaths;
+    }
+
     /**
      * Загружает ресурсы из properties-файла с поддержкой переменных и нормализацией путей.
      * <p>Метод читает ключ-значение, резолвит переменные вида <code>${var}</code> через рекурсивный подстановщик,
@@ -286,14 +296,58 @@ public class ResourceManager
         return value;
     }
 
+    /**
+     * Возвращает стандартный экземпляр {@code ResourceManager},
+     * загружающий настройки ресурсов из файла, указанного в конфигурации приложения.
+     * <p>
+     * Особенности:
+     * <ul>
+     *   <li><b>Использует конфигурацию</b> — строка пути к файлу ресурсов берётся
+     *       из параметра {@code "theme"} в {@code ConfigurationManager.instance}
+     *       (по умолчанию — {@code "res" + File.separator + "resources.properties"}).</li>
+     *   <li><b>Создаёт новый объект</b> — каждый вызов создаёт {@code ResourceManager}
+     *       с указанным ресурсным файлом, если не используется уже существующий экземпляр.</li>
+     * </ul>
+     * </p>
+     *
+     * @return новый экземпляр {@code ResourceManager}, настроенный на файл ресурсов из конфигурации
+     */
     public static ResourceManager defaultResourceManager() {
         return new ResourceManager(
                 ConfigurationManager.instance.getItem("theme", "res" + File.separator + "resources.properties")
         );
     }
-
+    /**
+     * Статический синглтон‑экземпляр {@code ResourceManager}, используемый по‑умолчанию во всём приложении.
+     * <p>
+     * Особенности:
+     * <ul>
+     *   <li><b>Единственный доступный объект</b> — поле {@code Instance} обеспечивает
+     *       один и тот же экземпляр {@code ResourceManager} для всех модулей приложения.</li>
+     *   <li><b>Инициализация через фабрику</b> — значение задаётся вызовом {@code defaultResourceManager()},
+     *       что гарантирует корректную настройку ресурсного файла.</li>
+     * </ul>
+     * </p>
+     */
     public static ResourceManager Instance = defaultResourceManager();
-
+    /**
+     * Возвращает глобальный синглтон‑экземпляр {@code ResourceManager},
+     * созданный при первом обращении, либо ранее инициализированный объект {@code Instance}.
+     * <p>
+     * Особенности:
+     * <ul>
+     *   <li><b>Гарантия возврата объекта</b> — если {@code Instance == null},
+     *       метод инициализирует его через {@link #defaultResourceManager()}
+     *       и возвращает этот же экземпляр, при последующих вызовах — возвращает уже существующий.</li>
+     *   <li><b>Типичный синглтон‑паттерн</b> — предоставляет централизованный доступ
+     *       к управлению ресурсами приложения.</li>
+     *   <li><b>Рекомендуемый способ доступа</b> — потребителям следует использовать вызов метода {@code getInstance()},
+     *       а не прямое обращение к статическому полю {@code Instance}, чтобы обеспечить единый и контролируемый путь к ресурс‑менеджеру.</li>
+     * </ul>
+     * </p>
+     *
+     * @return экземпляр {@code ResourceManager}, гарантированно не равный {@code null}
+     */
     public static ResourceManager getInstance() {
         if(Instance == null)
             return Instance = defaultResourceManager();
