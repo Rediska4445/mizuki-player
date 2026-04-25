@@ -64,72 +64,75 @@ The fastest way to get started is to run the automated script, which handles the
 
 ### Overview
 
-| **VST/VST3**                  | **Network**         | **Audio DSP**      | **Local Media**    |
-|-------------------------------|---------------------|--------------------|--------------------|
-| Plugin hosting (without Juce) | Spotify/LastFM      | Volume/Tempo/Pitch | 15+ Languages      |
-| I/O routing                   | Track download      | Smart normalizer   | Advanced tagging   |
-| Editor GUI                    | Metadata extraction | Skip drop, intro   | Complex search     |
-| Parameter control             | Lyrics translation  | MP3/WAV support    | State persistence  |
-| State save/restore            | Network playlists   | Custom formats     | Moddable resources |
+| **VST/VST3**                  | **Network**                                      | **Audio DSP**      | **Local Media**    |
+|-------------------------------|--------------------------------------------------|--------------------|--------------------|
+| Plugin hosting (without Juce) | Spotify, Deezer, SoundCloud, LastFM, Apple Music | Volume/Tempo/Pitch | Internalization    |
+| I/O routing                   | Track download                                   | Smart normalizer   | Advanced tagging   |
+| Editor GUI                    | Metadata extraction                              | Skip drop, intro   | Complex search     |
+| Parameter control             | Track translation                                | MP3/WAV support    | State persistence  |
+| State save/restore            | Network playlists                                | Custom formats     | Moddable resources |
 
-> **Many functions may not actually work correctly even if tested successfully.**
+> [!NOTE]
+> For SoundCloud and LastFM need use proxy
 
-### Details
+<details>
+  <summary>Click to see full details of features</summary>
 
-- Ability to use VST/VST3 plugins;
-  - Change plugin inputs/outputs;
-    - Open the plugin editor;
-    - Change mix.
-      - Save and restore plugin states;
-      - Change parameters outside the editor;
-      - Configure plugin hosts;
-- Ability to interact with network resources;
-  - Download tracks;
-    - Download to local playlist;
-    - Play in the player in streaming or buffer mode;
-  - View and play/download recommendations from third-party services:
-    - Spotify;
-    - LastFm;
-    - Apple;
-    - SoundCloud (may require track id)
-  - Obtaining and downloading metadata from third-party services;
-    - Obtaining cover art;
-    - Obtaining statistics;
-    - Obtaining similar tracks;
-    - Obtaining lyrics;
-  - Translation of the track title, author, and, if possible, lyrics;
-  - Forming quick network playlists;
-- Ability to use low-level audio processing.
-  - Change low-level parameters:
-    - Volume;
-    - Tempo;
-    - Pitch;
-    - Pan;
-  - Input normalizer the output volume;
+  - Ability to use VST/VST3 plugins;
+    - Change plugin inputs/outputs;
+      - Open the plugin editor;
+      - Change mix.
+        - Save and restore plugin states;
+        - Change parameters outside the editor;
+        - Configure plugin hosts;
+  - Ability to interact with network resources;
+    - Download tracks;
+      - Download to local playlist;
+      - Play in the player in streaming or buffer mode;
+    - View and play/download recommendations from third-party services:
+      - Spotify;
+      - LastFm;
+      - Apple;
+      - Deezer;
+      - SoundCloud (may require track id)
+    - Obtaining and downloading metadata from third-party services;
+      - Obtaining cover art;
+      - Obtaining statistics;
+      - Obtaining similar tracks;
+      - Obtaining lyrics;
+    - Translation of the track title, author, and, if possible, lyrics;
+    - Forming quick network playlists;
+  - Ability to use low-level audio processing.
+    - Change low-level parameters:
+      - Volume;
+      - Tempo;
+      - Pitch;
+      - Pan;
+    - Input normalizer the output volume;
   - Ability to:
     - Skip intro;
     - Skip outro;
     - Skip drop;
     - Skip pit;
   - Ability to play MP3, WAV, and other own formats included as mod;
-- Working with local dependencies
-  - Localization;
-  - Resource loading;
-    - Unpackaged resources (for modification);
-    - Resource bundles;
-  - Configurability;
-  - Tagging tracks, for categorize tracks by genre, feature, type, mood (basically, anything, since tags can be created)
-  - Ability to create and load modifications;
-  - Possibility to use track cache;
-  - Restoring state:
-    - Track:
-      - tempo, volume, time, pan, (plugins and vst states in future)
-    - Application data:
-  - Complex parsing search;
-    - Search for tags (starts with #) using AND/OR;
-    - Search for tracks using annotations (specific search refinements - playlists, author, mood, tag, format, duration, etc.);
+  - Working with local dependencies
+    - Localization;
+    - Resource loading;
+      - Unpackaged resources (for modification);
+      - Resource bundles;
+    - Configurability;
+    - Tagging tracks, for categorize tracks by genre, feature, type, mood (basically, anything, since tags can be created)
+    - Ability to create and load modifications;
+    - Possibility to use track cache;
+    - Restoring state:
+      - Track:
+        - tempo, volume, time, pan, (plugins and vst states in future)
+      - Application data:
+    - Complex parsing search;
+      - Search for tags (starts with #) using AND/OR;
+      - Search for tracks using annotations (specific search refinements - playlists, author, mood, tag, format, duration, etc.);
 
-<div id='200'/>
+</details>
 
 ---
 
@@ -169,14 +172,13 @@ For Eclipse:
 
 ---
 
-## Maven & Gradle
+## CI
 
-Automatic Maven/Gradle dependency download and workspace preparation is not available yet, but everything is possible!
+Automatic Maven dependency download and workspace preparation is not available yet, but everything is possible!
 
-| Tool       | Description                                                                                                                                                               |
-|------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Maven**  | Use **Maven-Space** — a standalone self-contained Maven project for builds.<br>**Out version implemented** for JAR packaging.<br>Not ideal, but that's how it's designed! |
- | **Gradle** | Support planned.                                                                                                                                                          |
+| Tool       | Description                                               |
+|------------|-----------------------------------------------------------|
+| **Maven**  | Configuration: [`pom.xml`](./package/build/maven/pom.xml) |                                                                                                                                                |
 ---
 
 ## Prerequisites
