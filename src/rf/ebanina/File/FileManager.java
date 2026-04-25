@@ -12,6 +12,7 @@ import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
 import rf.ebanina.ebanina.Player.MediaPlayer;
 import rf.ebanina.ebanina.Player.Playlist;
 import rf.ebanina.ebanina.Player.Track;
+import rf.ebanina.utils.formats.json.JsonProcess;
 import rf.ebanina.utils.formats.xml.XmlProcess;
 
 import java.io.*;
@@ -40,6 +41,46 @@ public class FileManager
 
     public FileManager(String sharedPath) {
         this.sharedPath = sharedPath;
+    }
+
+    public static FileManager defaultFileManager() {
+        return new FileManager(Resources.Properties.DEFAULT_COMMON_CACHE_PATH.getKey());
+    }
+
+    public static FileManager getInstance() {
+        if(instance == null)
+            instance = defaultFileManager();
+
+        return instance;
+    }
+
+    public List<String> getJsonList(Path path, String key, String ifKeyIsNull) {
+        if(path.toFile().exists()) {
+            try {
+                String item = JsonProcess.getJsonItem(
+                        String.join("", FileManager.getInstance().findParams(
+                                null, path, ArrayList::new, (e) -> true
+                        )),
+                        key
+                );
+
+                mainLogger.info(key);
+
+                if(item == null)
+                    item = JsonProcess.getJsonItem(
+                            String.join("", FileManager.getInstance().findParams(
+                                    null, path, ArrayList::new, (e) -> true
+                            )),
+                            ifKeyIsNull
+                    );
+
+                return new ArrayList<>(List.of(JsonProcess.getJsonArray(item)));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return new ArrayList<>();
     }
 
     // TODO: Сделать создание исходя из xml файла
@@ -153,7 +194,8 @@ public class FileManager
     @Override
     public List<String> supportedExtensions() {
         return List.of(
-                MediaPlayer.AvailableFormat.MP3.getTitle(), MediaPlayer.AvailableFormat.WAV.getTitle()
+                MediaPlayer.AvailableFormat.MP3.getTitle(),
+                MediaPlayer.AvailableFormat.WAV.getTitle()
         );
     }
 
@@ -162,19 +204,32 @@ public class FileManager
         return supportedExtensions().stream().anyMatch(ext -> path.getFileName().toString().toLowerCase().endsWith(ext));
     }
 
-    public final boolean isOccupiedSpace(String path, long space) {
+    public boolean isOccupiedSpace(String path, long thresholdGb) {
         File file = new File(path);
-        if (!file.exists()) {
-            return false;
-        }
 
-        long totalSpace = file.getTotalSpace();
-        long usableSpace = file.getUsableSpace();
+        File root = file.exists() ? file : new File(System.getProperty("user.dir")).getAbsoluteFile();
+
+        long totalSpace = root.getTotalSpace();
+        long usableSpace = root.getUsableSpace();
         long usedSpace = totalSpace - usableSpace;
 
-        long thresholdBytes = space * 1024 * 1024;
+        long thresholdBytes = thresholdGb * 1024L * 1024L * 1024L;
 
-        return usedSpace >= thresholdBytes;
+        return usedSpace > thresholdBytes;
+    }
+
+    public boolean isOccupiedFiles(String path, long threshold) {
+        File dir = new File(path);
+        File[] files = dir.listFiles();
+
+        if (files == null)
+            return false;
+
+        long count = Arrays.stream(files)
+                .filter(File::isFile)
+                .count();
+
+        return count > threshold;
     }
 
     public Path createDirectoryIfNotExists(String dirPath) {
@@ -188,7 +243,7 @@ public class FileManager
 
     public void clearCacheData(String path, java.util.function.Predicate<Path> predicate) {
         try (Stream<Path> files = Files.walk(createDirectoryIfNotExists(path))) {
-            files.filter(predicate).forEach((e1) -> (e1).toFile().delete());
+            files.filter(predicate).forEach((e1) -> mainLogger.info((e1).toFile().delete()));
         } catch (IOException e) {
             e.printStackTrace();
         }
