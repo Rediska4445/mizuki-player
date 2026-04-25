@@ -5,7 +5,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import rf.ebanina.File.Configuration.ConfigurationManager;
-import rf.ebanina.Network.Info;
+import rf.ebanina.Network.Net;
 import rf.ebanina.ebanina.Music;
 import rf.ebanina.ebanina.Player.Track;
 
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Hitmos
-        implements Info.IInfo
+        implements Net.IInfo
 {
     protected final String url = "https://rus.hitmotop.com";
     protected final String urlForDownload = "search?q=";
@@ -65,7 +65,7 @@ public class Hitmos
 
         try {
             Document doc0 = Jsoup.connect(url + "/" + urlForDownload + URLEncoder.encode(track, StandardCharsets.UTF_8))
-                    .userAgent(Info.instance.getActiveUserAgent())
+                    .userAgent(Net.instance.getActiveUserAgent())
                     .timeout(ConfigurationManager.instance.getIntItem("network_pre_download_timeout", "5000"))
                     .get();
 
@@ -81,11 +81,9 @@ public class Hitmos
                 }
             }
 
-            Music.mainLogger.info(links);
-
             for (String link : links) {
                 Document doc = Jsoup.connect(link)
-                        .userAgent(Info.instance.getActiveUserAgent())
+                        .userAgent(Net.instance.getActiveUserAgent())
                         .timeout(ConfigurationManager.instance.getIntItem("network_pre_download_timeout", "5000"))
                         .get();
 
@@ -96,16 +94,16 @@ public class Hitmos
                         final String imgStyle = track1.select(".track__img").first().attr("style");
 
                         rf.ebanina.ebanina.Player.Track tr = new rf.ebanina.ebanina.Player.Track(url + track1.select("a.track__download-btn").attr("href"));
-                        tr.title = track1.select(".track__title").first().text().trim();
-                        tr.artist = track1.select(".track__desc").first().text().trim();
+                        tr.setTitle(track1.select(".track__title").first().text().trim());
+                        tr.setArtist(track1.select(".track__desc").first().text().trim());
                         tr.setTotalDuraSec(Track.getFormattedTotalDuration(track1.select(".track__fulltime").first().text().trim()));
-                        tr.viewName = tr.artist + " - " + tr.title;
+                        tr.setViewName(tr.artist + " - " + tr.title);
 
                         final String imgUrl = imgStyle.replace("background-image: url('", "").replace("');", "");
 
-                        tr.metadata.put("mipmap_is_loaded", true, boolean.class);
+                        tr.putProperty(Track.Properties.EXTERNAL_URI, Net.PlayersTypes.HIT_MO.getCode(), String.class);
+                        tr.putProperty(Track.Properties.MIPMAP_IS_LOADED, true, boolean.class);
                         tr.setMipmap(Track.createMipmap(imgUrl));
-                        tr.setExternalUrl(Info.PlayersTypes.HIT_MO.getCode());
                         tr.setNetty(true);
 
                         A.add(tr);

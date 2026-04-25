@@ -6,7 +6,7 @@ import org.json.simple.parser.ParseException;
 import rf.ebanina.File.Configuration.ConfigurationManager;
 import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.Network.ISimilar;
-import rf.ebanina.Network.Info;
+import rf.ebanina.Network.Net;
 import rf.ebanina.UI.Root;
 import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
 import rf.ebanina.ebanina.Player.Track;
@@ -73,13 +73,13 @@ public class SoundCloud
 
         for(soundcloud.api.SoundCloudTrack t : tr) {
             temp.add(
-                    new Track(Info.PlayersTypes.URI_NULL.getCode())
+                    new Track(Net.PlayersTypes.URI_NULL.getCode())
                             .setTitle(t.getTitle())
                             .setArtist(t.getArtist())
                             .setViewName(t.getArtist() + " - " + t.getTitle())
-                            .setExternalUrl("sound_cloud")
+                            .putProperty(Track.Properties.EXTERNAL_URI, "sound_cloud", String.class)
                             .setTotalDuraSec((int) Float.parseFloat(t.getDura()) / 1000)
-                            .setMipmap(ResourceManager.Instance.loadImage(Info.PlayersTypes.SOUNDCLOUD.getCode(), 40, 40, isPreserveRatio, isSmooth))
+                            .setMipmap(ResourceManager.Instance.loadImage(Net.PlayersTypes.SOUNDCLOUD.getCode(), 40, 40, isPreserveRatio, isSmooth))
                             .setViewName(t.getArtist() + " - " + t.getTitle())
                             .setAlbumArt(new Image(t.getArtwork()))
                             .setNetty(true)

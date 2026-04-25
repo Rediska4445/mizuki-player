@@ -3,7 +3,7 @@ package rf.ebanina.Network.Illegal.Similar;
 import javafx.application.Platform;
 import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.Network.ISimilar;
-import rf.ebanina.Network.Info;
+import rf.ebanina.Network.Net;
 import rf.ebanina.UI.Root;
 import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
 import rf.ebanina.ebanina.Player.Track;
@@ -19,13 +19,13 @@ public class LastFM
     @Override
     public void updateSimilar(Track track) {
         for (de.umass.lastfm.Track t : de.umass.lastfm.Track.getSimilar(track.artist, track.title, LASTFM_API_KEY)) {
-            Track tr = new Track(Info.PlayersTypes.URI_NULL.getCode());
-            tr.setExternalUrl(Info.PlayersTypes.LASTFM.getCode());
-            tr.mipmap = Track.createMipmap(ResourceManager.Instance.loadResource(Info.PlayersTypes.LASTFM.getCode()));
-            tr.artist = t.getArtist();
-            tr.title = t.getName();
-            tr.totalDuraSec = t.getDuration();
-            tr.viewName = tr.artist + " - " + tr.title;
+            Track tr = new Track(Net.PlayersTypes.URI_NULL.getCode());
+            tr.putProperty(Track.Properties.EXTERNAL_URI, Net.PlayersTypes.LASTFM.getCode(), String.class)
+                    .setMipmap(Track.createMipmap(ResourceManager.Instance.loadResource(Net.PlayersTypes.LASTFM.getCode())))
+                    .setArtist(t.getArtist())
+                    .setTitle(t.getName())
+                    .setTotalDuraSec(t.getDuration())
+                    .setViewName(tr.artist + " - " + tr.title);
 
             Platform.runLater(() -> {
                 Root.rootImpl.similar.getTrackListView().getItems().add(tr);

@@ -9,7 +9,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.Network.ISimilar;
-import rf.ebanina.Network.Info;
+import rf.ebanina.Network.Net;
 import rf.ebanina.UI.Root;
 import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
 import rf.ebanina.ebanina.Player.Track;
@@ -89,13 +89,13 @@ public class Apple
                     String title = jsonObject1111.get("title").toString();
                     String artist = jsonObject111.get("title").toString();
 
-                    Track track = new Track(Info.PlayersTypes.URI_NULL.getCode());
-                    track.setExternalUrl(Info.PlayersTypes.APPLE.getCode());
+                    Track track = new Track(Net.PlayersTypes.URI_NULL.getCode());
+                    track.putProperty(Track.Properties.EXTERNAL_URI, Net.PlayersTypes.APPLE.getCode(), String.class);
 
                     track.artist = artist.replace(" - EP", "").replace(" - Single", "");
                     track.title = title.replace(" - EP", "").replace(" - Single", "");
 
-                    track.mipmap = Track.createMipmap(ResourceManager.Instance.loadResource(Info.PlayersTypes.APPLE.getCode()));
+                    track.mipmap = Track.createMipmap(ResourceManager.Instance.loadResource(Net.PlayersTypes.APPLE.getCode()));
                     track.viewName = track.artist + " - " + track.title;
 
                     tracks.add(track);

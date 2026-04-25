@@ -5,7 +5,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import rf.ebanina.File.Configuration.ConfigurationManager;
-import rf.ebanina.Network.Info;
+import rf.ebanina.Network.Net;
 import rf.ebanina.ebanina.Music;
 import rf.ebanina.ebanina.Player.Track;
 
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LightAudio
-        implements Info.IInfo
+        implements Net.IInfo
 {
     protected final String light_audio_url = "https://web.ligaudio.ru/mp3/";
 
@@ -64,7 +64,7 @@ public class LightAudio
         c = URLEncoder.encode(c, StandardCharsets.UTF_8);
 
         try {
-            String currentUserAgent = Info.instance.getActiveUserAgent();
+            String currentUserAgent = Net.instance.getActiveUserAgent();
 
             int i3 = 1;
             int i2 = 0;
@@ -135,15 +135,13 @@ public class LightAudio
                         .text();
                 String duraText = item.getElementsByClass("d").text();
 
-                tr.metadata.put("mipmap_is_loaded", true, boolean.class);
+                tr.putProperty(Track.Properties.EXTERNAL_URI, Net.PlayersTypes.LIGHT_AUDIO.getCode(), String.class);
+                tr.putProperty(Track.Properties.MIPMAP_IS_LOADED, true, boolean.class);
 
                 tr.setTitle(title);
                 tr.setArtist(artist);
                 tr.setTotalDuraSec(Track.getFormattedTotalDuration(duraText));
-//                Image img = ResourceManager.Instance.loadImage(Info.PlayersTypes.LIGHT_AUDIO.getCode(), 40, 40, isPreserveRatio, isSmooth);
-//                tr.setMipmap(img);
                 tr.setViewName(tr.artist + " - " + tr.title.replace("-", ""));
-                tr.setExternalUrl(Info.PlayersTypes.LIGHT_AUDIO.getCode());
 
                 res.add(tr);
                 i2++;

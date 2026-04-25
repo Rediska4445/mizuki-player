@@ -1,54 +1,73 @@
 package rf.ebanina.Network.Illegal.Similar;
 
 import javafx.application.Platform;
+import javafx.scene.image.Image;
 import rf.ebanina.File.Configuration.ConfigurationManager;
-import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.Network.ISimilar;
-import rf.ebanina.Network.Info;
+import rf.ebanina.Network.Illegal.ConcurrentSimilar;
+import rf.ebanina.Network.Net;
 import rf.ebanina.UI.Root;
 import rf.ebanina.ebanina.Music;
 import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
 import rf.ebanina.ebanina.Player.Track;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import static rf.ebanina.UI.UI.Paint.ColorProcessor.isPreserveRatio;
-import static rf.ebanina.UI.UI.Paint.ColorProcessor.isSmooth;
-
 public class Deezer
-        implements ISimilar
+        extends ConcurrentSimilar implements ISimilar
 {
     protected deezer.Deezer deezer = new deezer.Deezer();
 
-    private final ExecutorService executor = Executors.newFixedThreadPool(2);
+    private final Map<String, Integer> deezerSettings = new HashMap<>(Map.ofEntries(
+            Map.entry("topTrackByArtistLimit", 6),
+            Map.entry("anotherTopTrackOfArtistLimit", 6),
+            Map.entry("searchLimit", 6),
+            Map.entry("chartLimit", 0),
+            Map.entry("depth", 3)
+    ));
 
-    private final List<Future<?>> currentSimilarTasks = new ArrayList<>();
+    public Map<String, Integer> getDeezerSettings() {
+        return deezerSettings;
+    }
 
     @Override
     public void updateSimilar(Track track) {
         List<Track> tracks = new ArrayList<>();
 
         try {
-            for(deezer.models.Track track1 : deezer.getRelatedTracks(
-                    track.getViewName(), 3, 1, 5, 0, 3
-            )) {
+            List<deezer.models.Track> list = deezer.getRelatedTracks(
+                    track.getViewName(),
+                    deezerSettings.get("topTrackByArtistLimit"),
+                    deezerSettings.get("anotherTopTrackOfArtistLimit"),
+                    deezerSettings.get("searchLimit"),
+                    deezerSettings.get("chartLimit"),
+                    deezerSettings.get("depth")
+            );
+
+            if(list.size() == 0) {
+                Music.mainLogger.warn("Deezer не нашёл нихуя");
+            }
+
+            for(deezer.models.Track track1 : list) {
                 Track tr = new Track()
                         .setTitle(track1.getTitle())
                         .setArtist(track1.getArtist().getName())
                         .setTotalDuraSec(track1.getDuration())
                         .setNetty(true)
-                        .setExternalUrl(Info.PlayersTypes.DEEZER.getCode())
-                        .setMipmap(ResourceManager.Instance.loadImage(Info.PlayersTypes.APPLE.getCode(), 40, 40, isPreserveRatio, isSmooth)
+                        .setAlbumArt(new Image(track1.getAlbum().getCover_big()))
+                        .setMipmap(Track.createMipmap(track1.getAlbum().getCover_small())
                 );
 
                 tracks.add(tr);
 
-                tr.metadata.put("mipmap_is_loaded", false, boolean.class);
+                tr.getProperties().put(Track.Properties.EXTERNAL_URI.getName(), Net.PlayersTypes.DEEZER.getName(), String.class);
+                tr.getProperties().put("album_art", track1.getAlbum().getCover_big(), String.class);
+                tr.getProperties().put("mipmap_is_loaded", false, boolean.class);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -88,7 +107,6 @@ public class Deezer
 
             currentSimilarTasks.add(f);
         }
-
     }
 
     @Override
