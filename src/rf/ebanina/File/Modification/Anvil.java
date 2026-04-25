@@ -159,14 +159,23 @@ public class Anvil
                         JarEntry entry = entries.nextElement();
                         String name = entry.getName();
 
+                        if (name.equals("module-info.class")) {
+                            continue;
+                        }
+
                         if (name.endsWith(".class")) {
                             String className = name.replace("/", ".").replace(".class", "");
-                            Class<?> clazz = Class.forName(className, true, loader);
 
-                            if (AudioMod.class.isAssignableFrom(clazz) && !clazz.isInterface() && !Modifier.isAbstract(clazz.getModifiers())) {
-                                AudioMod modInstance = (AudioMod) clazz.getDeclaredConstructor().newInstance();
+                            try {
+                                Class<?> clazz = Class.forName(className, false, loader);
 
-                                modInstance.applyMod();
+                                if (AudioMod.class.isAssignableFrom(clazz) && !clazz.isInterface() && !Modifier.isAbstract(clazz.getModifiers())) {
+                                    AudioMod modInstance = (AudioMod) clazz.getDeclaredConstructor().newInstance();
+
+                                    modInstance.applyMod();
+                                }
+                            } catch (Throwable e) {
+                                Music.mainLogger.println("[Mods] Не удалось просканировать класс: " + className);
                             }
                         }
                     }
