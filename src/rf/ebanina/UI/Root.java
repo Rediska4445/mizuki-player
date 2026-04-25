@@ -39,9 +39,10 @@ import rf.ebanina.File.Localization.Locales;
 import rf.ebanina.File.Localization.LocalizationManager;
 import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.File.Resources.Resources;
+import rf.ebanina.Network.IConcurrentSimilar;
 import rf.ebanina.Network.ISimilar;
 import rf.ebanina.Network.Illegal.Similar.Spotify;
-import rf.ebanina.Network.Info;
+import rf.ebanina.Network.Net;
 import rf.ebanina.UI.Editors.IViewable;
 import rf.ebanina.UI.Editors.Metadata.Track.Metadata;
 import rf.ebanina.UI.Editors.Network.NetworkHost;
@@ -57,11 +58,11 @@ import rf.ebanina.UI.UI.Element.Buttons.Player.PrevButton;
 import rf.ebanina.UI.UI.Element.Buttons.Playlist.HideLeft;
 import rf.ebanina.UI.UI.Element.Buttons.Playlist.HideRight;
 import rf.ebanina.UI.UI.Element.ControlPane;
-import rf.ebanina.UI.UI.Element.LicenseDialog;
+import rf.ebanina.UI.UI.Element.Dialogs.LicenseDialog;
+import rf.ebanina.UI.UI.Element.Dialogs.MainFunctionDialog;
 import rf.ebanina.UI.UI.Element.ListViews.ListCells.Playlists.ListCellPlaylist;
 import rf.ebanina.UI.UI.Element.ListViews.ListCells.Playlists.ListCellTrack;
 import rf.ebanina.UI.UI.Element.ListViews.Playlist.PlayView;
-import rf.ebanina.UI.UI.Element.MainFunctionDialog;
 import rf.ebanina.UI.UI.Element.Slider.SoundSlider;
 import rf.ebanina.UI.UI.Element.Text.TextField;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
@@ -4336,9 +4337,10 @@ public class Root
      * @see #getNativeHandlePeerForStage(Stage) Получение HWND
      */
     public void setStageCaptionColor(Stage stage, Color color) {
-        if (ConfigurationManager.instance.getBooleanItem("album_art_caption_paint", "true") && OS.contains("Windows 11")) {
+        if (ConfigurationManager.instance.getBooleanItem("album_art_caption_paint", "true")
+                && OS.contains("Windows 11"))
+        {
             long wid = getNativeHandlePeerForStage(stage);
-
             int res = Integer.parseInt(convertColorTo16(color), 16);
 
             setCaptionColor(wid, res);
@@ -4701,7 +4703,7 @@ public class Root
         mainFunctions.addCenteredButton(new Commons());
         mainFunctions.getMainButton().setOnAction(e -> {
             MainFunctionDialog agreementDialog = new MainFunctionDialog(Root.rootImpl.stage, Root.rootImpl.root);
-            agreementDialog.setDialogMaxSize(0.9, 0.85);
+            agreementDialog.setDialogMaxSize(0.9, 0.8);
 
             agreementDialog.getLeftListView().getItems().clear();
             agreementDialog.getLeftListView().getItems().addAll(iViewableList);
@@ -4815,7 +4817,7 @@ public class Root
                     stage,
                     root,
                     LocalizationManager.getLocaleString("license_title", "License Agreement"),
-                    readAllLicensesRecursively("license", LocalizationManager.instance.lang.split("_")[1]),
+                    readAllLicensesRecursively("license", ResourceManager.localizationManager.getLang().split("_")[1]),
                     LocalizationManager.getLocaleString("license_agree", "Agree")
             );
 
@@ -4828,7 +4830,7 @@ public class Root
             });
 
             agreementDialog.setDialogMaxSize(0.9, 0.85);
-            agreementDialog.animationTopBorder(ColorProcessor.core.getMainClr()).play();
+            agreementDialog.animationTopBorder(ColorProcessor.core.mainClrProperty()).play();
             agreementDialog.show();
         }
     }
@@ -5029,7 +5031,7 @@ public class Root
      * Поддерживает мультиязычные лицензии.</p>
      *
      * @param baseDir Корневая папка лицензий ({@code "license"})
-     * @param langCode {@link LocalizationManager#lang} → {@code "ru_RU,en_US"}
+     * @param langCode {@link LocalizationManager#getLang()} → {@code "ru_RU,en_US"}
      * @return Объединенный текст лицензий или "err"
      * @see LicenseDialog Конечный потребитель
      */
@@ -6277,11 +6279,11 @@ public class Root
                     if(Root.rootImpl.similar.isOpened()) {
                         Root.rootImpl.similar.close();
 
-                        Info.instance.similarStop();
+                        Net.instance.similarStop();
                     } else {
                         Root.rootImpl.similar.open();
 
-                        Info.instance.similarStart();
+                        Net.instance.similarStart();
                     }
                 });
             });
@@ -6298,13 +6300,14 @@ public class Root
                     Root.rootImpl.similar.getTrackListView().getItems().clear();
                     PlaylistHandler.playlistHandler.playlistSimilar.clear();
 
-                    for(ISimilar info : Info.similarList) {
-                        if(info instanceof Spotify spotify) {
-                            spotify.clearTasks();
+                    // TODO: Пока что, тут только Spotify
+                    for(ISimilar info : Net.instance.getSimilarMap().values()) {
+                        if(info instanceof IConcurrentSimilar iConcurrentSimilar) {
+                            iConcurrentSimilar.kill();
                         }
                     }
 
-                    Info.instance.updateSimilarListAsync(Root.rootImpl.similar.getCurrentPlaylistText().getText());
+                    Net.instance.updateSimilarListAsync(Root.rootImpl.similar.getCurrentPlaylistText().getText());
                 }
             });
 
@@ -6461,14 +6464,14 @@ public class Root
      * Внутренний класс сетевого списка похожих треков.
      *
      * <p>Близнец {@link TrackListView} для панели "Similar" (связан с {@link Root#hideControlLeft}).
-     * Отображает треки из внешних источников (Spotify, etc.) через {@link Info#similarList}.
+     * Отображает треки из внешних источников (Spotify, etc.) через {@link Net#similarMap}.
      * Поддерживает динамический поиск и асинхронное обновление.</p>
      *
      * <h3>Отличия от TrackListView</h3>
      *
      * <table>
      * <tr><th>Аспект</th><th>TrackListView</th><th><strong>SimilarListView</strong></th></tr>
-     * <tr><td>Источник данных</td><td>Локальные файлы</td><td><strong>Info.similarList (ISimilar)</strong></td></tr>
+     * <tr><td>Источник данных</td><td>Локальные файлы</td><td><strong>Net.similarList (ISimilar)</strong></td></tr>
      * <tr><td>Клавиша поиска</td><td>-</td><td><strong>ENTER → updateSimilarListAsync()</strong></td></tr>
      * <tr><td>Кнопка toggle</td><td>hideControlRight</td><td><strong>hideControlLeft</strong></td></tr>
      * <tr><td>Позиция</td><td>Справа</td><td><strong>Слева</strong></td></tr>
@@ -6483,11 +6486,11 @@ public class Root
      *         Root.PlaylistHandler.playlistSimilar.clear();
      *
      *         // Очистка асинхронных задач Spotify
-     *         for (ISimilar info : Info.similarList) {
+     *         for (ISimilar info : Net.similarList) {
      *             if (info instanceof Spotify) ((Spotify)info).clearTasks();
      *         }
      *
-     *         Info.instance.updateSimilarListAsync(text.getText());
+     *         Net.instance.updateSimilarListAsync(text.getText());
      *     }
      * });
      * }</pre>
@@ -6496,14 +6499,14 @@ public class Root
      * Toggle через {@link ButtonHandler#initialize()}. Layout: слева от art.</p>
      *
      * @see TrackListView Локальный список (близнец)
-     * @see Spotify#clearTasks() Асинхронная очистка
+     * @see Spotify#kill() Асинхронная очистка
      */
     private static class SimilarListView {
         /**
          * Инициализирует {@link Root#similar} как SimilarListView для похожих треков.
          *
          * <p>Создает {@link PlayView} + подключает уникальные обработчики:
-         * поиск по ENTER (асинхронный {@link Info#updateSimilarListAsync}),
+         * поиск по ENTER (асинхронный {@link Net#updateSimilarListAsync}),
          * toggle TrackListView, навигация плейлистами. Стилизация как TrackListView.</p>
          *
          * <h3>Уникальные обработчики</h3>
@@ -6523,10 +6526,10 @@ public class Root
          *         PlaylistHandler.playlistSimilar.clear();
          *
          *         // Spotify task cleanup
-         *         for (ISimilar info : Info.similarList)
+         *         for (ISimilar info : Net.similarList)
          *             if (info instanceof Spotify) ((Spotify)info).clearTasks();
          *
-         *         Info.instance.updateSimilarListAsync(query);
+         *         Net.instance.updateSimilarListAsync(query);
          *     }
          * });
          *
@@ -6546,7 +6549,7 @@ public class Root
          * {@link Root#init()} → bindings → {@link ButtonHandler} toggle.</p>
          *
          * @see TrackListView#set() Локальная версия
-         * @see Spotify#clearTasks() Асинхронная очистка
+         * @see Spotify#kill() Асинхронная очистка
          */
         public static void set() {
             Root.rootImpl.root.getChildren().add(Root.rootImpl.similar);
@@ -6819,8 +6822,10 @@ public class Root
                         PlayProcessor.playProcessor.setNetwork(true);
                     }
 
-                    PlayProcessor.playProcessor.setTrackIter(Root.rootImpl.similar.getTrackListView().getSelectionModel().getSelectedIndex());
+                    Music.mainLogger.info(Root.rootImpl.similar.getTrackListView().getSelectionModel().getSelectedItem());
+                    Music.mainLogger.info(Root.rootImpl.similar.getTrackListView().getSelectionModel().getSelectedIndex());
 
+                    PlayProcessor.playProcessor.setTrackIter(Root.rootImpl.similar.getTrackListView().getSelectionModel().getSelectedIndex());
                     PlaylistHandler.playlistHandler.openTrack(Root.rootImpl.similar.getTrackListView().getSelectionModel().getSelectedItem());
                 }
             });
