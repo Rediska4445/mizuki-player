@@ -19,6 +19,7 @@ import rf.ebanina.File.Configuration.ConfigurationManager;
 import rf.ebanina.Network.IParseAlbumArt;
 import rf.ebanina.UI.Root;
 import rf.ebanina.UI.UI.Animations;
+import rf.ebanina.UI.UI.Element.Buttons.Button;
 import rf.ebanina.UI.UI.Element.ListViews.Playlist.PlayView;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
 import rf.ebanina.ebanina.Music;
@@ -244,39 +245,10 @@ public class ArtProcessor
         Root.rootImpl.similar.getBtnPlaylistDown().colorBgPressedProperty().bind(mainClrAnimated);
         Root.rootImpl.similar.getBtnPlaylistDown().colorIconHoverProperty().bind(mainClrAnimated);
 
-//        Root.rootImpl.btnNext.setColorIconHover(color);
-//        Root.rootImpl.btnDown.setColorIconHover(color);
-//
-//        Root.rootImpl.btn.setColorBgPressed(color);
-//        Root.rootImpl.btnNext.setColorBgPressed(color);
-//        Root.rootImpl.btnDown.setColorBgPressed(color);
-//
-//        Root.rootImpl.tracksListView.getBtnPlaylist().setColorIconHover(color);
-//        ((Button) Root.rootImpl.tracksListView.getBtnPlaylistNext()).setColorIconHover(color);
-//        ((Button) Root.rootImpl.tracksListView.getBtnPlaylistDown()).setColorIconHover(color);
-//
-//        Root.rootImpl.tracksListView.getBtnPlaylist().setColorBgPressed(color);
-//        ((Button) Root.rootImpl.tracksListView.getBtnPlaylistNext()).setColorBgPressed(color);
-//        ((Button) Root.rootImpl.tracksListView.getBtnPlaylistDown()).setColorBgPressed(color);
-//
-//        Root.rootImpl.similar.getBtnPlaylist().setColorIconHover(color);
-//        ((Button) Root.rootImpl.similar.getBtnPlaylistNext()).setColorIconHover(color);
-//        ((Button) Root.rootImpl.similar.getBtnPlaylistDown()).setColorIconHover(color);
-//
-//        Root.rootImpl.similar.getBtnPlaylist().setColorBgPressed(color);
-//        ((Button) Root.rootImpl.similar.getBtnPlaylistNext()).setColorBgPressed(color);
-//        ((Button) Root.rootImpl.similar.getBtnPlaylistDown()).setColorBgPressed(color);
-//
-//        if(Root.rootImpl.mainFunctions.getMainButton() instanceof Button i) {
-//            i.setColorIconHover(color);
-//            i.setColorBgPressed(color);
-//        }
-//
-//        Root.rootImpl.hideControlLeft.setColorIconHover(color);
-//        Root.rootImpl.hideControlRight.setColorIconHover(color);
-//
-//        Root.rootImpl.hideControlLeft.setColorBgPressed(color);
-//        Root.rootImpl.hideControlRight.setColorBgPressed(color);
+        if(Root.rootImpl.mainFunctions.getMainButton() instanceof Button e) {
+            e.colorBgPressedProperty().bind(mainClrAnimated);
+            e.colorIconHoverProperty().bind(mainClrAnimated);
+        }
     }
     /**
      * Создает плавную анимацию изменения цвета (250ms).
@@ -434,6 +406,7 @@ public class ArtProcessor
             }
         });
     }
+
     /**
      * Создает анимацию изменения размера DropShadow эффекта.
      * <p>
@@ -764,7 +737,7 @@ public class ArtProcessor
      * <h3>Текущие парсеры</h3>
      * <dl>
      *   <dt>{@link #SPOTIFY}</dt>
-     *   <dd>Spotify API через {@code me.API.Info.info.search()}.</dd>
+     *   <dd>Spotify API через {@code me.API.Net.info.search()}.</dd>
      * </dl>
      *
      * @see ArtProcessor#iParseAlbumArts
@@ -778,7 +751,7 @@ public class ArtProcessor
          * <p>
          * <b>Логика:</b>
          * <ol>
-         *   <li>Поиск по {@code view} через {@code me.API.Info.info.search()}</li>
+         *   <li>Поиск по {@code view} через {@code me.API.Net.info.search()}</li>
          *   <li>Извлечение URL из {@code getAwesomeAlbumArt().getUrl()}</li>
          *   <li>Загрузка {@link Image} или fallback на logo</li>
          * </ol>

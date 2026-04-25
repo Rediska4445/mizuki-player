@@ -17,6 +17,8 @@ public final class Resources {
     }
 
     public enum Properties {
+        RESOURCES("res"),
+
         MODS("modsPath"),
 
         FXML_DOWNLOAD_INET_PATH("FXMLDownloadInetPath"),

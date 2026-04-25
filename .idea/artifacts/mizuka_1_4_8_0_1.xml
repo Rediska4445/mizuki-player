@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact name="mizuka-1.4.8-0.1">
+    <output-path>$PROJECT_DIR$/package/raw/out</output-path>
+    <root id="root">
+      <element id="archive" name="Ebanina-VST.jar">
+        <element id="module-output" name="Ebanina-VST" />
+      </element>
+    </root>
+  </artifact>
+</component>

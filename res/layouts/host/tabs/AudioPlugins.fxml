@@ -7,13 +7,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 <Tab fx:id="tab" text="VST" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rf.ebanina.UI.Editors.Player.Tabs.AudioPlugins.Controller">
-    <!-- Основной фон вкладки -->
     <HBox style="-fx-background-color: #1E1E1E;" spacing="20">
         <padding>
             <Insets bottom="15" left="15" right="15" top="15" />
         </padding>
 
-        <!-- Боковая панель управления (темная) -->
         <VBox prefHeight="291.0" prefWidth="50.0" spacing="15"
               style="-fx-background-color: #252525; -fx-background-radius: 10; -fx-border-color: #333333; -fx-border-radius: 10;">
             <padding>
@@ -63,7 +61,6 @@
             </JFXButton>
         </VBox>
 
-        <!-- Список плагинов в темном стиле -->
         <ListView fx:id="pluginListView" prefHeight="291.0" prefWidth="572.0"
                   style="-fx-background-color: #1E1E1E; -fx-control-inner-background: #1E1E1E; -fx-background-insets: 0; -fx-border-color: #333333; -fx-border-radius: 8; -fx-background-radius: 8; -fx-text-fill: white;"
                   HBox.hgrow="ALWAYS" />

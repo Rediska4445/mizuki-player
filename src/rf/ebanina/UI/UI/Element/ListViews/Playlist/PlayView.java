@@ -16,7 +16,7 @@ import javafx.scene.text.FontWeight;
 import rf.ebanina.File.FileManager;
 import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.Network.ISimilar;
-import rf.ebanina.Network.Info;
+import rf.ebanina.Network.Net;
 import rf.ebanina.UI.UI.Element.Buttons.Playlist.NextPlaylistButton;
 import rf.ebanina.UI.UI.Element.Buttons.Playlist.PlaylistButton;
 import rf.ebanina.UI.UI.Element.Buttons.Playlist.PrevPlaylistButton;
@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.nio.file.FileVisitOption.FOLLOW_LINKS;
-import static rf.ebanina.Network.Info.similarList;
+import static rf.ebanina.Network.Net.similarMap;
 
 public class PlayView<T extends Track, J extends Playlist>
         extends VBox
@@ -270,7 +270,7 @@ public class PlayView<T extends Track, J extends Playlist>
                     if (eqIndex == -1)
                         return source;
 
-                    List<Track> foundTrack = Info.instance.getListOfTracks(query, "5", "search");
+                    List<Track> foundTrack = Net.instance.getListOfTracks(query, "5", "search");
 
                     if (foundTrack == null) {
                         return Collections.emptyList();
@@ -299,7 +299,7 @@ public class PlayView<T extends Track, J extends Playlist>
 
                     List<Track> res = new ArrayList<>();
 
-                    for (ISimilar i : similarList) {
+                    for (ISimilar i : Net.instance.getSimilarMap().values()) {
                         res.addAll(i.getSimilar(query));
                     }
 
@@ -419,7 +419,7 @@ public class PlayView<T extends Track, J extends Playlist>
             }
         } else {
             return (listOfStrings.stream().filter(input -> searchWordsArray.stream().allMatch(word -> {
-                if(input.getPath().equals(Info.PlayersTypes.URI_NULL.getCode()))
+                if(input.getPath().equals(Net.PlayersTypes.URI_NULL.getCode()))
                     return input.viewName.toLowerCase().contains(word.toLowerCase());
                 else
                     return input.toString().toLowerCase().contains(word.toLowerCase());

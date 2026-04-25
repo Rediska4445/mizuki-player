@@ -1,3 +1,0 @@
-array of (track) = [key1=value, key11=value, key121=value];
-collection of (track) = [key1=value1, key1888=value1, key121=value, key21=value];
-track of (collection) = val1, val2, val3;

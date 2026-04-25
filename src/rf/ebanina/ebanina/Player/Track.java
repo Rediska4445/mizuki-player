@@ -8,7 +8,7 @@ import rf.ebanina.File.DataTypes;
 import rf.ebanina.File.FileManager;
 import rf.ebanina.File.Metadata.MetadataOfFile;
 import rf.ebanina.File.Resources.Resources;
-import rf.ebanina.Network.Info;
+import rf.ebanina.Network.Net;
 import rf.ebanina.UI.Root;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
 import rf.ebanina.ebanina.Music;
@@ -28,7 +28,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static rf.ebanina.Network.Info.playersMap;
+import static rf.ebanina.Network.Net.playersMap;
 import static rf.ebanina.UI.UI.Paint.ColorProcessor.*;
 
 /**
@@ -156,8 +156,84 @@ public class Track
         }
     }
 
+    //TODO: Хотелось бы ещё чтобы и тип был стандартизированно тут
+    public enum Properties {
+        EXTERNAL_URI("external_url", String.class),
+        MIPMAP_IS_LOADED("mipmap_is_loaded", boolean.class);
+
+        private final String name;
+        private final Class<?> type;
+
+        Properties(String name, Class<?> type) {
+            this.name = name;
+            this.type = type;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public Class<?> getType() {
+            return type;
+        }
+    }
+
+    public <T> Track putProperty(Properties properties, T value, Class<T> type) {
+        this.metadata.put(properties.getName(), value, type);
+
+        return this;
+    }
+
+    public <T> T getProperty(Properties properties, Class<T> type) {
+        return this.metadata.get(properties.getName(), type);
+    }
+
+    /**
+     * Версия сериализации класса Track (1).
+     * <p>
+     * <b>Назначение:</b> обеспечивает совместимость при сериализации/десериализации.
+     * </p>
+     * <p>
+     * Автоматически генерируется IDE или serialver; фиксируется для стабильности.
+     * Изменение требует обновления значения при структурных изменениях класса.
+     * </p>
+     * <p>
+     * <b>Правила:</b> {@code static final long}, помечено {@link Serial}.
+     * </p>
+     *
+     * @see Serializable
+     * @see Serial
+     */
     @Serial
     private static final long serialVersionUID = 1L;
+    /**
+     * Стандартный размер мипмапа обложки (миниатюры) в пикселях.
+     * <p>
+     * <b>Значение:</b> 40x40 px (оптимизировано для списков треков).
+     * </p>
+     * <p>
+     * Используется в {@link #getMipmap()}, {@link #createMipmap(String)}.
+     * Настраивается динамически или через конфиг (см. {@link #CACHE_SIZE}).
+     * </p>
+     *
+     * @see #albumArtSize
+     * @see ColorProcessor#size
+     */
+    public static int mipmapSize = 40;
+    /**
+     * Стандартный размер полной обложки альбома в пикселях.
+     * <p>
+     * <b>Значение:</b> 200x200 px (для детального просмотра трека).
+     * </p>
+     * <p>
+     * Используется в {@link #getAlbumArt()}, {@link #createAlbumArt(String)}.
+     * Балансирует качество и память; больше чем {@link #mipmapSize}.
+     * </p>
+     *
+     * @see #mipmapSize
+     * @see Track#getAlbumArt(int)
+     */
+    public static int albumArtSize = 200;
 
     /**
      * Максимальный размер кэша треков (настраивается в config).
@@ -202,6 +278,7 @@ public class Track
      */
     private String path;
 
+    @Deprecated
     /**
      * Дополнительная внешняя ссылка (опционально).
      * <p>
@@ -556,10 +633,12 @@ public class Track
         return this;
     }
 
-    public static int mipmapSize = 40;
-
     public static Image createMipmap(String url) {
         return new Image(url, mipmapSize, mipmapSize, isPreserveRatio, isSmooth);
+    }
+
+    public static Image createAlbumArt(String url) {
+        return new Image(url, albumArtSize, albumArtSize, isPreserveRatio, isSmooth);
     }
 
     /**
@@ -917,7 +996,7 @@ public class Track
 
     /**
      * <h3>Сериализация тегов в кэш</h3>
-     * Сохраняет {@link #tags} как CSV-строку в файловый кэш.
+     * Сохраняет {@link #tags} как строку в файловый кэш.
      * <p>
      * <b>Формат:</b> {@code "rock,90s,favorite,workout"}
      * </p>
@@ -953,7 +1032,7 @@ public class Track
      *   <li>Читает {@code track.tags} из кэша.</li>
      *   <li>Инициализирует {@link #tags} если null.</li>
      *   <li>Очищает старые теги.</li>
-     *   <li>Парсит CSV → список {@link Tag}.</li>
+     *   <li>Парсит → список {@link Tag}.</li>
      * </ol>
      * </p>
      * <p>
@@ -1097,16 +1176,6 @@ public class Track
     }
 
     /**
-     * <h3>Внешняя ссылка трека</h3>
-     * Дополнительный URL (резервный источник, страница альбома).
-     *
-     * @return внешний URL или {@code null}
-     */
-    public String getExternalUrl() {
-        return externalUrl;
-    }
-
-    /**
      * <h3>Ленивая загрузка названия трека</h3>
      * Кэширует результат в {@link #title}.
      * <p>
@@ -1138,18 +1207,6 @@ public class Track
      */
     public Track setTotalDuraSec(int totalDuraSec) {
         this.totalDuraSec = totalDuraSec;
-        return this;
-    }
-
-    /**
-     * <h3>Устанавливает внешнюю ссылку</h3>
-     * Для резервных источников или метаданных (Fluent API).
-     *
-     * @param externalUrl новый URL
-     * @return {@code this}
-     */
-    public Track setExternalUrl(String externalUrl) {
-        this.externalUrl = externalUrl;
         return this;
     }
 
@@ -1355,7 +1412,7 @@ public class Track
      * Создаётся <b>один поток</b> для последовательного выполнения провайдеров.
      *
      * <h4>2. Создание задач для каждого провайдера</h4>
-     * <pre>for (Info.IInfo a : playersMap.values())</pre>
+     * <pre>for (Net.IInfo a : playersMap.values())</pre>
      * Для каждого провайдера из {@code playersMap} создаётся задача:
      * <pre>{@code () -> a.getTrackDownloadLink(track)}</pre>
      *
@@ -1396,7 +1453,7 @@ public class Track
      * @return Track с валидной ссылкой на скачивание от первого успешного провайдера
      * @throws ExecutionException если все провайдеры вернули null/исключение
      * @throws InterruptedException если поток прерван
-     * @see Info#playersMap
+     * @see Net#playersMap
      * @since 0.1.4
      */
     public static Track parseTrackFromNetworkAsync(String track) throws ExecutionException, InterruptedException {
@@ -1408,7 +1465,7 @@ public class Track
                 List<Callable<Track>> tasks = new ArrayList<>();
 
                 // Формирование задач: для каждого провайдера создаем lambda
-                for (Info.IInfo a : playersMap.values()) {
+                for (Net.IInfo a : playersMap.values()) {
                     tasks.add(() -> {
                         // Вызов провайдера для получения ссылки на скачивание
                         Track url = a.getTrackDownloadLink(track);
@@ -1456,7 +1513,7 @@ public class Track
         try {
             String urlString = newValue.toString();
 
-            if (urlString == null || urlString.equalsIgnoreCase(Info.PlayersTypes.URI_NULL.getCode())) {
+            if (urlString == null || urlString.equalsIgnoreCase(Net.PlayersTypes.URI_NULL.getCode())) {
 
                 urlString = Objects.requireNonNull(Track.parseTrackFromNetworkAsync(newValue.viewName())).getPath();
 
@@ -1520,6 +1577,10 @@ public class Track
      */
     public Object read(String filePath) {
         return FileManager.instance.readObject(filePath);
+    }
+
+    public TypicalMapWrapper<String> getProperties() {
+        return metadata;
     }
 
     /**

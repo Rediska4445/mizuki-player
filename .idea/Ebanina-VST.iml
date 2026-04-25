@@ -9,10 +9,11 @@
       <sourceFolder url="file://$MODULE_DIR$/test-res" type="java-test-resource" />
       <excludeFolder url="file://$MODULE_DIR$/src/rf/ebanina/util" />
       <excludeFolder url="file://$MODULE_DIR$/src/rf/ebanina/Network/APIS/SoundCloudAPI" />
+      <excludeFolder url="file://$MODULE_DIR$/venv" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="modules" level="project" />
-    <orderEntry type="library" name="classes" level="project" />
+    <orderEntry type="library" exported="" name="classes" level="project" />
   </component>
 </module>

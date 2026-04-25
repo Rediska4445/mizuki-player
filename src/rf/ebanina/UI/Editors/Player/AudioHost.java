@@ -14,7 +14,7 @@ import rf.ebanina.UI.Editors.IEditor;
 import rf.ebanina.UI.Editors.IViewable;
 import rf.ebanina.UI.Editors.Viewable;
 import rf.ebanina.UI.Root;
-import rf.ebanina.UI.UI.Element.AnimationDialog;
+import rf.ebanina.UI.UI.Element.Dialogs.AnimationDialog;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
 import rf.ebanina.ebanina.Player.AudioPlugins.IPluginWrapper;
 import rf.ebanina.ebanina.Player.AudioPlugins.PluginWrapper;
@@ -38,9 +38,20 @@ import java.util.function.Function;
 public class AudioHost
         implements IEditor, IViewable
 {
-    public static final AudioHost instance = new AudioHost();
+    public static AudioHost instance = new AudioHost();
 
     public List<PluginWrapper> vstPlugins = new ArrayList<>();
+
+    public static AudioHost defaultInstance() {
+        return new AudioHost();
+    }
+
+    public static AudioHost getInstance() {
+        if(instance == null)
+            instance = defaultInstance();
+
+        return instance;
+    }
 
     @Override
     public void open(Stage ownerStage) {

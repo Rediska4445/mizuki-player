@@ -15,6 +15,7 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.UI.Root;
+import rf.ebanina.UI.UI.Element.Text.Skins.IceTextFieldSkin;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
 
 /**

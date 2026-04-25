@@ -11,7 +11,7 @@ import rf.ebanina.UI.Editors.IEditor;
 import rf.ebanina.UI.Editors.IViewable;
 import rf.ebanina.UI.Editors.Viewable;
 import rf.ebanina.UI.Root;
-import rf.ebanina.UI.UI.Element.AnimationDialog;
+import rf.ebanina.UI.UI.Element.Dialogs.AnimationDialog;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
 import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
 import rf.ebanina.ebanina.Player.Track;

@@ -16,7 +16,7 @@ This is even easier than messing around with Maven).
 * Add preload track in netty playlist mode
 * Fix history for network tracks
 * Update the readme.m, add to her description about architecture and code view, and technical challenges (top 10)
-* ~~Fix the "Race condition" in change track~~
+* ~~Fix the "Race condition" in change track~~ - **Gott dis motherfucker!**
 * Add initialize window in starting
 * Make UI History
 * Change settings converter to own fxml and list add items of config

@@ -5,6 +5,7 @@ import javafx.geometry.Side;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 import rf.ebanina.UI.Root;
 import rf.ebanina.UI.UI.Context.Menu.ContextMenu;
 import rf.ebanina.UI.UI.Context.Menu.ContextMenuItem;
@@ -54,6 +55,8 @@ public class SimilarContextMenu
 
         this.item = item;
 
+        ContextMenuItem typeTrackAndUri = new ContextMenuItem(new Label(item.getProperty(Track.Properties.EXTERNAL_URI, String.class) + " - " + item.getPath()));
+
         trackItem = new ContextMenuItem();
         trackItem.setGraphic(new Label(item.viewName()));
         trackItem.setOnAction((e) -> {
@@ -68,11 +71,7 @@ public class SimilarContextMenu
 
         MenuItem removeButton = new MenuItem();
         removeButton.setGraphic(new Label(getLocaleString("context_menu_remove", "Remove")));
-        removeButton.setOnAction((e) -> {
-            deleteFromPlaylist();
-        });
-
-        getItems().add(removeButton);
+        removeButton.setOnAction((e) -> deleteFromPlaylist());
 
         MenuButton menuButtonCopy = new MenuButton();
         Root.rootImpl.initPantyhose(menuButtonCopy);
@@ -80,11 +79,7 @@ public class SimilarContextMenu
         menuButtonCopy.setGraphic(new Label(getLocaleString("context_menu_download_to", "Download to")));
         menuButtonCopy.setPopupSide(Side.RIGHT);
 
-        Iterator<Playlist> iter = PlayProcessor.playProcessor.getCurrentPlaylist().iterator();
-
-        while (iter.hasNext()) {
-            Playlist cr = iter.next();
-
+        for (Playlist cr : PlayProcessor.playProcessor.getCurrentPlaylist()) {
             MenuItem item1 = new MenuItem();
             item1.setOnAction(e11 -> exec.runNewTask(() -> Track.downloadAndSaveDataAttributeToDirectory(item, Paths.get(cr.getPath()))));
             item1.setGraphic(new rf.ebanina.UI.UI.Element.Text.Label(cr.getPath()));
@@ -153,11 +148,15 @@ public class SimilarContextMenu
             }
         }));
 
-        getItems().addAll(openPossibleUrlItem, getPossibleUrlItem);
-
         MenuItem copyTo = new MenuItem();
         copyTo.setGraphic(menuButtonCopy);
 
+        getItems().add(typeTrackAndUri);
+        getItems().add(trackItem);
+        getItems().add(new SeparatorMenuItem());
+        getItems().add(removeButton);
+
+        getItems().addAll(openPossibleUrlItem, getPossibleUrlItem);
         getItems().addAll(copyTo);
     }
 }

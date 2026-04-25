@@ -13,104 +13,741 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6c0e77de-da29-42b4-b2d8-b57043699344" name="Changes" comment="Removed from gitignore">
-      <change afterPath="$PROJECT_DIR$/mods/ebanina-std-mod-controller" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mods/mizuka-std-background-player" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mods/mod.info" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/build/win/build-native-tempo-shifter.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/rf/ebanina/File/History.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/rf/ebanina/File/ReferenceFactory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/rf/ebanina/Network/Illegal/Similar/Deezer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/Izolate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+    <list default="true" id="6c0e77de-da29-42b4-b2d8-b57043699344" name="Changes" comment="Tests updated">
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/Ebanina_VST_Jar_Modification.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/mizuka_1_4_8_0_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/muzika_1_4_11.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/classes.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/issues/10.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/allclasses-index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/allpackages-index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/constant-values.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/copy.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/deprecated-list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/element-list" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/help-doc.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/index-all.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/legal/COPYRIGHT" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/legal/LICENSE" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/legal/jquery.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/legal/jqueryUI.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/link.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/member-search-index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/module-search-index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/overview-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/overview-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/package-search-index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/resources/glass.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/resources/x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/Configuration/ConfigurableField.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/Configuration/ConfigurationManager.fxmlConverter.ConfigParser.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/Configuration/ConfigurationManager.fxmlConverter.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/Configuration/ConfigurationManager.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/Configuration/GuiController.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/Configuration/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/Configuration/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/Field.DataTypes.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/Field.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/FileManager.SharedDataEntry.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/FileManager.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/IDataFiles.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/IFileProcessor.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/Localization/Locales.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/Localization/LocalizationManager.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/Localization/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/Localization/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/Metadata/Formats/IFormatAudioMetadata.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/Metadata/Formats/MP3.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/Metadata/Formats/WAV.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/Metadata/Formats/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/Metadata/Formats/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/Metadata/IAudioMetadataOfFile.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/Metadata/MetadataOfFile.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/Metadata/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/Metadata/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/Modification/Anvil.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/Modification/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/Modification/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/Reference.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/Resources/IResourceManager.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/Resources/ResourceManager.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/Resources/Resources.ID.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/Resources/Resources.Properties.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/Resources/Resources.Types.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/Resources/Resources.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/Resources/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/Resources/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/File/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/Network/APIS/GeniusAPI/GeniusJsonProcess.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/Network/APIS/GeniusAPI/GeniusTrack.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/Network/APIS/GeniusAPI/Search.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/Network/APIS/GeniusAPI/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/Network/APIS/GeniusAPI/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/Network/APIS/JsonProcess.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/Network/APIS/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/Network/APIS/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/Network/IParseAlbumArt.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/Network/ISimilar.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/Network/Illegal/Download/Hitmos.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/Network/Illegal/Download/LightAudio.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/Network/Illegal/Download/MusMore.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/Network/Illegal/Download/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/Network/Illegal/Download/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/Network/Illegal/Similar/Apple.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/Network/Illegal/Similar/LastFM.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/Network/Illegal/Similar/SoundCloud.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/Network/Illegal/Similar/Spotify.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/Network/Illegal/Similar/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/Network/Illegal/Similar/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/Network/Info.IInfo.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/Network/Info.PlayersTypes.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/Network/Info.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/Network/Translator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/Network/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/Network/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/Start.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/IEditor.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Metadata/Playlist/Controller.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Metadata/Playlist/Playlist.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Metadata/Playlist/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Metadata/Playlist/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Metadata/Track/Controller.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Metadata/Track/Metadata.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Metadata/Track/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Metadata/Track/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Network/Controller.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Network/NetworkHost.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Network/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Network/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Player/AudioHost.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Player/Controller.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Player/Tabs/AudioEffects/Controller.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Player/Tabs/AudioEffects/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Player/Tabs/AudioEffects/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Player/Tabs/AudioPlugins/Controller.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Player/Tabs/AudioPlugins/Vst/VstParamsWindow.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Player/Tabs/AudioPlugins/Vst/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Player/Tabs/AudioPlugins/Vst/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Player/Tabs/AudioPlugins/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Player/Tabs/AudioPlugins/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Player/Tabs/Automation/Automation.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Player/Tabs/Automation/Controller.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Player/Tabs/Automation/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Player/Tabs/Automation/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Player/Tabs/Settings/Controller.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Player/Tabs/Settings/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Player/Tabs/Settings/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Player/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Player/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Settings/Controller.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Settings/Settings.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Settings/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Settings/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Statistics/Playlist/Controller.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Statistics/Playlist/TracksStatistics.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Statistics/Playlist/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Statistics/Playlist/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Statistics/Track/Controller.StatItem.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Statistics/Track/Controller.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Statistics/Track/TrackStatistics.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Statistics/Track/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Statistics/Track/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Tags/Controller.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Tags/Tags.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Tags/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Tags/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Window/JumpList.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Window/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/Window/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Editors/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/IRoot.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Root.ButtonHandler.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Root.Layout.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Root.PlaylistHandler.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Root.SliderHandler.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/Root.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Animations.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Context/Menu/ContextMenu.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Context/Menu/ContextMenuItem.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Context/Menu/Playlist/PlaylistContextMenu.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Context/Menu/Playlist/SimilarContextMenu.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Context/Menu/Playlist/TrackContextMenu.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Context/Menu/Playlist/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Context/Menu/Playlist/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Context/Menu/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Context/Menu/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Context/Tooltip/ContextTooltip.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Context/Tooltip/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Context/Tooltip/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/AnimationDialog.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/Art.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/Buttons/Button.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/Buttons/Commons.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/Buttons/Player/NextButton.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/Buttons/Player/PauseButton.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/Buttons/Player/PlayButton.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/Buttons/Player/PrevButton.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/Buttons/Player/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/Buttons/Player/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/Buttons/Playlist/HideLeft.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/Buttons/Playlist/HideRight.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/Buttons/Playlist/NextPlaylistButton.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/Buttons/Playlist/PlaylistButton.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/Buttons/Playlist/PrevPlaylistButton.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/Buttons/Playlist/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/Buttons/Playlist/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/Buttons/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/Buttons/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/ControlPane.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/Controls/CellFactory.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/Controls/ControlPad.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/Controls/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/Controls/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/Dialog.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/LicenseDialog.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/ListViews/ListCells/AnimatedListCell.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/ListViews/ListCells/AudioHost/PluginListCell.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/ListViews/ListCells/AudioHost/VstPluginListCell.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/ListViews/ListCells/AudioHost/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/ListViews/ListCells/AudioHost/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/ListViews/ListCells/Playlists/ListCellPlaylist.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/ListViews/ListCells/Playlists/ListCellSimilar.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/ListViews/ListCells/Playlists/ListCellTrack.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/ListViews/ListCells/Playlists/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/ListViews/ListCells/Playlists/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/ListViews/ListCells/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/ListViews/ListCells/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/ListViews/ListView.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/ListViews/ListViewSkin.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/ListViews/Playlist/PlayView.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/ListViews/Playlist/Query.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/ListViews/Playlist/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/ListViews/Playlist/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/ListViews/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/ListViews/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/Slider/CircularSlider.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/Slider/CircularSliderSkin.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/Slider/SoundSlider.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/Slider/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/Slider/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/Text/IceTextFieldSkin.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/Text/Label.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/Text/TextField.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/Text/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/Text/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Element/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Paint/ColorPolicy.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Paint/ColorProcessor.IdentifyColorAlgorithms.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Paint/ColorProcessor.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Paint/IdentifyColorAlgorithms/AttractiveColor.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Paint/IdentifyColorAlgorithms/AverageColor.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Paint/IdentifyColorAlgorithms/ContrastColor.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Paint/IdentifyColorAlgorithms/RarestColor.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Paint/IdentifyColorAlgorithms/UniqueColor.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Paint/IdentifyColorAlgorithms/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Paint/IdentifyColorAlgorithms/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Paint/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Paint/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Popup/LabelPopupMenu.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Popup/Popup.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Popup/PopupMenu.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Popup/PopupMenuDisplayable.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Popup/Preview.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Popup/PreviewPopupService.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Popup/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/Popup/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/UI/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/UI/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/KeyBindings/HotKey.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/KeyBindings/KeyBind.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/KeyBindings/KeyBindingController.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/KeyBindings/KeyBinds.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/KeyBindings/Keys.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/KeyBindings/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/KeyBindings/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Music.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/AudioDecoder.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/AudioEffect/Effector.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/AudioEffect/IAudioEffect.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/AudioEffect/Plugins/Panix.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/AudioEffect/Plugins/VolumeNormalizer.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/AudioEffect/Plugins/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/AudioEffect/Plugins/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/AudioEffect/Tempo/ITempoShifter.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/AudioEffect/Tempo/NativeTempoShifter.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/AudioEffect/Tempo/TempoShifter.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/AudioEffect/Tempo/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/AudioEffect/Tempo/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/AudioEffect/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/AudioEffect/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/AudioPlugins/IPluginWrapper.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/AudioPlugins/PluginWrapper.Type.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/AudioPlugins/PluginWrapper.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/AudioPlugins/VST/VST.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/AudioPlugins/VST/VST3.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/AudioPlugins/VST/VST3LoadException.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/AudioPlugins/VST/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/AudioPlugins/VST/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/AudioPlugins/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/AudioPlugins/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/AudioVolumer.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/Controllers/ArtProcessor.AlbumArtParser.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/Controllers/ArtProcessor.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/Controllers/IArtProcessor.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/Controllers/MediaProcessor.MediaParameters.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/Controllers/MediaProcessor.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/Controllers/Playlist/IController.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/Controllers/Playlist/IPlayController.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/Controllers/Playlist/IPlaylistController.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/Controllers/Playlist/PlayProcessor.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/Controllers/Playlist/PlaylistController.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/Controllers/Playlist/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/Controllers/Playlist/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/Controllers/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/Controllers/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/Media.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/MediaPlayer.AvailableFormat.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/MediaPlayer.PlaybackListener.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/MediaPlayer.Status.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/MediaPlayer.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/MediaReference.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/Mp3PcmStream.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/Playlist.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/Track.Tag.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/Track.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/TrackHistory.HistoryIterator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/TrackHistory.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Player/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Profiler/NodeMemoryTracker.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Profiler/PulseProfiler.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Profiler/SceneProfiler.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Profiler/UITaskProfiler.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Profiler/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/Profiler/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/ebanina/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/util/Math.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/util/collections/TypicalMapWrapper.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/util/collections/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/util/collections/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/util/concurrency/LonelyThreadPool.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/util/concurrency/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/util/concurrency/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/util/loggining/AnsiColor.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/util/loggining/AnsiMode.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/util/loggining/Error.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/util/loggining/FileOutputStream.MessageProcessor.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/util/loggining/FileOutputStream.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/util/loggining/ILogging.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/util/loggining/Log.Level.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/util/loggining/Log.SuppressorCommand.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/util/loggining/Log.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/util/loggining/Prefix.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/util/loggining/logging.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/util/loggining/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/util/loggining/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/util/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/util/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/util/weakly/WeakConst.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/util/weakly/package-summary.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/rf/ebanina/util/weakly/package-tree.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/script-dir/jquery-3.6.1.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/script-dir/jquery-ui.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/script-dir/jquery-ui.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/script.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/search-page.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/search.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/search.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/serialized-form.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/stylesheet.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/tag-search-index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/java-docs/type-search-index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/libraries/bin/VolumeLib.dll" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/libraries/classes/json-simple-1.1.1.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/libraries/classes/mizuka-std-utils-1.3.1.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/libraries/classes/okhttp-3.12.13.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/libraries/classes/okio-1.15.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/libraries/modules/spotify-api-wrapper-1.0.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/modules/native/TempoShifter/libraries/bin/tempo_shifter.dll" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/res/cache.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/res/lang/json/FI_fi.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/res/lang/json/FR_fr.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/res/lang/json/GA_ga.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/res/lang/json/JP_jp.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/res/lang/json/KO_ko.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/res/lang/json/NB_nb.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/res/lang/json/PL_pl.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/res/lang/json/SV_sv.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/res/lang/json/TR_tr.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/res/lang/json/ZH_zh.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/res/visual/gui/logo-hd.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/rf/ebanina/Network/IConcurrentSimilar.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/rf/ebanina/Network/Net.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/SmoothProgress.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/SplashScreen.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/Text/Skins/FadeTextSkin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitmodules" beforeDir="false" afterPath="$PROJECT_DIR$/.gitmodules" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Ebanina-VST.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Ebanina-VST.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ROADMAP.md" beforeDir="false" afterPath="$PROJECT_DIR$/ROADMAP.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cache/cache/history.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/cache/shared.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cache/shared.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/settings.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/config/settings.cfg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/media.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/ui.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/classes/bin/editorhost.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/classes/ebanina-audio-player.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/classes/ebanina-std-utils.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/classes/mizuka-deezer-api-wrapper.jar" beforeDir="false" afterPath="$PROJECT_DIR$/libraries/classes/mizuka-deezer-api-wrapper.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libraries/modules/untitled10.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mods/ebanina-std-mod-controller" beforeDir="false" afterPath="$PROJECT_DIR$/mods/ebanina-std-mod-controller" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mods/mizuka-std-background-player" beforeDir="false" afterPath="$PROJECT_DIR$/mods/mizuka-std-background-player" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modules/ebanina-soundcloud-api-wrapper" beforeDir="false" afterPath="$PROJECT_DIR$/modules/ebanina-soundcloud-api-wrapper" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/ebanina-spotify-api-wrapper" beforeDir="false" afterPath="$PROJECT_DIR$/modules/ebanina-spotify-api-wrapper" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modules/ebanina-std-utils" beforeDir="false" afterPath="$PROJECT_DIR$/modules/ebanina-std-utils" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modules/ebanina-vst-ipc-host" beforeDir="false" afterPath="$PROJECT_DIR$/modules/ebanina-vst-ipc-host" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/native/VST3-Host/natively/EasyVst.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/modules/native/VST3-Host/natively/EasyVst.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/lang/win/RU_ru.locale" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/lang/win/RU_ru.locale" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Configuration/ConfigurationManager$fxmlConverter$ConfigFxmlComparator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Configuration/ConfigurationManager$fxmlConverter$ConfigFxmlComparator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Configuration/ConfigurationManager$fxmlConverter$ConfigParser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Configuration/ConfigurationManager$fxmlConverter$ConfigParser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Configuration/ConfigurationManager$fxmlConverter$FxmlGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Configuration/ConfigurationManager$fxmlConverter$FxmlGenerator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Configuration/ConfigurationManager$fxmlConverter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Configuration/ConfigurationManager$fxmlConverter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Configuration/ConfigurationManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Configuration/ConfigurationManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/FileManager$SharedDataEntry.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/FileManager$SharedDataEntry.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/FileManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/FileManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/IDataFiles.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/IDataFiles.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Metadata/IAudioMetadataOfFile.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Metadata/IAudioMetadataOfFile.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Metadata/MetadataOfFile.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Metadata/MetadataOfFile.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Resources/ResourceManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Resources/ResourceManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/Network/Illegal/Download/Hitmos.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/Network/Illegal/Download/Hitmos.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/Network/Illegal/Download/LightAudio.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/Network/Illegal/Download/LightAudio.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/Network/Illegal/Similar/Apple.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/Network/Illegal/Similar/Apple.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/Network/Illegal/Similar/LastFM.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/Network/Illegal/Similar/LastFM.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/Network/Info$PlayersTypes.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/Network/Info$PlayersTypes.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/Network/Info.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/Network/Info.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Editors/Metadata/Track/Controller.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Editors/Metadata/Track/Controller.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Editors/Player/AudioHost.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Editors/Player/AudioHost.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Editors/Player/Controller.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Editors/Player/Controller.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Editors/Player/Tabs/AudioPlugins/Controller.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Editors/Player/Tabs/AudioPlugins/Controller.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Editors/Settings/Settings.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Editors/Settings/Settings.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Editors/Tags/Tags.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Editors/Tags/Tags.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$ButtonHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$ButtonHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$Layout.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$Layout.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$PlaylistHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$PlaylistHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$SimilarListView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$SimilarListView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$SliderHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$SliderHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$TrackListView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$TrackListView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/Buttons/Button.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/Buttons/Button.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/Buttons/Player/PlayButton.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/Buttons/Player/PlayButton.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/ControlPane.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/ControlPane.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/ListViews/ListCells/AnimatedListCell.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/ListViews/ListCells/AnimatedListCell.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/ListViews/ListCells/Playlists/ListCellPlaylist.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/ListViews/ListCells/Playlists/ListCellPlaylist.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/ListViews/ListCells/Playlists/ListCellTrack.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/ListViews/ListCells/Playlists/ListCellTrack.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/ListViews/Playlist/PlayView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/ListViews/Playlist/PlayView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/Text/TextField.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/Text/TextField.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Paint/ColorProcessor$IdentifyColorAlgorithms.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Paint/ColorProcessor$IdentifyColorAlgorithms.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Paint/ColorProcessor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Paint/ColorProcessor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/KeyBindings/KeyBindingController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/KeyBindings/KeyBindingController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/Controllers/ArtProcessor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/Controllers/ArtProcessor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/Controllers/MediaProcessor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/Controllers/MediaProcessor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/Controllers/Playlist/PlayProcessor$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/Controllers/Playlist/PlayProcessor$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/Controllers/Playlist/PlayProcessor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/Controllers/Playlist/PlayProcessor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/Track.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/Track.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/TrackHistory$HistoryIterator.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/TrackHistory.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/TrackHistory.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/Ebanina-VST/ebanina/media/TrackHistoryTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/Ebanina-VST/ebanina/media/TrackHistoryTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/lang/win/RU_ru.locale" beforeDir="false" afterPath="$PROJECT_DIR$/res/lang/win/RU_ru.locale" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/File/Configuration/ConfigurationManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/File/Configuration/ConfigurationManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/File/FileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/File/FileManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/File/IDataFiles.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/File/IDataFiles.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/File/Resources/ResourceManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/File/Resources/ResourceManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/Network/Illegal/Download/Hitmos.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/Network/Illegal/Download/Hitmos.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/Network/Illegal/Download/LightAudio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/Network/Illegal/Download/LightAudio.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/Network/Illegal/Similar/Apple.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/Network/Illegal/Similar/Apple.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/Network/Illegal/Similar/LastFM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/Network/Illegal/Similar/LastFM.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/Network/Info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/Network/Info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Metadata/Track/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Metadata/Track/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/mizuka-deezer-api-wrapper" beforeDir="false" afterPath="$PROJECT_DIR$/modules/mizuka-deezer-api-wrapper" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/native/TempoShifter/tempo_shifter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/modules/native/TempoShifter/tempo_shifter.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/META-INF/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/audio/intro_cassette.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/lang/win/DE_de.locale" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/lang/win/EN_en.locale" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/lang/win/ES_es.locale" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/lang/win/FI_fi.locale" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/lang/win/FR_fr.locale" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/lang/win/GA_ga.locale" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/lang/win/JP_jp.locale" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/lang/win/KO_ko.locale" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/lang/win/NB_nb.locale" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/lang/win/PL_pl.locale" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/lang/win/RU_ru.locale" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/lang/win/SV_sv.locale" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/lang/win/TR_tr.locale" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/lang/win/ZH_zh.locale" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/layouts/DownloadInet.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/layouts/Metadata.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/layouts/MetadataPlaylist.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/layouts/TagEditor.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/layouts/host/AudioHost.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/layouts/host/tabs/AudioEffects.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/layouts/host/tabs/AudioPlugins.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/layouts/host/tabs/Automation.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/layouts/host/tabs/Settings.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/mods/mizuka-std-images/75049c81a01f04e853e11fe3c1cb3b56_3598286243574336159.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/mods/mizuka-std-images/7gvO4ktCQ5o7KIIk9OykGwTT6YThFbYPxyzlcnxQch83pXoBEiLKdGle1fZiGHh8rkdoe9ubwYGcH56iOkA24y7a.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/mods/mizuka-std-images/A759cdrceT4f-WDvLC4-gEK1z6pbqZI9ljUOZid_uAgio0hsjzRbtBVByULWrMEsWPR5kEg4cXsVVBAePcVTAkVw.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/mods/mizuka-std-images/Kafka-(Honkai-Star-Rail)-Honkai-Star-Rail-Игры-9108451.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/mods/mizuka-std-images/YXvyeYZsASGiXGgXpcJR3ELsuaoH5iQ51XAcTzP7kLvHZkAHhkvlGlVqoTBCHv9fWHO2XpE_wEZ2HjGiEoCjPHEl.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/mods/mizuka-std-images/_1hnboanX3Y-Askk0mbSOXoh7fVn4HVLFpkO-G8IBf3ZHa6QmRue6DH_dGCdw3lbm58mtb_LUtdGWbizNa3hoNt9.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/mods/mizuka-std-images/azu9t29x7q9b1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/mods/mizuka-std-images/frgr.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/mods/mizuka-std-images/images.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/mods/mizuka-std-images/kafka-s-little-pet.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/mods/mizuka-std-images/kec0qrioI-PaZiUqm7M-h3GxH-2yOB3ESx8iAKFNvpSadvUG6YGwCZ_i16iDGcenh6wgNOFiG4eQi8OecUQzX6yt.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/mods/mizuka-std-images/miss-kafka-s-pet.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/mods/mizuka-std-images/n9ls8blxkxeb1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/mods/mizuka-std-images/p5LSPlg7_Nk6hlq32KfYkVvb9nZkRxcN-8SITFPB_sSHouVB2zFMt13d9O9U7x97p8wMt4dkyB8KeuQ-t0GyAczh.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/mods/mizuka-std-images/photo_2026-02-06_20-18-48.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/mods/mizuka-std-images/photo_2026-02-07_02-02-22.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/res/visual/gui/mizuka.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/mods/mizuka-std-images/photo_2026-02-09_01-22-07.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/mods/mizuka-std-images/photo_2026-02-13_00-33-56.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/mods/mizuka-std-images/photo_2026-02-13_00-34-12.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/mods/mizuka-std-images/qe7exton.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/mods/mizuka-std-images/real_seks.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/mods/mizuka-std-images/rt.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/mods/mizuka-std-images/wdn2spm73zeb1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/mods/mizuka-std-images/xeDhiBrJ-Zu7zB_r0kYi_efEUTlH8b9Rg20M5STGt_GcukwbtpMhbzSAjFEQpP3hgsFQmi8tnnXljjB9odDo68Px.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/mods/mizuka-std-images/Без названия.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/resources.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Configuration/ConfigurableField.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Configuration/ConfigurationManager$fxmlConverter$ConfigFxmlComparator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Configuration/ConfigurationManager$fxmlConverter$ConfigParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Configuration/ConfigurationManager$fxmlConverter$FxmlGenerator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Configuration/ConfigurationManager$fxmlConverter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Configuration/ConfigurationManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Configuration/GuiController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Field.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/FileManager$SharedDataEntry.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/FileManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/IDataFiles.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/IFileProcessor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Localization/Locales.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Localization/LocalizationManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Metadata/Formats/IFormatAudioMetadata.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Metadata/Formats/MP3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Metadata/Formats/WAV.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Metadata/IAudioMetadataOfFile.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Metadata/MetadataOfFile.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Modification/Anvil.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Reference.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Resources/ResourceManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Resources/Resources$ID.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Resources/Resources$Properties.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Resources/Resources$Types.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/File/Resources/Resources.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/Network/APIS/GeniusAPI/GeniusJsonProcess.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/Network/APIS/GeniusAPI/GeniusTrack.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/Network/APIS/GeniusAPI/Search.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/Network/ISimilar.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/Network/Illegal/Download/Hitmos.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/Network/Illegal/Download/LightAudio.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/Network/Illegal/Download/MusMore.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/Network/Illegal/Similar/Apple.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/Network/Illegal/Similar/LastFM.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/Network/Illegal/Similar/SoundCloud.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/Network/Illegal/Similar/Spotify.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/Network/Info$IInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/Network/Info$PlayersTypes.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/Network/Info.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/Network/Translator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/Start.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Editors/IEditor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Editors/Metadata/Playlist/Controller.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Editors/Metadata/Playlist/Playlist.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Editors/Metadata/Track/Controller.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Editors/Metadata/Track/Metadata.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Editors/Player/AudioHost.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Editors/Player/Controller.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Editors/Player/Tabs/AudioEffects/Controller.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Editors/Player/Tabs/AudioPlugins/Controller.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Editors/Player/Tabs/AudioPlugins/Vst/VstParamsWindow.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Editors/Player/Tabs/Automation/Automation$ControlPoint.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Editors/Player/Tabs/Automation/Automation$ParamConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Editors/Player/Tabs/Automation/Automation$Segment.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Editors/Player/Tabs/Automation/Automation$TensionHandle.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Editors/Player/Tabs/Automation/Automation.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Editors/Player/Tabs/Automation/Controller.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Editors/Player/Tabs/Settings/Controller.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Editors/Settings/Controller.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Editors/Settings/Settings.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Editors/Tags/Controller$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Editors/Tags/Controller.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Editors/Tags/Tags.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/IRoot.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$ButtonHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$Layout.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$PlaylistHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$SimilarListView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$SliderHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root$TrackListView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/Root.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Animations.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Context/Menu/ContextMenu.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Context/Menu/ContextMenuItem.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Context/Menu/Playlist/PlaylistContextMenu.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Context/Menu/Playlist/SimilarContextMenu.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Context/Menu/Playlist/TrackContextMenu.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Context/Tooltip/ContextTooltip.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/Art.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/Buttons/Button.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/Buttons/Commons.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/Buttons/Player/NextButton.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/Buttons/Player/PauseButton.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/Buttons/Player/PlayButton.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/Buttons/Player/PrevButton.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/Buttons/Playlist/HideLeft.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/Buttons/Playlist/HideRight.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/Buttons/Playlist/NextPlaylistButton.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/Buttons/Playlist/PlaylistButton.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/Buttons/Playlist/PrevPlaylistButton.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/ControlPane.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/Controls/CellFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/Controls/ControlPad$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/Controls/ControlPad.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/ListViews/ListCells/AnimatedListCell.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/ListViews/ListCells/AudioHost/PluginListCell.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/ListViews/ListCells/AudioHost/VstPluginListCell.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/ListViews/ListCells/Playlists/ListCellPlaylist.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/ListViews/ListCells/Playlists/ListCellTrack.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/ListViews/ListView$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/ListViews/ListView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/ListViews/Playlist/PlayView$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/ListViews/Playlist/PlayView$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/ListViews/Playlist/PlayView$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/ListViews/Playlist/PlayView$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/ListViews/Playlist/PlayView$5.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/ListViews/Playlist/PlayView$6.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/ListViews/Playlist/PlayView$7.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/ListViews/Playlist/PlayView$8.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/ListViews/Playlist/PlayView$9.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/ListViews/Playlist/PlayView$LogicalCondition$Operator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/ListViews/Playlist/PlayView$LogicalCondition.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/ListViews/Playlist/PlayView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/ListViews/Playlist/Query.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/Slider/CircularSlider.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/Slider/CircularSliderSkin.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/Slider/SoundSlider.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/Text/Label.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Element/Text/TextField.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Paint/ColorPolicy.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Paint/ColorProcessor$IdentifyColorAlgorithms.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Paint/ColorProcessor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Paint/IdentifyColorAlgorithms/AttractiveColor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Paint/IdentifyColorAlgorithms/AverageColor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Paint/IdentifyColorAlgorithms/ContrastColor$ColorLab.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Paint/IdentifyColorAlgorithms/ContrastColor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Paint/IdentifyColorAlgorithms/RarestColor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Paint/IdentifyColorAlgorithms/UniqueColor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Popup/LabelPopupMenu.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Popup/Popup.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Popup/PopupMenu.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Popup/PopupMenuDisplayable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Popup/Preview.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/UI/UI/Popup/PreviewPopupService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/KeyBindings/HotKey.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/KeyBindings/KeyBindingController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/KeyBindings/Keys.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Music.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/AudioDecoder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/AudioEffect/Effector.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/AudioEffect/IAudioEffect.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/AudioEffect/Plugins/Panix.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/AudioEffect/Plugins/VolumeNormalizer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/AudioEffect/Tempo/ITempoShifter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/AudioEffect/Tempo/TempoShifter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/AudioPlugins/IPluginWrapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/AudioPlugins/PluginWrapper$Type.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/AudioPlugins/PluginWrapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/AudioPlugins/VST/VST.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/AudioPlugins/VST/VST3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/AudioPlugins/VST/VST3LoadException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/Controllers/ArtProcessor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/Controllers/IArtProcessor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/Controllers/MediaProcessor$MediaParameters.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/Controllers/MediaProcessor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/Controllers/Playlist/PlayProcessor$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/Controllers/Playlist/PlayProcessor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/Controllers/Playlist/PlaylistController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/Media.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/MediaPlayer$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/MediaPlayer$AvailableFormat.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/MediaPlayer$PlaybackListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/MediaPlayer$Status.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/MediaPlayer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/MediaReference.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/Mp3PcmStream.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/Playlist.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/Track$Tag.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/Track.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/rf/ebanina/ebanina/Player/TrackHistory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/styles/button-2.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/styles/button.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/styles/context-menu-style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/styles/listview.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/styles/pantyhose/context-menu-style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/styles/root.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/styles/scrollbar-fixed-width.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/styles/scrollpane-scroll-bar.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/styles/slider-custom.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/styles/tabpane.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/styles/textfield.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/styles/vsthost.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/styles/windows-11/context-menu.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/visual/fonts/AbismoSangriento-Regular.otf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/visual/fonts/Blackcraft.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/visual/fonts/Comfortaa/Comfortaa-VariableFont_wght.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/visual/fonts/Comfortaa/OFL.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/visual/fonts/Comfortaa/README.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/visual/fonts/Comfortaa/static/Comfortaa-Bold.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/visual/fonts/Comfortaa/static/Comfortaa-Light.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/visual/fonts/Comfortaa/static/Comfortaa-Medium.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/visual/fonts/Comfortaa/static/Comfortaa-Regular.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/visual/fonts/Comfortaa/static/Comfortaa-SemiBold.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/visual/fonts/Darkness-Regular.otf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/visual/fonts/main_fonta.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/visual/fonts/onimsi.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/visual/gui/icons/apple.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/visual/gui/icons/hitmos.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/visual/gui/icons/lastfm.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/visual/gui/icons/lastfm_icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/visual/gui/icons/lightaudio.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/visual/gui/icons/musmore.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/visual/gui/icons/playlist.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/visual/gui/icons/sound_cloud.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/visual/gui/icons/spotify.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/visual/gui/icons/spotify_icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/visual/gui/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/visual/gui/svgs/buttons/commons.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/visual/gui/svgs/buttons/hide_left.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/visual/gui/svgs/buttons/hide_right.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/visual/gui/svgs/buttons/next.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/visual/gui/svgs/buttons/next_playlist.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/visual/gui/svgs/buttons/pause.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/visual/gui/svgs/buttons/play.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/visual/gui/svgs/buttons/playlist.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/visual/gui/svgs/buttons/playlist_delete_from_app.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/visual/gui/svgs/buttons/playlist_delete_from_disk.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/visual/gui/svgs/buttons/prev.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Ebanina-VST/visual/gui/svgs/buttons/prev_playlist.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/Ebanina-VST/audio/FabFilter Pro-R.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/Ebanina-VST/cache/tracks.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/Ebanina-VST/ebanina/Test.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/Ebanina-VST/ebanina/io/Mp3PcmStreamTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/Ebanina-VST/ebanina/io/metadata/MP3Test.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/Ebanina-VST/ebanina/io/metadata/MetadataOfFileTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/Ebanina-VST/ebanina/io/metadata/WAVTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/Ebanina-VST/ebanina/io/resource/ConfigurationManagerTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/Ebanina-VST/ebanina/io/resource/LocalizationManagerTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/Ebanina-VST/ebanina/io/resource/ResourceManagerTest$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/Ebanina-VST/ebanina/io/resource/ResourceManagerTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/Ebanina-VST/ebanina/media/TagTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/Ebanina-VST/ebanina/media/TrackHistoryTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/Ebanina-VST/ebanina/media/TrackTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/Ebanina-VST/ebanina/media/player/EffectorTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/Ebanina-VST/ebanina/media/player/MediaPlayerTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/Ebanina-VST/ebanina/utils/LonelyThreadPoolTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/Ebanina-VST/lang/RU_ru.locale" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/Ebanina-VST/metadata/mp.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/Ebanina-VST/metadata/wav.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/Ebanina-VST/utils/TypicalMapWrapperTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/res/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/layouts/host/tabs/AudioPlugins.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/res/layouts/host/tabs/AudioPlugins.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/layouts/host/tabs/Settings.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/res/layouts/host/tabs/Settings.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/launch.bat" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/launch.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/File/History.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/File/History.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/File/Metadata/MetadataOfFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/File/Metadata/MetadataOfFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/File/Resources/Resources.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/File/Resources/Resources.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/Network/Info.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Metadata/Track/Metadata.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Metadata/Track/Metadata.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Network/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Network/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/Root.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/Root.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/Buttons/Button.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/Buttons/Button.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/Buttons/Player/PlayButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/Buttons/Player/PlayButton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Network/NetworkHost.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Network/NetworkHost.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Player/AudioHost.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Player/AudioHost.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Player/Tabs/AudioPlugins/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Player/Tabs/AudioPlugins/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Player/Tabs/Settings/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Player/Tabs/Settings/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Settings/Settings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Settings/Settings.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Statistics/Track/TrackStatistics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Statistics/Track/TrackStatistics.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Tags/Tags.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Tags/Tags.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Context/Menu/Playlist/SimilarContextMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Context/Menu/Playlist/SimilarContextMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/AnimationDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/Dialogs/AnimationDialog.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/ControlPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/ControlPane.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/ListViews/ListCells/Playlists/ListCellPlaylist.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/ListViews/ListCells/Playlists/ListCellPlaylist.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/Dialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/Dialogs/Dialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/LicenseDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/Dialogs/LicenseDialog.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/ListViews/Playlist/PlayView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/ListViews/Playlist/PlayView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/MainFunctionDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/MainFunctionDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/Text/IceTextFieldSkin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/Text/IceTextFieldSkin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/MainFunctionDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/Dialogs/MainFunctionDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/Text/IceTextFieldSkin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/Text/Skins/IceTextFieldSkin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/Text/Label.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/Text/Label.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/Text/TextField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/Text/TextField.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Paint/ColorProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Paint/ColorProcessor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/rf/ebanina/ebanina/Player/Controllers/ArtProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/ebanina/Player/Controllers/ArtProcessor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/rf/ebanina/ebanina/Player/Controllers/MediaProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/ebanina/Player/Controllers/MediaProcessor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/rf/ebanina/ebanina/Player/Controllers/Playlist/PlayProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/ebanina/Player/Controllers/Playlist/PlayProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/ebanina/Player/Intro.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/ebanina/Player/Intro.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/rf/ebanina/ebanina/Player/Track.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/ebanina/Player/Track.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/ebanina/media/TrackHistoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/ebanina/media/TrackHistoryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/Izolate.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/Izolate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/ebanina/io/resource/LocalizationManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/ebanina/io/resource/LocalizationManagerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/version.json" beforeDir="false" afterPath="$PROJECT_DIR$/version.json" afterDir="false" />
     </list>
     <list id="5ed49a8f-afa2-4524-ad67-e8d465af08df" name="Add" comment="TextField: Simply animations added, JavaDocs added." />
     <option name="SHOW_DIALOG" value="false" />
@@ -151,6 +788,7 @@
         <option value="Enum" />
         <option value="AnnotationType" />
         <option value="Interface" />
+        <option value="Python Script" />
         <option value="Class" />
       </list>
     </option>
@@ -193,10 +831,7 @@
     <setting file="jar://$PROJECT_DIR$/../../../../../../../Program Files/Java/jdk-19/lib/src.zip!/java.base/java/util/concurrent/atomic/AtomicBoolean.java" root0="SKIP_INSPECTION" />
     <setting file="jar://$PROJECT_DIR$/../../../../../../../Program Files/Java/jdk-19/lib/src.zip!/java.base/java/util/function/Predicate.java" root0="SKIP_INSPECTION" />
     <setting file="jar://$PROJECT_DIR$/../../../../../../../Program Files/Java/jdk-19/lib/src.zip!/java.xml/org/w3c/dom/NodeList.java" root0="SKIP_INSPECTION" />
-    <setting file="jar://$PROJECT_DIR$/libraries/classes/ebanina-audio-player.jar!/rf/ebanina/ebanina/AudioDecoder/AudioDecoder.class" root0="SKIP_INSPECTION" />
     <setting file="jar://$PROJECT_DIR$/libraries/classes/ebanina-mod-api.jar!/api/AudioMod.class" root0="SKIP_INSPECTION" />
-    <setting file="jar://$PROJECT_DIR$/libraries/classes/ebanina-std-utils.jar!/rf/ebanina/utils/formats/json/JsonProcess.class" root0="SKIP_INSPECTION" />
-    <setting file="jar://$PROJECT_DIR$/libraries/classes/ebanina-std-utils.jar!/rf/ebanina/utils/network/Request.class" root0="SKIP_INSPECTION" />
     <setting file="jar://$PROJECT_DIR$/libraries/classes/vst3host.jar!/rf/vst3.class" root0="SKIP_INSPECTION" />
     <setting file="jar://$PROJECT_DIR$/libraries/modules/javafx.base.jar!/javafx/beans/property/ReadOnlyObjectProperty.class" root0="SKIP_INSPECTION" />
     <setting file="jar://$PROJECT_DIR$/libraries/modules/javafx.base.jar!/javafx/beans/value/WritableDoubleValue.class" root0="SKIP_INSPECTION" />
@@ -254,8 +889,8 @@
     &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/2022/Desktop/программы/Ebanina-Test/Ebanina/Ebanina-VST&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/2022/Desktop/программы/Ebanina-Test/Ebanina/Ebanina-VST/libraries/classes&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15332031&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.28361857&quot;,
     &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
@@ -271,18 +906,18 @@
       <recent name="C:\Users\2022\Desktop\программы\Ebanina-Test\Ebanina\Ebanina-VST\package\maven\in-build\out" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\2022\Desktop\программы\Ebanina-Test\Ebanina\Ebanina-VST\res" />
+      <recent name="C:\Users\2022\Desktop\программы\Ebanina-Test\Ebanina\Ebanina-VST\res\lang\json" />
+      <recent name="C:\Users\2022\Desktop\программы\Ebanina-Test\Ebanina\Ebanina-VST\res\lang" />
       <recent name="C:\Users\2022\Desktop\программы\Ebanina-Test\Ebanina\Ebanina-VST\res\mods" />
       <recent name="C:\Users\2022\Desktop\программы\Ebanina-Test\Ebanina\Ebanina-VST\package\build\gradle" />
-      <recent name="C:\Users\2022\Desktop\программы\Ebanina-Test\Ebanina\Ebanina-VST\package\build\maven" />
-      <recent name="C:\Users\2022\Desktop\программы\Ebanina-Test\Ebanina\Ebanina-VST\package\raw\win" />
-      <recent name="C:\Users\2022\Desktop\программы\Ebanina-Test\Ebanina\Ebanina-VST\modules\java" />
     </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
+      <recent name="rf.ebanina.File.FileManager" />
       <recent name="rf.ebanina.gui.UI.Element.ListViews.ListCells.AnimatedListCell" />
       <recent name="rf.ebanina.gui.UI.Paint.ColorProcessor" />
       <recent name="rf.ebanina.ebanina.Player.Controllers.MediaProcessor" />
       <recent name="rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor" />
-      <recent name="rf.ebanina.ebanina.Player.VST3" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="media" />
@@ -322,28 +957,10 @@
     </option>
   </component>
   <component name="RunManager" selected="Application.Start">
-    <configuration name="Hitmos" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="rf.ebanina.Network.Illegal.Download.Hitmos" />
+    <configuration name="Izolate" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Izolate" />
       <module name="Ebanina-VST" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="rf.ebanina.Network.Illegal.Download.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="LightAudio" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="rf.ebanina.Network.Illegal.Download.LightAudio" />
-      <module name="Ebanina-VST" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="rf.ebanina.Network.Illegal.Download.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
+      <option name="VM_PARAMETERS" value="-XX:NativeMemoryTracking=detail -Dfile.encoding=UTF-8 --module-path &quot;libraries\modules&quot; --add-modules javafx.controls,javafx.fxml,javafx.graphics,javafx.swing,javafx.media,org.controlsfx.controls,jdk.management,java.management,mp3agic,java.prefs,com.jfoenix,com.github.kwhat.jnativehook,jsoup,lastfm.java,java.desktop,com.sun.jna,com.sun.jna.platform,org.apache.commons.io --add-opens java.base/java.lang.reflect=com.jfoenix --add-opens javafx.graphics/javafx.stage=ALL-UNNAMED --add-opens javafx.graphics/com.sun.javafx.tk.quantum=ALL-UNNAMED --add-exports junit.platform.console.standalone/org.hamcrest.internal=ALL-UNNAMED" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -351,7 +968,7 @@
     <configuration name="Start" type="Application" factoryName="Application" singleton="false" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="rf.ebanina.Start" />
       <module name="Ebanina-VST" />
-      <option name="VM_PARAMETERS" value="-XX:NativeMemoryTracking=detail -Dfile.encoding=UTF-8 --module-path &quot;libraries\modules&quot; --add-modules javafx.controls,javafx.fxml,javafx.graphics,javafx.swing,javafx.media,org.controlsfx.controls,jdk.management,java.management,mp3agic,java.prefs,com.jfoenix,com.github.kwhat.jnativehook,jsoup,lastfm.java,java.desktop,com.sun.jna,com.sun.jna.platform,org.apache.commons.io,untitled10 --add-opens java.base/java.lang.reflect=com.jfoenix --add-opens javafx.graphics/javafx.stage=ALL-UNNAMED --add-opens javafx.graphics/com.sun.javafx.tk.quantum=ALL-UNNAMED --add-exports junit.platform.console.standalone/org.hamcrest.internal=ALL-UNNAMED" />
+      <option name="VM_PARAMETERS" value="-Dprism.order=es2,d3d -Dfile.encoding=UTF-8 --module-path &quot;libraries\modules&quot; --add-modules javafx.controls,javafx.fxml,javafx.graphics,javafx.swing,javafx.media,org.controlsfx.controls,jdk.management,java.management,mp3agic,java.prefs,com.jfoenix,com.github.kwhat.jnativehook,jsoup,lastfm.java,java.desktop,com.sun.jna,com.sun.jna.platform,org.apache.commons.io --add-opens java.base/java.lang.reflect=com.jfoenix --add-opens javafx.graphics/javafx.stage=ALL-UNNAMED --add-opens javafx.graphics/com.sun.javafx.tk.quantum=ALL-UNNAMED --add-exports junit.platform.console.standalone/org.hamcrest.internal=ALL-UNNAMED" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="rf.ebanina.ebanina.Player.AudioEffect.Pitch.*" />
@@ -364,6 +981,40 @@
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <module name="Ebanina-VST" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FileManagerTest (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Ebanina-VST" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ebanina.io.filemanager.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ebanina.io.filemanager" />
+      <option name="MAIN_CLASS_NAME" value="ebanina.io.filemanager.FileManagerTest" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-Dfile.encoding=UTF-8 --module-path &quot;libraries\modules&quot; --add-modules javafx.controls,javafx.fxml,javafx.graphics,javafx.swing,javafx.media,org.controlsfx.controls,jdk.management,java.management,mp3agic,java.prefs,com.jfoenix,com.github.kwhat.jnativehook,jsoup,lastfm.java,java.desktop,com.sun.jna,com.sun.jna.platform,org.apache.commons.io --add-opens java.base/java.lang.reflect=com.jfoenix --add-opens javafx.graphics/javafx.stage=ALL-UNNAMED --add-opens javafx.graphics/com.sun.javafx.tk.quantum=ALL-UNNAMED --add-exports junit.platform.console.standalone/org.hamcrest.internal=ALL-UNNAMED" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FileManagerTest.createCacheDirectoryIfNotExist_createsMissingFilesOnly" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Ebanina-VST" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ebanina.io.filemanager.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ebanina.io.filemanager" />
+      <option name="MAIN_CLASS_NAME" value="ebanina.io.filemanager.FileManagerTest" />
+      <option name="METHOD_NAME" value="createCacheDirectoryIfNotExist_createsMissingFilesOnly(java.nio.file.Path)" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-Dfile.encoding=UTF-8 --module-path &quot;libraries\modules&quot; --add-modules javafx.controls,javafx.fxml,javafx.graphics,javafx.swing,javafx.media,org.controlsfx.controls,jdk.management,java.management,mp3agic,java.prefs,com.jfoenix,com.github.kwhat.jnativehook,jsoup,lastfm.java,java.desktop,com.sun.jna,com.sun.jna.platform,org.apache.commons.io --add-opens java.base/java.lang.reflect=com.jfoenix --add-opens javafx.graphics/javafx.stage=ALL-UNNAMED --add-opens javafx.graphics/com.sun.javafx.tk.quantum=ALL-UNNAMED --add-exports junit.platform.console.standalone/org.hamcrest.internal=ALL-UNNAMED" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -385,7 +1036,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TrackHistoryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TrackTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Ebanina-VST" />
       <extension name="coverage">
         <pattern>
@@ -394,15 +1045,15 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="ebanina.media" />
-      <option name="MAIN_CLASS_NAME" value="ebanina.media.TrackHistoryTest" />
+      <option name="MAIN_CLASS_NAME" value="ebanina.media.TrackTest" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" value="-Dfile.encoding=UTF-8 --module-path &quot;libraries\modules&quot; --add-modules javafx.controls,javafx.fxml,javafx.graphics,javafx.swing,javafx.media,org.controlsfx.controls,jdk.management,java.management,mp3agic,java.prefs,com.jfoenix,com.github.kwhat.jnativehook,jsoup,lastfm.java,java.desktop,com.sun.jna,com.sun.jna.platform,org.apache.commons.io,untitled10 --add-opens java.base/java.lang.reflect=com.jfoenix --add-opens javafx.graphics/javafx.stage=ALL-UNNAMED --add-opens javafx.graphics/com.sun.javafx.tk.quantum=ALL-UNNAMED --add-exports junit.platform.console.standalone/org.hamcrest.internal=ALL-UNNAMED" />
+      <option name="VM_PARAMETERS" value="-Dfile.encoding=UTF-8 --module-path &quot;libraries\modules&quot; --add-modules javafx.controls,javafx.fxml,javafx.graphics,javafx.swing,javafx.media,org.controlsfx.controls,jdk.management,java.management,mp3agic,java.prefs,com.jfoenix,com.github.kwhat.jnativehook,jsoup,lastfm.java,java.desktop,com.sun.jna,com.sun.jna.platform,org.apache.commons.io --add-opens java.base/java.lang.reflect=com.jfoenix --add-opens javafx.graphics/javafx.stage=ALL-UNNAMED --add-opens javafx.graphics/com.sun.javafx.tk.quantum=ALL-UNNAMED --add-exports junit.platform.console.standalone/org.hamcrest.internal=ALL-UNNAMED" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TrackHistoryTest.testRemoveTrackFromHistoryAndMenu" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TrackTest.testAlbumArtOverloads" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Ebanina-VST" />
       <extension name="coverage">
         <pattern>
@@ -411,10 +1062,10 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="ebanina.media" />
-      <option name="MAIN_CLASS_NAME" value="ebanina.media.TrackHistoryTest" />
-      <option name="METHOD_NAME" value="testRemoveTrackFromHistoryAndMenu" />
+      <option name="MAIN_CLASS_NAME" value="ebanina.media.TrackTest" />
+      <option name="METHOD_NAME" value="testAlbumArtOverloads" />
       <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" value="-Dfile.encoding=UTF-8 --module-path &quot;libraries\modules&quot; --add-modules javafx.controls,javafx.fxml,javafx.graphics,javafx.swing,javafx.media,org.controlsfx.controls,jdk.management,java.management,mp3agic,java.prefs,com.jfoenix,com.github.kwhat.jnativehook,jsoup,lastfm.java,java.desktop,com.sun.jna,com.sun.jna.platform,org.apache.commons.io,untitled10 --add-opens java.base/java.lang.reflect=com.jfoenix --add-opens javafx.graphics/javafx.stage=ALL-UNNAMED --add-opens javafx.graphics/com.sun.javafx.tk.quantum=ALL-UNNAMED --add-exports junit.platform.console.standalone/org.hamcrest.internal=ALL-UNNAMED" />
+      <option name="VM_PARAMETERS" value="-Dfile.encoding=UTF-8 --module-path &quot;libraries\modules&quot; --add-modules javafx.controls,javafx.fxml,javafx.graphics,javafx.swing,javafx.media,org.controlsfx.controls,jdk.management,java.management,mp3agic,java.prefs,com.jfoenix,com.github.kwhat.jnativehook,jsoup,lastfm.java,java.desktop,com.sun.jna,com.sun.jna.platform,org.apache.commons.io --add-opens java.base/java.lang.reflect=com.jfoenix --add-opens javafx.graphics/javafx.stage=ALL-UNNAMED --add-opens javafx.graphics/com.sun.javafx.tk.quantum=ALL-UNNAMED --add-exports junit.platform.console.standalone/org.hamcrest.internal=ALL-UNNAMED" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -423,7 +1074,7 @@
       <module name="Ebanina-VST" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" value="-Dfile.encoding=UTF-8 --module-path &quot;libraries\modules&quot; --add-modules javafx.controls,javafx.fxml,javafx.graphics,javafx.swing,javafx.media,org.controlsfx.controls,jdk.management,java.management,mp3agic,java.prefs,com.jfoenix,com.github.kwhat.jnativehook,jsoup,lastfm.java,java.desktop,com.sun.jna,com.sun.jna.platform,org.apache.commons.io,untitled10 --add-opens java.base/java.lang.reflect=com.jfoenix --add-opens javafx.graphics/javafx.stage=ALL-UNNAMED --add-opens javafx.graphics/com.sun.javafx.tk.quantum=ALL-UNNAMED --add-exports junit.platform.console.standalone/org.hamcrest.internal=ALL-UNNAMED" />
+      <option name="VM_PARAMETERS" value="-Dfile.encoding=UTF-8 --module-path &quot;libraries\modules&quot; --add-modules javafx.controls,javafx.fxml,javafx.graphics,javafx.swing,javafx.media,org.controlsfx.controls,jdk.management,java.management,mp3agic,java.prefs,com.jfoenix,com.github.kwhat.jnativehook,jsoup,lastfm.java,java.desktop,com.sun.jna,com.sun.jna.platform,org.apache.commons.io --add-opens java.base/java.lang.reflect=com.jfoenix --add-opens javafx.graphics/javafx.stage=ALL-UNNAMED --add-opens javafx.graphics/com.sun.javafx.tk.quantum=ALL-UNNAMED --add-exports junit.platform.console.standalone/org.hamcrest.internal=ALL-UNNAMED" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -441,43 +1092,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="build_mizuka" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Ebanina-VST" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/scripts/build" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/scripts/build/build_mizuka.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="true" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <list>
       <item itemvalue="Application.Start" />
-      <item itemvalue="Application.Hitmos" />
-      <item itemvalue="Application.LightAudio" />
+      <item itemvalue="Application.Izolate" />
       <item itemvalue="JUnit.KeyActionTest" />
-      <item itemvalue="JUnit.TrackHistoryTest" />
-      <item itemvalue="JUnit.TrackHistoryTest.testRemoveTrackFromHistoryAndMenu" />
-      <item itemvalue="Python.build_mizuka" />
+      <item itemvalue="JUnit.FileManagerTest (1)" />
+      <item itemvalue="JUnit.FileManagerTest.createCacheDirectoryIfNotExist_createsMissingFilesOnly" />
+      <item itemvalue="JUnit.TrackTest" />
+      <item itemvalue="JUnit.TrackTest.testAlbumArtOverloads" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.LightAudio" />
-        <item itemvalue="Application.Hitmos" />
-        <item itemvalue="JUnit.TrackHistoryTest" />
-        <item itemvalue="JUnit.TrackHistoryTest.testRemoveTrackFromHistoryAndMenu" />
-        <item itemvalue="Python.build_mizuka" />
+        <item itemvalue="Application.Izolate" />
+        <item itemvalue="JUnit.TrackTest" />
+        <item itemvalue="JUnit.TrackTest.testAlbumArtOverloads" />
+        <item itemvalue="JUnit.FileManagerTest (1)" />
+        <item itemvalue="JUnit.FileManagerTest.createCacheDirectoryIfNotExist_createsMissingFilesOnly" />
       </list>
     </recent_temporary>
   </component>
@@ -493,167 +1123,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1751373119676</updated>
-    </task>
-    <task id="LOCAL-00117" summary="Plugin Host Controller: Add plugin in thread thrown error. Add plugin moved from thread to main thread">
-      <created>1773592484559</created>
-      <option name="number" value="00117" />
-      <option name="presentableId" value="LOCAL-00117" />
-      <option name="project" value="LOCAL" />
-      <updated>1773592484559</updated>
-    </task>
-    <task id="LOCAL-00118" summary="Anvil: Now available for modifications (non-finale)">
-      <created>1773740794931</created>
-      <option name="number" value="00118" />
-      <option name="presentableId" value="LOCAL-00118" />
-      <option name="project" value="LOCAL" />
-      <updated>1773740794931</updated>
-    </task>
-    <task id="LOCAL-00119" summary="Readme: Updated minor things">
-      <created>1773746450426</created>
-      <option name="number" value="00119" />
-      <option name="presentableId" value="LOCAL-00119" />
-      <option name="project" value="LOCAL" />
-      <updated>1773746450427</updated>
-    </task>
-    <task id="LOCAL-00120" summary="ListCells: Optimize for list's">
-      <created>1773755300894</created>
-      <option name="number" value="00120" />
-      <option name="presentableId" value="LOCAL-00120" />
-      <option name="project" value="LOCAL" />
-      <updated>1773755300894</updated>
-    </task>
-    <task id="LOCAL-00121" summary="AudioHost: Fixed freeze open animation">
-      <created>1773755414353</created>
-      <option name="number" value="00121" />
-      <option name="presentableId" value="LOCAL-00121" />
-      <option name="project" value="LOCAL" />
-      <updated>1773755414353</updated>
-    </task>
-    <task id="LOCAL-00122" summary="Dialogs, SoundSlider, Art and more: New java docs added">
-      <created>1773769258505</created>
-      <option name="number" value="00122" />
-      <option name="presentableId" value="LOCAL-00122" />
-      <option name="project" value="LOCAL" />
-      <updated>1773769258505</updated>
-    </task>
-    <task id="LOCAL-00123" summary="ListCells: New view and minor optimization">
-      <created>1773769404034</created>
-      <option name="number" value="00123" />
-      <option name="presentableId" value="LOCAL-00123" />
-      <option name="project" value="LOCAL" />
-      <updated>1773769404034</updated>
-    </task>
-    <task id="LOCAL-00124" summary="UI: Minor view style and animations update">
-      <created>1773793107283</created>
-      <option name="number" value="00124" />
-      <option name="presentableId" value="LOCAL-00124" />
-      <option name="project" value="LOCAL" />
-      <updated>1773793107283</updated>
-    </task>
-    <task id="LOCAL-00125" summary="Version file updated">
-      <created>1773793204475</created>
-      <option name="number" value="00125" />
-      <option name="presentableId" value="LOCAL-00125" />
-      <option name="project" value="LOCAL" />
-      <updated>1773793204475</updated>
-    </task>
-    <task id="LOCAL-00126" summary="Root: Tooltips now handle inside Platform thread">
-      <created>1773952174996</created>
-      <option name="number" value="00126" />
-      <option name="presentableId" value="LOCAL-00126" />
-      <option name="project" value="LOCAL" />
-      <updated>1773952174996</updated>
-    </task>
-    <task id="LOCAL-00127" summary="VstPluginListCell: Re open button was removed">
-      <created>1774101568657</created>
-      <option name="number" value="00127" />
-      <option name="presentableId" value="LOCAL-00127" />
-      <option name="project" value="LOCAL" />
-      <updated>1774101568658</updated>
-    </task>
-    <task id="LOCAL-00128" summary="Minor updates in all project">
-      <created>1774106404259</created>
-      <option name="number" value="00128" />
-      <option name="presentableId" value="LOCAL-00128" />
-      <option name="project" value="LOCAL" />
-      <updated>1774106404259</updated>
-    </task>
-    <task id="LOCAL-00129" summary="New Java-Docs and minor update in all project (scripts, src, tests, etc.)">
-      <created>1774200188568</created>
-      <option name="number" value="00129" />
-      <option name="presentableId" value="LOCAL-00129" />
-      <option name="project" value="LOCAL" />
-      <updated>1774200188569</updated>
-    </task>
-    <task id="LOCAL-00130" summary="Readme updated">
-      <created>1774200710773</created>
-      <option name="number" value="00130" />
-      <option name="presentableId" value="LOCAL-00130" />
-      <option name="project" value="LOCAL" />
-      <updated>1774200710773</updated>
-    </task>
-    <task id="LOCAL-00131" summary="Updates Scripts, Added new Java-Docs.">
-      <created>1774219708703</created>
-      <option name="number" value="00131" />
-      <option name="presentableId" value="LOCAL-00131" />
-      <option name="project" value="LOCAL" />
-      <updated>1774219708703</updated>
-    </task>
-    <task id="LOCAL-00132" summary="Minor refactor in TempoShifter.java and tempo_shifter.cpp">
-      <created>1774220298354</created>
-      <option name="number" value="00132" />
-      <option name="presentableId" value="LOCAL-00132" />
-      <option name="project" value="LOCAL" />
-      <updated>1774220298354</updated>
-    </task>
-    <task id="LOCAL-00133" summary="Root: LicenseDialog updated to AnimationDialog">
-      <created>1774221458280</created>
-      <option name="number" value="00133" />
-      <option name="presentableId" value="LOCAL-00133" />
-      <option name="project" value="LOCAL" />
-      <updated>1774221458280</updated>
-    </task>
-    <task id="LOCAL-00134" summary="Documentation html page created">
-      <created>1774224563264</created>
-      <option name="number" value="00134" />
-      <option name="presentableId" value="LOCAL-00134" />
-      <option name="project" value="LOCAL" />
-      <updated>1774224563264</updated>
-    </task>
-    <task id="LOCAL-00135" summary="TempoShifter update to more optimize">
-      <created>1774427218530</created>
-      <option name="number" value="00135" />
-      <option name="presentableId" value="LOCAL-00135" />
-      <option name="project" value="LOCAL" />
-      <updated>1774427218531</updated>
-    </task>
-    <task id="LOCAL-00136" summary="Documentation updates">
-      <created>1774458204331</created>
-      <option name="number" value="00136" />
-      <option name="presentableId" value="LOCAL-00136" />
-      <option name="project" value="LOCAL" />
-      <updated>1774458204331</updated>
-    </task>
-    <task id="LOCAL-00137" summary="Animations: Minor optimize updates">
-      <created>1774461274607</created>
-      <option name="number" value="00137" />
-      <option name="presentableId" value="LOCAL-00137" />
-      <option name="project" value="LOCAL" />
-      <updated>1774461274607</updated>
-    </task>
-    <task id="LOCAL-00138" summary="Anvil: Added feature of disable load some mods">
-      <created>1774463142296</created>
-      <option name="number" value="00138" />
-      <option name="presentableId" value="LOCAL-00138" />
-      <option name="project" value="LOCAL" />
-      <updated>1774463142297</updated>
-    </task>
-    <task id="LOCAL-00139" summary="Modification docs updated">
-      <created>1774547821565</created>
-      <option name="number" value="00139" />
-      <option name="presentableId" value="LOCAL-00139" />
-      <option name="project" value="LOCAL" />
-      <updated>1774547821565</updated>
     </task>
     <task id="LOCAL-00140" summary="Script for download zip from release, updated to unpack zip and launch .exe inside">
       <created>1774646941521</created>
@@ -837,7 +1306,168 @@
       <option name="project" value="LOCAL" />
       <updated>1776107152549</updated>
     </task>
-    <option name="localTasksCounter" value="166" />
+    <task id="LOCAL-00166" summary="Commit before push">
+      <created>1776107846570</created>
+      <option name="number" value="00166" />
+      <option name="presentableId" value="LOCAL-00166" />
+      <option name="project" value="LOCAL" />
+      <updated>1776107846570</updated>
+    </task>
+    <task id="LOCAL-00167" summary="Hitmos.java parsing from server html fixed">
+      <created>1776120780285</created>
+      <option name="number" value="00167" />
+      <option name="presentableId" value="LOCAL-00167" />
+      <option name="project" value="LOCAL" />
+      <updated>1776120780286</updated>
+    </task>
+    <task id="LOCAL-00168" summary="Fixed bug with stretch list cell ass">
+      <created>1776450106201</created>
+      <option name="number" value="00168" />
+      <option name="presentableId" value="LOCAL-00168" />
+      <option name="project" value="LOCAL" />
+      <updated>1776450106202</updated>
+    </task>
+    <task id="LOCAL-00169" summary="mizuka-deezer-api-wrapper added as submodule">
+      <created>1776450631328</created>
+      <option name="number" value="00169" />
+      <option name="presentableId" value="LOCAL-00169" />
+      <option name="project" value="LOCAL" />
+      <updated>1776450631328</updated>
+    </task>
+    <task id="LOCAL-00170" summary="updated gitmodules">
+      <created>1776539570714</created>
+      <option name="number" value="00170" />
+      <option name="presentableId" value="LOCAL-00170" />
+      <option name="project" value="LOCAL" />
+      <updated>1776539570715</updated>
+    </task>
+    <task id="LOCAL-00171" summary="updated gitmodules">
+      <created>1776539933946</created>
+      <option name="number" value="00171" />
+      <option name="presentableId" value="LOCAL-00171" />
+      <option name="project" value="LOCAL" />
+      <updated>1776539933946</updated>
+    </task>
+    <task id="LOCAL-00172" summary="LocalizationManager refactored">
+      <created>1776631276576</created>
+      <option name="number" value="00172" />
+      <option name="presentableId" value="LOCAL-00172" />
+      <option name="project" value="LOCAL" />
+      <updated>1776631276577</updated>
+    </task>
+    <task id="LOCAL-00173" summary="Fixed bug with blocking thread close in netty track processing">
+      <created>1776643956980</created>
+      <option name="number" value="00173" />
+      <option name="presentableId" value="LOCAL-00173" />
+      <option name="project" value="LOCAL" />
+      <updated>1776643956981</updated>
+    </task>
+    <task id="LOCAL-00174" summary="Issues added">
+      <created>1776775894147</created>
+      <option name="number" value="00174" />
+      <option name="presentableId" value="LOCAL-00174" />
+      <option name="project" value="LOCAL" />
+      <updated>1776775894147</updated>
+    </task>
+    <task id="LOCAL-00175" summary="Issues updated">
+      <created>1776776887610</created>
+      <option name="number" value="00175" />
+      <option name="presentableId" value="LOCAL-00175" />
+      <option name="project" value="LOCAL" />
+      <updated>1776776887610</updated>
+    </task>
+    <task id="LOCAL-00176" summary="Roadmap updated">
+      <created>1776777572898</created>
+      <option name="number" value="00176" />
+      <option name="presentableId" value="LOCAL-00176" />
+      <option name="project" value="LOCAL" />
+      <updated>1776777572898</updated>
+    </task>
+    <task id="LOCAL-00177" summary="Intro sound relocated to self class">
+      <created>1776816322444</created>
+      <option name="number" value="00177" />
+      <option name="presentableId" value="LOCAL-00177" />
+      <option name="project" value="LOCAL" />
+      <updated>1776816322444</updated>
+    </task>
+    <task id="LOCAL-00178" summary="All languages splash messages added">
+      <created>1776816979846</created>
+      <option name="number" value="00178" />
+      <option name="presentableId" value="LOCAL-00178" />
+      <option name="project" value="LOCAL" />
+      <updated>1776816979846</updated>
+    </task>
+    <task id="LOCAL-00179" summary="Play logic relocated to Intro.java">
+      <created>1776817311327</created>
+      <option name="number" value="00179" />
+      <option name="presentableId" value="LOCAL-00179" />
+      <option name="project" value="LOCAL" />
+      <updated>1776817311327</updated>
+    </task>
+    <task id="LOCAL-00180" summary="Added new logo path to resources">
+      <created>1777056569367</created>
+      <option name="number" value="00180" />
+      <option name="presentableId" value="LOCAL-00180" />
+      <option name="project" value="LOCAL" />
+      <updated>1777056569367</updated>
+    </task>
+    <task id="LOCAL-00181" summary="Anvil mods load updated to ignoring module-info and throwable exceptions">
+      <created>1777115270365</created>
+      <option name="number" value="00181" />
+      <option name="presentableId" value="LOCAL-00181" />
+      <option name="project" value="LOCAL" />
+      <updated>1777115270365</updated>
+    </task>
+    <task id="LOCAL-00182" summary="Added progress bar to initialize splash window">
+      <created>1777115320566</created>
+      <option name="number" value="00182" />
+      <option name="presentableId" value="LOCAL-00182" />
+      <option name="project" value="LOCAL" />
+      <updated>1777115320566</updated>
+    </task>
+    <task id="LOCAL-00183" summary="Added json localization messages to splash window">
+      <created>1777115394043</created>
+      <option name="number" value="00183" />
+      <option name="presentableId" value="LOCAL-00183" />
+      <option name="project" value="LOCAL" />
+      <updated>1777115394043</updated>
+    </task>
+    <task id="LOCAL-00184" summary="Added json parse method to FileManager">
+      <created>1777115424097</created>
+      <option name="number" value="00184" />
+      <option name="presentableId" value="LOCAL-00184" />
+      <option name="project" value="LOCAL" />
+      <updated>1777115424097</updated>
+    </task>
+    <task id="LOCAL-00185" summary="Network refactored">
+      <created>1777115449516</created>
+      <option name="number" value="00185" />
+      <option name="presentableId" value="LOCAL-00185" />
+      <option name="project" value="LOCAL" />
+      <updated>1777115449516</updated>
+    </task>
+    <task id="LOCAL-00186" summary="ListCells minor bugs fixed">
+      <created>1777115522231</created>
+      <option name="number" value="00186" />
+      <option name="presentableId" value="LOCAL-00186" />
+      <option name="project" value="LOCAL" />
+      <updated>1777115522231</updated>
+    </task>
+    <task id="LOCAL-00187" summary="Root refactored">
+      <created>1777115566711</created>
+      <option name="number" value="00187" />
+      <option name="presentableId" value="LOCAL-00187" />
+      <option name="project" value="LOCAL" />
+      <updated>1777115566711</updated>
+    </task>
+    <task id="LOCAL-00188" summary="Tests updated">
+      <created>1777115603428</created>
+      <option name="number" value="00188" />
+      <option name="presentableId" value="LOCAL-00188" />
+      <option name="project" value="LOCAL" />
+      <updated>1777115603428</updated>
+    </task>
+    <option name="localTasksCounter" value="189" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -964,33 +1594,34 @@
       <path value="$PROJECT_DIR$/modules/untitled10" />
       <path value="$PROJECT_DIR$/modules/ebanina-spotify-api-wrapper" />
       <path value="$PROJECT_DIR$/modules/ebanina-soundcloud-api-wrapper" />
+      <path value="$PROJECT_DIR$/modules/mizuka-deezer-api-wrapper" />
     </ignored-roots>
-    <MESSAGE value="Windows script dor download renamed" />
-    <MESSAGE value="Readme updated" />
-    <MESSAGE value="Fixed LightAudio download tracks, added user agents" />
-    <MESSAGE value="Soundcloud moved to own module into another jar" />
-    <MESSAGE value="Added aspects style to key binds" />
-    <MESSAGE value="Added system volume control from mouse wheel" />
-    <MESSAGE value="refactor: track parse method moved to Track.java" />
-    <MESSAGE value="tests: added AnimationsTest.java a test class" />
-    <MESSAGE value="added: Profilers classes aspects to KeyBindingController.java" />
-    <MESSAGE value="fix: TrackHistoryTest test fixed" />
-    <MESSAGE value="fix: minor fixes in PlayProcessor" />
-    <MESSAGE value="minor fixes and added" />
-    <MESSAGE value="Root.java basic docs added" />
-    <MESSAGE value="Root refactored to singleton and object specification" />
-    <MESSAGE value="Fixed the problem of not being able to download and use audio files from services has been fixed - a redirect has been added" />
-    <MESSAGE value="Fixed the bug of incorrect loading of statistics, which consisted of initializing the controller BEFORE loading the actual data, has been resolved." />
-    <MESSAGE value="Fixed a bug with incorrect width calculation for selectionRect when selecting, and a bug with merging some colors (now they are just darker)" />
-    <MESSAGE value="Python scripts extended new additional input functional" />
-    <MESSAGE value="Python scripts for buildings extended new additional input functional" />
-    <MESSAGE value="Update gitignore" />
-    <MESSAGE value="TrackHistory logic migrate to super class History.java, and now is extended History.java" />
-    <MESSAGE value="Concept of files managers edited" />
     <MESSAGE value="IParseAlbumArt.java now is functional interface" />
     <MESSAGE value="Minor bugs fixed, and netty track listcell optimized" />
     <MESSAGE value="Removed from gitignore" />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed from gitignore" />
+    <MESSAGE value="Commit before push" />
+    <MESSAGE value="Hitmos.java parsing from server html fixed" />
+    <MESSAGE value="Fixed bug with stretch list cell ass" />
+    <MESSAGE value="mizuka-deezer-api-wrapper added as submodule" />
+    <MESSAGE value="updated gitmodules" />
+    <MESSAGE value="LocalizationManager refactored" />
+    <MESSAGE value="Fixed bug with blocking thread close in netty track processing" />
+    <MESSAGE value="Issues added" />
+    <MESSAGE value="Issues updated" />
+    <MESSAGE value="Roadmap updated" />
+    <MESSAGE value="Intro sound relocated to self class" />
+    <MESSAGE value="All languages splash messages added" />
+    <MESSAGE value="Play logic relocated to Intro.java" />
+    <MESSAGE value="Added new logo path to resources" />
+    <MESSAGE value="Anvil mods load updated to ignoring module-info and throwable exceptions" />
+    <MESSAGE value="Added progress bar to initialize splash window" />
+    <MESSAGE value="Added json localization messages to splash window" />
+    <MESSAGE value="Added json parse method to FileManager" />
+    <MESSAGE value="Network refactored" />
+    <MESSAGE value="ListCells minor bugs fixed" />
+    <MESSAGE value="Root refactored" />
+    <MESSAGE value="Tests updated" />
+    <option name="LAST_COMMIT_MESSAGE" value="Tests updated" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1011,6 +1642,10 @@
         <breakpoint enabled="true" type="java-exception">
           <properties class="java.lang.IllegalStateException" package="java.lang" />
           <option name="timeStamp" value="6" />
+        </breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.NullPointerException" package="java.lang" />
+          <option name="timeStamp" value="7" />
         </breakpoint>
       </breakpoints>
     </breakpoint-manager>

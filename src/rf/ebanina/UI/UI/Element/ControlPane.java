@@ -140,6 +140,7 @@ public class ControlPane
 
         root.getChildren().add(hoverZone);
     }
+
     /**
      * Добавляет центральную кнопку действий и центрирует её.
      * <p>

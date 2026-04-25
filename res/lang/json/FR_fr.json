@@ -1,0 +1,173 @@
+{
+  "lang": "Langue",
+
+  "tooltip": {
+    "tooltip_main_play": "Reprendre / Mettre en pause",
+    "tooltip_main_next": "Suivant",
+    "tooltip_main_prev": "Précédent",
+    "tooltip_main_slider": "Déplacer",
+    "tooltip_main_hide_left": "Ouvrir la playlist réseau",
+    "tooltip_main_hide_right": "Ouvrir la playlist locale",
+    "tooltip_playlist_prev_playlist": "Playlist précédente",
+    "tooltip_playlist_next_playlist": "Playlist suivante",
+    "tooltip_playlist_set_playlist": "Changer la playlist",
+    "tooltip_playlist_search": "Recherche",
+    "tooltip_all_functions_button": "Fonctions générales de l’application"
+  },
+
+  "license_agree": "Accepter",
+
+  "window_title": {
+    "window_title_metadata": "Métadonnées de la piste",
+    "window_title_host": "Hôte audio",
+    "window_title_settings": "Paramètres",
+    "window_title_download_inet": "Hôte réseau"
+  },
+
+  "stats": {
+    "track_statistics": "Statistiques des pistes",
+    "track_statistics_key": "Clé de la statistique",
+    "track_statistics_value": "Valeur de la statistique",
+
+    "local": {
+      "track_statistics_time": "Dernière position jouée",
+      "track_statistics_volume": "Dernier volume",
+      "track_statistics_last tempo": "Dernier tempo",
+      "track_statistics_tempo": "Dernier tempo",
+      "track_statistics_pan": "Dernier panorama sonore",
+      "track_statistics_last pitch": "Dernière hauteur du son",
+      "track_statistics_count streams": "Nombre de flux",
+      "track_statistics_total time played": "Temps total écoulé",
+      "track_statistics_count full play": "Nombre de lectures complètes",
+      "track_statistics_last date": "Date de la dernière écoute"
+    },
+
+    "net": {
+      "spotify": {
+        "spotify_track_statistics_title": "Titre",
+        "spotify_track_statistics_author": "Auteur",
+        "spotify_track_statistics_art": "Œuvre artistique",
+        "spotify_track_statistics_popularity": "Popularité",
+        "spotify_track_statistics_duration": "Durée",
+        "spotify_track_statistics_explicit": "Langage explicite"
+      },
+
+      "lastfm": {
+        "lastfm_track_statistics_title": "Titre",
+        "lastfm_track_statistics_artist": "Interprète",
+        "lastfm_track_statistics_album": "Album",
+        "lastfm_track_statistics_location": "Emplacement",
+        "lastfm_track_statistics_id": "Identifiant",
+        "lastfm_track_statistics_dura": "Durée",
+        "lastfm_track_statistics_play_count": "Compteur de lecture",
+        "lastfm_track_statistics_tags": "Étiquettes",
+        "lastfm_track_statistics_url": "URL",
+        "lastfm_track_statistics_listeners": "Auditeurs",
+        "lastfm_track_statistics_wiki": "Information wiki",
+        "lastfm_track_statistics_image": "Image"
+      },
+
+      "soundcloud": {
+        "soundcloud_track_statistics_duration": "Durée",
+        "soundcloud_track_statistics_comment_count": "Nombre de commentaires",
+        "soundcloud_track_statistics_art": "Couverture artistique",
+        "soundcloud_track_statistics_genre": "Genre musical",
+        "soundcloud_track_statistics_created_at": "Créé le",
+        "soundcloud_track_statistics_description": "Description",
+        "soundcloud_track_statistics_id": "Identifiant",
+        "soundcloud_track_statistics_title": "Titre",
+        "soundcloud_track_statistics_permalink_url": "Lien permanent",
+        "soundcloud_track_statistics_playbacks": "Nombre de lectures",
+        "soundcloud_track_statistics_username": "Nom d'utilisateur"
+      }
+    }
+  },
+
+  "metadata": {
+    "metadata_host_title": "Métadonnées",
+    "metadata_save": "Sauvegarder",
+    "metadata_remove": "Supprimer",
+    "metadata_search": "Recherche"
+  },
+
+  "tags": {
+    "tags_new_tag": "Nom du tag",
+    "tags_title": "Tags de piste",
+    "tags_save": "Enregistrer le tag"
+  },
+
+  "context_menu": {
+    "context_menu_rename": "Renommer la playlist",
+    "context_menu_remove_playlist_from_list": "Supprimer de la playlist",
+    "context_menu_remove_playlist_from_disk": "Supprimer de l’appareil",
+    "context_menu_about_playlist": "À propos de la playlist",
+
+    "context_menu_open_in_explorer": "Ouvrir dans le dossier",
+    "context_menu_delete_track": "Supprimer la piste",
+    "context_menu_delete_track_from_playlist": "Supprimer la piste de la playlist",
+    "context_menu_show_tracks_by_artist": "Afficher toutes les pistes de l’artiste",
+    "context_menu_manage_tags": "Gestion des tags",
+    "context_menu_move_to": "Déplacer vers une autre playlist",
+    "context_menu_copy_to": "Copier vers une autre playlist",
+    "context_menu_get_possible_url": "Copier le lien",
+    "context_menu_open_possible_url": "Ouvrir le lien",
+    "context_menu_show_track_statistics": "Statistiques",
+    "context_menu_download_to": "Télécharger dans la playlist",
+    "context_menu_edit_tags": "Édition des tags audio",
+    "context_menu_edit_item": "Édition des tags du fichier",
+    "context_menu_phantom": "Élément fantôme",
+    "context_menu_new_playlist": "Nouvelle playlist"
+  },
+
+  "vst_editor": {
+    "vst_editor_tab_vst": "VST",
+    "vst_editor_tab_own_plugins": "Plugins de l’application",
+    "vst_editor_tab_parameters": "Paramètres",
+    "vst_editor_tab_auto": "Automatisation",
+    "vst_editor_pan": "Balance",
+    "vst_editor_volume": "Volume",
+    "vst_editor_tempo": "Tempo",
+    "vst_editor_pitch": "Hauteur",
+    "vst_editor_main_text": "Hôte audio",
+    "vst_editor_add": "Ajouter un plugin",
+    "vst_editor_remove": "Supprimer un plugin",
+    "vst_editor_load_session": "Charger la session",
+    "vst_editor_save_session": "Sauvegarder la session",
+    "vst_editor_tempo_text": "Tempo",
+    "vst_editor_pitch_text": "Hauteur",
+    "vst_editor_volume_text": "Volume",
+    "vst_editor_pan_text": "Canaux",
+    "vst_editor_parameters": "Paramètres",
+    "vst_editor_save_state": "Sauvegarder",
+    "vst_editor_load_state": "Charger",
+    "vst_editor_open_gui": "Ouvrir GUI",
+    "vst_editor_add_auto": "Ajouter auto",
+    "vst_editor_remove_auto": "Supprimer auto",
+    "vst_editor_file_dialog_save_state": "Sauvegarder les paramètres du plugin",
+    "vst_editor_file_dialog_load_state": "Charger les paramètres du plugin",
+    "vst_editor_file_dialog_file_type": "Fichier texte",
+    "vst_editor_file_dialog_save_state_error": "Erreur lors de la sauvegarde des paramètres",
+    "vst_editor_file_dialog_load_state_error": "Erreur lors du chargement des paramètres"
+  },
+
+  "track_statistics": {
+    "track_statistics": "Statistiques",
+    "track_statistics_value": "Valeur"
+  },
+
+  "network": {
+    "network_host_title": "Hôte réseau",
+    "network_host_description": "Hôte permettant d’interagir avec les ressources réseau pour le téléchargement et l’écoute",
+    "network_host_add_to_playlist": "Ajouter à la playlist actuelle",
+    "network_host_set_to_playlist": "Mettre dans la playlist actuelle",
+    "network_host_quantity": "Quantité",
+    "network_host_download_promt_text": "Télécharger",
+    "network_host_search": "Que chercher?",
+    "network_host_addict_promt_text": "Paramètres"
+  },
+
+  "settings_title": "Paramètres",
+
+  "gui_config": "Paramètres",
+  "configuration_is_zero": "est nul"
+}

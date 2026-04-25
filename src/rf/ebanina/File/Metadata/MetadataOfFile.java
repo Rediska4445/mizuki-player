@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import static rf.ebanina.Network.Info.PlayersTypes.URI_NULL;
+import static rf.ebanina.Network.Net.PlayersTypes.URI_NULL;
 
 /**
  * Класс, представляющий метаданные аудиофайлов различных форматов.

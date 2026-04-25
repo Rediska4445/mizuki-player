@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact name="muzika-1.4.11">
+    <output-path>$PROJECT_DIR$/out/artifacts/muzika_1_4_11</output-path>
+    <root id="root">
+      <element id="archive" name="Ebanina-VST.jar">
+        <element id="module-output" name="Ebanina-VST" />
+      </element>
+    </root>
+  </artifact>
+</component>

@@ -153,7 +153,7 @@ extern "C" {
         JNIEnv *env, jobject thiz, jobjectArray input, jint frames, jint channels,
         jfloat tempo, jobjectArray output) {
 
-        // === Валидация входных данных ===
+        // Валидация входных данных
         if (!input || !output || channels <= 0 || frames <= 0 || tempo <= 0.0f) {
             env->ThrowNew(env->FindClass("java/lang/IllegalArgumentException"),
                           "Invalid parameters for tempo shift");
@@ -167,19 +167,19 @@ extern "C" {
             return 0;
         }
 
-        // Предвычисляем обратный темпо (сложение быстрее умножения)
+        // Предвычисление обратного темпо (сложение быстрее умножения)
         float invTempo = 1.0f / tempo;
         float srcIndex = 0.0f;
 
         for (int ch = 0; ch < channels; ch++) {
-            // === Получаем каналы с проверкой на null ===
+            // Получение каналов с проверкой на null
             jfloatArray inputChannel = (jfloatArray)env->GetObjectArrayElement(input, ch);
             jfloatArray outputChannel = (jfloatArray)env->GetObjectArrayElement(output, ch);
 
             if (!inputChannel || !outputChannel) {
                 env->ThrowNew(env->FindClass("java/lang/IllegalArgumentException"),
                               "Null channel array detected");
-                // Освобождаем уже захваченные ссылки
+                // Освобождение уже захваченных ссылки
                 for (int prevCh = 0; prevCh < ch; prevCh++) {
                     jfloatArray prevIn = (jfloatArray)env->GetObjectArrayElement(input, prevCh);
                     jfloatArray prevOut = (jfloatArray)env->GetObjectArrayElement(output, prevCh);
@@ -189,7 +189,7 @@ extern "C" {
                 return 0;
             }
 
-            // === Блокируем массивы для прямого доступа (быстрее GetFloatArrayElements) ===
+            // Блокировка массивов для прямого доступа (быстрее GetFloatArrayElements)
             jfloat *inData = (jfloat*)env->GetPrimitiveArrayCritical(inputChannel, nullptr);
             jfloat *outData = (jfloat*)env->GetPrimitiveArrayCritical(outputChannel, nullptr);
 
@@ -218,24 +218,24 @@ extern "C" {
                 return 0;
             }
 
-            // === Основной цикл обработки ===
-            int inputLengthMinus3 = inputLength - 3;  // Выносим проверку за цикл
+            // Основной цикл обработки
+            int inputLengthMinus3 = inputLength - 3;
 
             for (int i = 0; i < newFrames; i++) {
                 int baseIdx = (int)srcIndex;
                 int i0 = baseIdx - 1;
-                float t = srcIndex - baseIdx;  // Дробная часть [0, 1)
+                float t = srcIndex - baseIdx;
 
                 float s0, s1, s2, s3;
 
-                // === HOT PATH: 95% итераций без проверок границ ===
+                // HOT PATH: 95% итераций без проверок границ
                 if (baseIdx >= 1 && baseIdx + 2 < inputLength) {
                     s0 = inData[i0];
                     s1 = inData[i0 + 1];
                     s2 = inData[i0 + 2];
                     s3 = inData[i0 + 3];
                 } else {
-                    // === COLD PATH: безопасный доступ для граничных случаев ===
+                    // COLD PATH: безопасный доступ для граничных случаев
                     s0 = getSampleSafe(inData, i0, inputLength);
                     s1 = getSampleSafe(inData, i0 + 1, inputLength);
                     s2 = getSampleSafe(inData, i0 + 2, inputLength);
@@ -249,11 +249,11 @@ extern "C" {
                 srcIndex += invTempo;
             }
 
-            // === Освобождение массивов ===
+            // Освобождение массивов
             env->ReleasePrimitiveArrayCritical(inputChannel, inData, JNI_ABORT);
             env->ReleasePrimitiveArrayCritical(outputChannel, outData, 0);
 
-            // === Очистка локальных ссылок (предотвращает утечки в долгоживущих сессиях) ===
+            // Очистка локальных ссылок (предотвращает утечки в долгоживущих сессиях)
             env->DeleteLocalRef(inputChannel);
             env->DeleteLocalRef(outputChannel);
         }

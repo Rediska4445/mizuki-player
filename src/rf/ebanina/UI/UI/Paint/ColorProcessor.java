@@ -20,8 +20,12 @@ import static rf.ebanina.utils.Math.scale;
 
 public class ColorProcessor {
     protected String color_type;
+
+    @Deprecated
     public static final int size = ConfigurationManager.instance.getIntItem("album_art_image_size", "200");
+    @Deprecated
     public static final boolean isSmooth = true;
+    @Deprecated
     public static final boolean isPreserveRatio = false;
 
     public static final javafx.scene.image.Image logo = ResourceManager.Instance.loadImage("album_art_logo", size, size, isPreserveRatio, isSmooth);

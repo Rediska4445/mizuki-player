@@ -6,6 +6,8 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.util.Duration;
 import rf.ebanina.File.Configuration.ConfigurationManager;
 import rf.ebanina.File.DataTypes;
@@ -33,6 +35,7 @@ import rf.ebanina.utils.collections.TypicalMapWrapper;
 import rf.ebanina.utils.concurrency.LonelyThreadPool;
 import rf.ebanina.utils.loggining.Prefix;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -569,6 +572,7 @@ public class MediaProcessor
             updateInfo(track);
         }
     }
+
     /**
      * Полная синхронизация UI + очистка кэша обложек.
      * <p>
@@ -639,7 +643,7 @@ public class MediaProcessor
         if(ConfigurationManager.instance.getBooleanItem("translate_track_title", "false")) {
             rootImpl.currentTrackName.setText(Translator.instance.TranslateNodeText(
                     playProcessor.getTracks().get(playProcessor.getTrackIter()).getTitle(),
-                    ResourceManager.localizationManager.lang.substring(ResourceManager.localizationManager.lang.indexOf("_") + 1)
+                    ResourceManager.localizationManager.getLang().substring(ResourceManager.localizationManager.getLang().indexOf("_") + 1)
             ));
         }
     }
@@ -780,6 +784,10 @@ public class MediaProcessor
 
                 Music.mainLogger.info("public void regenerateMediaPlayer(Track track): " + res);
 
+                // Нужно для генерации стандартной SoundSlider.
+                // В действительности, нужен весь поток для обработки, поэтому приходится скачивать.
+                track.metadata.put("netty_file_path", "null", String.class);
+
                 // Может не получить ссылку
                 if (res != null) {
 
@@ -790,7 +798,7 @@ public class MediaProcessor
                         Music.mainLogger.info(FileManager.instance.isOccupiedSpace(Resources.Properties.DEFAULT_INET_CACHE_PATH.getKey(), 8));
 
                         // Очистить папку с треками, если больше чем 8 чего то
-                        if(FileManager.instance.isOccupiedSpace(Resources.Properties.DEFAULT_INET_CACHE_PATH.getKey(), 8)) {
+                        if(FileManager.instance.isOccupiedFiles(Resources.Properties.DEFAULT_INET_CACHE_PATH.getKey(), 8)) {
 
                             // Чистка
                             FileManager.instance.clearCacheData(Resources.Properties.DEFAULT_INET_CACHE_PATH.getKey());
@@ -819,7 +827,27 @@ public class MediaProcessor
                                 Music.mainLogger.info("Read bytes from stream");
 
                                 // 2. Читаем всё в буфер
-                                networkStreamBuffer = currentNetworkStream.readAllBytes();
+                                ByteArrayOutputStream temporaryBuffer = new ByteArrayOutputStream();
+                                byte[] data = new byte[8192];
+                                int bytesRead;
+                                long totalRead = 0;
+
+                                while ((bytesRead = currentNetworkStream.read(data, 0, data.length)) != -1) {
+                                    if (Thread.currentThread().isInterrupted()) {
+                                        Music.mainLogger.info("Download cancelled by user");
+
+                                        return;
+                                    }
+
+                                    totalRead += bytesRead;
+                                    if(totalRead > networkBufferSize) {
+                                        throw new IOException("Too big (" + available + " > " + networkBufferSize + " bytes)");
+                                    }
+
+                                    temporaryBuffer.write(data, 0, bytesRead);
+                                }
+
+                                networkStreamBuffer = temporaryBuffer.toByteArray();
 
                                 Music.mainLogger.info("Bytes from stream: " + networkStreamBuffer.length);
 
@@ -850,10 +878,6 @@ public class MediaProcessor
                     } else {
                         // Может, и получится слушать как на стриминговых сервисах, но вряд-ли.
                         media = String.valueOf(res);
-
-                        // Нужно для генерации стандартной SoundSlider.
-                        // В действительности, нужен весь поток для обработки, поэтому приходится скачивать.
-                        track.metadata.put("netty_file_path", "null", String.class);
                     }
                 } else {
                     Music.mainLogger.warn("Failed to load");

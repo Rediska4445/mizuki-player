@@ -3,6 +3,7 @@ package rf.ebanina.UI.UI.Element.Text;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import rf.ebanina.File.Resources.ResourceManager;
+import rf.ebanina.UI.UI.Element.Text.Skins.FadeTextSkin;
 
 /**
  * Расширенная надпись с поддержкой перетаскивания мышью и fluent API.
@@ -79,6 +80,9 @@ public class Label
         super(text);
         super.setTextFill(color);
         super.setFont(ResourceManager.Instance.loadFont("main_font", 12));
+
+        setSkin(new FadeTextSkin(this));
+
         setLayouts(X, Y);
     }
     /**

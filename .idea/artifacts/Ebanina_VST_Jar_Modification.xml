@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact name="Ebanina-VST:Jar:Modification">
+    <output-path>$PROJECT_DIR$/mods</output-path>
+    <root id="root">
+      <element id="archive" name="Ebanina-VST.jar">
+        <element id="module-output" name="Ebanina-VST" />
+        <element id="dir-copy" path="$PROJECT_DIR$/java-docs" />
+      </element>
+    </root>
+  </artifact>
+</component>

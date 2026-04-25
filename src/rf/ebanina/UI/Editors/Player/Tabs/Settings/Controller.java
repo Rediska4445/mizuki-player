@@ -21,34 +21,27 @@ import static rf.ebanina.UI.Root.rootImpl;
 public class Controller {
 
     public Tab tab;
-    public Label pitch;
     public Label volume_label1;
     public Label pan_text;
     public Label tempo;
     @FXML private Slider tempoSlider;
-    @FXML private Slider pitchSlider;
     @FXML private Slider volume_slider;
     @FXML private Slider pan_slider;
     @FXML private Label tempoLabel;
-    @FXML private Label pitchLabel;
     @FXML private Label volume_label;
     @FXML private Label pan_text1;
     @FXML private Pane panVolumeControlPad;
-    @FXML private Pane pitchTempoControlPad;
 
     @FXML
     public void initialize() {
         tab.setText(LocalizationManager.getLocaleString("vst_editor_tab_parameters", "Settings"));
 
-        // Инициализация значений
         tempoSlider.setValue(MediaProcessor.mediaProcessor.mediaPlayer.getTempo());
         volume_slider.setValue(MediaProcessor.mediaProcessor.mediaPlayer.getVolume());
         pan_slider.setValue(MediaProcessor.mediaProcessor.mediaPlayer.getPan());
 
         tempoLabel.setText(String.format("%.2f", tempoSlider.getValue()));
-        pitchLabel.setText(String.format("%.2f", pitchSlider.getValue()));
 
-        pitch.setText(LocalizationManager.getLocaleString("vst_editor_pitch", "Pitch"));
         tempo.setText(LocalizationManager.getLocaleString("vst_editor_tempo", "Tempo"));
         pan_text.setText(LocalizationManager.getLocaleString("vst_editor_pan", "Pan"));
         volume_label1.setText(LocalizationManager.getLocaleString("vst_editor_volume", "Volume"));
@@ -64,28 +57,25 @@ public class Controller {
                 (int)(clr.getRed()*255), (int)(clr.getGreen()*255), (int)(clr.getBlue()*255));
 
         String headerStyle = "-fx-text-fill: #E0E0E0; -fx-font-weight: bold;";
-        pitch.setStyle(headerStyle);
         tempo.setStyle(headerStyle);
         pan_text.setStyle(headerStyle);
         volume_label1.setStyle(headerStyle);
 
         String valueStyle = "-fx-text-fill: " + hex + "; -fx-font-weight: 700;";
         tempoLabel.setStyle(valueStyle);
-        pitchLabel.setStyle(valueStyle);
         volume_label.setStyle(valueStyle);
         pan_text1.setStyle(valueStyle);
 
         String padStyle = "-fx-background-color: rgba(255,255,255,0.03); " +
                 "-fx-border-color: " + hex + "; " +
                 "-fx-border-radius: 8; -fx-background-radius: 8; -fx-border-width: 1;";
-        pitchTempoControlPad.setStyle(padStyle);
         panVolumeControlPad.setStyle(padStyle);
 
         String fullSliderStyle =
                 "-fx-accent: " + hex + "; " +
                         "-fx-control-inner-background: #333333;";
 
-        Slider[] sliders = {tempoSlider, pitchSlider, volume_slider, pan_slider};
+        Slider[] sliders = {tempoSlider, volume_slider, pan_slider};
         for (Slider s : sliders) {
             s.setStyle(fullSliderStyle);
             s.applyCss();
@@ -114,14 +104,6 @@ public class Controller {
                     rootImpl.artProcessor.setImage(MetadataOfFile.iMetadataOfFiles.getArt(new Track(Paths.get(URI.create(MediaProcessor.mediaProcessor.mediaPlayer.getMedia().getSource())).toString()), ColorProcessor.size, ColorProcessor.size, ColorProcessor.isPreserveRatio, ColorProcessor.isSmooth));
                     rootImpl.artProcessor.initColor(rootImpl.art.getImage());
                 }
-            }
-        });
-
-        pitchSlider.valueProperty().addListener((obs, oldV, newV) -> {
-            float val = (float) (Math.round(newV.doubleValue() * 100) / 100.0);
-            pitchLabel.setText(String.format("%.2f", val));
-            if (MediaProcessor.mediaProcessor.mediaPlayer != null) {
-                MediaProcessor.mediaProcessor.globalMap.put("pitch", val, float.class);
             }
         });
 

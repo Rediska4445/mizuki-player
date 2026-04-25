@@ -55,7 +55,6 @@ public class Intro
      * <pre>{@code
      * player.playIntro();
      * }</pre>
-     * @see #playIntro()
      * @see Media#getIntroSoundFile()
      */
     private Thread introThread = new Thread(() -> {
@@ -102,8 +101,10 @@ public class Intro
 
                         int newSample = (int) (sample * amp);
 
-                        if (newSample > 32767) newSample = 32767;
-                        if (newSample < -32768) newSample = -32768;
+                        if (newSample > 32767)
+                            newSample = 32767;
+                        if (newSample < -32768)
+                            newSample = -32768;
 
                         buffer[sampleIndex] = (byte) (newSample & 0xFF);
                         buffer[sampleIndex + 1] = (byte) ((newSample >> 8) & 0xFF);

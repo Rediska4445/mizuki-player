@@ -20,7 +20,7 @@ import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
 import java.io.File;
 import java.util.List;
 
-import static rf.ebanina.Network.Info.PlayersTypes.URI_NULL;
+import static rf.ebanina.Network.Net.PlayersTypes.URI_NULL;
 
 public class Controller {
     public Tab tab;

@@ -3,6 +3,7 @@ package ebanina.io.resource;
 import org.junit.jupiter.api.Test;
 import rf.ebanina.File.FileManager;
 import rf.ebanina.File.Localization.LocalizationManager;
+import rf.ebanina.File.Resources.ResourceManager;
 
 import java.nio.file.Path;
 
@@ -12,7 +13,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class LocalizationManagerTest {
     @Test
     void testGetLocalizationString_realResources() {
-        LocalizationManager manager = new LocalizationManager(new FileManager(""), "RU_ru", Path.of("test-res", "lang", "RU_ru.locale"));
+        LocalizationManager manager = new LocalizationManager(new FileManager(""), new ResourceManager(),
+                "RU_ru", Path.of("test-res", "lang", "RU_ru.locale")
+        );
 
         String word = "lang";
         String defaultValue = "default_value_if_missing";

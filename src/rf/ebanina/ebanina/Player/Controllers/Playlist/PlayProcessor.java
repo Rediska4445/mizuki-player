@@ -9,6 +9,7 @@ import rf.ebanina.File.DataTypes;
 import rf.ebanina.File.FileManager;
 import rf.ebanina.File.Resources.Resources;
 import rf.ebanina.UI.Root;
+import rf.ebanina.ebanina.Music;
 import rf.ebanina.ebanina.Player.AudioVolumer;
 import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
 import rf.ebanina.ebanina.Player.Playlist;
@@ -138,7 +139,7 @@ public class PlayProcessor<T extends Track, J extends Playlist>
      * Заполняется извне (например, {@link PlaylistController}).
      * </p>
      */
-    private ArrayList<J> currentPlaylist = new ArrayList<>();
+    private ObservableList<J> currentPlaylist = FXCollections.observableArrayList();
 
     /**
      * Текущая активная папка-плейлист (JavaFX Property).
@@ -643,7 +644,7 @@ public class PlayProcessor<T extends Track, J extends Playlist>
     /**
      * Возвращает список всех плейлистов.
      */
-    public ArrayList<J> getCurrentPlaylist() {
+    public ObservableList<J> getCurrentPlaylist() {
         return currentPlaylist;
     }
 
@@ -672,7 +673,7 @@ public class PlayProcessor<T extends Track, J extends Playlist>
     /**
      * Устанавливает список всех плейлистов (Fluent API).
      */
-    public PlayProcessor<T, J> setCurrentPlaylist(ArrayList<J> currentPlaylist) {
+    public PlayProcessor<T, J> setCurrentPlaylist(ObservableList<J> currentPlaylist) {
         this.currentPlaylist = currentPlaylist;
         return this;
     }
