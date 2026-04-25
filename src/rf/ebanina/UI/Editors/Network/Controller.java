@@ -12,13 +12,11 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import rf.ebanina.File.Resources.ResourceManager;
-import rf.ebanina.Network.Info;
+import rf.ebanina.Network.Net;
 import rf.ebanina.UI.Root;
 import rf.ebanina.UI.UI.Element.ListViews.ListCells.Playlists.ListCellTrack;
 import rf.ebanina.UI.UI.Element.ListViews.ListView;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
-import rf.ebanina.ebanina.Music;
-import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
 import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
 import rf.ebanina.ebanina.Player.Track;
 import rf.ebanina.utils.concurrency.LonelyThreadPool;
@@ -63,7 +61,7 @@ public class Controller
         numbers.setText("");
 
         lonelyThreadPool.runNewTask(() -> {
-            List<Track> res = Info.instance.getListOfTracks(download.getText(), "50", addict.getText());
+            List<Track> res = Net.instance.getListOfTracks(download.getText(), "50", addict.getText());
 
             Platform.runLater(() -> {
                 tracks.getItems().clear();
@@ -104,24 +102,31 @@ public class Controller
         Color mainColor = ColorProcessor.core.getMainClr();
         String hexColor = ColorProcessor.core.toHex(mainColor);
 
+        ColorProcessor.core.mainClrProperty().addListener((obs, oldColor, newColor) -> {
+            String hex = ColorProcessor.core.toHex(newColor);
+
+            mainPain.setStyle("-fx-main-accent: " + hex + ";");
+        });
+
+        mainPain.setStyle("-fx-main-accent: " + ColorProcessor.core.toHex(ColorProcessor.core.getMainClr()) + ";");
         mainPain.setStyle("-fx-background-color: #1E1E1E;");
 
-        tracks.setStyle("-fx-background-color: #2D2D2D; -fx-border-color: " + hexColor + ";");
+        tracks.setStyle("-fx-background-color: #2D2D2D; -fx-border-color: -fx-main-accent;");
 
-        addToPlaylist.setStyle("-fx-background-color: " + hexColor + "; -fx-text-fill: white;");
-        setToPlaylist.setStyle("-fx-background-color: " + hexColor + "; -fx-text-fill: white;");
+        addToPlaylist.setStyle("-fx-background-color: -fx-main-accent; -fx-text-fill: white;");
+        setToPlaylist.setStyle("-fx-background-color: -fx-main-accent; -fx-text-fill: white;");
 
-        addictLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: " + hexColor + ";");
-        searchLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: " + hexColor + ";");
-        downloadLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: " + hexColor + ";");
-        numbers.setStyle("-fx-font-weight: bold; -fx-text-fill: " + hexColor + ";");
-        download.setStyle("-fx-background-color: #333333; -fx-text-fill: white; -fx-prompt-text-fill: #AAAAAA; -jfx-unfocus-color: " + hexColor + "; -jfx-focus-color: " + hexColor + ";");
-        addict.setStyle("-fx-background-color: #333333; -fx-text-fill: white; -fx-prompt-text-fill: #AAAAAA; -jfx-unfocus-color: " + hexColor + "; -jfx-focus-color: " + hexColor + ";");
-        search.setStyle("-fx-background-color: #333333; -fx-text-fill: white; -fx-prompt-text-fill: #AAAAAA; -jfx-unfocus-color: " + hexColor + "; -jfx-focus-color: " + hexColor + ";");
+        addictLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: -fx-main-accent;");
+        searchLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: -fx-main-accent;");
+        downloadLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: -fx-main-accent;");
+        numbers.setStyle("-fx-font-weight: bold; -fx-text-fill: -fx-main-accent;");
+        download.setStyle("-fx-background-color: #333333; -fx-text-fill: white; -fx-prompt-text-fill: #AAAAAA; -jfx-unfocus-color: -fx-main-accent; -jfx-focus-color: -fx-main-accent;");
+        addict.setStyle("-fx-background-color: #333333; -fx-text-fill: white; -fx-prompt-text-fill: #AAAAAA; -jfx-unfocus-color: -fx-main-accent; -jfx-focus-color: -fx-main-accent;");
+        search.setStyle("-fx-background-color: #333333; -fx-text-fill: white; -fx-prompt-text-fill: #AAAAAA; -jfx-unfocus-color: -fx-main-accent; -jfx-focus-color: -fx-main-accent;");
 
-        numbers.setStyle("-fx-text-fill: " + hexColor + "; -fx-font-weight: bold;");
+        numbers.setStyle("-fx-text-fill: -fx-main-accent; -fx-font-weight: bold;");
 
-        searchButton.setStyle("-fx-background-color: " + hexColor + "; -fx-text-fill: white;");
+        searchButton.setStyle("-fx-background-color: -fx-main-accent; -fx-text-fill: white;");
         searchButton.setOnAction((e) -> search());
 
         download.setOnKeyReleased(keyEvent -> {
@@ -145,9 +150,7 @@ public class Controller
                         Root.PlaylistHandler.playlistHandler.playlistSimilar.addAll(PlayProcessor.playProcessor.getTracks());
                     }
 
-                    Music.mainLogger.info("Play from networkHost: " + tracks.getSelectionModel().getSelectedItem());
-
-                    MediaProcessor.mediaProcessor.regenerateMediaPlayer(tracks.getSelectionModel().getSelectedItem());
+                    PlayProcessor.playProcessor.open(tracks.getSelectionModel().getSelectedItem());
                 }
             }
         });
