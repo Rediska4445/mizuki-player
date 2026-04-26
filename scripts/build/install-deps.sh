@@ -14,7 +14,7 @@ else
 fi
 
 while [ ! -d "$LIBS_BASE" ]; do
-    echo "Ошибка: Директория с библиотеками не найдена по пути: $LIBS_BASE"
+    echo "Error: Директория с библиотеками не найдена по пути: $LIBS_BASE"
     read -p "Пожалуйста, введите корректный путь к папке 'libraries': " user_input
     if [[ "$user_input" = /* ]]; then
         LIBS_BASE="$user_input"
@@ -46,7 +46,7 @@ install_lib() {
 
 echo "Installing all local dependencies..."
 
-install_lib "javazoom" "jlayer" "1.0.1.4"
+# JavaFX
 install_lib "org.controlsfx" "controlsfx" "11.1.2"
 install_lib "org.openjfx" "javafx-swt" "21"
 install_lib "org.openjfx" "javafx.base" "21"
@@ -56,6 +56,17 @@ install_lib "org.openjfx" "javafx.graphics" "21"
 install_lib "org.openjfx" "javafx.media" "21"
 install_lib "org.openjfx" "javafx.swing" "21"
 install_lib "org.openjfx" "javafx.web" "21"
+
+# Modules
+install_lib "me" "spotify-api-wrapper" "1.0.2"
+install_lib "ebanina" "ebanina-soundcloud-api-wrapper" "1.0"
+install_lib "api" "ebanina-mod-api" "1.0"
+install_lib "deezer" "mizuka-deezer-api-wrapper" "1.0"
+install_lib "mizuka" "mizuka-std-utils" "1.3.1"
+install_lib "rf" "vst3host" "1.0"
+
+# Other
+install_lib "javazoom" "jlayer" "1.0.1.4"
 install_lib "com.jfoenix" "jfoenix" "9.0.10"
 install_lib "net.java.dev.jna" "jna" "5.14.0"
 install_lib "net.java.dev.jna" "jna-platform" "5.14.0"
@@ -63,17 +74,11 @@ install_lib "com.github.kwhat.jnativehook" "jnativehook" "2.2.2"
 install_lib "org.jsoup" "jsoup" "1.10.1"
 install_lib "com.github.lastfmjava" "lastfm-java" "0.1.2"
 install_lib "com.mpatric" "mp3agic" "0.9.1"
-install_lib "me" "spotify-api-wrapper" "1.0.2"
-install_lib "ebanina" "ebanina-soundcloud-api-wrapper" "1.0"
-install_lib "api" "ebanina-mod-api" "1.0"
 install_lib "com.jcraft" "jorbis" "0.0.17.4"
 install_lib "com.smadja" "JVstHost" "1.0"
 install_lib "com.googlecode.soundlibs" "mp3spi" "1.9.5.4"
 install_lib "com.googlecode.soundlibs" "tritonus-share" "0.3.7.4"
 install_lib "com.googlecode.soundlibs" "vorbisspi" "1.0.3.3"
-install_lib "rf" "vst3host" "1.0"
-install_lib "deezer" "mizuka-deezer-api-wrapper" "1.0"
-install_lib "rf.ebanina.utils" "mizuka-std-utils" "1.3.1"
 install_lib "com.googlecode.json-simple" "json-simple" "1.1.1"
 install_lib "com.squareup.okhttp3" "okhttp" "3.12.13"
 

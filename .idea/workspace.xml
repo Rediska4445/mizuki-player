@@ -21,7 +21,7 @@
       <change beforePath="$PROJECT_DIR$/modules/ebanina-std-utils" beforeDir="false" afterPath="$PROJECT_DIR$/modules/ebanina-std-utils" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modules/ebanina-vst-ipc-host" beforeDir="false" afterPath="$PROJECT_DIR$/modules/ebanina-vst-ipc-host" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modules/mizuka-deezer-api-wrapper" beforeDir="false" afterPath="$PROJECT_DIR$/modules/mizuka-deezer-api-wrapper" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/build/install-deps.sh" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/build/install-deps.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -397,13 +397,6 @@
       <option name="presentableId" value="Default" />
       <updated>1751373119676</updated>
     </task>
-    <task id="LOCAL-00146" summary="Added aspects style to key binds">
-      <created>1774809773139</created>
-      <option name="number" value="00146" />
-      <option name="presentableId" value="LOCAL-00146" />
-      <option name="project" value="LOCAL" />
-      <updated>1774809773139</updated>
-    </task>
     <task id="LOCAL-00147" summary="Added system volume control from mouse wheel">
       <created>1774810070553</created>
       <option name="number" value="00147" />
@@ -740,7 +733,14 @@
       <option name="project" value="LOCAL" />
       <updated>1777204895878</updated>
     </task>
-    <option name="localTasksCounter" value="195" />
+    <task id="LOCAL-00195" summary="pom.xml dependency mizuki-std-utils fixed">
+      <created>1777205318485</created>
+      <option name="number" value="00195" />
+      <option name="presentableId" value="LOCAL-00195" />
+      <option name="project" value="LOCAL" />
+      <updated>1777205318485</updated>
+    </task>
+    <option name="localTasksCounter" value="196" />
     <servers />
   </component>
   <component name="UnknownFeatures">
