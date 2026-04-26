@@ -13,9 +13,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="090f838e-e1f0-4ee3-9e0f-b5df3b4d364f" name="Changes" comment="CI prepare">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/build.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/build.yml" afterDir="false" />
+    <list default="true" id="090f838e-e1f0-4ee3-9e0f-b5df3b4d364f" name="Changes" comment="README.md updated">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/issues/0.md" beforeDir="false" afterPath="$PROJECT_DIR$/issues/0.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issues/10.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issues/4.md" beforeDir="false" afterPath="$PROJECT_DIR$/issues/4.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mods/ebanina-std-mod-controller" beforeDir="false" afterPath="$PROJECT_DIR$/mods/ebanina-std-mod-controller" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mods/mizuka-std-background-player" beforeDir="false" afterPath="$PROJECT_DIR$/mods/mizuka-std-background-player" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modules/ebanina-soundcloud-api-wrapper" beforeDir="false" afterPath="$PROJECT_DIR$/modules/ebanina-soundcloud-api-wrapper" afterDir="false" />
@@ -397,20 +399,6 @@
       <option name="presentableId" value="Default" />
       <updated>1751373119676</updated>
     </task>
-    <task id="LOCAL-00148" summary="refactor: track parse method moved to Track.java">
-      <created>1774811108540</created>
-      <option name="number" value="00148" />
-      <option name="presentableId" value="LOCAL-00148" />
-      <option name="project" value="LOCAL" />
-      <updated>1774811108540</updated>
-    </task>
-    <task id="LOCAL-00149" summary="tests: added AnimationsTest.java a test class">
-      <created>1774832907788</created>
-      <option name="number" value="00149" />
-      <option name="presentableId" value="LOCAL-00149" />
-      <option name="project" value="LOCAL" />
-      <updated>1774832907789</updated>
-    </task>
     <task id="LOCAL-00150" summary="added: Profilers classes aspects to KeyBindingController.java">
       <created>1774910450677</created>
       <option name="number" value="00150" />
@@ -740,7 +728,21 @@
       <option name="project" value="LOCAL" />
       <updated>1777205782450</updated>
     </task>
-    <option name="localTasksCounter" value="197" />
+    <task id="LOCAL-00197" summary="CI prepare">
+      <created>1777206052248</created>
+      <option name="number" value="00197" />
+      <option name="presentableId" value="LOCAL-00197" />
+      <option name="project" value="LOCAL" />
+      <updated>1777206052248</updated>
+    </task>
+    <task id="LOCAL-00198" summary="README.md updated">
+      <created>1777208402043</created>
+      <option name="number" value="00198" />
+      <option name="presentableId" value="LOCAL-00198" />
+      <option name="project" value="LOCAL" />
+      <updated>1777208402044</updated>
+    </task>
+    <option name="localTasksCounter" value="199" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -869,7 +871,6 @@
       <path value="$PROJECT_DIR$/modules/ebanina-soundcloud-api-wrapper" />
       <path value="$PROJECT_DIR$/modules/mizuka-deezer-api-wrapper" />
     </ignored-roots>
-    <MESSAGE value="updated gitmodules" />
     <MESSAGE value="LocalizationManager refactored" />
     <MESSAGE value="Fixed bug with blocking thread close in netty track processing" />
     <MESSAGE value="Issues added" />
@@ -894,7 +895,8 @@
     <MESSAGE value="CI refactored" />
     <MESSAGE value="pom.xml dependency mizuki-std-utils fixed" />
     <MESSAGE value="CI prepare" />
-    <option name="LAST_COMMIT_MESSAGE" value="CI prepare" />
+    <MESSAGE value="README.md updated" />
+    <option name="LAST_COMMIT_MESSAGE" value="README.md updated" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
