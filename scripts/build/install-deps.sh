@@ -3,6 +3,16 @@
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LIBS_BASE="$SCRIPT_DIR/../../libraries"
 
+echo "DEBUG: SCRIPT_DIR is $SCRIPT_DIR"
+echo "DEBUG: Checking directory $LIBS_BASE"
+
+if [ -d "$LIBS_BASE" ]; then
+    echo "DEBUG: Directory exists. Listing files:"
+    ls -R "$LIBS_BASE"
+else
+    echo "DEBUG: Directory does not exist!"
+fi
+
 while [ ! -d "$LIBS_BASE" ]; do
     echo "Ошибка: Директория с библиотеками не найдена по пути: $LIBS_BASE"
     read -p "Пожалуйста, введите корректный путь к папке 'libraries': " user_input

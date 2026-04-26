@@ -23,6 +23,7 @@ jobs:
         run: chmod +x scripts/build/install-deps.sh
 
       - name: Install local dependencies
+        shell: bash
         run: ./scripts/build/install-deps.sh
 
       - name: Build with Maven
