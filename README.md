@@ -172,14 +172,15 @@ For Eclipse:
 
 ---
 
-## CI
+## Maven Workflow
 
-Automatic Maven dependency download and workspace preparation is not available yet, but everything is possible!
+Dependency management and workspace preparation are now fully automated via the `install-deps.sh` script and integrated into the GitHub Actions CI pipeline.
 
-| Tool       | Description                                               |
-|------------|-----------------------------------------------------------|
-| **Maven**  | Configuration: [`pom.xml`](./package/build/maven/pom.xml) |                                                                                                                                                |
----
+| Tool      | Description                                                                                |
+|-----------|--------------------------------------------------------------------------------------------|
+| **Maven** | Configuration: [`pom.xml`](./pom.xml)                                                      |
+| **CI/CD** | Automated builds: [`.github/workflows/build.yml`](./.github/workflows/build.yml)           |
+| **Setup** | Local environment prep: [`scripts/build/install-deps.sh`](./scripts/build/install-deps.sh) |
 
 ## Prerequisites
 
