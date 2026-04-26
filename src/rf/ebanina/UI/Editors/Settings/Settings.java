@@ -55,11 +55,11 @@ public final class Settings
 
     @Override
     public String name() {
-        return LocalizationManager.getLocaleString("settings_title", "Settings");
+        return LocalizationManager.getLocaleString("viewable_item_name_settings", "Settings");
     }
 
     @Override
     public String description() {
-        return LocalizationManager.getLocaleString("settings_description", "Description");
+        return LocalizationManager.getLocaleString("viewable_item_description_settings", "Description");
     }
 }

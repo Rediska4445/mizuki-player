@@ -14,6 +14,26 @@
     "tooltip_playlist_search": "Поиск",
     "tooltip_all_functions_button": "Общие функции приложения"
   },
+  "viewable_items": {
+    "viewable_items_names": {
+      "viewable_item_name_main": "Главная",
+      "viewable_item_name_metadata": "Метаданные",
+      "viewable_item_name_settings": "Настройки",
+      "viewable_item_name_audio_host": "Аудио хост",
+      "viewable_item_name_network_host": "Сетевой хост",
+      "viewable_item_name_statistics": "Статистика",
+      "viewable_item_name_tags": "Теги"
+    },
+    "viewable_items_descriptions": {
+      "viewable_item_description_main": "Об Mizuki",
+      "viewable_item_description_metadata": "Метаданные",
+      "viewable_item_description_settings": "Настройки",
+      "viewable_item_description_audio_host": "Аудио хост",
+      "viewable_item_description_network_host": "Сетевой хост",
+      "viewable_item_description_statistics": "Статистика",
+      "viewable_item_description_tags": "Теги"
+    }
+  },
   "window_title": {
     "window_title_metadata": "Метаданные трека",
     "window_title_host": "Аудио хост",
@@ -45,6 +65,21 @@
         "spotify_track_statistics_popularity": "Популярность",
         "spotify_track_statistics_duration": "Длительность",
         "spotify_track_statistics_explicit": "Нецензурная лексика"
+      },
+      "deezer": {
+        "deezer_track_statistics_title": "Название",
+        "deezer_track_statistics_author": "Автор",
+        "deezer_track_statistics_art": "Арт",
+        "deezer_track_statistics_popularity": "Популярность",
+        "deezer_track_statistics_duration": "Длительность",
+        "deezer_track_statistics_explicit": "Нецензурная лексика",
+        "deezer_track_statistics_isrc": "ISRC",
+        "deezer_track_statistics_link": "Ссылка",
+        "deezer_track_statistics_type": "Тип",
+        "deezer_track_statistics_tracklist": "Треклист",
+        "deezer_track_statistics_fans": "Фанаты",
+        "deezer_track_statistics_album": "Альбом",
+        "deezer_track_statistics_id": "ID"
       },
       "lastfm": {
         "lastfm_track_statistics_title": "Название",

@@ -57,11 +57,11 @@ public class NetworkHost
 
     @Override
     public String name() {
-        return LocalizationManager.getLocaleString("network_host_title", "Network-Host");
+        return LocalizationManager.getLocaleString("viewable_item_name_network_host", "Network-Host");
     }
 
     @Override
     public String description() {
-        return LocalizationManager.getLocaleString("network_host_description", "Description");
+        return LocalizationManager.getLocaleString("viewable_item_description_network_host", "Description");
     }
 }

@@ -383,8 +383,9 @@ public class MediaProcessor
      * </ul>
      */
     public MediaPlayer mediaPlayer;
+
     /**
-     * Глобальная карта параметров плеера.
+     * Глобальная карта текущих параметров плеера.
      * <p>
      * <b>Хранимые параметры:</b>
      * </p>
@@ -626,8 +627,6 @@ public class MediaProcessor
                 rootImpl.currentTrackName.setText(title);
             });
         }
-
-        PreviewPopupService.updateAll();
 
         if(trackCacheIter.get() > Track.CACHE_SIZE) {
             for (Track track_ : playProcessor.getTracks()) {
@@ -959,7 +958,7 @@ public class MediaProcessor
         if (!globalMap.get("pause", boolean.class)) {
 
             // Анимация громкости вручную
-            fadePlay(0, 1, true);
+            fadePlay(0, globalMap.get("volume", double.class).floatValue(), true);
         }
     }
     /**
@@ -1025,7 +1024,7 @@ public class MediaProcessor
     public void pause_play() {
         if(mediaPlayer.getStatus().equals(rf.ebanina.ebanina.Player.MediaPlayer.Status.PAUSED)
                 || mediaPlayer.getStatus().equals((rf.ebanina.ebanina.Player.MediaPlayer.Status.READY))) {
-            fadePlay(0, 1, false);
+            fadePlay(0, globalMap.get("volume", double.class).floatValue(), false);
         } else {
             pause();
         }
@@ -1797,5 +1796,9 @@ public class MediaProcessor
                 }
             });
         }
+    }
+
+    public MediaPlayer getMediaPlayer() {
+        return mediaPlayer;
     }
 }

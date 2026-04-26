@@ -16,7 +16,7 @@ import rf.ebanina.UI.Root;
 import rf.ebanina.UI.UI.Animations;
 import rf.ebanina.UI.UI.Element.SplashScreen;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
-import rf.ebanina.ebanina.KeyBindings.KeyBindingController;
+import rf.ebanina.ebanina.KeyBindings.KeyBindingProcessor;
 import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
 import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
 import rf.ebanina.ebanina.Player.Media;
@@ -80,7 +80,7 @@ import java.nio.file.Paths;
  * @version v1.4.7 (Mizuki)
  * @since 1.0.0
  * @see Application
- * @see KeyBindingController
+ * @see KeyBindingProcessor
  * @see MediaProcessor
  * @see PlayProcessor
  * @see FileManager
@@ -499,7 +499,7 @@ public final class Music
         mainLogger.info("MediaProcessor fully initialized");
 
         // Инициализация контроллера горячих клавиш.
-        KeyBindingController.setupKeyListeners(stage.getScene());
+        KeyBindingProcessor.setupKeyListeners(stage.getScene());
 
         // Обработчик событий выхода инициализирован
         mainLogger.info("Exit event handler registered");
@@ -507,7 +507,7 @@ public final class Music
         Platform.runLater(() -> progressBar.setProgress(0.9));
 
         // Иконка меняется, в соответствии с текущей обложкой трека.
-        // Прикольная идея возникла ещё в 2022 году.
+        // Прикольная идея возникла ещё в 2024 году.
         Platform.runLater(() -> stage.focusedProperty().addListener((ov, onHidden, onShown) -> {
             // Удалить предыдущие иконки
             stage.getIcons().clear();
@@ -519,7 +519,7 @@ public final class Music
                 stage.setTitle(Root.rootImpl.currentArtist.getText() + " - " + Root.rootImpl.currentTrackName.getText());
                 stage.getIcons().setAll(Root.rootImpl.art.getImage());
 
-                mainLogger.printf("Focus lost - Track title: %s", stage.getTitle());
+                mainLogger.printf("Focus lost - Track title: %s\n", stage.getTitle());
             } else {
                 stage.setTitle(name);
                 stage.getIcons().setAll(ColorProcessor.logo);

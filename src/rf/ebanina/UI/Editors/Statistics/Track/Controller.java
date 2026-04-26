@@ -1,6 +1,7 @@
 package rf.ebanina.UI.Editors.Statistics.Track;
 
 import de.umass.lastfm.ImageSize;
+import deezer.Deezer;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,7 +12,9 @@ import org.json.simple.parser.ParseException;
 import rf.ebanina.File.FileManager;
 import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.File.Resources.Resources;
+import rf.ebanina.Network.ITypicalSimilar;
 import rf.ebanina.Network.Illegal.Similar.SoundCloud;
+import rf.ebanina.Network.Net;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
 import rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor;
 import rf.ebanina.ebanina.Player.Track;
@@ -42,12 +45,20 @@ public class Controller
     @FXML
     protected TabPane tabPane;
 
-    @FXML private TableView<StatItem> localStatsTable, spotifyTable, soundcloudTable, lastfmTable, itunesTable;
-    @FXML private TableColumn<StatItem, String> localNameColumn, localValueColumn;
-    @FXML private TableColumn<StatItem, String> spotifyNameColumn, spotifyValueColumn;
-    @FXML private TableColumn<StatItem, String> soundcloudNameColumn, soundcloudValueColumn;
-    @FXML private TableColumn<StatItem, String> lastfmNameColumn, lastfmValueColumn;
-    @FXML private TableColumn<StatItem, String> itunesNameColumn, itunesValueColumn;
+    @FXML
+    private TableView<StatItem> localStatsTable, spotifyTable, soundcloudTable, lastfmTable, itunesTable, deezerTable;
+    @FXML
+    private TableColumn<StatItem, String> localNameColumn, localValueColumn;
+    @FXML
+    private TableColumn<StatItem, String> spotifyNameColumn, spotifyValueColumn;
+    @FXML
+    private TableColumn<StatItem, String> soundcloudNameColumn, soundcloudValueColumn;
+    @FXML
+    private TableColumn<StatItem, String> lastfmNameColumn, lastfmValueColumn;
+    @FXML
+    private TableColumn<StatItem, String> itunesNameColumn, itunesValueColumn;
+    @FXML
+    private TableColumn<StatItem, String> deezerNameColumn, deezerValueColumn;
 
     protected volatile Track track;
 
@@ -123,16 +134,18 @@ public class Controller
 
         localStatsTable.setStyle(tableStyle);
         spotifyTable.setStyle(tableStyle);
+        deezerTable.setStyle(tableStyle);
         soundcloudTable.setStyle(tableStyle);
         lastfmTable.setStyle(tableStyle);
         itunesTable.setStyle(tableStyle);
 
         for(TableView<Controller.StatItem> table : List.of(
-                localStatsTable, spotifyTable, soundcloudTable, lastfmTable, itunesTable)) {
+                localStatsTable, spotifyTable, deezerTable, soundcloudTable, lastfmTable, itunesTable
+        )) {
             applyColorScheme(table);
         }
 
-        tabPane.getStylesheets().add(ResourceManager.Instance.loadStylesheet("tabpane"));
+        tabPane.getStylesheets().add(ResourceManager.getInstance().loadStylesheet("tabpane"));
         tabPane.setStyle("-fx-accent-color: " + hexColor + "; " +
                 "-fx-background-color: " + bgDark + "; " +
                 "-fx-tab-pane-background: " + bgDark + ";");
@@ -147,6 +160,7 @@ public class Controller
         setupTableColumns(soundcloudTable, soundcloudNameColumn, soundcloudValueColumn);
         setupTableColumns(lastfmTable, lastfmNameColumn, lastfmValueColumn);
         setupTableColumns(itunesTable, itunesNameColumn, itunesValueColumn);
+        setupTableColumns(deezerTable, deezerNameColumn, deezerValueColumn);
     }
 
     protected void setupTableColumns(TableView<StatItem> table,
@@ -162,9 +176,9 @@ public class Controller
     }
 
     protected void setupLocalTab() {
-        String path = ResourceManager.Instance.getFullyPath(
+        String path = ResourceManager.getInstance().getFullyPath(
                 Resources.Properties.DEFAULT_CACHE_TRACKS_PATH.getKey() +
-                        File.separator + FileManager.instance.name(track.getPlaylistName())
+                        File.separator + FileManager.getInstance().name(track.getPlaylistName())
         );
 
         List<StatItem> stats = collectStats(path, track.getPath());
@@ -176,6 +190,7 @@ public class Controller
         titleLabel.setFont(ResourceManager.Instance.loadFont("main_font", 20));
 
         executorService.submit(() -> loadRemoteStats("Spotify", this::createSpotifyTableView, spotifyTable));
+        executorService.submit(() -> loadRemoteStats("Deezer", this::createDeezerTableView, deezerTable));
         executorService.submit(() -> loadRemoteStats("SoundCloud", this::createSoundCloudTableView, soundcloudTable));
         executorService.submit(() -> loadRemoteStats("LastFM", this::createLastFMTableView, lastfmTable));
     }
@@ -215,6 +230,7 @@ public class Controller
 
     private TableView<StatItem> createSoundCloudTableView() {
         TableView<StatItem> tableView = createDefaultTable();
+
         try {
             for(Map.Entry<String, String> a : SoundCloud.sc.Search(track.viewName()).getInfo().entrySet()) {
                 tableView.getItems().add(new StatItem(
@@ -225,6 +241,37 @@ public class Controller
         } catch (IOException | ParseException e) {
             throw new RuntimeException(e);
         }
+
+        return tableView;
+    }
+
+    private TableView<StatItem> createDeezerTableView() {
+        TableView<StatItem> tableView = createDefaultTable();
+
+        Net.getInstance().<Deezer>getOriginalFromSimilarMap(Net.PlayersTypes.DEEZER.getCode()).ifPresent(obj -> {
+            try {
+                for (deezer.models.Track deezerTrack : obj.searchTracks(track.viewName(), 1)) {
+                    tableView.getItems().add(new StatItem(getLocaleString("spotify_track_statistics_title", "title"), deezerTrack.getTitle()));
+                    tableView.getItems().add(new StatItem(getLocaleString("deezer_track_statistics_author", "author"), deezerTrack.getArtist().getName()));
+                    tableView.getItems().add(new StatItem(getLocaleString("deezer_track_statistics_isrc", "isrc"), deezerTrack.getIsrc()));
+                    tableView.getItems().add(new StatItem(getLocaleString("deezer_track_statistics_link", "link"), deezerTrack.getLink()));
+                    tableView.getItems().add(new StatItem(getLocaleString("deezer_track_statistics_type", "type"), deezerTrack.getType()));
+                    tableView.getItems().add(new StatItem(getLocaleString("deezer_track_statistics_art", "art"), deezerTrack.getArtist().getPicture()));
+                    tableView.getItems().add(new StatItem(getLocaleString("deezer_track_statistics_tracklist", "tracklist"), deezerTrack.getArtist().getTracklist()));
+                    tableView.getItems().add(new StatItem(getLocaleString("deezer_track_statistics_type", "type"), deezerTrack.getArtist().getType()));
+                    tableView.getItems().add(new StatItem(getLocaleString("deezer_track_statistics_album", "album"), deezerTrack.getAlbum().getTitle()));
+                    tableView.getItems().add(new StatItem(getLocaleString("deezer_track_statistics_art", "art"), deezerTrack.getAlbum().getCover_xl()));
+                    tableView.getItems().add(new StatItem(getLocaleString("deezer_track_statistics_duration", "duration"), String.valueOf(deezerTrack.getDuration())));
+                    tableView.getItems().add(new StatItem(getLocaleString("deezer_track_statistics_popularity", "popularity"), String.valueOf(deezerTrack.getRank())));
+                    tableView.getItems().add(new StatItem(getLocaleString("deezer_track_statistics_explicit", "explicit"), String.valueOf(deezerTrack.getExplicit_content_cover())));
+                    tableView.getItems().add(new StatItem(getLocaleString("deezer_track_statistics_explicit", "explicit"), String.valueOf(deezerTrack.getExplicit_content_lyrics())));
+                    tableView.getItems().add(new StatItem(getLocaleString("deezer_track_statistics_id", "id"), String.valueOf(deezerTrack.getId())));
+                }
+            } catch (IOException | ParseException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
         return tableView;
     }
 

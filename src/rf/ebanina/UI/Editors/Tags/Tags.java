@@ -84,11 +84,11 @@ public final class Tags
 
     @Override
     public String name() {
-        return LocalizationManager.getLocaleString("tags_title", "Tags");
+        return LocalizationManager.getLocaleString("viewable_item_name_tags", "Tags");
     }
 
     @Override
     public String description() {
-        return LocalizationManager.getLocaleString("tags_description", "Description");
+        return LocalizationManager.getLocaleString("viewable_item_description_tags", "Description");
     }
 }

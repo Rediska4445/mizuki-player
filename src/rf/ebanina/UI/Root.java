@@ -50,6 +50,7 @@ import rf.ebanina.UI.Editors.Player.AudioHost;
 import rf.ebanina.UI.Editors.Settings.Settings;
 import rf.ebanina.UI.Editors.Statistics.Track.TrackStatistics;
 import rf.ebanina.UI.UI.Context.Tooltip.ContextTooltip;
+import rf.ebanina.UI.Editors.Info.Application.ApplicationInfo;
 import rf.ebanina.UI.UI.Element.Art;
 import rf.ebanina.UI.UI.Element.Buttons.Commons;
 import rf.ebanina.UI.UI.Element.Buttons.Player.NextButton;
@@ -68,7 +69,7 @@ import rf.ebanina.UI.UI.Element.Text.TextField;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
 import rf.ebanina.UI.UI.Popup.LabelPopupMenu;
 import rf.ebanina.UI.UI.Popup.PreviewPopupService;
-import rf.ebanina.ebanina.KeyBindings.Keys;
+import rf.ebanina.ebanina.KeyBindings.KeyBindingController;
 import rf.ebanina.ebanina.Music;
 import rf.ebanina.ebanina.Player.Controllers.ArtProcessor;
 import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
@@ -101,7 +102,7 @@ import java.util.stream.Stream;
 
 import static rf.ebanina.File.Resources.ResourceManager.BIN_LIBRARIES_PATH;
 import static rf.ebanina.UI.Root.PlaylistHandler.playlistSelected;
-import static rf.ebanina.ebanina.KeyBindings.KeyBindingController.isKeyPressed;
+import static rf.ebanina.ebanina.KeyBindings.KeyBindingProcessor.isKeyPressed;
 import static rf.ebanina.ebanina.Player.Controllers.Playlist.PlayProcessor.playProcessor;
 
 /**
@@ -4508,17 +4509,13 @@ public class Root
         rootImpl.alert(title, msg, Alert.AlertType.ERROR);
     }
 
-    protected final List<IViewable> iViewableList = new ArrayList<>(List.<IViewable>of(
-            new Metadata(),
-            new NetworkHost(),
-            new AudioHost(),
-            new Settings(),
-            new TrackStatistics()
-    ));
+    private List<IViewable> iViewableList = new ArrayList<>();
 
     public List<IViewable> getiViewableList() {
         return iViewableList;
     }
+
+    protected MainFunctionDialog mainFunctionDialog;
 
     /**
      * Инициализирует все UI-компоненты плеера с точной настройкой позиций, размеров и эффектов.
@@ -4695,26 +4692,34 @@ public class Root
 
         tracksListView.getCurrentPlaylistText().setFont(ResourceManager.Instance.loadFont("main_font", 11));
         tracksListView.getCurrentPlaylistText().setAlignment(Pos.CENTER);
-        tracksListView.getCurrentPlaylistText().updateColor(ColorProcessor.core.getMainClr());
 
         tracksListView.getSearchBar().setBackground(Background.EMPTY);
         tracksListView.getSearchBar().setFont(ResourceManager.Instance.loadFont("main_font", 11));
 
+        iViewableList = new ArrayList<>(List.<IViewable>of(
+                new ApplicationInfo(),
+                new Metadata(),
+                new NetworkHost(),
+                new AudioHost(),
+                new Settings(),
+                new TrackStatistics()
+        ));
+
+        mainFunctionDialog = new MainFunctionDialog(stage, root);
+        mainFunctionDialog.setDialogMaxSize(0.8, 0.75);
+        mainFunctionDialog.getMainSetupGrid().getColumnConstraints().get(0).setPercentWidth(25);
+        mainFunctionDialog.getMainSetupGrid().getColumnConstraints().get(1).setPercentWidth(75);
+        mainFunctionDialog.getLeftListView().getItems().addAll(iViewableList);
+
         mainFunctions.addCenteredButton(new Commons());
         mainFunctions.getMainButton().setOnAction(e -> {
-            MainFunctionDialog agreementDialog = new MainFunctionDialog(Root.rootImpl.stage, Root.rootImpl.root);
-            agreementDialog.setDialogMaxSize(0.9, 0.8);
-
-            agreementDialog.getLeftListView().getItems().clear();
-            agreementDialog.getLeftListView().getItems().addAll(iViewableList);
-
-            agreementDialog.animationTopBorder(ColorProcessor.core.getMainClr()).play();
-            agreementDialog.show();
+            mainFunctionDialog.animationTopBorder(ColorProcessor.core.getMainClr()).play();
+            mainFunctionDialog.show();
         });
 
         root.getChildren().add(mainFunctions);
 
-        rootImpl.initBinds();
+        initBinds();
 
         root.getStylesheets().add(ResourceManager.Instance.loadStylesheet("root"));
         root.setEffect(new GaussianBlur(0));
@@ -4756,7 +4761,6 @@ public class Root
             Image img = new Image(image);
 
             BackgroundSize backgroundSize = new BackgroundSize(100, 100, true, true, true, false);
-
             BackgroundImage backgroundImage = new BackgroundImage(
                     img,
                     BackgroundRepeat.NO_REPEAT,
@@ -4793,7 +4797,6 @@ public class Root
 
             if(e2) {
                 isMaximazied.set(!isMaximazied.get());
-
                 isInternalMaximazied.set(true);
 
                 stage.setMaximized(false);
@@ -4808,21 +4811,24 @@ public class Root
             onSet.run();
 
         // License Agreement
-        if(!Path.of("license").toFile().exists()) {
+
+        Path licenseBaseDir = Path.of(Resources.Properties.RESOURCES.getKey(), "license");
+
+        if(!licenseBaseDir.toFile().exists()) {
             alert("Non-exist object", "License directory is not exist", Alert.AlertType.ERROR);
         }
 
-        if(!Boolean.parseBoolean(FileManager.instance.readSharedData().getOrDefault("license_agreed", "false"))) {
+        if(!Boolean.parseBoolean(FileManager.getInstance().readSharedData().getOrDefault("license_agreed", "false"))) {
             LicenseDialog agreementDialog = new LicenseDialog(
                     stage,
                     root,
                     LocalizationManager.getLocaleString("license_title", "License Agreement"),
-                    readAllLicensesRecursively("license", ResourceManager.localizationManager.getLang().split("_")[1]),
+                    readAllLicensesRecursively(licenseBaseDir.toFile().getAbsolutePath(), ResourceManager.localizationManager.getLang().split("_")[1]),
                     LocalizationManager.getLocaleString("license_agree", "Agree")
             );
 
             agreementDialog.setOnAction(() -> {
-                FileManager.instance.saveSharedData.add(
+                FileManager.getInstance().saveSharedData.add(
                         new FileManager.SharedDataEntry("app", "license_agreed", () -> "true", "false")
                 );
 
@@ -4834,6 +4840,7 @@ public class Root
             agreementDialog.show();
         }
     }
+
     /**
      * Лямбда-функция настройки всех адаптивных биндингов UI к размерам stage.
      *
@@ -5128,12 +5135,12 @@ public class Root
 
                 btnNext.setTooltip(new ContextTooltip(LocalizationManager.getLocaleString(Locales.TOOLTIP_MAIN_NEXT) + ": "
                         + (next != null ? next.viewName() : "") + "\n* " + LocalizationManager.getLocaleString(Locales.SKIP_INTRO) + ": "
-                        + "\n\t - " + Keys.instance.getHotKeysStringCodes("ebanina_skip_audio_intro_hotkey")
+                        + "\n\t - " + KeyBindingController.instance.getHotKeysStringCodes("ebanina_skip_audio_intro_hotkey")
                         + "\n\t - Shift + Click on Button"));
 
                 btnDown.setTooltip(new ContextTooltip(LocalizationManager.getLocaleString(Locales.TOOLTIP_MAIN_PREV) + ": "
                         + (prev != null ? prev.viewName() : "") + "\n* " + LocalizationManager.getLocaleString(Locales.SKIP_PIT) + ": "
-                        + "\n\t - " + Keys.instance.getHotKeysStringCodes("ebanina_skip_pit")));
+                        + "\n\t - " + KeyBindingController.instance.getHotKeysStringCodes("ebanina_skip_pit")));
 
                 currentTrackName.setTooltip(new ContextTooltip(current.getTitle()));
                 currentArtist.setTooltip(new ContextTooltip(current.getArtist()));

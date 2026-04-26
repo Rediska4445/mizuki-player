@@ -50,11 +50,11 @@ To open the app, you don't need any technical skills. Just:
 The fastest way to get started is to run the automated script, which handles the latest engine download and setup:
 
 #### **Windows:**
-*   [Download download-mizuka.bat](https://github.com/Rediska4445/mizuki-player/blob/main/scripts/build/win/download-mizuka.bat)
+*   [Download download-mizuka.bat](https://github.com/Rediska4445/mizuki-player/blob/main/scripts/build/download-mizuka.bat)
 *   Run: `download-mizuka.bat`
 
 #### **Linux:**
-*   [Download download-mizuka.sh](https://github.com/Rediska4445/mizuki-player/blob/main/scripts/build/lin/download-mizuka.sh)
+*   [Download download-mizuka.sh](https://github.com/Rediska4445/mizuki-player/blob/main/scripts/build/download-mizuka.sh)
 *   Run: `bash download_mizuka.sh`
 
 ---

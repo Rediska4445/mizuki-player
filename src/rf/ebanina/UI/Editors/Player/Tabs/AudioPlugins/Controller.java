@@ -29,7 +29,6 @@ public class Controller {
     public JFXButton serialize;
     @FXML
     public JFXButton deserialize;
-
     @FXML
     private Button addBtn;
     @FXML

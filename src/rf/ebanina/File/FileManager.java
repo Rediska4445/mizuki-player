@@ -804,6 +804,7 @@ public class FileManager
                         sb.append(", ");
                     }
                 }
+
                 sb.append("]");
                 valueString = sb.toString();
             } else if (value instanceof Iterable) {
@@ -815,6 +816,7 @@ public class FileManager
                         sb.append(", ");
                     }
                 }
+
                 sb.append("]");
                 valueString = sb.toString();
             } else {

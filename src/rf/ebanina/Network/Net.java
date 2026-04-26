@@ -13,10 +13,7 @@ import rf.ebanina.utils.loggining.ILogging;
 import rf.ebanina.utils.loggining.logging;
 import rf.ebanina.utils.network.UserAgent;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @logging(tag = "NetworkHost/Net")
 public class Net {
@@ -76,6 +73,16 @@ public class Net {
             PlayersTypes.APPLE.code, new Apple(),
             PlayersTypes.SOUNDCLOUD.code, new SoundCloud()
     ));
+
+    @SuppressWarnings("unchecked")
+    public <T> Optional<T> getOriginalFromSimilarMap(String key) {
+        ISimilar item = similarMap.get(key);
+        if (item instanceof ITypicalSimilar<?> typical) {
+            return Optional.of((T) typical.original());
+        }
+
+        return Optional.empty();
+    }
 
     public Map<String, ISimilar> getSimilarMap() {
         return similarMap;

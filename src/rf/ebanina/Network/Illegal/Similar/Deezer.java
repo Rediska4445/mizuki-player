@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.scene.image.Image;
 import rf.ebanina.File.Configuration.ConfigurationManager;
 import rf.ebanina.Network.ISimilar;
+import rf.ebanina.Network.ITypicalSimilar;
 import rf.ebanina.Network.Illegal.ConcurrentSimilar;
 import rf.ebanina.Network.Net;
 import rf.ebanina.UI.Root;
@@ -19,7 +20,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 public class Deezer
-        extends ConcurrentSimilar implements ISimilar
+        extends ConcurrentSimilar implements ITypicalSimilar<deezer.Deezer>
 {
     protected deezer.Deezer deezer = new deezer.Deezer();
 
@@ -33,6 +34,11 @@ public class Deezer
 
     public Map<String, Integer> getDeezerSettings() {
         return deezerSettings;
+    }
+
+    @Override
+    public deezer.Deezer original() {
+        return deezer;
     }
 
     @Override

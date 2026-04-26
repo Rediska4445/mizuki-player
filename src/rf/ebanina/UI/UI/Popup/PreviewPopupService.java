@@ -1,6 +1,7 @@
 package rf.ebanina.UI.UI.Popup;
 
 import javafx.application.Platform;
+import javafx.collections.ListChangeListener;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import rf.ebanina.UI.Root;
@@ -16,8 +17,8 @@ import static rf.ebanina.UI.UI.Paint.ColorProcessor.size;
 //TODO: Интегрировать в Preview.java
 @Deprecated(since = "1.0.4.4")
 public final class PreviewPopupService {
-    public static final Preview trackNextPopup = new Preview();
-    public static final Preview trackPrevPopup = new Preview();
+    public static Preview trackNextPopup = new Preview();
+    public static Preview trackPrevPopup = new Preview();
 
     private static final ExecutorService executorService =
             Executors.newFixedThreadPool(2, r -> {
@@ -29,7 +30,7 @@ public final class PreviewPopupService {
     public static void updateTrackPopup(Preview preview, double x, double y, Track tr) {
         executorService.submit(() -> {
             try {
-                javafx.scene.image.Image newImg = tr.getIndependentAlbumArt(size, size, ColorProcessor.isPreserveRatio, ColorProcessor.isSmooth);
+                javafx.scene.image.Image newImg = tr.getIndependentAlbumArt(Track.albumArtSize, Track.albumArtSize, ColorProcessor.isPreserveRatio, ColorProcessor.isSmooth);
                 Color clr = ColorProcessor.core.getGeneralColorFromImage(newImg);
                 String title1 = tr.getTitle();
                 String artist1 = tr.getArtist();
@@ -41,15 +42,10 @@ public final class PreviewPopupService {
         });
     }
 
-    public static void updateAll() {
-        updateNextTrackPopup();
-        updatePrevTrackPopup();
-    }
-
     public static void updateNextTrackPopup() {
         int pointer = PlayProcessor.playProcessor.getTrackIter() + 1;
 
-        if(pointer >= PlayProcessor.playProcessor.getTracks().size() - 1)
+        if (pointer >= PlayProcessor.playProcessor.getTracks().size() - 1)
             pointer = 0;
 
         updateTrackPopup(trackNextPopup, Root.rootImpl.btnNext.getLayoutX() - 40, Root.rootImpl.btnNext.getLayoutY() - 150, PlayProcessor.playProcessor.getTracks().get(pointer));
@@ -65,42 +61,32 @@ public final class PreviewPopupService {
     }
 
     public static void initializePaneTrackPopup() {
-        Root.rootImpl.btnNext.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
-            Platform.runLater(() -> {
-                trackNextPopup.getPane().setLayoutX(Root.rootImpl.btnNext.getLayoutX() - 40);
-                trackNextPopup.getPane().setLayoutY(Root.rootImpl.btnNext.getLayoutY() - 150);
-
-                trackNextPopup.animationEnter(Root.rootImpl.root).play();
-            });
+        //TODO: Срабатывает лишний раз - нужно сделать проверку на дублирующие треки
+        PlayProcessor.playProcessor.getTracks().addListener((ListChangeListener<Track>) change -> {
+            updateNextTrackPopup();
+            updatePrevTrackPopup();
         });
 
-        Root.rootImpl.btnNext.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
-            Platform.runLater(() -> {
-                trackNextPopup.animationExit(Root.rootImpl.root).play();
-            });
+        PlayProcessor.playProcessor.getTrackIterProperty().addListener((t, e1, e2) -> {
+            updateNextTrackPopup();
+            updatePrevTrackPopup();
         });
 
-        Root.rootImpl.btnNext.setOnAction((e) -> {
-            Platform.runLater(PreviewPopupService::updateNextTrackPopup);
-        });
+        Root.rootImpl.btnNext.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> Platform.runLater(() -> {
+            trackNextPopup.getPane().setLayoutX(Root.rootImpl.btnNext.getLayoutX() - 40);
+            trackNextPopup.getPane().setLayoutY(Root.rootImpl.btnNext.getLayoutY() - 150);
 
-        Root.rootImpl.btnDown.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
-            Platform.runLater(() -> {
-                trackPrevPopup.getPane().setLayoutX(Root.rootImpl.btnDown.getLayoutX() - 40);
-                trackPrevPopup.getPane().setLayoutY(Root.rootImpl.btnDown.getLayoutY() - 150);
+            trackNextPopup.animationEnter(Root.rootImpl.root).play();
+        }));
 
-                trackPrevPopup.animationEnter(Root.rootImpl.root).play();
-            });
-        });
+        Root.rootImpl.btnDown.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> Platform.runLater(() -> {
+            trackPrevPopup.getPane().setLayoutX(Root.rootImpl.btnDown.getLayoutX() - 40);
+            trackPrevPopup.getPane().setLayoutY(Root.rootImpl.btnDown.getLayoutY() - 150);
 
-        Root.rootImpl.btnDown.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
-            Platform.runLater(() -> {
-                trackPrevPopup.animationExit(Root.rootImpl.root).play();
-            });
-        });
+            trackPrevPopup.animationEnter(Root.rootImpl.root).play();
+        }));
 
-        Root.rootImpl.btnDown.setOnAction((e) -> {
-            Platform.runLater(PreviewPopupService::updatePrevTrackPopup);
-        });
+        Root.rootImpl.btnNext.addEventHandler(MouseEvent.MOUSE_EXITED, e -> Platform.runLater(() -> trackNextPopup.animationExit(Root.rootImpl.root).play()));
+        Root.rootImpl.btnDown.addEventHandler(MouseEvent.MOUSE_EXITED, e -> Platform.runLater(() -> trackPrevPopup.animationExit(Root.rootImpl.root).play()));
     }
 }

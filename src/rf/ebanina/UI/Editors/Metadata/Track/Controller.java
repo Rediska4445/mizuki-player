@@ -42,6 +42,9 @@ public class Controller
         implements Initializable
 {
     private Track track;
+    private double scrollTarget = 0;
+    private final LonelyThreadPool serv = new LonelyThreadPool();
+    private final LonelyThreadPool lyricsService = new LonelyThreadPool();
 
     @FXML
     public TextField command_field;
@@ -51,15 +54,12 @@ public class Controller
     public TextField title;
     @FXML
     public Rectangle album_art;
-
     @FXML
     public Button remove;
     @FXML
     public Button save;
-
     @FXML
     public TextArea lyrics;
-
     @FXML
     protected ScrollPane mainScrollPane;
     @FXML
@@ -67,16 +67,10 @@ public class Controller
     @FXML
     protected VBox mainBox;
 
-    private final LonelyThreadPool serv = new LonelyThreadPool();
-
-    private final LonelyThreadPool lyricsService = new LonelyThreadPool();
-
-    private double scrollTarget = 0;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if (track == null) {
-            throw new IllegalStateException("Track не был установлен до вызова initialize()");
+            throw new IllegalStateException("Track was not setup before initialize()");
         }
 
         scrollTarget = mainScrollPane.getVvalue();

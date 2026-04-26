@@ -286,6 +286,8 @@ public abstract class Dialog
                 color, new CornerRadii(16), Insets.EMPTY
         )));
     }
+
+
     /**
      * Устанавливает радиус скругления углов контейнера контента.
      * <p>

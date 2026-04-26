@@ -2,7 +2,6 @@ package rf.ebanina.UI.UI.Element.Dialogs;
 
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
@@ -16,20 +15,21 @@ import java.io.IOException;
 
 public class MainFunctionDialog
         extends AnimationDialog {
-    protected final ListView<IViewable> leftListView = new ListView<>();
-    protected final StackPane leftPane = new StackPane();
-    protected final StackPane rightPane = new StackPane();
+    protected ListView<IViewable> leftListView = new ListView<>();
 
-    protected final VBox rightLayout = new VBox();
-    protected final VBox topSpacer = new VBox();
+    protected StackPane leftPane = new StackPane();
+    protected StackPane rightPane = new StackPane();
 
-    protected final VBox modsPanel = new VBox();
+    protected VBox rightLayout = new VBox();
+    protected VBox topSpacer = new VBox();
 
-    protected final ScrollPane scrollPane = new ScrollPane();
+    protected VBox modsPanel = new VBox();
 
-    public ListView<IViewable> getLeftListView() {
-        return leftListView;
-    }
+    protected GridPane mainSetupGrid;
+    protected ColumnConstraints leftColumn;
+    protected ColumnConstraints rightColumn;
+
+    protected ScrollPane scrollPane = new ScrollPane();
 
     public MainFunctionDialog(Stage ownerStage, Pane root) {
         super(ownerStage, root);
@@ -111,21 +111,22 @@ public class MainFunctionDialog
     private void setupModLayout() {
         this.dialogBox.setPadding(Insets.EMPTY);
 
-        GridPane grid = new GridPane();
-        ColumnConstraints colLeft = new ColumnConstraints();
+        mainSetupGrid = new GridPane();
 
-        colLeft.setPercentWidth(35);
-        ColumnConstraints colRight = new ColumnConstraints();
+        leftColumn = new ColumnConstraints();
+        leftColumn.setPercentWidth(25);
 
-        colRight.setPercentWidth(65);
-        grid.getColumnConstraints().addAll(colLeft, colRight);
+        rightColumn = new ColumnConstraints();
+        rightColumn.setPercentWidth(75);
+
+        mainSetupGrid.getColumnConstraints().addAll(leftColumn, rightColumn);
 
         RowConstraints row = new RowConstraints();
         row.setVgrow(Priority.ALWAYS);
-        grid.getRowConstraints().add(row);
 
-        grid.add(leftPane, 0, 0);
-        grid.add(rightPane, 1, 0);
+        mainSetupGrid.getRowConstraints().add(row);
+        mainSetupGrid.add(leftPane, 0, 0);
+        mainSetupGrid.add(rightPane, 1, 0);
 
         rightLayout.setPadding(new Insets(20));
         rightLayout.setSpacing(0);
@@ -150,21 +151,17 @@ public class MainFunctionDialog
         modsPanel.setOpacity(0);
         modsPanel.getChildren().add(scrollPane);
 
-        modsPanel.getChildren().add(new Label("erfgerg" +
-                "ergerg" +
-                "ewrg" +
-                "erwg" +
-                "erwg"));
-
         VBox.setVgrow(scrollPane, Priority.ALWAYS);
 
         rightLayout.getChildren().addAll(topSpacer, modsPanel);
         rightPane.getChildren().add(rightLayout);
 
-        VBox.setVgrow(grid, Priority.ALWAYS);
+        rightPane.setPadding(new Insets(15, 15, 15, 15));
+
+        VBox.setVgrow(mainSetupGrid, Priority.ALWAYS);
         applyStyles();
 
-        this.dialogBox.getChildren().add(grid);
+        this.dialogBox.getChildren().add(mainSetupGrid);
     }
 
     private void applyStyles() {
@@ -181,5 +178,95 @@ public class MainFunctionDialog
                 Color.web("#141414"), new CornerRadii(0, 0, 16, 16, false), Insets.EMPTY)));
         modsPanel.setBorder(new Border(new BorderStroke(
                 Color.gray(0.3), BorderStrokeStyle.SOLID, new CornerRadii(0, 0, 16, 16, false), new BorderWidths(0, 1, 1, 1))));
+    }
+
+    public ListView<IViewable> getLeftListView() {
+        return leftListView;
+    }
+
+    public MainFunctionDialog setLeftListView(ListView<IViewable> leftListView) {
+        this.leftListView = leftListView;
+        return this;
+    }
+
+    public StackPane getLeftPane() {
+        return leftPane;
+    }
+
+    public MainFunctionDialog setLeftPane(StackPane leftPane) {
+        this.leftPane = leftPane;
+        return this;
+    }
+
+    public StackPane getRightPane() {
+        return rightPane;
+    }
+
+    public MainFunctionDialog setRightPane(StackPane rightPane) {
+        this.rightPane = rightPane;
+        return this;
+    }
+
+    public VBox getRightLayout() {
+        return rightLayout;
+    }
+
+    public MainFunctionDialog setRightLayout(VBox rightLayout) {
+        this.rightLayout = rightLayout;
+        return this;
+    }
+
+    public VBox getTopSpacer() {
+        return topSpacer;
+    }
+
+    public MainFunctionDialog setTopSpacer(VBox topSpacer) {
+        this.topSpacer = topSpacer;
+        return this;
+    }
+
+    public VBox getModsPanel() {
+        return modsPanel;
+    }
+
+    public MainFunctionDialog setModsPanel(VBox modsPanel) {
+        this.modsPanel = modsPanel;
+        return this;
+    }
+
+    public GridPane getMainSetupGrid() {
+        return mainSetupGrid;
+    }
+
+    public MainFunctionDialog setMainSetupGrid(GridPane mainSetupGrid) {
+        this.mainSetupGrid = mainSetupGrid;
+        return this;
+    }
+
+    public ColumnConstraints getLeftColumn() {
+        return leftColumn;
+    }
+
+    public MainFunctionDialog setLeftColumn(ColumnConstraints leftColumn) {
+        this.leftColumn = leftColumn;
+        return this;
+    }
+
+    public ColumnConstraints getRightColumn() {
+        return rightColumn;
+    }
+
+    public MainFunctionDialog setRightColumn(ColumnConstraints rightColumn) {
+        this.rightColumn = rightColumn;
+        return this;
+    }
+
+    public ScrollPane getScrollPane() {
+        return scrollPane;
+    }
+
+    public MainFunctionDialog setScrollPane(ScrollPane scrollPane) {
+        this.scrollPane = scrollPane;
+        return this;
     }
 }

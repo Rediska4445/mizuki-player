@@ -462,6 +462,7 @@ public class ConfigurationManager
 
     /**
      * <h1>fxmlConverter</h1>
+     * <h1>Legacy Code</h1>
      * Вспомогательный класс для преобразования конфигурационных данных в FXML формат.
      * <p>
      * Состоит из двух вложенных классов: {@link ConfigParser} для парсинга конфигурационного
@@ -780,7 +781,6 @@ public class ConfigurationManager
                 out.println("<?import javafx.geometry.Insets?>");
                 out.println();
 
-                // TOOO: Сделать через аннотации
                 out.println("<AnchorPane xmlns:fx=\"http://javafx.com/fxml\" prefWidth=\"600\" prefHeight=\"600\" fx:controller=\"rf.ebanina.File.Configuration.GuiController\"");
                 out.println("            style=\"-fx-background-color: #f7f7f7;\">");
                 out.println("    <children>");

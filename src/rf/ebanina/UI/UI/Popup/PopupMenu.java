@@ -6,7 +6,9 @@ import javafx.event.EventHandler;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
-public class PopupMenu extends Pane implements PopupMenuDisplayable {
+public class PopupMenu
+        extends Pane
+{
     protected FadeTransition fadeShowAnimation;
     protected FadeTransition fadeHideAnimation;
     private ParallelTransition hideAnimation;
@@ -68,7 +70,6 @@ public class PopupMenu extends Pane implements PopupMenuDisplayable {
         });
     }
 
-    @Override
     public ParallelTransition Show(Pane place) {
         if(!place.getChildren().contains(this)) {
             place.getChildren().add(this);
@@ -86,7 +87,6 @@ public class PopupMenu extends Pane implements PopupMenuDisplayable {
         return showAnimation;
     }
 
-    @Override
     public ParallelTransition Hide(Pane place) {
         hideAnimation.setOnFinished((e) -> {
             place.getChildren().remove(this);

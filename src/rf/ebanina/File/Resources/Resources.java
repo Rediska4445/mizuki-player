@@ -64,6 +64,8 @@ public final class Resources {
         FONT("font"),
         MAIN_FONT("main_font"),
 
+        LOGO_HD("logoHd"),
+
         CONFIG_DIR_PATH("configDirPath"),
         CONFIG_PATH("configPath"),
         HOTKEYS("hotkeys"),

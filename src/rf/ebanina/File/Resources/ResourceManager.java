@@ -212,6 +212,7 @@ public class ResourceManager
      *
      * @param filePath путь к properties-файлу (абсолютный или относительный)
      */
+    @Override
     public void loadResources(String filePath) {
         File file = new File(filePath);
 

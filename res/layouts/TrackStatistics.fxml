@@ -61,6 +61,16 @@
                         </TableView>
                     </Tab>
 
+                    <!-- Deezer -->
+                    <Tab fx:id="deezerTab" text="Deezer">
+                        <TableView fx:id="deezerTable" style="-fx-background-color: #333333; -fx-table-cell-border-color: #444444;">
+                            <columns>
+                                <TableColumn fx:id="deezerNameColumn" prefWidth="200.0" text="Key" />
+                                <TableColumn fx:id="deezerValueColumn" prefWidth="300.0" text="Value" />
+                            </columns>
+                        </TableView>
+                    </Tab>
+
                     <!-- SoundCloud -->
                     <Tab fx:id="soundcloudTab" text="SoundCloud">
                         <TableView fx:id="soundcloudTable" style="-fx-background-color: #333333; -fx-table-cell-border-color: #444444;">

@@ -21,3 +21,4 @@ This is even easier than messing around with Maven).
 * Make UI History
 * Change settings converter to own fxml and list add items of config
 * Remove "package" and migrate maven/gradle to root directory for CI
+* Fill the MainFunctions dialog

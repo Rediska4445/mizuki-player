@@ -88,11 +88,11 @@ public class TrackStatistics
 
     @Override
     public String name() {
-        return LocalizationManager.getLocaleString("window_statistics_title", "Tracks Statistics");
+        return LocalizationManager.getLocaleString("viewable_item_name_statistics", "Tracks Statistics");
     }
 
     @Override
     public String description() {
-        return LocalizationManager.getLocaleString("track_statistics_description", "Description");
+        return LocalizationManager.getLocaleString("viewable_item_description_statistics", "Description");
     }
 }

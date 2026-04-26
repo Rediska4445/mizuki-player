@@ -88,18 +88,17 @@ public class AudioHost
 
     @Override
     public String name() {
-        return LocalizationManager.getLocaleString("audio_host_title", "Audio-Host");
+        return LocalizationManager.getLocaleString("viewable_item_name_audio_host", "Audio-Host");
     }
 
     @Override
     public String description() {
-        return LocalizationManager.getLocaleString("audio_host_description", "Description");
+        return LocalizationManager.getLocaleString("viewable_item_description_audio_host", "Description");
     }
 
     protected final Map<String, Function<File, PluginWrapper>> loadPlugin = new HashMap<>(Map.ofEntries(
             Map.entry(PluginWrapper.Type.VST3.fileExtension[0], file -> {
                 IPluginWrapper<vst3> vst3PluginImpl = new VST3();
-
                 PluginWrapper plugin = new PluginWrapper(vst3PluginImpl);
 
                 try {
