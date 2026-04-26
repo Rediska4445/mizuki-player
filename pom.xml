@@ -34,14 +34,6 @@
         <libs.classes.path>${libs.path}/classes</libs.classes.path>
     </properties>
 
-    <!-- Локальный репозиторий -->
-    <repositories>
-        <repository>
-            <id>local-repo</id>
-            <url>file://${basedir}/libraries/modules/</url>
-        </repository>
-    </repositories>
-
     <!--
         Все зависимости, в папке libraries.
     -->

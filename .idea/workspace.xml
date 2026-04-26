@@ -13,8 +13,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="090f838e-e1f0-4ee3-9e0f-b5df3b4d364f" name="Changes" comment="Metadata.fxml view designed to always grow">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/build.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/build.yml" afterDir="false" />
+    <list default="true" id="090f838e-e1f0-4ee3-9e0f-b5df3b4d364f" name="Changes" comment="pom.xml dependency mizuki-std-utils fixed">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mods/ebanina-std-mod-controller" beforeDir="false" afterPath="$PROJECT_DIR$/mods/ebanina-std-mod-controller" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mods/mizuka-std-background-player" beforeDir="false" afterPath="$PROJECT_DIR$/mods/mizuka-std-background-player" afterDir="false" />
@@ -22,7 +21,7 @@
       <change beforePath="$PROJECT_DIR$/modules/ebanina-std-utils" beforeDir="false" afterPath="$PROJECT_DIR$/modules/ebanina-std-utils" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modules/ebanina-vst-ipc-host" beforeDir="false" afterPath="$PROJECT_DIR$/modules/ebanina-vst-ipc-host" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modules/mizuka-deezer-api-wrapper" beforeDir="false" afterPath="$PROJECT_DIR$/modules/mizuka-deezer-api-wrapper" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/build/install-deps.sh" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/build/install-deps.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -164,7 +163,7 @@
     "DefaultHtmlFileTemplate": "HTML File",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/2022/Desktop/программы/Ebanina-Test/Ebanina/Ebanina-VST/res",
+    "last_opened_file_path": "C:/Users/2022/Desktop/программы/Ebanina-Test/Ebanina/Ebanina-VST/modules/ebanina-std-utils",
     "project.structure.last.edited": "Artifacts",
     "project.structure.proportion": "0.15332031",
     "project.structure.side.proportion": "0.28361857",
@@ -397,20 +396,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1751373119676</updated>
-    </task>
-    <task id="LOCAL-00144" summary="Fixed LightAudio download tracks, added user agents">
-      <created>1774794397756</created>
-      <option name="number" value="00144" />
-      <option name="presentableId" value="LOCAL-00144" />
-      <option name="project" value="LOCAL" />
-      <updated>1774794397756</updated>
-    </task>
-    <task id="LOCAL-00145" summary="Soundcloud moved to own module into another jar">
-      <created>1774794440850</created>
-      <option name="number" value="00145" />
-      <option name="presentableId" value="LOCAL-00145" />
-      <option name="project" value="LOCAL" />
-      <updated>1774794440850</updated>
     </task>
     <task id="LOCAL-00146" summary="Added aspects style to key binds">
       <created>1774809773139</created>
@@ -741,7 +726,21 @@
       <option name="project" value="LOCAL" />
       <updated>1777148637756</updated>
     </task>
-    <option name="localTasksCounter" value="193" />
+    <task id="LOCAL-00193" summary="CI refactored">
+      <created>1777204474002</created>
+      <option name="number" value="00193" />
+      <option name="presentableId" value="LOCAL-00193" />
+      <option name="project" value="LOCAL" />
+      <updated>1777204474002</updated>
+    </task>
+    <task id="LOCAL-00194" summary="pom.xml dependency mizuki-std-utils fixed">
+      <created>1777204895878</created>
+      <option name="number" value="00194" />
+      <option name="presentableId" value="LOCAL-00194" />
+      <option name="project" value="LOCAL" />
+      <updated>1777204895878</updated>
+    </task>
+    <option name="localTasksCounter" value="195" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -870,8 +869,6 @@
       <path value="$PROJECT_DIR$/modules/ebanina-soundcloud-api-wrapper" />
       <path value="$PROJECT_DIR$/modules/mizuka-deezer-api-wrapper" />
     </ignored-roots>
-    <MESSAGE value="Hitmos.java parsing from server html fixed" />
-    <MESSAGE value="Fixed bug with stretch list cell ass" />
     <MESSAGE value="mizuka-deezer-api-wrapper added as submodule" />
     <MESSAGE value="updated gitmodules" />
     <MESSAGE value="LocalizationManager refactored" />
@@ -895,7 +892,9 @@
     <MESSAGE value="Readme updated" />
     <MESSAGE value="Updated README.md and ROADMAP.md" />
     <MESSAGE value="Metadata.fxml view designed to always grow" />
-    <option name="LAST_COMMIT_MESSAGE" value="Metadata.fxml view designed to always grow" />
+    <MESSAGE value="CI refactored" />
+    <MESSAGE value="pom.xml dependency mizuki-std-utils fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="pom.xml dependency mizuki-std-utils fixed" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
