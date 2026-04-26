@@ -1,14 +1,20 @@
 package rf.ebanina.UI.UI.Element.Dialogs;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.ParallelTransition;
+import javafx.animation.TranslateTransition;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import javafx.util.Duration;
 import rf.ebanina.UI.Editors.IViewable;
+import rf.ebanina.UI.Root;
 import rf.ebanina.UI.UI.Element.ListViews.ListView;
 
 import java.io.IOException;
@@ -31,14 +37,20 @@ public class MainFunctionDialog
 
     protected ScrollPane scrollPane = new ScrollPane();
 
+    private static final Duration DURATION = Duration.millis(1000);
+
+    private ParallelTransition currentOutTransition;
+    private ParallelTransition currentInTransition;
+    private int lastSelectedIndex = -1;
+
     public MainFunctionDialog(Stage ownerStage, Pane root) {
         super(ownerStage, root);
 
-        setupModLayout();
-        setupLeftList();
+        setupRight();
+        setupLeft();
     }
 
-    private void setupLeftList() {
+    private void setupLeft() {
         leftPane.getChildren().add(leftListView);
         VBox.setVgrow(leftListView, Priority.ALWAYS);
 
@@ -61,20 +73,55 @@ public class MainFunctionDialog
         });
 
         leftListView.getSelectionModel().selectedItemProperty().addListener((obs, oldItem, newItem) -> {
-            if (newItem != null) {
-                try {
-                    Parent content = newItem.parent();
+            if (newItem == null) return;
 
-                    rightPane.getChildren().clear();
+            rightPane.getChildren().clear();
 
-                    if (content != null) {
-                        rightPane.getChildren().add(content);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
+            if (currentOutTransition != null)
+                currentOutTransition.stop();
+            if (currentInTransition != null)
+                currentInTransition.stop();
+
+            try {
+                Parent newContent = newItem.parent();
+                if (newContent == null)
+                    return;
+
+                int newIndex = leftListView.getSelectionModel().getSelectedIndex();
+                double height = rightPane.getHeight();
+                boolean movingDown = newIndex > lastSelectedIndex;
+                lastSelectedIndex = newIndex;
+
+                if (oldItem != null) {
+                    Parent oldContent = oldItem.parent();
+                    rightPane.getChildren().add(oldContent);
+
+                    TranslateTransition out = new TranslateTransition(DURATION, oldContent);
+                    out.setInterpolator(Root.iceInterpolator);
+                    out.setToY(movingDown ? -height : height);
+                    FadeTransition fadeOut = new FadeTransition(DURATION, oldContent);
+                    fadeOut.setToValue(0);
+
+                    currentOutTransition = new ParallelTransition(out, fadeOut);
+                    currentOutTransition.setOnFinished(e -> rightPane.getChildren().remove(oldContent));
+                    currentOutTransition.play();
                 }
-            } else {
-                rightPane.getChildren().clear();
+
+                newContent.setTranslateY(movingDown ? height : -height);
+                newContent.setOpacity(0);
+                rightPane.getChildren().add(newContent);
+
+                TranslateTransition in = new TranslateTransition(DURATION, newContent);
+                in.setInterpolator(Root.iceInterpolator);
+                in.setToY(0);
+                FadeTransition fadeIn = new FadeTransition(DURATION, newContent);
+                fadeIn.setToValue(1);
+
+                currentInTransition = new ParallelTransition(in, fadeIn);
+                currentInTransition.play();
+
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         });
 
@@ -108,7 +155,7 @@ public class MainFunctionDialog
                 "}");
     }
 
-    private void setupModLayout() {
+    private void setupRight() {
         this.dialogBox.setPadding(Insets.EMPTY);
 
         mainSetupGrid = new GridPane();
@@ -159,6 +206,16 @@ public class MainFunctionDialog
         rightPane.setPadding(new Insets(15, 15, 15, 15));
 
         VBox.setVgrow(mainSetupGrid, Priority.ALWAYS);
+
+        Rectangle clip = new Rectangle();
+        clip.setArcWidth(32);
+        clip.setArcHeight(32);
+
+        clip.widthProperty().bind(rightPane.widthProperty());
+        clip.heightProperty().bind(rightPane.heightProperty());
+
+        rightPane.setClip(clip);
+
         applyStyles();
 
         this.dialogBox.getChildren().add(mainSetupGrid);

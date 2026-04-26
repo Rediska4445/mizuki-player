@@ -131,14 +131,26 @@ public class ControlPane
         hoverZone.setOnMouseEntered(e -> animateHeight(expandedHeight, () -> animateButtonOpacity(mainButton, mainButton.getOpacity(), 1, 125)));
         hoverZone.setOnMouseExited(e -> animateHeight(expandedHeight * COLLAPSED_HEIGHT_RATIO, () -> animateButtonOpacity(mainButton, mainButton.getOpacity(), 0, 125)));
 
-        setOnMouseEntered(e -> animateHeight(expandedHeight, () -> animateButtonOpacity(mainButton, mainButton.getOpacity(), 1, 125)));
-        setOnMouseExited(e -> animateHeight(expandedHeight * COLLAPSED_HEIGHT_RATIO, () -> animateButtonOpacity(mainButton, mainButton.getOpacity(), 0, 125)));
+        setOnMouseEntered(
+                e -> mouseEnter()
+        );
+        setOnMouseExited(
+                e -> mouseExit()
+        );
 
         if(root.getChildren().contains(this)) {
             root.getChildren().remove(hoverZone);
         }
 
         root.getChildren().add(hoverZone);
+    }
+
+    public void mouseExit() {
+        animateHeight(expandedHeight * COLLAPSED_HEIGHT_RATIO, () -> animateButtonOpacity(mainButton, mainButton.getOpacity(), 0, 125));
+    }
+
+    public void mouseEnter() {
+        animateHeight(expandedHeight, () -> animateButtonOpacity(mainButton, mainButton.getOpacity(), 1, 125));
     }
 
     /**

@@ -315,6 +315,12 @@ public class AnimationDialog
 
         showTransition.stop();
         showTransition.play();
+
+        EventHandler<Event> handler = onShow.get();
+
+        if (handler != null) {
+            handler.handle(new Event(Event.ANY));
+        }
     }
     /**
      * Переопределённый метод скрытия с bounce-эффектом.
@@ -343,5 +349,11 @@ public class AnimationDialog
         hideTransition.play();
 
         dialogBox.setCache(false);
+
+        EventHandler<Event> handler = onHide.get();
+
+        if (handler != null) {
+            handler.handle(new Event(Event.ANY));
+        }
     }
 }

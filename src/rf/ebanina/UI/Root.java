@@ -44,13 +44,13 @@ import rf.ebanina.Network.ISimilar;
 import rf.ebanina.Network.Illegal.Similar.Spotify;
 import rf.ebanina.Network.Net;
 import rf.ebanina.UI.Editors.IViewable;
+import rf.ebanina.UI.Editors.Info.Application.ApplicationInfo;
 import rf.ebanina.UI.Editors.Metadata.Track.Metadata;
 import rf.ebanina.UI.Editors.Network.NetworkHost;
 import rf.ebanina.UI.Editors.Player.AudioHost;
 import rf.ebanina.UI.Editors.Settings.Settings;
 import rf.ebanina.UI.Editors.Statistics.Track.TrackStatistics;
 import rf.ebanina.UI.UI.Context.Tooltip.ContextTooltip;
-import rf.ebanina.UI.Editors.Info.Application.ApplicationInfo;
 import rf.ebanina.UI.UI.Element.Art;
 import rf.ebanina.UI.UI.Element.Buttons.Commons;
 import rf.ebanina.UI.UI.Element.Buttons.Player.NextButton;
@@ -70,6 +70,7 @@ import rf.ebanina.UI.UI.Paint.ColorProcessor;
 import rf.ebanina.UI.UI.Popup.LabelPopupMenu;
 import rf.ebanina.UI.UI.Popup.PreviewPopupService;
 import rf.ebanina.ebanina.KeyBindings.KeyBindingController;
+import rf.ebanina.ebanina.KeyBindings.KeyBindingProcessor;
 import rf.ebanina.ebanina.Music;
 import rf.ebanina.ebanina.Player.Controllers.ArtProcessor;
 import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
@@ -2371,366 +2372,6 @@ public class Root
         }
 
         /**
-         * Множитель вертикального смещения метки времени относительно слайдера.
-         *
-         * <p>Коэффициент (1.5f = 150%), определяющий позицию {@link #beginTime} ниже
-         * {@link #soundSlider}. Обеспечивает выравнивание меток по центру высоты слайдера.</p>
-         *
-         * <h3>Формула позиционирования</h3>
-         *
-         * <pre>{@code
-         * beginTime.layoutY = soundSlider.layoutY
-         *     + soundSlider.prefHeight × sliderBlurBackgroundBeginTimeMultiplier
-         *     = soundSlider.Y + slider.height × 1.5
-         * }</pre>
-         */
-        private float sliderBlurBackgroundBeginTimeMultiplier = 1.5f;
-
-        /**
-         * Возвращает множитель смещения метки времени над слайдером.
-         *
-         * @return Значение {@link #sliderBlurBackgroundBeginTimeMultiplier} (по умолчанию 1.5f).
-         *
-         * <p>Используется для позиционирования {@link #beginTime}:</p>
-         *
-         * <pre>{@code
-         * beginTime.layoutYProperty().bind(
-         *     soundSlider.layoutYProperty()
-         *         .add(soundSlider.prefHeightProperty()
-         *             .multiply(rootLayout.getSliderBlurBackgroundBeginTimeMultiplier()))
-         * );
-         * }</pre>
-         *
-         * @see #setSliderBlurBackgroundBeginTimeMultiplier(float)
-         */
-        public float getSliderBlurBackgroundBeginTimeMultiplier() {
-            return sliderBlurBackgroundBeginTimeMultiplier;
-        }
-
-        /**
-         * Устанавливает множитель вертикального смещения метки времени.
-         *
-         * @param sliderBlurBackgroundBeginTimeMultiplier Множитель высоты слайдера (обычно >1.0).
-         * @return {@code this} для fluent chain-вызова.
-         *
-         * <h3>Назначение</h3>
-         *
-         * <p>Позиционирует {@link #beginTime} ниже {@link #soundSlider} с учетом полутоновой высоты
-         * слайдера. По умолчанию 1.5f обеспечивает центрирование метки относительно толстой полосы.</p>
-         *
-         * <h3>Эффекты значений</h3>
-         *
-         * <table summary="Положение beginTime при разных множителях">
-         * <tr><th>Значение</th><th>Позиция относительно slider.height=25px</th></tr>
-         * <tr><td>1.0f</td><td>slider.Y + 25px (нижний край)</td></tr>
-         * <tr><td>1.5f (default)</td><td>slider.Y + 37.5px (полутон ниже)</td></tr>
-         * <tr><td>2.0f</td><td>slider.Y + 50px (удаление вниз)</td></tr>
-         * </table>
-         *
-         * <h3>Визуальная схема</h3>
-         *
-         * <pre>{@code
-         * [soundSlider: height=25px]
-         *     │
-         * 1.5×25 = 37.5px
-         *     │
-         * [beginTime]
-         * }</pre>
-         *
-         * @see #getSliderBlurBackgroundBeginTimeMultiplier()
-         * @see #initBinds() - биндинг layoutY временной метки
-         */
-        public Layout setSliderBlurBackgroundBeginTimeMultiplier(float sliderBlurBackgroundBeginTimeMultiplier) {
-            this.sliderBlurBackgroundBeginTimeMultiplier = sliderBlurBackgroundBeginTimeMultiplier;
-            return this;
-        }
-
-        /**
-         * Дополнительная ширина подложки слайдера за пределы самого слайдера.
-         *
-         * <p>Прирост (20px), расширяющий {@link #sliderBlurBackground} относительно
-         * {@link #soundSlider}. Создает визуальный "воздух" вокруг слайдера.</p>
-         *
-         * <h3>Формула ширины</h3>
-         *
-         * <pre>{@code
-         * sliderBlurBackground.width = soundSlider.prefWidth + sliderBlurBackgroundWidthAdd
-         *                           = slider.width + 20px
-         * }</pre>
-         */
-        private float sliderBlurBackgroundWidthAdd = 20;
-
-        /**
-         * Возвращает прирост ширины подложки слайдера.
-         *
-         * @return Значение {@link #sliderBlurBackgroundWidthAdd} (по умолчанию 20.0f).
-         *
-         * <p>Расширяет {@link #sliderBlurBackground}:</p>
-         *
-         * <pre>{@code
-         * sliderBlurBackground.widthProperty().bind(
-         *     soundSlider.prefWidthProperty()
-         *         .add(rootLayout.getSliderBlurBackgroundWidthAdd())  // +20px
-         * );
-         * }</pre>
-         *
-         * @see #setSliderBlurBackgroundWidthAdd(float)
-         */
-        public float getSliderBlurBackgroundWidthAdd() {
-            return sliderBlurBackgroundWidthAdd;
-        }
-
-        /**
-         * Устанавливает прирост ширины подложки слайдера.
-         *
-         * @param sliderBlurBackgroundWidthAdd Дополнительная ширина (пиксели).
-         * @return {@code this} для fluent chain-вызова.
-         *
-         * <h3>Назначение</h3>
-         *
-         * <p>Обеспечивает визуальное расширение {@link #sliderBlurBackground} за границы
-         * {@link #soundSlider}. По умолчанию +20px создает мягкий фон с отступами.</p>
-         *
-         * <h3>Визуальный эффект</h3>
-         *
-         * <table summary="Эффект разных значений">
-         * <tr><th>Значение</th><th>sliderBlurBackground.width</th></tr>
-         * <tr><td>0px</td><td>= soundSlider.width</td></tr>
-         * <tr><td>20px (default)</td><td>= soundSlider.width + 20px</td></tr>
-         * <tr><td>40px</td><td>= soundSlider.width + 40px (широкий фон)</td></tr>
-         * </table>
-         *
-         * <h3>Схема наложения</h3>
-         *
-         * <pre>{@code
-         * [sliderBlurBackground: slider.width + 20px]
-         *      [soundSlider: width]
-         * ────────10px───┘──10px────
-         * }</pre>
-         *
-         * @see #getSliderBlurBackgroundWidthAdd()
-         * @see #initBinds() - биндинг ширины подложки
-         */
-        public Layout setSliderBlurBackgroundWidthAdd(float sliderBlurBackgroundWidthAdd) {
-            this.sliderBlurBackgroundWidthAdd = sliderBlurBackgroundWidthAdd;
-            return this;
-        }
-
-        /**
-         * Дополнительная высота подложки слайдера за пределы самого слайдера.
-         *
-         * <p>Прирост (20px), расширяющий {@link #sliderBlurBackground} по вертикали относительно
-         * {@link #soundSlider}. Создает увеличенную область размытого фона.</p>
-         *
-         * <h3>Формула высоты</h3>
-         *
-         * <pre>{@code
-         * sliderBlurBackground.height = soundSlider.prefHeight + sliderBlurBackgroundHeightAdd
-         *                            = slider.height + 20px
-         * }</pre>
-         */
-        private float sliderBlurBackgroundHeightAdd = 20;
-
-        /**
-         * Возвращает прирост высоты подложки слайдера.
-         *
-         * @return Значение {@link #sliderBlurBackgroundHeightAdd} (по умолчанию 20.0f).
-         *
-         * <p>Расширяет {@link #sliderBlurBackground} по вертикали:</p>
-         *
-         * <pre>{@code
-         * sliderBlurBackground.heightProperty().bind(
-         *     soundSlider.prefHeightProperty()
-         *         .add(rootLayout.getSliderBlurBackgroundHeightAdd())  // +20px
-         * );
-         * }</pre>
-         *
-         * @see #setSliderBlurBackgroundHeightAdd(float)
-         */
-        public float getSliderBlurBackgroundHeightAdd() {
-            return sliderBlurBackgroundHeightAdd;
-        }
-
-        /**
-         * Устанавливает прирост высоты подложки слайдера.
-         *
-         * @param sliderBlurBackgroundHeightAdd Дополнительная высота (пиксели).
-         * @return {@code this} для fluent chain-вызова.
-         *
-         * <h3>Назначение</h3>
-         *
-         * <p>Увеличивает вертикальную область {@link #sliderBlurBackground} для создания "подушки"
-         * вокруг {@link #soundSlider}. По умолчанию +20px обеспечивает плавный фон.</p>
-         *
-         * <h3>Визуальный эффект</h3>
-         *
-         * <table summary="Эффект разных значений">
-         * <tr><th>Значение</th><th>sliderBlurBackground.height</th></tr>
-         * <tr><td>0px</td><td>= soundSlider.height</td></tr>
-         * <tr><td>20px (default)</td><td>= soundSlider.height + 20px</td></tr>
-         * <tr><td>40px</td><td>= soundSlider.height + 40px (высокий фон)</td></tr>
-         * </table>
-         *
-         * <h3>Схема наложения</h3>
-         *
-         * <pre>{@code
-         * [sliderBlurBackground: slider.height + 20px]
-         *      [soundSlider: height]
-         * ────────10px──┘──10px──
-         * }</pre>
-         *
-         * @see #getSliderBlurBackgroundHeightAdd()
-         * @see #initBinds() - биндинг высоты подложки
-         */
-        public Layout setSliderBlurBackgroundHeightAdd(float sliderBlurBackgroundHeightAdd) {
-            this.sliderBlurBackgroundHeightAdd = sliderBlurBackgroundHeightAdd;
-            return this;
-        }
-
-        /**
-         * Вертикальный сдвиг подложки слайдера вверх относительно слайдера.
-         *
-         * <p>Отрицательное смещение (10px), поднимающее {@link #sliderBlurBackground} выше
-         * {@link #soundSlider}. Создает эффект "подложки под слайдером".</p>
-         *
-         * <h3>Формула позиционирования</h3>
-         *
-         * <pre>{@code
-         * sliderBlurBackground.layoutY = soundSlider.layoutY - sliderBlurBackgroundYSubtract
-         *                             = slider.Y - 10px
-         * }</pre>
-         */
-        private float sliderBlurBackgroundYSubtract = 10;
-
-        /**
-         * Возвращает вертикальный сдвиг подложки слайдера вверх.
-         *
-         * @return Значение {@link #sliderBlurBackgroundYSubtract} (по умолчанию 10.0f).
-         *
-         * <p>Поднимает {@link #sliderBlurBackground}:</p>
-         *
-         * <pre>{@code
-         * sliderBlurBackground.layoutYProperty().bind(
-         *     soundSlider.layoutYProperty()
-         *         .subtract(rootLayout.getSliderBlurBackgroundYSubtract())  // -10px
-         * );
-         * }</pre>
-         *
-         * @see #setSliderBlurBackgroundYSubtract(float)
-         */
-        public float getSliderBlurBackgroundYSubtract() {
-            return sliderBlurBackgroundYSubtract;
-        }
-
-        /**
-         * Устанавливает вертикальный сдвиг подложки слайдера вверх.
-         *
-         * @param sliderBlurBackgroundYSubtract Смещение вверх (положительное значение = сдвиг вверх).
-         * @return {@code this} для fluent chain-вызова.
-         *
-         * <h3>Назначение</h3>
-         *
-         * <p>Создает визуальный эффект, при котором {@link #sliderBlurBackground} частично
-         * перекрывает {@link #soundSlider} сверху. По умолчанию 10px.</p>
-         *
-         * <h3>Эффекты значений</h3>
-         *
-         * <table summary="Положение подложки при разных сдвигах">
-         * <tr><th>Значение</th><th>sliderBlurBackground.layoutY</th></tr>
-         * <tr><td>0px</td><td>= soundSlider.Y</td></tr>
-         * <tr><td>10px (default)</td><td>= soundSlider.Y - 10px</td></tr>
-         * <tr><td>20px</td><td>= soundSlider.Y - 20px (сильный overlap)</td></tr>
-         * </table>
-         *
-         * <h3>Визуальная схема</h3>
-         *
-         * <pre>{@code
-         * [sliderBlurBackground]  ← Y = slider.Y - 10px
-         *     [soundSlider]
-         * ────overlap 10px───────┘
-         * }</pre>
-         *
-         * @see #getSliderBlurBackgroundYSubtract()
-         * @see #initBinds() - биндинг layoutY подложки
-         */
-        public Layout setSliderBlurBackgroundYSubtract(float sliderBlurBackgroundYSubtract) {
-            this.sliderBlurBackgroundYSubtract = sliderBlurBackgroundYSubtract;
-            return this;
-        }
-
-        /**
-         * Горизонтальный сдвиг подложки слайдера влево относительно слайдера.
-         *
-         * <p>Отрицательное смещение (10px), расширяющее {@link #sliderBlurBackground} влево от
-         * {@link #soundSlider}. Создает симметричный фон с отступами.</p>
-         *
-         * <h3>Формула позиционирования</h3>
-         *
-         * <pre>{@code
-         * sliderBlurBackground.layoutX = soundSlider.layoutX - sliderBlurBackgroundXSubtract
-         *                             = slider.X - 10px
-         * }</pre>
-         */
-        private float sliderBlurBackgroundXSubtract = 10;
-
-        /**
-         * Возвращает горизонтальный сдвиг подложки слайдера влево.
-         *
-         * @return Значение {@link #sliderBlurBackgroundXSubtract} (по умолчанию 10.0f).
-         *
-         * <p>Сдвигает {@link #sliderBlurBackground} влево:</p>
-         *
-         * <pre>{@code
-         * sliderBlurBackground.layoutXProperty().bind(
-         *     soundSlider.layoutXProperty()
-         *         .subtract(rootLayout.getSliderBlurBackgroundXSubtract())  // -10px
-         * );
-         * }</pre>
-         *
-         * @see #setSliderBlurBackgroundXSubtract(float)
-         */
-        public float getSliderBlurBackgroundXSubtract() {
-            return sliderBlurBackgroundXSubtract;
-        }
-
-        /**
-         * Устанавливает горизонтальный сдвиг подложки слайдера влево.
-         *
-         * @param sliderBlurBackgroundXSubtract Смещение влево (положительное = сдвиг влево).
-         * @return {@code this} для fluent chain-вызова.
-         *
-         * <h3>Назначение</h3>
-         *
-         * <p>В сочетании с {@link #sliderBlurBackgroundWidthAdd} создает симметричный фон
-         * вокруг {@link #soundSlider}. По умолчанию 10px обеспечивает отступ слева.</p>
-         *
-         * <h3>Комплексное позиционирование слайдера</h3>
-         *
-         * <table summary="Полная геометрия подложки">
-         * <tr><th>Параметр</th><th>Эффект</th></tr>
-         * <tr><td>XSubtract=10px</td><td>Сдвиг влево на 10px</td></tr>
-         * <tr><td>WidthAdd=20px</td><td>Расширение вправо на 20px</td></tr>
-         * <tr><td>Итог</td><td>10px слева + 10px справа</td></tr>
-         * </table>
-         *
-         * <h3>Визуальная схема</h3>
-         *
-         * <pre>{@code
-         * [sliderBlurBackground: width=slider.width+20px]
-         *    [soundSlider: width]
-         * ───10px──┘    ├10px
-         * XSubtract    WidthAdd
-         * }</pre>
-         *
-         * @see #getSliderBlurBackgroundXSubtract()
-         * @see #initBinds() - биндинг layoutX подложки
-         */
-        public Layout setSliderBlurBackgroundXSubtract(float sliderBlurBackgroundXSubtract) {
-            this.sliderBlurBackgroundXSubtract = sliderBlurBackgroundXSubtract;
-            return this;
-        }
-
-        /**
          * Множитель горизонтального выравнивания информационной панели.
          *
          * <p>Коэффициент (0.5f = 50%), определяющий смещение {@link #topDataPane} относительно
@@ -3708,45 +3349,6 @@ public class Root
     public ControlPane mainFunctions;
 
     /**
-     * Полупрозрачный прямоугольник-фон под слайдером воспроизведения.
-     *
-     * <p>Создает визуальный blur-эффект для {@link #soundSlider} и временных меток
-     * {@link #beginTime}/{@link #endTime}. Улучшает читаемость на сложных фонах.</p>
-     *
-     * <h3>Внешний вид (по умолчанию)</h3>
-     *
-     * <ul>
-     * <li><strong>Fill:</strong> {@code Color.BLACK}</li>
-     * <li><strong>Opacity:</strong> {@code 0.25}</li>
-     * <li><strong>Corner radius:</strong> {@code 10px}</li>
-     * </ul>
-     *
-     * <h3>Адаптивное позиционирование (биндинг)</h3>
-     *
-     * <pre>{@code
-     * sliderBlurBackground.layoutXProperty().bind(
-     *     soundSlider.layoutXProperty().subtract(rootLayout.getSliderBlurBackgroundXSubtract())  // -10f
-     * );
-     * sliderBlurBackground.layoutYProperty().bind(
-     *     soundSlider.layoutYProperty().subtract(rootLayout.getSliderBlurBackgroundYSubtract())  // -10f
-     * );
-     * sliderBlurBackground.widthProperty().bind(
-     *     soundSlider.prefWidthProperty().add(rootLayout.getSliderBlurBackgroundWidthAdd())  // +20f
-     * );
-     * sliderBlurBackground.heightProperty().bind(
-     *     soundSlider.prefHeightProperty().add(rootLayout.getSliderBlurBackgroundHeightAdd())  // +20f
-     * );
-     * }</pre>
-     *
-     * <p>Инициализируется в {@link #set()} и добавляется в {@link Pane#getChildren()} ()}.
-     * Расширяет область слайдера для лучшего визуального разделения.</p>
-     *
-     * @see SoundSlider#getSliderBackground() Фон самого слайдера
-     * @see #initBinds() Настройка биндингов
-     */
-    public javafx.scene.shape.Rectangle sliderBlurBackground = new javafx.scene.shape.Rectangle();
-
-    /**
      * Процессор обработки и загрузки обложек альбомов (ArtProcessor).
      *
      * <p>Отвечает за асинхронную загрузку, кэширование и применение изображений
@@ -4509,7 +4111,7 @@ public class Root
         rootImpl.alert(title, msg, Alert.AlertType.ERROR);
     }
 
-    private List<IViewable> iViewableList = new ArrayList<>();
+    private List<IViewable> iViewableList;
 
     public List<IViewable> getiViewableList() {
         return iViewableList;
@@ -4643,12 +4245,13 @@ public class Root
         soundSlider.setInterpolator(general_interpolator);
         soundSlider.initializeBox();
         soundSlider.setupSliderBoxAsync().start();
-
-        root.getChildren().add(sliderBlurBackground);
-        sliderBlurBackground.setArcHeight(10);
-        sliderBlurBackground.setArcWidth(10);
-        sliderBlurBackground.setFill(Color.BLACK);
-        sliderBlurBackground.setOpacity(0.25);
+        soundSlider.getSliderBackground().setBackground(new Background(
+                new BackgroundFill(
+                        Color.rgb(0, 0, 0, 0.25),
+                        new CornerRadii(5),
+                        new Insets(-7)
+                )
+        ));
 
         root.getChildren().add(beginTime);
         beginTime.setAlignment(Pos.CENTER_LEFT);
@@ -4659,7 +4262,7 @@ public class Root
         root.getChildren().add(endTime);
         endTime.setAlignment(Pos.CENTER_RIGHT);
         endTime.setText("NaN");
-        endTime.setFont(ResourceManager.Instance.loadFont("main_font", 11));
+        endTime.setFont(ResourceManager.getInstance().loadFont("main_font", 11));
         endTime.setEditable(true);
         endTime.setPrefWidth(30);
         endTime.setLayouts(art.getLayoutX() + art.getWidth() - endTime.getFont().getSize() * 1.25, beginTime.getLayoutY());
@@ -4694,7 +4297,7 @@ public class Root
         tracksListView.getCurrentPlaylistText().setAlignment(Pos.CENTER);
 
         tracksListView.getSearchBar().setBackground(Background.EMPTY);
-        tracksListView.getSearchBar().setFont(ResourceManager.Instance.loadFont("main_font", 11));
+        tracksListView.getSearchBar().setFont(ResourceManager.getInstance().loadFont("main_font", 11));
 
         iViewableList = new ArrayList<>(List.<IViewable>of(
                 new ApplicationInfo(),
@@ -4706,7 +4309,7 @@ public class Root
         ));
 
         mainFunctionDialog = new MainFunctionDialog(stage, root);
-        mainFunctionDialog.setDialogMaxSize(0.8, 0.75);
+        mainFunctionDialog.setDialogMaxSize(0.8, 0.8);
         mainFunctionDialog.getMainSetupGrid().getColumnConstraints().get(0).setPercentWidth(25);
         mainFunctionDialog.getMainSetupGrid().getColumnConstraints().get(1).setPercentWidth(75);
         mainFunctionDialog.getLeftListView().getItems().addAll(iViewableList);
@@ -4719,12 +4322,14 @@ public class Root
 
         root.getChildren().add(mainFunctions);
 
+        mainFunctionDialog.getLeftListView().getSelectionModel().select(0);
+
         initBinds();
 
-        root.getStylesheets().add(ResourceManager.Instance.loadStylesheet("root"));
+        root.getStylesheets().add(ResourceManager.getInstance().loadStylesheet("root"));
         root.setEffect(new GaussianBlur(0));
         root.setOnScroll(event -> {
-            if(stage.isFocused() && isKeyPressed(NativeKeyEvent.VC_CONTROL)) {
+            if(stage.isFocused() && KeyBindingProcessor.getInstance().isKeyPressed(NativeKeyEvent.VC_CONTROL)) {
                 playlistSelected = true;
                 PlayProcessor.playProcessor.setPreviousIndex(PlayProcessor.playProcessor.getTrackIter());
 
@@ -4741,12 +4346,6 @@ public class Root
                 playlistSelected = false;
             }
         });
-
-        toFront(/* ListView.currentTrackTopPlaylistPane ,*/ /* currentSimilarTrackTopPlaylistPane ,*/
-                /* imgTrackArt , */btn, btnNext, btnDown, hideControlLeft, hideControlRight,
-                beginTime, endTime, /* imgTrackArtRound, */ similar, topDataPane /*, ListView.playlist ,*/
-                /*bottom_trackslist_similar/*, ListView.bottom_trackslist */, tracksListView, sliderBlurBackground, soundSlider.getSliderBackground(), soundSlider
-        );
 
         loadDwmApiLibrary(BIN_LIBRARIES_PATH + File.separator + "dwm.dll");
 
@@ -4899,14 +4498,8 @@ public class Root
         soundSlider.layoutXProperty().bind(art.layoutXProperty());
         soundSlider.layoutYProperty().bind(art.layoutYProperty().add(art.heightProperty().add(rootLayout.getImgBottom())));
 
-        sliderBlurBackground.layoutXProperty().bind(soundSlider.layoutXProperty().subtract(rootLayout.getSliderBlurBackgroundXSubtract()));
-        sliderBlurBackground.layoutYProperty().bind(soundSlider.layoutYProperty().subtract(rootLayout.getSliderBlurBackgroundYSubtract()));
-
-        sliderBlurBackground.widthProperty().bind(soundSlider.prefWidthProperty().add(rootLayout.getSliderBlurBackgroundWidthAdd()));
-        sliderBlurBackground.heightProperty().bind(soundSlider.prefHeightProperty().add(rootLayout.getSliderBlurBackgroundHeightAdd()));
-
         beginTime.layoutXProperty().bind(soundSlider.layoutXProperty());
-        beginTime.layoutYProperty().bind(soundSlider.layoutYProperty().add(soundSlider.prefHeightProperty().multiply(rootLayout.getSliderBlurBackgroundBeginTimeMultiplier())));
+        beginTime.layoutYProperty().bind(soundSlider.layoutYProperty().add(soundSlider.prefHeightProperty()).add(10));
 
         endTime.layoutXProperty().bind(soundSlider.layoutXProperty().add(soundSlider.prefWidthProperty().subtract(endTime.prefWidthProperty())));
         endTime.layoutYProperty().bind(beginTime.layoutYProperty());
@@ -5193,6 +4786,14 @@ public class Root
     public Pane getRoot() {
         return Objects.requireNonNullElseGet(root, () -> root = new Pane());
     }
+
+    public static Root getRootImpl() {
+        if(rootImpl == null)
+            return rootImpl = new Root();
+
+        return rootImpl;
+    }
+
     /**
      * Инициирует систему адаптивных биндингов при показе Stage.
      *
