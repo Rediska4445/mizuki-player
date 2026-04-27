@@ -27,8 +27,7 @@ jobs:
         run: ./scripts/build/install-deps.sh
 
       - name: Run Tests
-        run: mvn test "-Dtestfx.robot=glass" "-Dtestfx.headless=true" "-Dprism.order=sw" "-Dglass.platform=Monocle" "-Dmonocle.platform=Headless"
+        run: mvn test "-Djava.library.path=libraries/classes" "-Dtestfx.robot=glass" "-Dtestfx.headless=true" "-Dprism.order=sw" "-Dglass.platform=Monocle" "-Dmonocle.platform=Headless"
 
-      # Если тесты прошли успешно, собираем пакет (уже без повторных тестов)
       - name: Build Package
         run: mvn package -DskipTests
