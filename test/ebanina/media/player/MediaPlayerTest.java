@@ -3,14 +3,15 @@ package ebanina.media.player;
 import com.synthbot.audioplugin.vst.vst2.JVstHost2;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
-import org.testfx.framework.junit5.ApplicationTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.testfx.framework.junit5.ApplicationExtension;
 import rf.ebanina.ebanina.Player.AudioPlugins.PluginWrapper;
 import rf.ebanina.ebanina.Player.AudioPlugins.VST.VST;
 import rf.ebanina.ebanina.Player.Media;
 import rf.ebanina.ebanina.Player.MediaPlayer;
 
+import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.SourceDataLine;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.CountDownLatch;
@@ -20,18 +21,33 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-public class MediaPlayerTest extends ApplicationTest {
+@ExtendWith(ApplicationExtension.class)
+public class MediaPlayerTest
+        extends ebanina.Test
+{
     @Test
     @Timeout(5)
     void testPlaybackTriggersListener() throws Exception {
-        try (MediaPlayer player = new MediaPlayer(new Media("test-res" + File.separator + "metadata" + File.separator + "mp.mp3"))) {
+        SourceDataLine mockLine = mock(SourceDataLine.class);
+
+        AudioFormat format = new AudioFormat(44100.0f, 16, 2, true, false);
+        when(mockLine.getFormat()).thenReturn(format);
+
+        when(mockLine.isOpen()).thenReturn(true);
+        when(mockLine.isActive()).thenReturn(true);
+        when(mockLine.available()).thenReturn(1024 * 10);
+
+        try (MediaPlayer player = new MediaPlayer(
+                new Media(guineaMp3Pigs()),
+                1024,
+                mockLine
+        )) {
             CountDownLatch latch = new CountDownLatch(1);
 
-            SourceDataLine mockLine = mock(SourceDataLine.class);
-
             player.setPlaybackListener(Collections.singletonList((block, playbackMs, frames, line) -> {
-                latch.countDown(); // Сигналим 1 раз
+                latch.countDown();
                 assertNotNull(block);
                 assertTrue(playbackMs >= 0);
                 assertTrue(frames > 0);
@@ -46,7 +62,7 @@ public class MediaPlayerTest extends ApplicationTest {
 
     @Test
     void testMultipleListeners() throws Exception {
-        try (MediaPlayer player = new MediaPlayer(new Media("test-res" + File.separator + "metadata" + File.separator + "mp.mp3"))) {
+        try (MediaPlayer player = new MediaPlayer(new Media(guineaMp3Pigs()))) {
             CountDownLatch latch = new CountDownLatch(1);
 
             player.setPlaybackListener(Collections.singletonList((block, ms, frames, line) -> {
@@ -62,7 +78,7 @@ public class MediaPlayerTest extends ApplicationTest {
     @Test
     @Timeout(10)
     void testAudioDataIsNotSilent() throws Exception {
-        try (MediaPlayer player = new MediaPlayer(new Media("test-res" + File.separator + "metadata" + File.separator + "mp.mp3"))) {
+        try (MediaPlayer player = new MediaPlayer(new Media(guineaMp3Pigs()))) {
             AtomicReference<float[][]> audioBlock = new AtomicReference<>();
             AtomicBoolean hasAudio = new AtomicBoolean(false);
             AtomicReference<Double> maxRms = new AtomicReference<>(0d);
@@ -70,7 +86,7 @@ public class MediaPlayerTest extends ApplicationTest {
 
             player.setPlugins(new ArrayList<>());
 
-            VST vst = new VST(JVstHost2.newInstance(new File("test-res" + File.separator + "audio" + File.separator + "FabFilter Pro-R.dll")));
+            VST vst = new VST(JVstHost2.newInstance(guineaVstPlugin().toFile()));
             vst.turnOn();
 
             player.getPlugins().add(new PluginWrapper(vst));
@@ -78,7 +94,6 @@ public class MediaPlayerTest extends ApplicationTest {
             player.setPlaybackListener(Collections.singletonList((block, ms, frames, line) -> {
                 audioBlock.set(block);
 
-                // RMS проверка (энергия звука) - надежнее пороговой
                 double sumSquares = 0;
                 int totalSamples = 0;
                 for (float[] channel : block) {
@@ -90,7 +105,6 @@ public class MediaPlayerTest extends ApplicationTest {
                 double rms = totalSamples > 0 ? Math.sqrt(sumSquares / totalSamples) : 0;
                 maxRms.accumulateAndGet(rms, Math::max);
 
-                // Любые данные > -80dB считаем звуком
                 hasAudio.set(hasAudio.get() || rms > 0.00001);
 
                 latch.countDown();

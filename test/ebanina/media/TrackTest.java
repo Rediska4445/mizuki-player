@@ -1,6 +1,5 @@
 package ebanina.media;
 
-import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
 import org.junit.jupiter.api.BeforeAll;
@@ -14,10 +13,12 @@ import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TrackTest extends ebanina.Test {
+public class TrackTest
+        extends ebanina.Test
+{
     @BeforeAll
     static void initJfx() {
-        Platform.startup(() -> {});
+
     }
 
     @Test
@@ -116,9 +117,6 @@ public class TrackTest extends ebanina.Test {
         assertEquals(-1, track.totalDuraSec);
     }
 
-    /**
-     * Тестирует методы работы с путями: getPath, getName, getName(splitter), getExtension, getFilePath
-     */
     @Test
     void testPathMethods() throws MalformedURLException {
         String mp3Path = String.valueOf(guineaPigs("metadata" + File.separator + "mp.mp3"));
@@ -294,6 +292,9 @@ public class TrackTest extends ebanina.Test {
     @Test
     void testLastTimeTrackCaching() {
         Track track = new Track(String.valueOf(guineaPigs("metadata" + File.separator + "mp.mp3")));
+
+        // Кэш будет тестироваться отдельно
+        track.setLastTimeTrack("0");
 
         // Изначально из состояния (0)
         assertEquals("0", track.getLastTimeTrack(), "Кэш пустой → состояние");

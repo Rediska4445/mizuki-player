@@ -1,19 +1,20 @@
 package ebanina;
 
-import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.stage.Stage;
 import rf.ebanina.utils.loggining.Log;
 
 import java.io.File;
 import java.nio.file.Path;
 
-public class Test extends Application {
+public class Test
+{
     public static Log logService = new Log();
 
     private static volatile boolean javafxInitialized = false;
 
-    public static synchronized void initJavaFX() throws InterruptedException {
+    public static synchronized void initJavaFX()
+            throws InterruptedException
+    {
         if (!javafxInitialized) {
             if (!Platform.isFxApplicationThread()) {
                 Platform.startup(() -> {});
@@ -27,8 +28,15 @@ public class Test extends Application {
         return Path.of("test-res" + File.separator + relative);
     }
 
-    @Override
-    public void start(Stage stage) throws Exception {
-        initJavaFX();
+    protected Path guineaMp3Pigs() {
+        return Path.of("test-res" + File.separator + "metadata" + File.separator + "mp.mp3");
+    }
+
+    protected Path guineaWavPigs(String relative) {
+        return Path.of("test-res" + File.separator + "metadata" + File.separator + "wav.mp3");
+    }
+
+    protected Path guineaVstPlugin() {
+        return Path.of("test-res" + File.separator + "audio" + File.separator + "FabFilter Pro-R.dll");
     }
 }

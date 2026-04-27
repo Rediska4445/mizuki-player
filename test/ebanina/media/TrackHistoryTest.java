@@ -26,10 +26,16 @@ public class TrackHistoryTest
         history = new TrackHistory(3, contextMenu);
     }
 
+    private Track initTrackState(Track track) {
+        track.getStateMap().put("a", "");
+
+        return track;
+    }
+
     @Test
     public void testAddAndContains() throws Exception {
-        Track track1 = new Track("file:///music/song1.mp3");
-        Track track2 = new Track("file:///music/song2.mp3");
+        Track track1 = initTrackState(new Track("file:///music/song1.mp3").setLastTimeTrack("0"));
+        Track track2 = initTrackState(new Track("file:///music/song2.mp3").setLastTimeTrack("0"));
 
         assertFalse(history.contains(track1));
 
@@ -48,9 +54,9 @@ public class TrackHistoryTest
     public void testAddExceedMaxSizeRemovesOldest() throws Exception {
         history.setMaxSize(3);
 
-        history.add(new Track("file:///music/1.mp3"));
-        history.add(new Track("file:///music/2.mp3"));
-        history.add(new Track("file:///music/3.mp3"));
+        history.add(initTrackState(new Track("file:///music/1.mp3").setLastTimeTrack("0")));
+        history.add(initTrackState(new Track("file:///music/2.mp3").setLastTimeTrack("0")));
+        history.add(initTrackState(new Track("file:///music/3.mp3").setLastTimeTrack("0")));
 
         for (Track track : history.getHistory()) {
             ebanina.Test.logService.println(track);
@@ -58,7 +64,7 @@ public class TrackHistoryTest
 
         assertEquals(3, history.size());
 
-        history.add(new Track("file:///music/4.mp3")); // превышает maxSize=3
+        history.add(initTrackState(new Track("file:///music/4.mp3").setLastTimeTrack("0")));
 
         assertEquals(3, history.size());
 
@@ -67,10 +73,10 @@ public class TrackHistoryTest
 
     @Test
     public void testBackAndForwardNavigation() throws Exception {
-        Track track1 = new Track("file:///music/one.mp3");
-        Track track2 = new Track("file:///music/two.mp3");
-        Track track3 = new Track("file:///music/three.mp3");
-        Track track4 = new Track("file:///music/four.mp3");
+        Track track1 = initTrackState(new Track("file:///music/one.mp3").setLastTimeTrack("0"));
+        Track track2 = initTrackState(new Track("file:///music/two.mp3").setLastTimeTrack("0"));
+        Track track3 = initTrackState(new Track("file:///music/three.mp3").setLastTimeTrack("0"));
+        Track track4 = initTrackState(new Track("file:///music/four.mp3").setLastTimeTrack("0"));
 
         history.add(track1);
         history.add(track2);
@@ -86,13 +92,13 @@ public class TrackHistoryTest
         assertEquals(track3, history.forward()); // 2→2 (остановка)
 
         // Проверяем сброс итератора после add()
-        history.add(new Track("file:///music/four.mp3"));
+        history.add(initTrackState(new Track("file:///music/four.mp3").setLastTimeTrack("0")));
         assertEquals(track4, history.forward()); // новый итератор: 0→1
     }
 
     @Test
     public void testRemoveTrackFromHistoryAndMenu() throws Exception {
-        Track track = new Track("file:///music/remove.mp3");
+        Track track = initTrackState(new Track("file:///music/remove.mp3").setLastTimeTrack("0"));
 
         if(history.contains(track))
             history.remove(track);
@@ -121,8 +127,8 @@ public class TrackHistoryTest
 
     @Test
     public void testSaveAndLoadFromFile() throws Exception {
-        Track track1 = new Track("file:///music/save1.mp3");
-        Track track2 = new Track("file:///music/save2.mp3");
+        Track track1 = initTrackState(new Track("file:///music/save1.mp3").setLastTimeTrack("0"));
+        Track track2 = initTrackState(new Track("file:///music/save2.mp3").setLastTimeTrack("0"));
         history.add(track1);
         history.add(track2);
 
@@ -132,12 +138,15 @@ public class TrackHistoryTest
         history.saveToFile(tempFile);
 
         TrackHistory loadedHistory = new TrackHistory(10, new ContextMenu());
-        loadedHistory.loadFromFile(tempFile);
+        loadedHistory.loadFromFile(tempFile, line -> new Track(line).setLastTimeTrack("0"));
 
         // Ждем некоторое время обновления ContextMenu (асинхронно)
         Thread.sleep(500);
 
         assertEquals(2, loadedHistory.size());
+
+        System.out.println(loadedHistory);
+
         assertTrue(loadedHistory.contains(track1));
         assertTrue(loadedHistory.contains(track2));
 
@@ -146,8 +155,9 @@ public class TrackHistoryTest
 
     @Test
     public void testCreateMenuItem() {
-        Track track = new Track("file:///music/song.mp3");
+        Track track = initTrackState(new Track("file:///music/song.mp3"));
         track.setLastTimeTrack("34");
+
         var item = history.createMenuItem(track);
 
         assertNotNull(item);
