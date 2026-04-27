@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <AnchorPane fx:id="mainPain" prefHeight="600" prefWidth="860" style="-fx-background-color: #1E1E1E;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rf.ebanina.UI.Editors.Network.Controller">
-    <VBox layoutX="20" layoutY="20" prefHeight="560.0" prefWidth="300.0" spacing="15" style="-fx-background-color: #1E1E1E;" AnchorPane.leftAnchor="20" AnchorPane.topAnchor="20">
+    <VBox layoutX="20" layoutY="20" prefHeight="117.0" prefWidth="300.0" spacing="15" style="-fx-background-color: #1E1E1E;" AnchorPane.leftAnchor="20" AnchorPane.topAnchor="20">
 
         <!-- Download from Stream -->
         <Label fx:id="downloadLabel" style="-fx-font-weight: bold; -fx-text-fill: #7092be;" text="Search" />
