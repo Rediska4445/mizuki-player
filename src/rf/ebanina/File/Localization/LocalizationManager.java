@@ -26,12 +26,15 @@ import java.util.Map;
  *
  * <h2>Особенности реализации</h2>
  * <ul>
- *   <li>Статический экземпляр {@link ResourceManager#localizationManager} обеспечивает глобальный доступ.</li>
  *   <li>Текущий язык определяется по конфигурации или автоматически в случае "auto".</li>
  *   <li>Файлы локализации расположены в папке, указанной в {@link ResourceManager}.</li>
  *   <li>Переводы кешируются в {@link #locale_map} для оптимизации.</li>
  *   <li>Исключения при работе с файловой системой не подавляются — должны обрабатываться вызывающим кодом.</li>
  * </ul>
+ *
+ * <h2>
+ *     <strong> Является внутренним модулём {@link ResourceManager} </strong>
+ * </h2>
  *
  * <h2>Пример использования</h2>
  * <pre>{@code
@@ -39,7 +42,7 @@ import java.util.Map;
  * }</pre>
  *
  * @author Ebanina Std.
- * @version 1.4.6
+ * @version 1.4.12
  * @since 1.2.5
  */
 public class LocalizationManager
@@ -60,7 +63,7 @@ public class LocalizationManager
      *
      * @see ResourceManager
      */
-    private final ResourceManager resourceManager;
+    protected final String resourceLanguageFile;
     /**
      * Инкапсулированная ссылка на файловый менеджер. Нужен для DI.
      * <p>
@@ -85,11 +88,11 @@ public class LocalizationManager
      * Конструктор публичный, но класс предполагается использовать через синглтон.
      * </p>
      */
-    public LocalizationManager(FileManager fileManager, ResourceManager resourceManager, String lang, Path langPath) {
+    public LocalizationManager(FileManager fileManager, String resourceLanguageFile, String lang, Path langPath) {
         this.fileManager = fileManager;
         this.langPath = langPath;
         this.lang = getCurrentLocaleLanguage(lang);
-        this.resourceManager = resourceManager;
+        this.resourceLanguageFile = resourceLanguageFile;
     }
     /**
      * Текущий язык локализации.
@@ -356,65 +359,11 @@ public class LocalizationManager
     protected void putLocale(String word, String ifResultIsNull) {
         locale_map.put(word, fileManager.splitDataWithSpaces(
                 fileManager.findFirstParam(
-                        Path.of(resourceManager.resourcesPaths.get("lang") + File.separator + lang + ".locale"),
+                        Path.of(resourceLanguageFile + File.separator + lang + ".locale"),
                         ifResultIsNull,
                         t -> t.contains(word)),
                 ":")
         );
-    }
-
-    /**
-     * Статический метод для получения локализованной строки через синглтон {@link ResourceManager#localizationManager}.
-     * <p>
-     * Удобен для быстрого вызова из любого места без необходимости создавать объект {@code LocalizationManager}.
-     * </p>
-     *
-     * <h3>Версия</h3>
-     * <ul>
-     *   <li>Введён в версии: 1.2.5</li>
-     *   <li>Текущая версия реализации: 1.4.4</li>
-     * </ul>
-     *
-     * <h3>Не предназначен для тестирования</h3>
-     *
-     * <h3>Пример использования</h3>
-     * <pre>{@code
-     * String localizedWord = LocalizationManager.getLocaleString("hello", "Hello");
-     * System.out.println(localizedWord);
-     * }</pre>
-     *
-     * @param word ключ переводимой строки
-     * @param ifResultIsNull значение по умолчанию, если перевод не найден
-     * @return перевод или значение по умолчанию
-     */
-    public static String getLocaleString(String word, String ifResultIsNull) {
-        return ResourceManager.localizationManager.getLocalizationString(word, ifResultIsNull);
-    }
-    /**
-     * Статический метод для получения локализованной строки через синглтон {@link ResourceManager#localizationManager}.
-     * <p>
-     * Удобен для быстрого вызова из любого места без необходимости создавать объект {@code LocalizationManager}.
-     * </p>
-     *
-     * <h3>Версия</h3>
-     * <ul>
-     *   <li>Введён в версии: 1.4.6</li>
-     *   <li>Текущая версия реализации: 1.4.6</li>
-     * </ul>
-     *
-     * <h3>Не предназначен для тестирования</h3>
-     *
-     * <h3>Пример использования</h3>
-     * <pre>{@code
-     * String localizedWord = LocalizationManager.getLocaleString(Locales.TOOLTIP_MAIN_PLAY);
-     * System.out.println(localizedWord);
-     * }</pre>
-     *
-     * @param word ключ переводимой строки
-     * @return перевод или значение по умолчанию
-     */
-    public static String getLocaleString(Locales word) {
-        return ResourceManager.localizationManager.getLocalizationString(word.code, word.defaultValue);
     }
 
     public Map<String, String> localeMap() {

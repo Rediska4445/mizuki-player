@@ -7,6 +7,7 @@ import javafx.scene.text.Font;
 import rf.ebanina.File.Configuration.ConfigurationManager;
 import rf.ebanina.File.FileManager;
 import rf.ebanina.File.Localization.JsonLocalizationManager;
+import rf.ebanina.File.Localization.Locales;
 import rf.ebanina.File.Localization.LocalizationManager;
 
 import java.io.File;
@@ -16,6 +17,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Properties;
 
 /**
@@ -59,6 +61,25 @@ import java.util.Properties;
  * // По умолчанию загружает ресурсы из "res/resources.properties"
  * }</pre>
  *
+ * <h2>Важное замечание по локализации</h2>
+ * <p>
+ * <strong>ResourceManager содержит ссылку на {@link LocalizationManager}, но полностью делегирует его инициализацию потребителям.</strong>
+ * </p>
+ * <p>
+ * Инициализация {@code LocalizationManager} должна быть выполнена в коде, создающем экземпляр {@code ResourceManager}
+ * или его наследников; сам ресурс‑менеджер не берёт на себя эту ответственность и никак не создаёт менеджер локализации автоматически.
+ * </p>
+ * <p>
+ * Существуют конструкторы, допускающие {@code null}‑ссылку на {@code LocalizationManager} — такие варианты предусмотрены
+ * исключительно для изолированного тестирования, где обращение к локализации не требуется.
+ * </p>
+ * <p>
+ * При производственном использовании {@code LocalizationManager} должен быть задан явно
+ * (например, через {@link ResourceManager#setLocalizationManager(LocalizationManager)});
+ * в противном случае методы, зависящие от локализации, могут работать некорректно или выбрасывать исключение.
+ * </p>
+ *
+ *
  * <h2>Пример использования</h2>
  * <pre>{@code
  * // Загрузка иконки размером 64x64 с сохранением пропорций и сглаживанием
@@ -100,64 +121,79 @@ public class ResourceManager
     implements IResourceManager
 {
     /**
-     * Глобальный синглтон-экземпляр класса {@code LocalizationManager}.
-     * <p>
-     * Это статическое поле обеспечивает единственный доступный во всём приложении объект,
-     * который создаётся при загрузке класса и используется повторно.
-     * </p>
-     * <p>
-     * Особенности:
-     * <ul>
-     *   <li><b>Инициализация при загрузке класса</b> — объект создаётся сразу, что гарантирует потокобезопасность.</li>
-     *   <li><b>Публичный доступ</b> — поле {@code instance} предоставляет единичный экземпляр для потребителей класса.</li>
-     *   <li><b>Нет возможности создать других экземпляров</b>, так как конструктор класса {@code LocalizationManager} <b>публичный, но фактически класс используется как синглтон.</b></li>
-     * </ul>
-     * </p>
+     * Внутренний менеджер локализации, встроенный в {@link ResourceManager},
+     * поскольку локализационные данные являются частью прикладных ресурсов.
+     *
+     * <p>Поле объявлено {@code protected}, чтобы наследники могли контролировать
+     * особую инициализацию {@link LocalizationManager}, необходимую перед его использованием.
+     * Сам менеджер локализации не инициализируется автоматически — инициализация
+     * полностью ложится на конструктор {@link ResourceManager} или его подклассы.
      */
-    public static LocalizationManager localizationManager = defaultLocalizationManager();
+    protected LocalizationManager localizationManager;
 
-    public static LocalizationManager getLocalizationManager() {
-        return localizationManager;
+    /**
+     * Статический метод для получения локализованной строки через синглтон {@link ResourceManager#localizationManager}.
+     * <p>
+     * Удобен для быстрого вызова из любого места без необходимости создавать объект {@code LocalizationManager}.
+     * </p>
+     *
+     * <h3>Версия</h3>
+     * <ul>
+     *   <li>Введён в версии: 1.2.5</li>
+     *   <li>Текущая версия реализации: 1.4.4</li>
+     * </ul>
+     *
+     * <h3>Не предназначен для тестирования</h3>
+     *
+     * <h3>Пример использования</h3>
+     * <pre>{@code
+     * String localizedWord = LocalizationManager.getLocaleString("hello", "Hello");
+     * System.out.println(localizedWord);
+     * }</pre>
+     *
+     * @param word ключ переводимой строки
+     * @param ifResultIsNull значение по умолчанию, если перевод не найден
+     * @return перевод или значение по умолчанию
+     */
+    public static String getLocaleString(String word, String ifResultIsNull) {
+        return ResourceManager.getInstance().getLocalizationManager().getLocalizationString(word, ifResultIsNull);
     }
 
     /**
-     * Возвращает экземпляр {@code LocalizationManager}, созданный в формате,
-     * указанном в конфигурации приложения (по умолчанию — в формате JSON).
+     * Статический метод для получения локализованной строки через синглтон {@link ResourceManager#localizationManager}.
      * <p>
-     * Особенности:
-     * <ul>
-     *   <li><b>Гарантия возврата значения</b> — метод всегда возвращает не {@code null}-экземпляр,
-     *       либо созданный {@code JsonLocalizationManager}, либо базовый {@code LocalizationManager},
-     *       либо ранее инициализированный объект из поля {@code localizationManager}.</li>
-     *   <li><b>Зависимость от конфигурации</b> — использует значение ключа {@code "lang_file_format"}
-     *       из {@code ConfigurationManager.instance}, чтобы выбрать реализацию локализации.</li>
-     *   <li><b>Использует текущий язык</b> — берёт значение ключа {@code "lang"} из конфигурации
-     *       и использует его как текущий язык локализации.</li>
-     * </ul>
+     * Удобен для быстрого вызова из любого места без необходимости создавать объект {@code LocalizationManager}.
      * </p>
+     *
+     * <h3>Версия</h3>
+     * <ul>
+     *   <li>Введён в версии: 1.4.6</li>
+     *   <li>Текущая версия реализации: 1.4.6</li>
+     * </ul>
+     *
+     * <h3>Не предназначен для тестирования</h3>
+     *
+     * <h3>Пример использования</h3>
+     * <pre>{@code
+     * String localizedWord = LocalizationManager.getLocaleString(Locales.TOOLTIP_MAIN_PLAY);
+     * System.out.println(localizedWord);
+     * }</pre>
+     *
+     * @param word ключ переводимой строки
+     * @return перевод или значение по умолчанию
      */
-    public static LocalizationManager defaultLocalizationManager() {
-        if(localizationManager == null) {
-            if (ConfigurationManager.instance.getItem("lang_file_format", "json").equals("json")) {
-                return new JsonLocalizationManager(
-                        FileManager.instance,
-                        ResourceManager.Instance,
-                        ConfigurationManager.instance.getItem("lang", "EN_en"),
-                        Path.of(ResourceManager.getInstance().resourcesPaths.get("lang"))
-                );
-            }
-
-            return new LocalizationManager(
-                    FileManager.instance,
-                    ResourceManager.Instance,
-                    ConfigurationManager.instance.getItem("lang", "EN_en"),
-                    Path.of(ResourceManager.getInstance().resourcesPaths.get("lang"))
-            );
-        }
-
+    public static String getLocaleString(Locales word) {
+        return ResourceManager.getInstance().getLocalizationManager().getLocalizationString(word.code, word.defaultValue);
+    }
+    /**
+     * Возвращает менеджер локализации, отвечающий за управление языковыми ресурсами
+     * и переводами интерфейса.
+     *
+     * @return экземпляр {@link LocalizationManager}
+     */
+    public LocalizationManager getLocalizationManager() {
         return localizationManager;
     }
-
     /**
      * Абсолютный путь к директории, содержащей бинарные библиотеки, необходимые для работы приложения.
      * <p>Данный путь используется для загрузки нативных модулей и расширений.</p>
@@ -314,9 +350,32 @@ public class ResourceManager
      * @return новый экземпляр {@code ResourceManager}, настроенный на файл ресурсов из конфигурации
      */
     public static ResourceManager defaultResourceManager() {
-        return new ResourceManager(
-                ConfigurationManager.instance.getItem("theme", "res" + File.separator + "resources.properties")
+        ResourceManager resourceManager = new ResourceManager(
+                null,
+                ConfigurationManager.getInstance().getItem("theme", "res" + File.separator + "resources.properties")
         );
+
+        LocalizationManager localizationManager1;
+
+        if (ConfigurationManager.getInstance().getItem("lang_file_format", "json").equals("json")) {
+            localizationManager1 = new JsonLocalizationManager(
+                    FileManager.getInstance(),
+                    resourceManager.getResourcesPaths().get("lang") + File.separator,
+                    ConfigurationManager.getInstance().getItem("lang", "EN_en"),
+                    Path.of(resourceManager.getResourcesPaths().get("lang"))
+            );
+        } else {
+            localizationManager1 = new LocalizationManager(
+                    FileManager.getInstance(),
+                    resourceManager.getResourcesPaths().get("lang") + File.separator,
+                    ConfigurationManager.getInstance().getItem("lang", "EN_en"),
+                    Path.of(resourceManager.getResourcesPaths().get("lang"))
+            );
+        }
+
+        resourceManager.setLocalizationManager(localizationManager1);
+
+        return resourceManager;
     }
     /**
      * Статический синглтон‑экземпляр {@code ResourceManager}, используемый по‑умолчанию во всём приложении.
@@ -750,6 +809,17 @@ public class ResourceManager
      * файла <code>res/resources.properties</code>.
      * <p><b>Версия:</b> 0.1.4.4</p>
      */
+    public ResourceManager(LocalizationManager localizationManager, String path) {
+        this.localizationManager = localizationManager;
+
+        loadResources(path);
+    }
+
+    /**
+     * Конструктор класса, инициализирующий загрузку ресурсов из
+     * файла <code>res/resources.properties</code>.
+     * <p><b>Версия:</b> 0.1.4.4</p>
+     */
     public ResourceManager(String path) {
         loadResources(path);
     }
@@ -766,14 +836,56 @@ public class ResourceManager
     }
 
     /**
-     * Конструктор класса, инициализирующий загрузку ресурсов из
-     * файла <code>res/resources.properties</code>.
-     * <p><b>Версия:</b> 0.1.4.4</p>
+     * Устанавливает менеджер локализации для текущего экземпляра {@link ResourceManager}.
+     * <p>
+     * Метод реализует fluent‑интерфейс: возвращает {@code this}, что позволяет
+     * цеплять вызовы других сеттеров/методов.
+     *
+     * @param localizationManager экземпляр {@link LocalizationManager}, который будет
+     *                            использоваться для управления локализационными ресурсами
+     * @return текущий экземпляр {@link ResourceManager} для продолжения цепочки вызовов
      */
-    public ResourceManager(Path res) {
-        loadResources(res.toAbsolutePath().toString());
+    public ResourceManager setLocalizationManager(LocalizationManager localizationManager) {
+        this.localizationManager = localizationManager;
+        return this;
     }
 
+    /**
+     * Проверяет, что два экземпляра {@link ResourceManager} равны по содержимому.
+     * <p>
+     * Два ресурсных менеджера считаются равными, если их пути к ресурсам
+     * ({@link #resourcesPaths}) равны между собой.
+     *
+     * @param o объект для сравнения с текущим экземпляром
+     * @return {@code true}, если объекты равны по смыслу; {@code false} в противном случае
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ResourceManager that = (ResourceManager) o;
+        return Objects.equals(resourcesPaths, that.resourcesPaths);
+    }
+
+    /**
+     * Возвращает хеш‑код, соответствующий текущему состоянию менеджера ресурсов.
+     * <p>
+     * Хеш‑код вычисляется только по полю {@link #resourcesPaths}, что согласуется
+     * с контрактом {@link #equals(Object)}.
+     *
+     * @return хеш‑код, основанный на путях к ресурсам
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(resourcesPaths);
+    }
+
+    /**
+     * Возвращает строковое представление {@link ResourceManager} в виде
+     * строкового представления его путей к ресурсам.
+     *
+     * @return строка, отражающая текущий набор путей к ресурсам
+     */
     @Override
     public String toString() {
         return resourcesPaths.toString();
