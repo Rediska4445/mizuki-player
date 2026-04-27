@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static rf.ebanina.File.Metadata.MetadataOfFile.iMetadataOfFiles;
+import static rf.ebanina.File.Metadata.MetadataOfFile.metadataOfFilesImpl;
 
 public class MP3
         implements IFormatAudioMetadata
@@ -168,7 +168,7 @@ public class MP3
                             result = Root.rootImpl.artProcessor.parseImage(path.viewName(), size, size1, preserve_ration, smooth);
 
                             if (!PlayProcessor.playProcessor.isNetwork() && ConfigurationManager.instance.getBooleanItem("album_art_parsed_set_in_tags", "false")) {
-                                iMetadataOfFiles.setArt(path.getPath(), SwingFXUtils.fromFXImage(result, null));
+                                metadataOfFilesImpl.setArt(path.getPath(), SwingFXUtils.fromFXImage(result, null));
                             }
                         }
                     }

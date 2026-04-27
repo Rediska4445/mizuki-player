@@ -4,7 +4,6 @@ import javafx.scene.Parent;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import rf.ebanina.File.Localization.LocalizationManager;
 import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.UI.Editors.IEditor;
 import rf.ebanina.UI.Editors.IViewable;
@@ -50,18 +49,18 @@ public class NetworkHost
             throws IOException
     {
         if(parent == null)
-            return parent = ResourceManager.Instance.loadFXML("FXMLDownloadInetPath");
+            return parent = ResourceManager.getInstance().loadFXML("FXMLDownloadInetPath");
 
         return parent;
     }
 
     @Override
     public String name() {
-        return LocalizationManager.getLocaleString("viewable_item_name_network_host", "Network-Host");
+        return ResourceManager.getLocaleString("viewable_item_name_network_host", "Network-Host");
     }
 
     @Override
     public String description() {
-        return LocalizationManager.getLocaleString("viewable_item_description_network_host", "Description");
+        return ResourceManager.getLocaleString("viewable_item_description_network_host", "Description");
     }
 }

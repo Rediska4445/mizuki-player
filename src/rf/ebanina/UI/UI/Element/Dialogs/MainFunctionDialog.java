@@ -6,7 +6,6 @@ import javafx.animation.TranslateTransition;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.ListCell;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -20,22 +19,21 @@ import rf.ebanina.UI.UI.Element.ListViews.ListView;
 import java.io.IOException;
 
 public class MainFunctionDialog
-        extends AnimationDialog {
+        extends AnimationDialog
+{
     protected ListView<IViewable> leftListView = new ListView<>();
+
+    private Rectangle clip;
 
     protected StackPane leftPane = new StackPane();
     protected StackPane rightPane = new StackPane();
 
-    protected VBox rightLayout = new VBox();
-    protected VBox topSpacer = new VBox();
-
-    protected VBox modsPanel = new VBox();
+    protected VBox rightOverlay = new VBox();
+    protected StackPane contentPane = new StackPane();
 
     protected GridPane mainSetupGrid;
     protected ColumnConstraints leftColumn;
     protected ColumnConstraints rightColumn;
-
-    protected ScrollPane scrollPane = new ScrollPane();
 
     private static final Duration DURATION = Duration.millis(1000);
 
@@ -46,6 +44,8 @@ public class MainFunctionDialog
     public MainFunctionDialog(Stage ownerStage, Pane root) {
         super(ownerStage, root);
 
+        setupGrid();
+        setupRightOverlay();
         setupRight();
         setupLeft();
     }
@@ -73,9 +73,10 @@ public class MainFunctionDialog
         });
 
         leftListView.getSelectionModel().selectedItemProperty().addListener((obs, oldItem, newItem) -> {
-            if (newItem == null) return;
+            if (newItem == null)
+                return;
 
-            rightPane.getChildren().clear();
+            contentPane.getChildren().clear();
 
             if (currentOutTransition != null)
                 currentOutTransition.stop();
@@ -88,13 +89,13 @@ public class MainFunctionDialog
                     return;
 
                 int newIndex = leftListView.getSelectionModel().getSelectedIndex();
-                double height = rightPane.getHeight();
+                double height = contentPane.getHeight();
                 boolean movingDown = newIndex > lastSelectedIndex;
                 lastSelectedIndex = newIndex;
 
                 if (oldItem != null) {
                     Parent oldContent = oldItem.parent();
-                    rightPane.getChildren().add(oldContent);
+                    contentPane.getChildren().add(oldContent);
 
                     TranslateTransition out = new TranslateTransition(DURATION, oldContent);
                     out.setInterpolator(Root.iceInterpolator);
@@ -103,13 +104,13 @@ public class MainFunctionDialog
                     fadeOut.setToValue(0);
 
                     currentOutTransition = new ParallelTransition(out, fadeOut);
-                    currentOutTransition.setOnFinished(e -> rightPane.getChildren().remove(oldContent));
+                    currentOutTransition.setOnFinished(e -> contentPane.getChildren().remove(oldContent));
                     currentOutTransition.play();
                 }
 
                 newContent.setTranslateY(movingDown ? height : -height);
                 newContent.setOpacity(0);
-                rightPane.getChildren().add(newContent);
+                contentPane.getChildren().add(newContent);
 
                 TranslateTransition in = new TranslateTransition(DURATION, newContent);
                 in.setInterpolator(Root.iceInterpolator);
@@ -155,70 +156,54 @@ public class MainFunctionDialog
                 "}");
     }
 
-    private void setupRight() {
-        this.dialogBox.setPadding(Insets.EMPTY);
-
+    private void setupGrid() {
         mainSetupGrid = new GridPane();
 
         leftColumn = new ColumnConstraints();
         leftColumn.setPercentWidth(25);
-
         rightColumn = new ColumnConstraints();
         rightColumn.setPercentWidth(75);
-
         mainSetupGrid.getColumnConstraints().addAll(leftColumn, rightColumn);
 
         RowConstraints row = new RowConstraints();
         row.setVgrow(Priority.ALWAYS);
-
         mainSetupGrid.getRowConstraints().add(row);
+
         mainSetupGrid.add(leftPane, 0, 0);
         mainSetupGrid.add(rightPane, 1, 0);
+        mainSetupGrid.add(rightOverlay, 1, 0);
 
-        rightLayout.setPadding(new Insets(20));
-        rightLayout.setSpacing(0);
-
-        rightPane.setBackground(new Background(new BackgroundFill(
-                Color.web("#1E1E1E"),
-                new CornerRadii(0, 16, 16, 0, false),
-                Insets.EMPTY
-        )));
-
-        scrollPane.setFitToWidth(true);
-        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        scrollPane.setStyle("-fx-background: transparent; -fx-background-color: transparent; -fx-viewport-background-color: transparent;");
-
-        scrollPane.getStylesheets().add("data:text/css," +
-                ".scroll-bar:vertical { -fx-background-color: transparent; -fx-width: 6; }" +
-                ".scroll-bar:vertical .thumb { -fx-background-color: rgba(255,255,255,0.15); -fx-background-radius: 10; }" +
-                ".scroll-bar:vertical .track, .scroll-bar:vertical .increment-button, .scroll-bar:vertical .decrement-button { -fx-background-color: transparent; -fx-opacity: 0; }");
-
-        modsPanel.setPrefHeight(0);
-        modsPanel.setMinHeight(0);
-        modsPanel.setOpacity(0);
-        modsPanel.getChildren().add(scrollPane);
-
-        VBox.setVgrow(scrollPane, Priority.ALWAYS);
-
-        rightLayout.getChildren().addAll(topSpacer, modsPanel);
-        rightPane.getChildren().add(rightLayout);
-
-        rightPane.setPadding(new Insets(15, 15, 15, 15));
+        dialogBox.getChildren().add(mainSetupGrid);
 
         VBox.setVgrow(mainSetupGrid, Priority.ALWAYS);
+    }
 
-        Rectangle clip = new Rectangle();
+    private void setupRightOverlay() {
+        rightOverlay.setMouseTransparent(true);
+    }
+
+    private void setupRight() {
+        this.dialogBox.setPadding(Insets.EMPTY);
+
+        rightPane.setPadding(new Insets(0));
+
+        rightPane.getChildren().add(contentPane);
+        rightPane.getChildren().add(rightOverlay);
+
+        contentPane.setPadding(new Insets(0));
+
+        createClip();
+        applyStyles();
+    }
+
+    private void createClip() {
+        clip = new Rectangle();
         clip.setArcWidth(32);
         clip.setArcHeight(32);
-
         clip.widthProperty().bind(rightPane.widthProperty());
         clip.heightProperty().bind(rightPane.heightProperty());
 
         rightPane.setClip(clip);
-
-        applyStyles();
-
-        this.dialogBox.getChildren().add(mainSetupGrid);
     }
 
     private void applyStyles() {
@@ -229,101 +214,17 @@ public class MainFunctionDialog
                 Color.gray(0.2), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0, 1, 0, 0))));
 
         rightPane.setBackground(new Background(new BackgroundFill(
-                Color.web("#1E1E1E"), new CornerRadii(0, 16, 16, 0, false), Insets.EMPTY)));
-
-        modsPanel.setBackground(new Background(new BackgroundFill(
-                Color.web("#141414"), new CornerRadii(0, 0, 16, 16, false), Insets.EMPTY)));
-        modsPanel.setBorder(new Border(new BorderStroke(
-                Color.gray(0.3), BorderStrokeStyle.SOLID, new CornerRadii(0, 0, 16, 16, false), new BorderWidths(0, 1, 1, 1))));
+                Color.web("#1E1E1E"),
+                new CornerRadii(0, 16, 16, 0, false),
+                Insets.EMPTY
+        )));
     }
 
     public ListView<IViewable> getLeftListView() {
         return leftListView;
     }
 
-    public MainFunctionDialog setLeftListView(ListView<IViewable> leftListView) {
-        this.leftListView = leftListView;
-        return this;
-    }
-
-    public StackPane getLeftPane() {
-        return leftPane;
-    }
-
-    public MainFunctionDialog setLeftPane(StackPane leftPane) {
-        this.leftPane = leftPane;
-        return this;
-    }
-
-    public StackPane getRightPane() {
-        return rightPane;
-    }
-
-    public MainFunctionDialog setRightPane(StackPane rightPane) {
-        this.rightPane = rightPane;
-        return this;
-    }
-
-    public VBox getRightLayout() {
-        return rightLayout;
-    }
-
-    public MainFunctionDialog setRightLayout(VBox rightLayout) {
-        this.rightLayout = rightLayout;
-        return this;
-    }
-
-    public VBox getTopSpacer() {
-        return topSpacer;
-    }
-
-    public MainFunctionDialog setTopSpacer(VBox topSpacer) {
-        this.topSpacer = topSpacer;
-        return this;
-    }
-
-    public VBox getModsPanel() {
-        return modsPanel;
-    }
-
-    public MainFunctionDialog setModsPanel(VBox modsPanel) {
-        this.modsPanel = modsPanel;
-        return this;
-    }
-
     public GridPane getMainSetupGrid() {
         return mainSetupGrid;
-    }
-
-    public MainFunctionDialog setMainSetupGrid(GridPane mainSetupGrid) {
-        this.mainSetupGrid = mainSetupGrid;
-        return this;
-    }
-
-    public ColumnConstraints getLeftColumn() {
-        return leftColumn;
-    }
-
-    public MainFunctionDialog setLeftColumn(ColumnConstraints leftColumn) {
-        this.leftColumn = leftColumn;
-        return this;
-    }
-
-    public ColumnConstraints getRightColumn() {
-        return rightColumn;
-    }
-
-    public MainFunctionDialog setRightColumn(ColumnConstraints rightColumn) {
-        this.rightColumn = rightColumn;
-        return this;
-    }
-
-    public ScrollPane getScrollPane() {
-        return scrollPane;
-    }
-
-    public MainFunctionDialog setScrollPane(ScrollPane scrollPane) {
-        this.scrollPane = scrollPane;
-        return this;
     }
 }

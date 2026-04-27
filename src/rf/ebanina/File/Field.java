@@ -11,7 +11,7 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
-import static rf.ebanina.File.Localization.LocalizationManager.getLocaleString;
+import static rf.ebanina.File.Resources.ResourceManager.getLocaleString;
 
 //TODO: Убрать ООП архитектуру. Сделать простыми строками
 //TODO: Убрать этот класс вообще 17.11.25

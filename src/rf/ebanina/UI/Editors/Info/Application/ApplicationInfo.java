@@ -26,11 +26,11 @@ public class ApplicationInfo
 
     @Override
     public String name() {
-        return ResourceManager.getLocalizationManager().getLocalizationString("viewable_item_name_main", "Main");
+        return ResourceManager.getInstance().getLocalizationManager().getLocalizationString("viewable_item_name_main", "Main");
     }
 
     @Override
     public String description() {
-        return ResourceManager.getLocalizationManager().getLocalizationString("viewable_item_description_main", "Main");
+        return ResourceManager.getInstance().getLocalizationManager().getLocalizationString("viewable_item_description_main", "Main");
     }
 }

@@ -6,7 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import rf.ebanina.File.Localization.LocalizationManager;
+import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.UI.Root;
 import rf.ebanina.UI.UI.Context.Menu.ContextMenu;
 import rf.ebanina.UI.UI.Context.Menu.ContextMenuItem;
@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import static rf.ebanina.File.Localization.LocalizationManager.getLocaleString;
+import static rf.ebanina.File.Resources.ResourceManager.getLocaleString;
 
 public class PlaylistContextMenu extends ContextMenu {
     private ContextMenuItem deleteFromDisk;
@@ -52,12 +52,12 @@ public class PlaylistContextMenu extends ContextMenu {
         });
 
         editorItem = new ContextMenuItem();
-        editorItem.setGraphic(new Label(LocalizationManager.getLocaleString("context_menu_playlist_editor", "Playlist editor")));
+        editorItem.setGraphic(new Label(ResourceManager.getLocaleString("context_menu_playlist_editor", "Playlist editor")));
 
         renameItem = new ContextMenuItem();
 
         TextField renameTo = new TextField();
-        renameTo.setPromptText(LocalizationManager.getLocaleString("context_menu_rename", "Rename to"));
+        renameTo.setPromptText(ResourceManager.getLocaleString("context_menu_rename", "Rename to"));
 
         Button renameToAccept = new Button("OK");
 

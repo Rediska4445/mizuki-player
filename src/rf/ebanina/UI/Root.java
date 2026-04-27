@@ -4421,9 +4421,9 @@ public class Root
             LicenseDialog agreementDialog = new LicenseDialog(
                     stage,
                     root,
-                    LocalizationManager.getLocaleString("license_title", "License Agreement"),
-                    readAllLicensesRecursively(licenseBaseDir.toFile().getAbsolutePath(), ResourceManager.localizationManager.getLang().split("_")[1]),
-                    LocalizationManager.getLocaleString("license_agree", "Agree")
+                    ResourceManager.getLocaleString("license_title", "License Agreement"),
+                    readAllLicensesRecursively(licenseBaseDir.toFile().getAbsolutePath(), ResourceManager.getInstance().getLocalizationManager().getLang().split("_")[1]),
+                    ResourceManager.getLocaleString("license_agree", "Agree")
             );
 
             agreementDialog.setOnAction(() -> {
@@ -4434,7 +4434,7 @@ public class Root
                 Platform.runLater(() -> root.getChildren().remove(agreementDialog));
             });
 
-            agreementDialog.setDialogMaxSize(0.9, 0.85);
+            agreementDialog.setDialogMaxSize(0.8, 0.8);
             agreementDialog.animationTopBorder(ColorProcessor.core.mainClrProperty()).play();
             agreementDialog.show();
         }
@@ -4695,25 +4695,25 @@ public class Root
      * Обеспечивает UX без загромождения интерфейса текстом.</p>
      *
      * @see ContextTooltip Кастомный класс подсказок
-     * @see LocalizationManager#getLocaleString(Locales) Локализация
+     * @see ResourceManager#getLocaleString(Locales) Локализация
      */
     private void initTooltips() {
-        btn.setTooltip(new ContextTooltip(LocalizationManager.getLocaleString(Locales.TOOLTIP_MAIN_PLAY)));
-        soundSlider.setTooltip(new ContextTooltip(LocalizationManager.getLocaleString(Locales.TOOLTIP_MAIN_SLIDER)));
-        mainFunctions.getMainButton().setTooltip(new ContextTooltip(LocalizationManager.getLocaleString(Locales.TOOLTIP_MAIN_FUNCTIONS_BUTTON)));
+        btn.setTooltip(new ContextTooltip(ResourceManager.getLocaleString(Locales.TOOLTIP_MAIN_PLAY)));
+        soundSlider.setTooltip(new ContextTooltip(ResourceManager.getLocaleString(Locales.TOOLTIP_MAIN_SLIDER)));
+        mainFunctions.getMainButton().setTooltip(new ContextTooltip(ResourceManager.getLocaleString(Locales.TOOLTIP_MAIN_FUNCTIONS_BUTTON)));
 
-        tracksListView.getSearchBar().setTooltip(new ContextTooltip(LocalizationManager.getLocaleString(Locales.TOOLTIP_PLAYLIST_SEARCH)));
-        tracksListView.getBtnPlaylistDown().setTooltip(new ContextTooltip(LocalizationManager.getLocaleString(Locales.TOOLTIP_PLAYLIST_PREV)));
-        tracksListView.getBtnPlaylist().setTooltip(new ContextTooltip(LocalizationManager.getLocaleString(Locales.TOOLTIP_PLAYLIST_SET)));
-        tracksListView.getBtnPlaylistNext().setTooltip(new ContextTooltip(LocalizationManager.getLocaleString(Locales.TOOLTIP_PLAYLIST_NEXT)));
+        tracksListView.getSearchBar().setTooltip(new ContextTooltip(ResourceManager.getLocaleString(Locales.TOOLTIP_PLAYLIST_SEARCH)));
+        tracksListView.getBtnPlaylistDown().setTooltip(new ContextTooltip(ResourceManager.getLocaleString(Locales.TOOLTIP_PLAYLIST_PREV)));
+        tracksListView.getBtnPlaylist().setTooltip(new ContextTooltip(ResourceManager.getLocaleString(Locales.TOOLTIP_PLAYLIST_SET)));
+        tracksListView.getBtnPlaylistNext().setTooltip(new ContextTooltip(ResourceManager.getLocaleString(Locales.TOOLTIP_PLAYLIST_NEXT)));
 
-        similar.getSearchBar().setTooltip(new ContextTooltip(LocalizationManager.getLocaleString(Locales.TOOLTIP_PLAYLIST_SEARCH)));
-        similar.getBtnPlaylistDown().setTooltip(new ContextTooltip(LocalizationManager.getLocaleString(Locales.TOOLTIP_PLAYLIST_PREV)));
-        similar.getBtnPlaylist().setTooltip(new ContextTooltip(LocalizationManager.getLocaleString(Locales.TOOLTIP_PLAYLIST_SET)));
-        similar.getBtnPlaylistNext().setTooltip(new ContextTooltip(LocalizationManager.getLocaleString(Locales.TOOLTIP_PLAYLIST_NEXT)));
+        similar.getSearchBar().setTooltip(new ContextTooltip(ResourceManager.getLocaleString(Locales.TOOLTIP_PLAYLIST_SEARCH)));
+        similar.getBtnPlaylistDown().setTooltip(new ContextTooltip(ResourceManager.getLocaleString(Locales.TOOLTIP_PLAYLIST_PREV)));
+        similar.getBtnPlaylist().setTooltip(new ContextTooltip(ResourceManager.getLocaleString(Locales.TOOLTIP_PLAYLIST_SET)));
+        similar.getBtnPlaylistNext().setTooltip(new ContextTooltip(ResourceManager.getLocaleString(Locales.TOOLTIP_PLAYLIST_NEXT)));
 
-        hideControlLeft.setTooltip(new ContextTooltip(LocalizationManager.getLocaleString(Locales.TOOLTIP_OPEN_NETWORK_PLAYLIST)));
-        hideControlRight.setTooltip(new ContextTooltip(LocalizationManager.getLocaleString(Locales.TOOLTIP_OPEN_LOCAL_PLAYLIST)));
+        hideControlLeft.setTooltip(new ContextTooltip(ResourceManager.getLocaleString(Locales.TOOLTIP_OPEN_NETWORK_PLAYLIST)));
+        hideControlRight.setTooltip(new ContextTooltip(ResourceManager.getLocaleString(Locales.TOOLTIP_OPEN_LOCAL_PLAYLIST)));
 
         PlayProcessor.playProcessor.getTrackIterProperty().addListener((observableValue, number, t1) -> {
             Platform.runLater(() -> {
@@ -4726,13 +4726,13 @@ public class Root
                 Track prev = PlayProcessor.playProcessor.getOrNonNullDefault(PlayProcessor.playProcessor.getTrackIter() - 1,
                         new Track("unk").setTitle("").setArtist(""));
 
-                btnNext.setTooltip(new ContextTooltip(LocalizationManager.getLocaleString(Locales.TOOLTIP_MAIN_NEXT) + ": "
-                        + (next != null ? next.viewName() : "") + "\n* " + LocalizationManager.getLocaleString(Locales.SKIP_INTRO) + ": "
+                btnNext.setTooltip(new ContextTooltip(ResourceManager.getLocaleString(Locales.TOOLTIP_MAIN_NEXT) + ": "
+                        + (next != null ? next.viewName() : "") + "\n* " + ResourceManager.getLocaleString(Locales.SKIP_INTRO) + ": "
                         + "\n\t - " + KeyBindingController.instance.getHotKeysStringCodes("ebanina_skip_audio_intro_hotkey")
                         + "\n\t - Shift + Click on Button"));
 
-                btnDown.setTooltip(new ContextTooltip(LocalizationManager.getLocaleString(Locales.TOOLTIP_MAIN_PREV) + ": "
-                        + (prev != null ? prev.viewName() : "") + "\n* " + LocalizationManager.getLocaleString(Locales.SKIP_PIT) + ": "
+                btnDown.setTooltip(new ContextTooltip(ResourceManager.getLocaleString(Locales.TOOLTIP_MAIN_PREV) + ": "
+                        + (prev != null ? prev.viewName() : "") + "\n* " + ResourceManager.getLocaleString(Locales.SKIP_PIT) + ": "
                         + "\n\t - " + KeyBindingController.instance.getHotKeysStringCodes("ebanina_skip_pit")));
 
                 currentTrackName.setTooltip(new ContextTooltip(current.getTitle()));
@@ -5191,8 +5191,10 @@ public class Root
             trackHistoryContextMenu.setMaxHeight(500);
 
             PlayProcessor.playProcessor.setTrackHistoryGlobal(
-                    new TrackHistory(ConfigurationManager.instance.getIntItem("global_history_size", "25"),
-                            trackHistoryContextMenu)
+                    new TrackHistory(
+                            ConfigurationManager.getInstance().getIntItem("global_history_size", "25"),
+                            trackHistoryContextMenu
+                    )
             );
 
             if (new File(Resources.Properties.HISTORY_FILE_PATH.getKey()).exists()) {
@@ -5203,7 +5205,7 @@ public class Root
         currentTrackName = new TextField();
         currentArtist = new TextField();
 
-        art = new Art(ConfigurationManager.instance.getIntItem("album_art_corners", 15));
+        art = new Art(ConfigurationManager.getInstance().getIntItem("album_art_corners", 15));
 
         btn = new PlayButton();
         btnNext = new NextButton();

@@ -1,31 +1,30 @@
 /**
- * Mizuka Docs — SIMPLEST LOGIC
- * ЛОГИКА: Куда нажал мышкой — ТО ЧИСТО ВЫДЕЛИЛОСЬ. Никакой магии.
+ * Mizuka Docs — ЛОКАЛЬНЫЙ ЛОГИК
+ * Куда нажал — то и показалось. Никаких `fetch`, только `display`.
  */
 
 const contentArea = document.getElementById('content-area');
 const treeNav = document.querySelector('.tree-nav');
 const buttons = document.querySelectorAll('.sidebar-btn');
 
-// 1. ГЛОБАЛЬНАЯ ФУНКЦИЯ: Сброс всего и выделение ОДНОГО элемента
+// 1. Сброс выделения и выделение ОДНОГО элемента
 function forceHighlight(element) {
-    // А. СБРОС ВСЕХ
+    // сброс всех кнопок
     buttons.forEach(b => b.classList.remove('active'));
+    // сброс всех узлов дерева
     document.querySelectorAll('.tree-node, .tree-link').forEach(el => el.classList.remove('active'));
 
-    // Б. Если это кнопка
     if (element.classList.contains('sidebar-btn')) {
         element.classList.add('active');
         return;
     }
 
-    // В. Если это узел дерева (.tree-node)
     if (element.classList.contains('tree-node')) {
         element.classList.add('active');
         const link = element.querySelector('.tree-link');
         if (link) link.classList.add('active');
 
-        // Г. Развернуть родителей (только визуально, без выделения!)
+        // развернуть родителей (визуально)
         let parentUl = element.parentElement;
         while (parentUl && parentUl.classList.contains('tree-nav') === false) {
             parentUl.classList.add('open');
@@ -38,73 +37,84 @@ function forceHighlight(element) {
     }
 }
 
-// 2. Загрузка страницы (БОЛЬШЕ НИЧЕГО НЕ ВЫДЕЛЯЕТ!)
-async function loadPage(pageUrl) {
-    try {
-        contentArea.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#7092be;">Загрузка...</div>';
-        const response = await fetch(pageUrl);
-        if (!response.ok) throw new Error('Error: ' + pageUrl);
-        const html = await response.text();
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
-        contentArea.innerHTML = doc.querySelector('main')?.innerHTML || doc.body.innerHTML;
+// 2. Показ страницы по ID
+function showPage(id) {
+    // сначала показываем "Загрузка", чтобы не было мигания
+    hideAllPages();
+    document.getElementById('loading').style.display = 'flex';
 
-        history.pushState({ page: pageUrl }, '', `?page=${encodeURIComponent(pageUrl)}`);
-        contentArea.scrollTop = 0;
-
-        // ❌ ЗДЕСЬ НИЧЕГО НЕТ! Никакого выделения!
-    } catch (err) {
-        contentArea.innerHTML = `<div style="color:#ff6b6b;padding:20px;"><h2>Ошибка</h2><p>${err.message}</p></div>`;
-    }
+    setTimeout(() => {
+        hideAllPages();
+        const target = document.getElementById(id);
+        if (target) {
+            target.style.display = 'block';
+            history.pushState({ page: id }, '', `?page=${encodeURIComponent(id)}`);
+            contentArea.scrollTop = 0;
+        } else {
+            showError(id);
+        }
+        document.getElementById('loading').style.display = 'none';
+    }, 10);
 }
 
-// 3. КЛИК ПО ДЕРЕВУ (ТЗ: Куда нажал — то выделилось)
+function hideAllPages() {
+    document.querySelectorAll('.page-content').forEach(el => el.style.display = 'none');
+}
+
+function showError(id) {
+    contentArea.innerHTML = `
+        <div style="color:#ff6b6b;padding:20px;">
+            <h2>Ошибка</h2>
+            <p>Страница не найдена: ${id}</p>
+        </div>
+    `;
+}
+
+// 3. Клик по дереву (ТЗ: куда нажал — то показалось)
 treeNav?.addEventListener('click', (e) => {
     const target = e.target;
     const linkEl = target.closest('.tree-link');
     const nodeEl = target.closest('.tree-node');
 
-    if (!nodeEl) return; // Клик мимо
+    if (!nodeEl) return;
     e.preventDefault();
 
-    // 1. СРАЗУ ВЫДЕЛЯЕМ ЭТОТ УЗЕЛ (первым делом!)
     forceHighlight(nodeEl);
 
-    // 2. ПРОВЕРЯЕМ, что это за узел
     if (linkEl && linkEl.getAttribute('data-page')) {
-        const pageUrl = linkEl.getAttribute('data-page');
-
-        if (pageUrl.includes('#')) {
-            const [url, anchor] = pageUrl.split('#');
-            loadPage(url).then(() => {
+        const pageId = linkEl.getAttribute('data-page');
+        if (pageId.includes('#')) {
+            const [id, anchor] = pageId.split('#');
+            showPage(id);
+            setTimeout(() => {
                 const el = document.getElementById(anchor);
-                if (el) setTimeout(() => el.scrollIntoView({behavior: 'smooth'}), 150);
-            });
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }, 150);
         } else {
-            loadPage(pageUrl);
+            showPage(pageId);
         }
     } else {
-        // Если это просто родитель (без data-page) — просто разворачиваем
-        toggleTreeNode(nodeEl);
+        // если есть data-page у самого узла
+        const pageId = nodeEl.getAttribute('data-page');
+        if (pageId) showPage(pageId);
+        else toggleTreeNode(nodeEl);
     }
 });
 
-// 4. КЛИК ПО КНОПКАМ
+// 4. Клик по кнопкам слева
 buttons.forEach(btn => {
     btn.addEventListener('click', () => {
-        // 1. СРАЗУ ВЫДЕЛЯЕМ КНОПКУ
         forceHighlight(btn);
 
-        // 2. Загружаем
-        const page = btn.getAttribute('data-page');
-        if (page) loadPage(page);
+        const pageId = btn.getAttribute('data-page');
+        if (pageId) showPage(pageId);
 
-        // 3. Сбрасываем дерево (на всякий случай, хотя forceHighlight уже сбросил)
+        // сбрасываем дерево (на всякий)
         document.querySelectorAll('.tree-node, .tree-link').forEach(el => el.classList.remove('active'));
     });
 });
 
-// 5. Развернуть/свернуть
+// 5. Развернуть/свернуть узел дерева
 function toggleTreeNode(node) {
     const ul = node.nextElementSibling;
     if (ul && !ul.classList.contains('tree-nav')) {
@@ -113,51 +123,50 @@ function toggleTreeNode(node) {
     }
 }
 
-// 6. Кнопки браузера (Назад/Вперёд) — единственное место, где ищем что выделить
+// 6. Кнопки браузера (Назад/Вперёд)
 window.addEventListener('popstate', (e) => {
     if (e.state?.page) {
-        const pageUrl = e.state.page;
-        loadPage(pageUrl);
+        const pageId = e.state.page;
+        showPage(pageId);
 
-        // Ищем, что выделить (так как клик не был)
-        let targetLink = document.querySelector(`.tree-link[data-page="${pageUrl}"]`);
-        if (!targetLink && pageUrl.includes('#')) {
-            targetLink = document.querySelector(`.tree-link[data-page="${pageUrl.split('#')[0]}"]`);
+        let targetLink = document.querySelector(`.tree-link[data-page="${pageId}"]`);
+        if (!targetLink && pageId.includes('#')) {
+            targetLink = document.querySelector(`.tree-link[data-page="${pageId.split('#')[0]}"]`);
         }
         if (targetLink) {
             forceHighlight(targetLink.closest('.tree-node'));
         } else {
-            const btn = document.querySelector(`.sidebar-btn[data-page="${pageUrl}"]`);
+            const btn = document.querySelector(`.sidebar-btn[data-page="${pageId}"]`);
             if (btn) forceHighlight(btn);
         }
     } else {
-        loadPage('pages/home.html');
-        // По умолчанию выделяем кнопку "О проекте" если есть, или первый узел
-        const homeBtn = document.querySelector('.sidebar-btn[data-page="pages/home.html"]');
+        showPage('home');
+        const homeBtn = document.querySelector('.sidebar-btn[data-page="home"]');
         if (homeBtn) forceHighlight(homeBtn);
     }
 });
 
-// 7. СТАРТ
+// 7. Запуск при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
     const page = params.get('page');
     if (page) {
-        loadPage(decodeURIComponent(page));
-        // Пытаемся найти, что выделить
-        let targetLink = document.querySelector(`.tree-link[data-page="${decodeURIComponent(page)}"]`);
-        if (!targetLink && page.includes('#')) {
-            targetLink = document.querySelector(`.tree-link[data-page="${page.split('#')[0]}"]`);
+        const id = decodeURIComponent(page);
+        showPage(id);
+
+        let targetLink = document.querySelector(`.tree-link[data-page="${id}"]`);
+        if (!targetLink && id.includes('#')) {
+            targetLink = document.querySelector(`.tree-link[data-page="${id.split('#')[0]}"]`);
         }
         if (targetLink) {
             forceHighlight(targetLink.closest('.tree-node'));
         } else {
-            const btn = document.querySelector(`.sidebar-btn[data-page="${decodeURIComponent(page)}"]`);
+            const btn = document.querySelector(`.sidebar-btn[data-page="${id}"]`);
             if (btn) forceHighlight(btn);
         }
     } else {
-        loadPage('pages/home.html');
-        const homeBtn = document.querySelector('.sidebar-btn[data-page="pages/home.html"]');
+        showPage('home');
+        const homeBtn = document.querySelector('.sidebar-btn[data-page="home"]');
         if (homeBtn) forceHighlight(homeBtn);
     }
 });

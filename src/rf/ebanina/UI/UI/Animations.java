@@ -60,6 +60,17 @@ import java.util.Set;
 public class Animations {
     public static Animations instance = new Animations();
 
+    public static Animations defaultInstance() {
+        return new Animations();
+    }
+
+    public static Animations getInstance() {
+        if(instance == null)
+            return instance = defaultInstance();
+
+        return instance;
+    }
+
     /**
      * Флаг, указывающий, находится ли приложение в фокусе.
      * <p>

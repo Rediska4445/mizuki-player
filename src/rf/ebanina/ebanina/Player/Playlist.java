@@ -43,7 +43,7 @@ import java.util.Objects;
  * @since 1.4.0
  */
 public class Playlist
-        implements Serializable, Cloneable, MediaReference, Comparable<Playlist>
+        implements Serializable, Cloneable, MediaReferencable, Comparable<Playlist>
 {
     private String path;
     private String viewName;
@@ -101,6 +101,11 @@ public class Playlist
      * @return строка с путём к файлу
      */
     public String getPath() {
+        return path;
+    }
+
+    @Override
+    public String path() {
         return path;
     }
 

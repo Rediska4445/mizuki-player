@@ -190,6 +190,8 @@ public class ListView<T>
         addSmoothScroll();
         addSmoothHighlightOnScrollBars();
 
+        selectedColorProperty.addListener((t, e1, e2) -> updateSelectedBackground(e2));
+
         setSkin(new ListViewSkin<>(this));
     }
     /**
@@ -280,7 +282,7 @@ public class ListView<T>
      */
     public void addSmoothHighlightOnScrollBars() {
         Platform.runLater(() -> {
-            getStylesheets().add(ResourceManager.Instance.loadStylesheet("scrollbar-fixed-width"));
+            getStylesheets().add(ResourceManager.getInstance().loadStylesheet("scrollbar-fixed-width"));
 
             for (Node node : lookupAll(".scroll-bar")) {
                 if (node instanceof ScrollBar sb && sb.getOrientation() == Orientation.HORIZONTAL) {

@@ -172,46 +172,10 @@ public class ArtProcessor
         });
 
         initTextFieldColorsProperty();
+        initButtonsColorsProperty();
     }
 
-    public void initTextFieldColorsProperty() {
-        Root.rootImpl.currentTrackName.getColorProperty().bind(mainClrAnimated);
-        Root.rootImpl.currentArtist.getColorProperty().bind(mainClrAnimated);
-        Root.rootImpl.beginTime.getColorProperty().bind(mainClrAnimated);
-        Root.rootImpl.endTime.getColorProperty().bind(mainClrAnimated);
-        Root.rootImpl.soundSlider.getColorProperty().bind(mainClrAnimated);
-        Root.rootImpl.tracksListView.getCurrentPlaylistText().getColorProperty().bind(mainClrAnimated);
-        Root.rootImpl.similar.getCurrentPlaylistText().getColorProperty().bind(mainClrAnimated);
-    }
-
-    /**
-     * {@inheritDoc}
-     * <p>
-     * Координирует полное обновление цветовой схемы UI:
-     * тексты → чекбоксы → кнопки.
-     * </p>
-     */
-    @Override
-    public void updateColors(Color color) {
-        updateButtonsColors(color);
-    }
-
-    /**
-     * Обновляет цвета hover/pressed состояний всех кнопок приложения.
-     * <p>
-     * <b>Группы кнопок:</b>
-     * </p>
-     * <ul>
-     *   <li>Основные транспортные кнопки (play/pause, next, down)</li>
-     *   <li>Кнопки плейлистов в TrackListView и Similar</li>
-     *   <li>MainButton (если Button)</li>
-     *   <li>Кнопки скрытия панелей (hideControlLeft/Right)</li>
-     * </ul>
-     * <p>
-     * Устанавливает <code>iconHover</code> и <code>bgPressed</code> цвета.
-     * </p>
-     */
-    public void updateButtonsColors(Color color) {
+    public void initButtonsColorsProperty() {
         Root.rootImpl.btn.colorBgPressedProperty().bind(mainClrAnimated);
         Root.rootImpl.btn.colorIconHoverProperty().bind(mainClrAnimated);
 
@@ -250,24 +214,27 @@ public class ArtProcessor
             e.colorIconHoverProperty().bind(mainClrAnimated);
         }
     }
+
+    public void initTextFieldColorsProperty() {
+        Root.rootImpl.currentTrackName.getColorProperty().bind(mainClrAnimated);
+        Root.rootImpl.currentArtist.getColorProperty().bind(mainClrAnimated);
+        Root.rootImpl.beginTime.getColorProperty().bind(mainClrAnimated);
+        Root.rootImpl.endTime.getColorProperty().bind(mainClrAnimated);
+        Root.rootImpl.soundSlider.getColorProperty().bind(mainClrAnimated);
+        Root.rootImpl.tracksListView.getCurrentPlaylistText().getColorProperty().bind(mainClrAnimated);
+        Root.rootImpl.similar.getCurrentPlaylistText().getColorProperty().bind(mainClrAnimated);
+    }
+
     /**
-     * Создает плавную анимацию изменения цвета (250ms).
+     * {@inheritDoc}
      * <p>
-     * Thread-safe: запускается через {@link Platform#runLater}.
-     * Гарантирует финальное значение цвета через onFinished.
+     * Координирует полное обновление цветовой схемы UI:
+     * тексты → чекбоксы → кнопки.
      * </p>
-     *
-     * @param startColor начальный цвет
-     * @param endColor целевой цвет
-     * @param colorProperty свойство для анимации
-     * @return Timeline объект анимации
      */
-    protected Timeline animateColorChange(Color startColor, Color endColor, ObjectProperty<Color> colorProperty) {
-        Timeline timeline = buildColorChange(startColor, endColor, colorProperty);
+    @Override
+    public void updateColors(Color color) {
 
-        Platform.runLater(timeline::play);
-
-        return timeline;
     }
 
     protected Timeline buildColorChange(Color startColor, Color endColor, ObjectProperty<Color> colorProperty) {
@@ -392,8 +359,6 @@ public class ArtProcessor
                     Animations.instance.play(dropShadowColor(newColor), "dropShadowColor", () -> Root.rootImpl.imgTrackShadow.setColor(newColor));
 
                     if (ConfigurationManager.instance.getBooleanItem("rainbow", "true")) {
-                        updateColors(newColor);
-
                         initListViews();
                     }
 
@@ -693,7 +658,7 @@ public class ArtProcessor
      * <p>Вызывается из {@link #initColor} при <code>"rainbow" = true</code>.</p>
      */
     public void initListViews() {
-          for(Node n : Root.rootImpl.root.getChildren()) {
+          for(Node n : Root.getRootImpl().getRoot().getChildren()) {
               if(n instanceof PlayView<?, ?> listView) {
                   listView.getTrackListView().updateSelectedBackground(core.getMainClr());
                   listView.getTrackListView().updateBorderColor(core.getMainClr());

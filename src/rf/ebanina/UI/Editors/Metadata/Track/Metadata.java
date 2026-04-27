@@ -5,7 +5,6 @@ import javafx.scene.Parent;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import rf.ebanina.File.Localization.LocalizationManager;
 import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.UI.Editors.IEditor;
 import rf.ebanina.UI.Editors.IViewable;
@@ -63,8 +62,8 @@ public class Metadata
 
     @Override
     public Parent parent() throws IOException {
-        FXMLLoader loader = ResourceManager.Instance.loadFxmlLoader(
-                ResourceManager.Instance.resourcesPaths.get("FXMLMetaDataPath")
+        FXMLLoader loader = ResourceManager.getInstance().loadFxmlLoader(
+                ResourceManager.getInstance().getResourcesPaths().get("FXMLMetaDataPath")
         );
 
         Controller controller = new Controller();
@@ -77,11 +76,11 @@ public class Metadata
 
     @Override
     public String name() {
-        return LocalizationManager.getLocaleString("metadata_host_title", "Metadata");
+        return ResourceManager.getLocaleString("metadata_host_title", "Metadata");
     }
 
     @Override
     public String description() {
-        return LocalizationManager.getLocaleString("metadata_host_description", "Description");
+        return ResourceManager.getLocaleString("metadata_host_description", "Description");
     }
 }

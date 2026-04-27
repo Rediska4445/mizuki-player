@@ -112,10 +112,10 @@ public class ListCellPlaylist<T>
             final Image art;
 
             if (firstFile != null) {
-                Image temp = MetadataOfFile.iMetadataOfFiles.getArt(new Track(firstFile.getAbsolutePath()), Track.mipmapSize, Track.mipmapSize, isPreserveRatio, isSmooth);
+                Image temp = MetadataOfFile.metadataOfFilesImpl.getArt(new Track(firstFile.getAbsolutePath()), Track.mipmapSize, Track.mipmapSize, isPreserveRatio, isSmooth);
                 mipmap = temp == null ? defaultLogo : temp;
 
-                Image temp1 = MetadataOfFile.iMetadataOfFiles.getArt(new Track(firstFile.getAbsolutePath()), Track.albumArtSize, Track.albumArtSize, isPreserveRatio, isSmooth);
+                Image temp1 = MetadataOfFile.metadataOfFilesImpl.getArt(new Track(firstFile.getAbsolutePath()), Track.albumArtSize, Track.albumArtSize, isPreserveRatio, isSmooth);
                 art = temp1 == null ? defaultLogo : temp1;
             } else {
                 art = defaultLogo;

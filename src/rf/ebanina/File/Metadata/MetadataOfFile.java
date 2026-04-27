@@ -98,10 +98,25 @@ public final class MetadataOfFile
      *
      * @version 0.1.4.4
      */
-    public static MetadataOfFile iMetadataOfFiles = new MetadataOfFile(new HashMap<>(Map.of(
+    public static IAudioMetadataOfFile metadataOfFilesImpl = new MetadataOfFile(new HashMap<>(Map.of(
             "mp3", new MP3(),
             "wav", new WAV()
     )));
+
+    public static IAudioMetadataOfFile defaultInstance() {
+        return new MetadataOfFile(new HashMap<>(Map.of(
+                "mp3", new MP3(),
+                "wav", new WAV()
+        )));
+    }
+
+    public static IAudioMetadataOfFile getInstance() {
+        if(metadataOfFilesImpl == null)
+            return metadataOfFilesImpl = defaultInstance();
+
+        return metadataOfFilesImpl;
+    }
+
     /**
      * Карта форматов, сопоставляющая расширения аудиофайлов с объектами для работы с метаданными.
      * <p>
@@ -212,7 +227,7 @@ public final class MetadataOfFile
         if(format != null) {
             return format.getTitle(path);
         } else {
-            return "unkTitle";
+            return unkTitle;
         }
     }
     /**
@@ -237,7 +252,7 @@ public final class MetadataOfFile
         if(format != null) {
             return format.getArtist(path);
         } else {
-            return "unkAuthor";
+            return unkAuthor;
         }
     }
     /**

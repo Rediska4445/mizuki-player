@@ -110,6 +110,7 @@ public class Art
         previousImage.set(this.image.get());
 
         this.image.set(image);
+
         setFill(new ImagePattern(image));
     }
     /**

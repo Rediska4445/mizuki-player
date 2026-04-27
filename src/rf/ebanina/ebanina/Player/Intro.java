@@ -11,7 +11,7 @@ import java.nio.file.Path;
  * <h1>Intro</h1>
  * Класс для воспроизведения аудио‑интро перед основным треком медиаплеера.
  * <p>
- * Представляет интро как локальный файловый ресурс, реализует интерфейс {@link MediaReference},
+ * Представляет интро как локальный файловый ресурс, реализует интерфейс {@link MediaReferencable},
  * позволяя получать путь к файлу и управлять его проигрыванием в отдельном потоке.
  * </p>
  * <p>
@@ -36,11 +36,11 @@ import java.nio.file.Path;
  *
  * @author Ebanina Std
  * @since 0.1.4.4
- * @see MediaReference
+ * @see MediaReferencable
  * @see Media#getIntroSoundFile()
  */
 public class Intro
-        implements MediaReference
+        implements MediaReferencable
 {
     /**
      * Путь к файлу интро в формате строки.
@@ -329,21 +329,25 @@ public class Intro
         return this;
     }
 
+    public String getPath() {
+        return source;
+    }
+
     /**
-     * Возвращает путь к файлу интро, реализуя контракт {@link MediaReference}.
+     * Возвращает путь к файлу интро, реализуя контракт {@link MediaReferencable}.
      * <p>
      * Возвращает текущее значение поля {@link #source}, как путь к файлу интро.
-     * Используется кодом, зависящим от интерфейса {@link MediaReference}
+     * Используется кодом, зависящим от интерфейса {@link MediaReferencable}
      * для получения места расположения медиа‑ресурса.
      * </p>
      *
      * @return путь к файлу интро или {@code null}, если он не установлен
-     * @see MediaReference#getPath()
+     * @see MediaReferencable#getPath()
      * @see #source
      * @since 0.1.4.4
      */
     @Override
-    public String getPath() {
+    public String path() {
         return source;
     }
 
@@ -355,7 +359,7 @@ public class Intro
      * </p>
      *
      * @return {@code false} всегда, так как источник локальный
-     * @see MediaReference#isNetty()
+     * @see MediaReferencable#isNetty()
      * @since 0.1.4.4
      */
     @Override

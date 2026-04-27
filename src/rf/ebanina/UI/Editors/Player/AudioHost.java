@@ -8,7 +8,6 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import rf.ebanina.File.Configuration.ConfigurationManager;
-import rf.ebanina.File.Localization.LocalizationManager;
 import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.UI.Editors.IEditor;
 import rf.ebanina.UI.Editors.IViewable;
@@ -88,12 +87,12 @@ public class AudioHost
 
     @Override
     public String name() {
-        return LocalizationManager.getLocaleString("viewable_item_name_audio_host", "Audio-Host");
+        return ResourceManager.getLocaleString("viewable_item_name_audio_host", "Audio-Host");
     }
 
     @Override
     public String description() {
-        return LocalizationManager.getLocaleString("viewable_item_description_audio_host", "Description");
+        return ResourceManager.getLocaleString("viewable_item_description_audio_host", "Description");
     }
 
     protected final Map<String, Function<File, PluginWrapper>> loadPlugin = new HashMap<>(Map.ofEntries(

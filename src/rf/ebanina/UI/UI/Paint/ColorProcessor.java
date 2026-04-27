@@ -28,11 +28,11 @@ public class ColorProcessor {
     @Deprecated
     public static final boolean isPreserveRatio = false;
 
-    public static final javafx.scene.image.Image logo = ResourceManager.Instance.loadImage("album_art_logo", size, size, isPreserveRatio, isSmooth);
+    public static final javafx.scene.image.Image logo = ResourceManager.getInstance().loadImage("album_art_logo", size, size, isPreserveRatio, isSmooth);
     private final ImagePattern logoPattern = new ImagePattern(logo);
     protected SimpleIntegerProperty hueProperty = new SimpleIntegerProperty(0);
 
-    public static ColorProcessor core = new ColorProcessor(ConfigurationManager.instance.getItem("album_art_get_color_type", "average"));
+    public static ColorProcessor core = new ColorProcessor(ConfigurationManager.getInstance().getItem("album_art_get_color_type", "average"));
 
     protected ObjectProperty<Color> mainClr = new SimpleObjectProperty<>();
 

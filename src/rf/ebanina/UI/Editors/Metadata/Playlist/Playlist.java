@@ -14,7 +14,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.Map;
 
-import static rf.ebanina.File.Localization.LocalizationManager.getLocaleString;
+import static rf.ebanina.File.Resources.ResourceManager.getLocaleString;
 
 public class Playlist
         implements IEditor
