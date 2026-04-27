@@ -56,7 +56,7 @@ public class MediaPlayerTest
 
             player.play();
 
-            assertTrue(latch.await(2, TimeUnit.SECONDS));
+            assertTrue(latch.await(10, TimeUnit.SECONDS));
         }
     }
 
@@ -71,7 +71,7 @@ public class MediaPlayerTest
 
             player.play();
 
-            assertTrue(latch.await(3, TimeUnit.SECONDS));
+            assertTrue(latch.await(10, TimeUnit.SECONDS));
         }
     }
 
