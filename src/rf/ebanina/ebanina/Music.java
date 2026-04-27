@@ -219,12 +219,12 @@ public final class Music
     public void start(Stage stage)
             throws IOException
     {
-        mainLogger.info(ResourceManager.getLocalizationManager().getLocale(), "EN_en");
+        mainLogger.info("Initialized language: " + ResourceManager.getLocalizationManager().getLocale(), "EN_en");
 
         SplashScreen splashScreen = new SplashScreen(
                 FileManager.getInstance().getJsonList(Path.of(ResourceManager.getInstance().getResourcesPaths().get("splashesMessages")),
-                        ResourceManager.getLocalizationManager().getLocale(), "EN_en")
-        ) {
+                        ResourceManager.getLocalizationManager().getLocale(), "EN_en"))
+        {
             @Override
             public void showMainWindow() {
                 // Отображение окна
@@ -292,18 +292,20 @@ public final class Music
         });
 
         // Вывод названия приложения
-        mainLogger.info("Stage configured with title: %s", name);
+        mainLogger.info("Stage configured with title: %s\n", name);
 
         // Последние данные о положении и размерах
         try {
             Platform.runLater(() -> {
-                stage.setX(Float.parseFloat(FileManager.instance.readSharedData().get("layout_x")));
-                stage.setY(Float.parseFloat(FileManager.instance.readSharedData().get("layout_y")));
-                stage.setWidth(Float.parseFloat(FileManager.instance.readSharedData().get("width")));
-                stage.setHeight(Float.parseFloat(FileManager.instance.readSharedData().get("height")));
+                FileManager instance = FileManager.getInstance();
+
+                stage.setX(Float.parseFloat(instance.readSharedData().get("layout_x")));
+                stage.setY(Float.parseFloat(instance.readSharedData().get("layout_y")));
+                stage.setWidth(Float.parseFloat(instance.readSharedData().get("width")));
+                stage.setHeight(Float.parseFloat(instance.readSharedData().get("height")));
             });
         } catch (Exception e) {
-            mainLogger.warn("Failed to restore window geometry: %s", e.getMessage());
+            mainLogger.warn("Failed to restore window geometry: %s\n", e.getMessage());
         }
 
         // Геометрия окна восстановлена
@@ -315,13 +317,13 @@ public final class Music
 
         // Максимальная ширина: 2/3 от ширины экрана (оставляем место для таскбара/декораций)
         double maxWidth = screenWidth * 2.0 / 3.0;
-        mainLogger.printf("Screen width: {%d}px, calculated maxWidth: {%d}px (2/3)",
+        mainLogger.info("Screen width: {%d}px, calculated maxWidth: {%d}px (2/3)\n",
                 (int)screenWidth, (int)maxWidth);
 
         // Максимальная высота: квадратное соотношение 16:9 от максимальной ширины
         // (предотвращает чрезмерную вертикальную растяжку на широких экранах)
         double maxHeight = maxWidth * 9.0 / 16.0;
-        mainLogger.printf("\nCalculated maxHeight: {%d}px (16:9 from maxWidth)", (int)maxHeight);
+        mainLogger.info("Calculated maxHeight: {%d}px (16:9 from maxWidth)\n", (int)maxHeight);
 
         // Установка максимальных размеров с приведением к int (JavaFX Stage API)
         Platform.runLater(() -> {
@@ -329,13 +331,13 @@ public final class Music
             stage.setMaxHeight((int) maxHeight);
         });
 
-        mainLogger.printf("\nStage displayed - maxSize: {%d}x{%d}px (screen: {%d}x{%d}px, ratio 16:9)\n",
+        mainLogger.info("Stage displayed - maxSize: {%d}x{%d}px (screen: {%d}x{%d}px, ratio 16:9)\n",
                 (int)maxWidth, (int)maxHeight, (int)screenWidth, (int)screenHeight);
 
         // Инициализировать контроллер анимаций.
         // В частности, эта хуйня оптимизирует работу анимаций (см. класс)
         Platform.runLater(() -> {
-            Animations.instance.init(stage);
+            Animations.getInstance().init(stage);
 
             progressBar.setProgress(0.3);
         });
@@ -529,14 +531,6 @@ public final class Music
         }));
 
         mainLogger.info("Configuration FXML converter executed");
-
-        // Эта хуйня пишет файл для графического отображения настроек.
-        // На основе того что есть в файле настроек, он будет создавать окно настроек в приложении.
-        // P.S. Я не предполагаю что приложение можно будет так просто настраивать (это неинтересно).
-        //      Файл содержит множество строк настроек, большинство из них просто не написаны,
-        //      и я не помню, что я там добавлял.
-        //      Мне похуй, я знаю как приложение настроить, через файл, а окно добавил просто так (оно вполне может не работать).
-        ConfigurationManager.fxmlConverter.convert();
 
         // Создание сессии.
         // Сессия - это файл загружающий обобщённый данные для внешней отладки.
