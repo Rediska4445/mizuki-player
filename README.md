@@ -19,8 +19,6 @@
     The project is not intended for users and serves as a support for experiments 
     and fantasies in the field of: audio processing, working with technologies, working with streams and the Java/C++ language in general.
 
-> [!NOTE]
-> Since this is a pet project, it is logical to say that it has many errors/bugs/shortcomings
 </div>
 
 <p align="center">
@@ -34,6 +32,9 @@
     <img alt="VST3" src="https://img.shields.io/badge/VST3-SDK-purple?style=social&logo=music&logoColor=white">
   </a>
 </p>
+
+> [!NOTE]
+> Since this is a pet project, it is logical to say that it has many errors/bugs/shortcomings
 
 ---
 
