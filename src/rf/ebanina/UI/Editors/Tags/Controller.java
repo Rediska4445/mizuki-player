@@ -8,7 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import rf.ebanina.File.FileManager;
-import rf.ebanina.File.Localization.LocalizationManager;
+import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.File.Resources.Resources;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
 import rf.ebanina.ebanina.Music;
@@ -125,9 +125,9 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        title.setText(LocalizationManager.getLocaleString("tags_title", "Tags"));
-        save.setText(LocalizationManager.getLocaleString("tags_save", "Save tags"));
-        tagInput.setPromptText(LocalizationManager.getLocaleString("tags_new_tag", "Save tags"));
+        title.setText(ResourceManager.getLocaleString("tags_title", "Tags"));
+        save.setText(ResourceManager.getLocaleString("tags_save", "Save tags"));
+        tagInput.setPromptText(ResourceManager.getLocaleString("tags_new_tag", "Save tags"));
 
         String hexColor = ColorProcessor.core.getGeneralColorFromImage(track.getAlbumArt()).toString().replace("0x", "#");
 
@@ -143,7 +143,7 @@ public class Controller implements Initializable {
 
         // Поле ввода
         tagInput.setStyle("-fx-background-color: #333333; -fx-text-fill: white; -fx-prompt-text-fill: #AAAAAA; -fx-border-color: " + hexColor + "; -fx-focus-color: " + hexColor + ";");
-        tagInput.setPromptText(LocalizationManager.getLocaleString("tags_new_tag", "Введите новый тег"));
+        tagInput.setPromptText(ResourceManager.getLocaleString("tags_new_tag", "Введите новый тег"));
 
         // Список тегов
         tagListView.setStyle("-fx-background-color: #2D2D2D; -fx-border-color: " + hexColor + "; -fx-control-inner-background: #2D2D2D;");
@@ -152,7 +152,7 @@ public class Controller implements Initializable {
         vBox.setStyle("-fx-background-color: transparent;");
 
         // Локализация
-        title.setText(LocalizationManager.getLocaleString("tags_title", "Редактор тегов"));
-        save.setText(LocalizationManager.getLocaleString("tags_save", "Сохранить"));
+        title.setText(ResourceManager.getLocaleString("tags_title", "Редактор тегов"));
+        save.setText(ResourceManager.getLocaleString("tags_save", "Сохранить"));
     }
 }

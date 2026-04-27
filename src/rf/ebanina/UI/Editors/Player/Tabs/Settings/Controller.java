@@ -7,8 +7,8 @@ import javafx.scene.control.Tab;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import rf.ebanina.File.Configuration.ConfigurationManager;
-import rf.ebanina.File.Localization.LocalizationManager;
 import rf.ebanina.File.Metadata.MetadataOfFile;
+import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
 import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
 import rf.ebanina.ebanina.Player.Track;
@@ -34,7 +34,7 @@ public class Controller {
 
     @FXML
     public void initialize() {
-        tab.setText(LocalizationManager.getLocaleString("vst_editor_tab_parameters", "Settings"));
+        tab.setText(ResourceManager.getLocaleString("vst_editor_tab_parameters", "Settings"));
 
         tempoSlider.setValue(MediaProcessor.mediaProcessor.mediaPlayer.getTempo());
         volume_slider.setValue(MediaProcessor.mediaProcessor.mediaPlayer.getVolume());
@@ -42,9 +42,9 @@ public class Controller {
 
         tempoLabel.setText(String.format("%.2f", tempoSlider.getValue()));
 
-        tempo.setText(LocalizationManager.getLocaleString("vst_editor_tempo", "Tempo"));
-        pan_text.setText(LocalizationManager.getLocaleString("vst_editor_pan", "Pan"));
-        volume_label1.setText(LocalizationManager.getLocaleString("vst_editor_volume", "Volume"));
+        tempo.setText(ResourceManager.getLocaleString("vst_editor_tempo", "Tempo"));
+        pan_text.setText(ResourceManager.getLocaleString("vst_editor_pan", "Pan"));
+        volume_label1.setText(ResourceManager.getLocaleString("vst_editor_volume", "Volume"));
 
         applyDynamicStyles();
 
@@ -101,7 +101,7 @@ public class Controller {
                     ColorProcessor.core.scaleHue(val);
                     applyDynamicStyles();
 
-                    rootImpl.artProcessor.setImage(MetadataOfFile.iMetadataOfFiles.getArt(new Track(Paths.get(URI.create(MediaProcessor.mediaProcessor.mediaPlayer.getMedia().getSource())).toString()), ColorProcessor.size, ColorProcessor.size, ColorProcessor.isPreserveRatio, ColorProcessor.isSmooth));
+                    rootImpl.artProcessor.setImage(MetadataOfFile.metadataOfFilesImpl.getArt(new Track(Paths.get(URI.create(MediaProcessor.mediaProcessor.mediaPlayer.getMedia().getSource())).toString()), ColorProcessor.size, ColorProcessor.size, ColorProcessor.isPreserveRatio, ColorProcessor.isSmooth));
                     rootImpl.artProcessor.initColor(rootImpl.art.getImage());
                 }
             }

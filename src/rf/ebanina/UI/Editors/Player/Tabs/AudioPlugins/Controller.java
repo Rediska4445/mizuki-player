@@ -1,6 +1,5 @@
 package rf.ebanina.UI.Editors.Player.Tabs.AudioPlugins;
 
-import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -8,7 +7,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.shape.SVGPath;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import rf.ebanina.File.Localization.LocalizationManager;
+import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.UI.Editors.Player.AudioHost;
 import rf.ebanina.UI.Root;
 import rf.ebanina.UI.UI.Element.ListViews.ListCells.AudioHost.VstPluginListCell;
@@ -26,15 +25,15 @@ public class Controller {
     public Tab tab;
 
     @FXML
-    public JFXButton serialize;
+    public Button serialize;
     @FXML
-    public JFXButton deserialize;
+    public Button deserialize;
     @FXML
     private Button addBtn;
     @FXML
     private Button removeBtn;
     @FXML
-    private JFXButton removeAllPluginsBtn;
+    private Button removeAllPluginsBtn;
     @FXML
     private ListView<PluginWrapper> pluginListView;
 
@@ -52,7 +51,7 @@ public class Controller {
             pluginListView.getItems().add(plugin);
         }
 
-        tab.setText(LocalizationManager.getLocaleString("vst_editor_tab_vst", "VST"));
+        tab.setText(ResourceManager.getLocaleString("vst_editor_tab_vst", "VST"));
 
         String hexColor = ColorProcessor.core.toHex(ColorProcessor.core.getMainClr());
         String bgDark = "#1E1E1E";

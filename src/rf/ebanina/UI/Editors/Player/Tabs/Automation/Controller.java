@@ -5,7 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.paint.Color;
-import rf.ebanina.File.Localization.LocalizationManager;
+import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
 import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
 
@@ -27,7 +27,7 @@ public class Controller implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         listView.getItems().setAll(savedAutomations);
 
-        tab.setText(LocalizationManager.getLocaleString("vst_editor_tab_auto", "Auto"));
+        tab.setText(ResourceManager.getLocaleString("vst_editor_tab_auto", "Auto"));
 
         // Получаем основной цвет системы
         Color clr = ColorProcessor.core.getMainClr();
@@ -40,8 +40,8 @@ public class Controller implements Initializable {
 
         listView.setStyle("-fx-background-color: #1E1E1E; -fx-control-inner-background: #1E1E1E; -fx-border-color: " + hex + "; -fx-border-radius: 8; -fx-background-radius: 8;");
 
-        addButton.setText(LocalizationManager.getLocaleString("vst_editor_add_auto", "add"));
-        removeButton.setText(LocalizationManager.getLocaleString("vst_editor_remove_auto", "rem"));
+        addButton.setText(ResourceManager.getLocaleString("vst_editor_add_auto", "add"));
+        removeButton.setText(ResourceManager.getLocaleString("vst_editor_remove_auto", "rem"));
 
         addButton.setOnAction((e) -> {
             Automation automation = new Automation(new Dimension(800, 50));

@@ -10,7 +10,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.Network.Net;
 import rf.ebanina.UI.Root;
@@ -25,7 +24,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import static rf.ebanina.File.Localization.LocalizationManager.getLocaleString;
+import static rf.ebanina.File.Resources.ResourceManager.getLocaleString;
 
 public class Controller
         implements Initializable
@@ -75,11 +74,10 @@ public class Controller
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tracks = new ListView<>();
-        tracks.setLayoutX(340);
-        tracks.setLayoutY(20);
-        tracks.setPrefWidth(500);
-        tracks.setPrefHeight(560);
+
         tracks.setId("tracks");
+        tracks.setPrefWidth(300);
+        tracks.setPrefHeight(100);
 
         AnchorPane.setBottomAnchor(tracks, 20d);
         AnchorPane.setLeftAnchor(tracks, 340d);
@@ -99,34 +97,24 @@ public class Controller
 
         addict.setText("search");
 
-        Color mainColor = ColorProcessor.core.getMainClr();
-        String hexColor = ColorProcessor.core.toHex(mainColor);
-
-        ColorProcessor.core.mainClrProperty().addListener((obs, oldColor, newColor) -> {
-            String hex = ColorProcessor.core.toHex(newColor);
-
-            mainPain.setStyle("-fx-main-accent: " + hex + ";");
-        });
-
-        mainPain.setStyle("-fx-main-accent: " + ColorProcessor.core.toHex(ColorProcessor.core.getMainClr()) + ";");
         mainPain.setStyle("-fx-background-color: #1E1E1E;");
 
-        tracks.setStyle("-fx-background-color: #2D2D2D; -fx-border-color: -fx-main-accent;");
+        tracks.setStyle("-fx-background-color: #2D2D2D; -fx-border-color: " + ColorProcessor.core.toHex(ColorProcessor.core.getMainClr()) + ";");
 
-        addToPlaylist.setStyle("-fx-background-color: -fx-main-accent; -fx-text-fill: white;");
-        setToPlaylist.setStyle("-fx-background-color: -fx-main-accent; -fx-text-fill: white;");
+        addToPlaylist.setStyle("-fx-background-color: " + ColorProcessor.core.toHex(ColorProcessor.core.getMainClr()) + "; -fx-text-fill: white;");
+        setToPlaylist.setStyle("-fx-background-color: " + ColorProcessor.core.toHex(ColorProcessor.core.getMainClr()) + "; -fx-text-fill: white;");
 
-        addictLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: -fx-main-accent;");
-        searchLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: -fx-main-accent;");
-        downloadLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: -fx-main-accent;");
-        numbers.setStyle("-fx-font-weight: bold; -fx-text-fill: -fx-main-accent;");
-        download.setStyle("-fx-background-color: #333333; -fx-text-fill: white; -fx-prompt-text-fill: #AAAAAA; -jfx-unfocus-color: -fx-main-accent; -jfx-focus-color: -fx-main-accent;");
-        addict.setStyle("-fx-background-color: #333333; -fx-text-fill: white; -fx-prompt-text-fill: #AAAAAA; -jfx-unfocus-color: -fx-main-accent; -jfx-focus-color: -fx-main-accent;");
-        search.setStyle("-fx-background-color: #333333; -fx-text-fill: white; -fx-prompt-text-fill: #AAAAAA; -jfx-unfocus-color: -fx-main-accent; -jfx-focus-color: -fx-main-accent;");
+        addictLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: " + ColorProcessor.core.toHex(ColorProcessor.core.getMainClr()) + ";");
+        searchLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: " + ColorProcessor.core.toHex(ColorProcessor.core.getMainClr()) + ";");
+        downloadLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: " + ColorProcessor.core.toHex(ColorProcessor.core.getMainClr()) + ";");
+        numbers.setStyle("-fx-font-weight: bold; -fx-text-fill: " + ColorProcessor.core.toHex(ColorProcessor.core.getMainClr()) + ";");
+        download.setStyle("-fx-background-color: #333333; -fx-text-fill: white; -fx-prompt-text-fill: #AAAAAA; -jfx-unfocus-color: " + ColorProcessor.core.toHex(ColorProcessor.core.getMainClr()) + "; -jfx-focus-color: " + ColorProcessor.core.toHex(ColorProcessor.core.getMainClr()) + ";");
+        addict.setStyle("-fx-background-color: #333333; -fx-text-fill: white; -fx-prompt-text-fill: #AAAAAA; -jfx-unfocus-color: " + ColorProcessor.core.toHex(ColorProcessor.core.getMainClr()) + "; -jfx-focus-color: " + ColorProcessor.core.toHex(ColorProcessor.core.getMainClr()) + ";");
+        search.setStyle("-fx-background-color: #333333; -fx-text-fill: white; -fx-prompt-text-fill: #AAAAAA; -jfx-unfocus-color: " + ColorProcessor.core.toHex(ColorProcessor.core.getMainClr()) + "; -jfx-focus-color: " + ColorProcessor.core.toHex(ColorProcessor.core.getMainClr()) + ";");
 
-        numbers.setStyle("-fx-text-fill: -fx-main-accent; -fx-font-weight: bold;");
+        numbers.setStyle("-fx-text-fill: " + ColorProcessor.core.toHex(ColorProcessor.core.getMainClr()) + "; -fx-font-weight: bold;");
 
-        searchButton.setStyle("-fx-background-color: -fx-main-accent; -fx-text-fill: white;");
+        searchButton.setStyle("-fx-background-color: " + ColorProcessor.core.toHex(ColorProcessor.core.getMainClr()) + "; -fx-text-fill: white;");
         searchButton.setOnAction((e) -> search());
 
         download.setOnKeyReleased(keyEvent -> {

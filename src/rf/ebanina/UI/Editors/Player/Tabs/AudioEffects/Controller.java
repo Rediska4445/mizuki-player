@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.paint.Color;
-import rf.ebanina.File.Localization.LocalizationManager;
+import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.UI.UI.Element.ListViews.ListCells.AudioHost.PluginListCell;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
 import rf.ebanina.ebanina.Player.AudioEffect.IAudioEffect;
@@ -19,7 +19,7 @@ public class Controller {
     public void initialize() {
         ownPluginsListView.setCellFactory(e -> new PluginListCell<>());
 
-        tab.setText(LocalizationManager.getLocaleString("vst_editor_tab_own_plugins", "Plugins"));
+        tab.setText(ResourceManager.getLocaleString("vst_editor_tab_own_plugins", "Plugins"));
 
         for (IAudioEffect plugin : MediaProcessor.mediaProcessor.mediaPlayer.getAudioPlugins()) {
             ownPluginsListView.getItems().add(plugin);

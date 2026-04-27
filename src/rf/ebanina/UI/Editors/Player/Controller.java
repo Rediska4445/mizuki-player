@@ -13,7 +13,7 @@ import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static rf.ebanina.File.Localization.LocalizationManager.getLocaleString;
+import static rf.ebanina.File.Resources.ResourceManager.getLocaleString;
 
 public class Controller
         implements Initializable

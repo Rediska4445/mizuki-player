@@ -12,7 +12,6 @@ import org.json.simple.parser.ParseException;
 import rf.ebanina.File.FileManager;
 import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.File.Resources.Resources;
-import rf.ebanina.Network.ITypicalSimilar;
 import rf.ebanina.Network.Illegal.Similar.SoundCloud;
 import rf.ebanina.Network.Net;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
@@ -31,10 +30,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Supplier;
 
-import static rf.ebanina.File.Localization.LocalizationManager.getLocaleString;
+import static rf.ebanina.File.Resources.ResourceManager.getLocaleString;
 import static rf.ebanina.Network.Illegal.Similar.LastFM.LASTFM_API_KEY;
 
-//FIXME: Потоки теряют ссылку на track
 @logging(tag = "TrackStatisticsController")
 public class Controller
         implements Initializable
