@@ -32,6 +32,8 @@
 
         <!-- Классовые библиотеки -->
         <libs.classes.path>${libs.path}/classes</libs.classes.path>
+
+        <junit.version>5.10.2</junit.version>
     </properties>
 
     <!--
@@ -202,29 +204,41 @@
             <version>3.12.13</version>
         </dependency>
 
-        <!-- JUnit 5 -->
+        <!-- JUnit -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>6.0.0-M2</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>6.0.0-M2</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId>
-            <version>6.0.0-M2</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-console-standalone</artifactId>
-            <version>1.10.0</version>
+            <artifactId>junit-platform-engine</artifactId>
+            <version>1.10.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-commons</artifactId>
+            <version>1.10.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest</artifactId>
+            <version>2.2</version>
             <scope>test</scope>
         </dependency>
 
@@ -259,6 +273,12 @@
             <groupId>org.testfx</groupId>
             <artifactId>testfx-junit5</artifactId>
             <version>4.0.18</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testfx</groupId>
+            <artifactId>openjfx-monocle</artifactId>
+            <version>jdk-12.0.1+2</version>
             <scope>test</scope>
         </dependency>
 
@@ -299,9 +319,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
                 <configuration>
-                    <includes>
-                        <include>**/*Test.java</include>
-                    </includes>
+                    <testSourceDirectory>test</testSourceDirectory>
                 </configuration>
             </plugin>
 
@@ -362,6 +380,38 @@
                         <manifestFile>${meta.inf.path}/MANIFEST.MF</manifestFile>
                     </archive>
                 </configuration>
+            </plugin>
+
+            <!-- JavaFX -->
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.3</version>
+                <configuration>
+                    <mainClass>rf.ebanina.Start</mainClass>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.6.0</version>
+                <configuration>
+                    <descriptors>
+                        <descriptor>release.xml</descriptor>
+                    </descriptors>
+                    <finalName>Mizuki</finalName>
+                    <appendAssemblyId>false</appendAssemblyId>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>
@@ -442,64 +492,6 @@
                         </configuration>
                     </execution>
 
-                    <!-- Копировать структуру папки cache -->
-                    <execution>
-                        <id>copy-cache-structure</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/cache</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>${cache.path}</directory>
-                                </resource>
-                            </resources>
-                            <overwrite>true</overwrite>
-                        </configuration>
-                    </execution>
-
-                    <!-- Удаление лишних файлов в cache -->
-                    <execution>
-                        <id>delete-txt-files</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/cache</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>${project.build.directory}/cache</directory>
-                                    <excludes>
-                                        <exclude>shared.txt</exclude>
-                                        <exclude>cache/history.txt</exclude>
-                                        <exclude>**/*.txt</exclude>
-                                    </excludes>
-                                </resource>
-                            </resources>
-                            <overwrite>true</overwrite>
-                        </configuration>
-                    </execution>
-
-                    <!-- Копировать папку license -->
-                    <execution>
-                        <id>copy-license</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/license</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>${license.path}</directory>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-
                     <!-- Копировать папку config -->
                     <execution>
                         <id>copy-config</id>
@@ -512,6 +504,30 @@
                             <resources>
                                 <resource>
                                     <directory>${config.path}</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+
+                    <!-- Копировать добавочные файлы -->
+                    <execution>
+                        <id>copy-additional</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.basedir}</directory>
+                                    <includes>
+                                        <include>version.json</include>
+                                        <include>README.md</include>
+                                        <include>SECURITY.md</include>
+                                        <include>LICENSE</include>
+                                    </includes>
+                                    <filtering>false</filtering>
                                 </resource>
                             </resources>
                         </configuration>

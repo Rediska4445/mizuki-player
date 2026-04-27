@@ -1,0 +1,63 @@
+<assembly xmlns="http://apache.org"
+          xmlns:xsi="http://w3.org"
+          xsi:schemaLocation="http://apache.org http://apache.org">
+    <id>dist</id>
+    <formats>
+        <format>dir</format>
+        <format>zip</format>
+    </formats>
+    <includeBaseDirectory>false</includeBaseDirectory>
+
+    <fileSets>
+        <!-- 1. Итоговый JAR-файл -->
+        <fileSet>
+            <directory>${project.build.directory}</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>*.jar</include>
+            </includes>
+            <excludes>
+                <exclude>original-*.jar</exclude>
+            </excludes>
+        </fileSet>
+
+        <!-- 2. Скрипты запуска (launch.bat, launch.sh) -->
+        <fileSet>
+            <directory>script</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>launch.bat</include>
+                <include>launch.sh</include>
+            </includes>
+        </fileSet>
+
+        <!-- 3. Папка res -->
+        <fileSet>
+            <directory>${resources.path}</directory>
+            <outputDirectory>res</outputDirectory>
+        </fileSet>
+
+        <!-- 4. Папка config -->
+        <fileSet>
+            <directory>${config.path}</directory>
+            <outputDirectory>config</outputDirectory>
+        </fileSet>
+
+        <!-- 5. Системные файлы (version.json, README и т.д.) -->
+        <fileSet>
+            <directory>${project.basedir}</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>version.json</include>
+                <include>*.md</include>
+                <include>LICENSE*</include>
+            </includes>
+        </fileSet>
+
+        <!-- 6. Библиотеки и зависимости -->
+        <fileSet>
+            <directory>libraries</directory>
+            <outputDirectory>libraries</outputDirectory>
+        </fileSet>
+    </fileSets>
+</assembly>
