@@ -25,9 +25,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Iterator;
 
-import static rf.ebanina.File.Localization.LocalizationManager.getLocaleString;
+import static rf.ebanina.File.Resources.ResourceManager.getLocaleString;
 import static rf.ebanina.UI.UI.Context.Menu.Playlist.TrackContextMenu.copyToFolder;
 import static rf.ebanina.UI.UI.Context.Menu.Playlist.TrackContextMenu.createNewPlaylist;
 

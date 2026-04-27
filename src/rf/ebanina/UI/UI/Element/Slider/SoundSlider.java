@@ -197,7 +197,7 @@ public class SoundSlider
         setMajorTickUnit(5.0);
         setMinorTickCount(4);
         setId("color-slider");
-        getStylesheets().add(ResourceManager.Instance.loadStylesheet("slider-custom"));
+        getStylesheets().add(ResourceManager.getInstance().loadStylesheet("slider-custom"));
         valueProperty().addListener((observableValue, number, t1) -> updateSlider());
 
         setOpacity(0);
@@ -209,6 +209,9 @@ public class SoundSlider
         sliderBackground.setMouseTransparent(true);
         sliderBackground.layoutXProperty().bind(layoutXProperty());
         sliderBackground.layoutYProperty().bind(layoutYProperty());
+
+        sliderBackground.toBack();
+        this.toFront();
     }
     /**
      * Возвращает контейнер звуковой волны.

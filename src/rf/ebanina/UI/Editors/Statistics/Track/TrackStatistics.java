@@ -5,7 +5,6 @@ import javafx.scene.Parent;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import rf.ebanina.File.Localization.LocalizationManager;
 import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.UI.Editors.IEditor;
 import rf.ebanina.UI.Editors.IViewable;
@@ -88,11 +87,11 @@ public class TrackStatistics
 
     @Override
     public String name() {
-        return LocalizationManager.getLocaleString("viewable_item_name_statistics", "Tracks Statistics");
+        return ResourceManager.getLocaleString("viewable_item_name_statistics", "Tracks Statistics");
     }
 
     @Override
     public String description() {
-        return LocalizationManager.getLocaleString("viewable_item_description_statistics", "Description");
+        return ResourceManager.getLocaleString("viewable_item_description_statistics", "Description");
     }
 }

@@ -29,7 +29,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static rf.ebanina.Network.Net.playersMap;
-import static rf.ebanina.UI.UI.Paint.ColorProcessor.*;
+import static rf.ebanina.UI.UI.Paint.ColorProcessor.isPreserveRatio;
+import static rf.ebanina.UI.UI.Paint.ColorProcessor.isSmooth;
 
 /**
  * <h1>Track</h1>
@@ -54,11 +55,11 @@ import static rf.ebanina.UI.UI.Paint.ColorProcessor.*;
  * }</pre>
  *
  * @see MetadataOfFile для загрузки метаданных
- * @see MediaReference для интеграции с MediaPlayer
+ * @see MediaReferencable для интеграции с MediaPlayer
  * @implements Serializable, Cloneable, Comparable&lt;Track&gt;
  */
 public class Track
-        implements Serializable, Cloneable, MediaReference, Comparable<Track>
+        implements Serializable, Cloneable, MediaReferencable, Comparable<Track>
 {
     /**
      * <h1>Tag</h1>
@@ -688,7 +689,7 @@ public class Track
      * @see MetadataOfFile#getArt(Track, int, int, boolean, boolean)
      */
     public Image getIndependentAlbumArt(int size, int size1, boolean a, boolean a1) {
-        return MetadataOfFile.iMetadataOfFiles.getArt(this, size, size1, a, a1);
+        return MetadataOfFile.metadataOfFilesImpl.getArt(this, size, size1, a, a1);
     }
 
     /**
@@ -734,7 +735,7 @@ public class Track
      * @return Image обложки
      */
     public Image getAlbumArt() {
-        return getAlbumArt(size);
+        return getAlbumArt(albumArtSize);
     }
 
     /**
@@ -776,7 +777,7 @@ public class Track
      * @return длительность в секундах (≥ 0)
      */
     public int getTotalDurationInSeconds() {
-        return totalDuraSec <= 0 ? totalDuraSec = MetadataOfFile.iMetadataOfFiles.getAudioFileDuration(path) : totalDuraSec;
+        return totalDuraSec <= 0 ? totalDuraSec = MetadataOfFile.metadataOfFilesImpl.getAudioFileDuration(path) : totalDuraSec;
     }
 
     /**
@@ -813,16 +814,20 @@ public class Track
         if(state.isEmpty()) {
             Path a = Path.of(
                     Resources.Properties.DEFAULT_CACHE_TRACKS_PATH.getKey(),
-                    FileManager.instance.name(getPlaylistName())
+                    FileManager.getInstance().name(getPlaylistName())
             );
 
-            state.putAll(FileManager.instance.readArray(
+            state.putAll(FileManager.getInstance().readArray(
                     a.toAbsolutePath().toString(),
                     path,
                     Map.of()
             ));
         }
 
+        return state;
+    }
+
+    public Map<String, String> getStateMap() {
         return state;
     }
 
@@ -1152,7 +1157,7 @@ public class Track
      * @return длительность из {@link MetadataOfFile}
      */
     public int getDuration() {
-        return MetadataOfFile.iMetadataOfFiles.getDuration(toString());
+        return MetadataOfFile.metadataOfFilesImpl.getDuration(toString());
     }
 
     /**
@@ -1185,7 +1190,7 @@ public class Track
      * @return название из метаданных
      */
     public String getTitle() {
-        return title == null || title.equals("") ? title = MetadataOfFile.iMetadataOfFiles.getTitle(this.path) : title;
+        return title == null || title.equals("") ? title = MetadataOfFile.metadataOfFilesImpl.getTitle(this.path) : title;
     }
 
     /**
@@ -1195,7 +1200,7 @@ public class Track
      * @return исполнитель из метаданных
      */
     public String getArtist() {
-        return artist == null || artist.equals("") ? artist = MetadataOfFile.iMetadataOfFiles.getArtist(this.path) : artist;
+        return artist == null || artist.equals("") ? artist = MetadataOfFile.metadataOfFilesImpl.getArtist(this.path) : artist;
     }
 
     /**
@@ -1338,6 +1343,11 @@ public class Track
      * @return {@link #path} (никогда не {@code null} после конструктора)
      */
     public String getPath() {
+        return path;
+    }
+
+    @Override
+    public String path() {
         return path;
     }
 
@@ -1504,7 +1514,7 @@ public class Track
                 e.printStackTrace();
             }
 
-            MetadataOfFile.iMetadataOfFiles.setArt(directory + File.separator + newValue.viewName() + ext,
+            MetadataOfFile.metadataOfFilesImpl.setArt(directory + File.separator + newValue.viewName() + ext,
                     SwingFXUtils.fromFXImage(Root.rootImpl.artProcessor.parseImage(newValue.viewName()), null));
         }
     }

@@ -13,7 +13,7 @@ import rf.ebanina.UI.UI.Paint.ColorProcessor;
 import rf.ebanina.ebanina.Music;
 import rf.ebanina.ebanina.Player.AudioPlugins.PluginWrapper;
 
-import static rf.ebanina.File.Localization.LocalizationManager.getLocaleString;
+import static rf.ebanina.File.Resources.ResourceManager.getLocaleString;
 
 // TODO: Объединить с PluginListCell
 // TODO: Merge with PluginListCell - 31.03.2026

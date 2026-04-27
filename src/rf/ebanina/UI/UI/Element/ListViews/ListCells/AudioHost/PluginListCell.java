@@ -16,7 +16,7 @@ import rf.ebanina.ebanina.Player.AudioEffect.Effector;
 import rf.ebanina.ebanina.Player.AudioEffect.IAudioEffect;
 import rf.ebanina.ebanina.Player.Controllers.MediaProcessor;
 
-import static rf.ebanina.File.Localization.LocalizationManager.getLocaleString;
+import static rf.ebanina.File.Resources.ResourceManager.getLocaleString;
 
 public class PluginListCell<T>
         extends ListCell<IAudioEffect>

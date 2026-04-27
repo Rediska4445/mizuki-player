@@ -6,7 +6,7 @@ package rf.ebanina.File;
  * Описывает объект, который может предоставить свой путь
  * в файловой системе или внутри абстрактного файлового хранилища.
  */
-public interface Reference
+public interface Referencable
 {
     /**
      * Возвращает путь к ресурсу.
@@ -18,5 +18,5 @@ public interface Reference
      * @return строковое представление пути к ресурсу,
      *         никогда не {@code null}
      */
-    String getPath();
+    String path();
 }
