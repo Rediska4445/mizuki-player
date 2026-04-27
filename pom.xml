@@ -319,6 +319,9 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
                 <configuration>
+                    <argLine>
+                        -Djava.library.path=${libs.path}/classes
+                    </argLine>
                     <testSourceDirectory>test</testSourceDirectory>
                 </configuration>
             </plugin>
