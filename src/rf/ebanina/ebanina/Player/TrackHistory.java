@@ -1,25 +1,31 @@
 package rf.ebanina.ebanina.Player;
 
-import javafx.application.Platform;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import rf.ebanina.File.DataTypes;
-import rf.ebanina.File.History;
 import rf.ebanina.UI.Root;
+import rf.ebanina.UI.UI.Element.UiHistory;
 
 import java.io.File;
-import java.util.Iterator;
 import java.util.Objects;
 
 public class TrackHistory
-        extends History<Track>
+        extends UiHistory<Track>
 {
-    protected final ContextMenu trackHistoryContextMenu;
+    public TrackHistory(int maxSize) {
+        super(maxSize);
+    }
 
     public TrackHistory(int maxSize, ContextMenu trackHistoryContextMenu) {
-        super(maxSize);
+        super(maxSize, trackHistoryContextMenu);
+    }
 
-        this.trackHistoryContextMenu = trackHistoryContextMenu;
+    @Override
+    public MenuItem createMenuItem(Track track) {
+        MenuItem m = new MenuItem(track.viewName() + " - " + track.getLastTimeTrack() + " - " + track.getState().get(DataTypes.LAST_DATE.code));
+        m.setOnAction(e -> Root.PlaylistHandler.playlistHandler.openTrack(track));
+
+        return m;
     }
 
     @Override
@@ -29,8 +35,6 @@ public class TrackHistory
         }
 
         super.remove(track);
-
-        trackHistoryContextMenu.getItems().remove(createMenuItem(track));
     }
 
     @Override
@@ -40,32 +44,6 @@ public class TrackHistory
         }
 
         super.add(track);
-
-        trackHistoryContextMenu.getItems().add(createMenuItem(track));
-    }
-
-    protected void updateContextMenu() {
-        Platform.runLater(() -> {
-            trackHistoryContextMenu.getItems().clear();
-
-            Iterator<Track> trackHistoryIterator = history.iterator();
-
-            for (int line_number = 0; line_number < maxSize.get()
-                    && trackHistoryIterator.hasNext(); line_number++) {
-                Track t = trackHistoryIterator.next();
-
-                MenuItem m = createMenuItem(t);
-
-                trackHistoryContextMenu.getItems().add(m);
-            }
-        });
-    }
-
-    public MenuItem createMenuItem(Track track) {
-        MenuItem m = new MenuItem(track.viewName() + " - " + track.getRawLastTimeTrack() + " - " + track.getState().get(DataTypes.LAST_DATE.code));
-        m.setOnAction(e -> Root.PlaylistHandler.playlistHandler.openTrack(track));
-
-        return m;
     }
 
     public void loadFromFile(File file) {

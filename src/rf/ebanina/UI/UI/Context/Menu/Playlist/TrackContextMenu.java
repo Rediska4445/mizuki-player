@@ -36,7 +36,7 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import static java.nio.file.FileVisitOption.FOLLOW_LINKS;
-import static rf.ebanina.File.Localization.LocalizationManager.getLocaleString;
+import static rf.ebanina.File.Resources.ResourceManager.getLocaleString;
 
 public class TrackContextMenu
         extends ContextMenu

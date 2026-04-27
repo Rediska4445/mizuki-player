@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Универсальная реализация истории переходов (аналог вкладки "История" в веб-браузере)
- * для объектов типа {@link Reference}.
+ * для объектов типа {@link Referencable}.
  * <p>
  * Предназначен для отслеживания последовательности посещенных/открытых файловых ресурсов,
  * медиафайлов, документов или других ссылок с поддержкой навигации "назад/вперед",
@@ -61,22 +61,22 @@ import java.util.concurrent.atomic.AtomicInteger;
  * <h3>Ограничения:</h3>
  * <ul>
  *   <li>Удаление элементов вручную сбрасывает итератор в конец</li>
- *   <li>Сохранение работает только с путями ({@link Reference#getPath()})</li>
+ *   <li>Сохранение работает только с путями ({@link Referencable#path()} ()})</li>
  *   <li>Для десериализации требуется фабрика {@link ReferenceFactory}</li>
  * </ul>
  *
  * <p><strong>Сериализуемость:</strong> полная поддержка {@link Serializable} для сохранения
  * состояния в бинарном виде.</p>
  *
- * @param <R> тип элементов истории, должен наследовать {@link Reference} и быть сериализуемым
+ * @param <R> тип элементов истории, должен наследовать {@link Referencable} и быть сериализуемым
  * @implements Serializable для персистентности состояния
  * @implements Comparable&lt;History&lt;R&gt;&gt; для сортировки коллекций историй
  *
  * @see History.HistoryIterator внутренний итератор навигации
- * @see Reference базовый интерфейс элементов истории
+ * @see Referencable базовый интерфейс элементов истории
  * @see ReferenceFactory фабрика для восстановления объектов из строк
  */
-public class History<R extends Reference>
+public class History<R extends Referencable>
         implements Serializable, Comparable<History<R>>
 {
     /**
@@ -173,7 +173,7 @@ public class History<R extends Reference>
     public void saveToFile(File file) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             for(R t : history) {
-                writer.write(t.getPath() + System.lineSeparator());
+                writer.write(t.path() + System.lineSeparator());
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -231,7 +231,7 @@ public class History<R extends Reference>
         int limit = Math.min(len1, len2);
 
         for (int i = 0; i < limit; i++) {
-            int cmp = (this.history.get(i)).getPath().compareTo(o.history.get(i).getPath());
+            int cmp = (this.history.get(i)).path().compareTo(o.history.get(i).path());
             if (cmp != 0)
                 return cmp;
         }

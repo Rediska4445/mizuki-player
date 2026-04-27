@@ -1,6 +1,5 @@
 package rf.ebanina.UI.UI.Element;
 
-import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
@@ -14,7 +13,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
 import rf.ebanina.File.Resources.ResourceManager;
 
 import java.util.List;
@@ -28,12 +26,10 @@ public abstract class SplashScreen
     private final SmoothProgress progressBar;
     private final rf.ebanina.UI.UI.Element.Text.Label statusLabel;
     private final rf.ebanina.UI.UI.Element.Text.Label percentLabel;
-    private Timeline progressTimeline;
 
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     public SplashScreen(List<String> funnyTexts) {
-
         splashStage = new Stage();
         splashStage.initStyle(StageStyle.UNDECORATED);
 
@@ -67,9 +63,6 @@ public abstract class SplashScreen
         );
 
         progressBar.getBar().progressProperty().addListener((obs, oldVal, newVal) -> {
-            if (progressTimeline != null)
-                progressTimeline.stop();
-
             statusLabel.setText(funnyTexts.get((int) (Math.random() * funnyTexts.size())));
             percentLabel.setText(progressBar.getBar().getProgress() * 100 + " %");
         });
@@ -80,13 +73,15 @@ public abstract class SplashScreen
         HBox textContainer = new HBox(percentLabel, spacer, statusLabel);
         textContainer.setMaxWidth(480);
 
-        VBox layout = new VBox(15, splashImage, textContainer, progressBar);
+        layout = new VBox(15, splashImage, textContainer, progressBar);
         layout.setAlignment(Pos.CENTER);
         layout.setStyle("-fx-background-color: #1a1a1a; -fx-padding: 10;");
 
         Scene scene = new Scene(layout);
         splashStage.setScene(scene);
     }
+
+    private VBox layout;
 
     public void show(Consumer<ProgressBar> runnable) {
         splashStage.show();

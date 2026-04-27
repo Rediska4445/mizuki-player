@@ -5,7 +5,6 @@ import javafx.scene.Parent;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import rf.ebanina.File.Localization.LocalizationManager;
 import rf.ebanina.File.Resources.ResourceManager;
 import rf.ebanina.UI.Editors.IEditor;
 import rf.ebanina.UI.Editors.IViewable;
@@ -84,11 +83,11 @@ public final class Tags
 
     @Override
     public String name() {
-        return LocalizationManager.getLocaleString("viewable_item_name_tags", "Tags");
+        return ResourceManager.getLocaleString("viewable_item_name_tags", "Tags");
     }
 
     @Override
     public String description() {
-        return LocalizationManager.getLocaleString("viewable_item_description_tags", "Description");
+        return ResourceManager.getLocaleString("viewable_item_description_tags", "Description");
     }
 }
