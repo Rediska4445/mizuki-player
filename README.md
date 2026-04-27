@@ -10,22 +10,17 @@
 </div>
 
 <div align="center">
-<span style="font-size: 36px; font-weight: bold;">Ebanina (Mizuki)</span><br>
+<span style="font-size: 36px; font-weight: bold;">Mizuki</span><br>
 <sup style="font-size: 18px;">v1.4</sup>
 </div>
 
----
-<h4>This project wasn't created for consumer use, and none of the features it includes offer anything serious.</h4>
-In fact, a README is also unnecessary!
-
----
-
 <div align="center">
-  <span style="font-size: 16px; font-weight: light;">Mizuki</span><br>
+    Pet project for audio experiments, VST hosting, network streaming & Java tech exploration.
+    The project is not intended for users and serves as a support for experiments 
+    and fantasies in the field of: audio processing, working with technologies, working with streams and the Java/C++ language in general.
 
-  Pet project for audio experiments, VST hosting, network streaming & Java tech exploration.
-  The project is not intended for users and serves as a support for experiments 
-  and fantasies in the field of: audio processing, working with technologies, working with streams and the Java/C++ language in general.
+> [!NOTE]
+> Since this is a pet project, it is logical to say that it has many errors/bugs/shortcomings
 </div>
 
 <p align="center">
@@ -138,7 +133,7 @@ The fastest way to get started is to run the automated script, which handles the
 
 ## Getting Started
 
-### With your hands
+### With your hands (if you want ofc)
 
 1. Create project and move code into it
 2. Add all dependencies per file structure
@@ -169,6 +164,13 @@ For Eclipse:
 1) Create a project and move the code there.
 2) Add local dependencies.
 3) Insert VM options
+
+### Maven
+
+To start application in maven, need require pom.xml as Maven project and run him tasks.
+
+> [!IMPORTANT]
+> Some dependencies are not in Maven Central, requiring manual installation into a local Maven repository. All required dependencies are located in the libraries directory. For automation, there's a shell script ([`scripts/build/install-deps.sh`](./scripts/build/install-deps.sh)) that will scan the libraries in the directory above and install a local dependency for each.
 
 ---
 
@@ -207,22 +209,29 @@ Dependency management and workspace preparation are now fully automated via the 
 
 ## Technical Stack
 
-| Framework/Library                                            | Description                    |
-|--------------------------------------------------------------|--------------------------------|
-| [JavaFX 21](https://openjfx.io/)                             | **Main UI Framework**          | 
-| [Maven](https://maven.apache.org/)                           | **Build Automation**           | 
-| [JUnit 5](https://junit.org/)                                | **Unit Testing**               | 
-| [Byte Buddy](https://bytebuddy.net/)                         | **Runtime Code Generation**    | 
-| [AssertJ](https://assertj.github.io/doc/)                    | **Fluent Assertions**          | 
-| [Mockito](https://site.mockito.org/)                         | **Mocking Framework**          |
-| [JLayer](https://mvnrepository.com/artifact/javazoom/jlayer) | **MP3 Audio Decoding**         | 
-| [MP3SPI](https://github.com/jsaw.mp3spi)                     | **MP3 Plugin for SPI**         | 
-| [VST3 SDK](https://github.com/steinbergmedia/vst3sdk)        | **VST3 Plugin Standard**       | 
-| [JVSTHost](https://github.com/mhroth/jvsthost)               | **VST Plugin Hosting**         | 
-| [Spotify](https://developer.spotify.com/)                    | **Spotify for developers**     | 
-| [Soundcloud](https://developers.soundcloud.com/)             | **Soundcloud for developers**  | 
-| [LastFM SDK](https://www.last.fm/api)                        | **LastFM for developers**      | 
-| [Apple](https://music.apple.com/ru/new)                      | **Apple Music for developers** | 
+| Framework/Library                                                                                     | Description                              |
+|-------------------------------------------------------------------------------------------------------|------------------------------------------|
+| [JavaFX](https://openjfx.io/)                                                                         | **Main UI Framework**                    |
+| [ControlsFX](https://controlsfx.org/)                                                                 | **UI Library for JavaFX**                |
+| [Javax Sound Api](https://docs.oracle.com/javase/8/docs/api/javax/sound/sampled/package-summary.html) | **Low level Api for Audio manipulation** |
+| [Maven](https://maven.apache.org/)                                                                    | **Build Automation**                     | 
+| [JUnit 5](https://junit.org/)                                                                         | **Unit Testing**                         | 
+| [Byte Buddy](https://bytebuddy.net/)                                                                  | **Runtime Code Generation**              | 
+| [AssertJ](https://assertj.github.io/doc/)                                                             | **Fluent Assertions**                    | 
+| [Mockito](https://site.mockito.org/)                                                                  | **Mocking Framework**                    |
+| [JLayer](https://mvnrepository.com/artifact/javazoom/jlayer)                                          | **MP3 Audio Decoding**                   | 
+| [MP3SPI](https://github.com/jsaw.mp3spi)                                                              | **MP3 Plugin for SPI**                   | 
+| [VST3 SDK](https://github.com/steinbergmedia/vst3sdk)                                                 | **VST3 Plugin Standard**                 | 
+| [JVSTHost](https://github.com/mhroth/jvsthost)                                                        | **VST Plugin Hosting**                   | 
+| [OkHttp](https://github.com/square/okhttp)                                                            | **Network interact**                     |
+| [JSON](https://github.com/fangyidong/json-simple)                                                     | **Parse JSON Api**                       |
+| [JSoup](https://jsoup.org/)                                                                           | **HTML/CSS Parse**                       |
+| [Spotify](https://developer.spotify.com/)                                                             | **Spotify for developers**               | 
+| [Soundcloud](https://developers.soundcloud.com/)                                                      | **Soundcloud for developers**            | 
+| [LastFM SDK](https://www.last.fm/api)                                                                 | **LastFM for developers**                | 
+| [Apple](https://music.apple.com/ru/new)                                                               | **Apple Music for developers**           | 
+| [Deezer](https://developers.deezer.com/api)                                                           | **Deezer for developers**                | 
+| [MyMemory](https://mymemory.translated.net/doc/spec.php)                                              | **MyMemory Api for translation**         |
 
 ---
 
