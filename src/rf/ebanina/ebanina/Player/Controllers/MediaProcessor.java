@@ -6,8 +6,6 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.util.Duration;
 import rf.ebanina.File.Configuration.ConfigurationManager;
 import rf.ebanina.File.DataTypes;
@@ -21,7 +19,6 @@ import rf.ebanina.UI.Editors.Player.AudioHost;
 import rf.ebanina.UI.Root;
 import rf.ebanina.UI.UI.Element.Slider.SoundSlider;
 import rf.ebanina.UI.UI.Paint.ColorProcessor;
-import rf.ebanina.UI.UI.Popup.PreviewPopupService;
 import rf.ebanina.ebanina.KeyBindings.KeyBind;
 import rf.ebanina.ebanina.Music;
 import rf.ebanina.ebanina.Player.AudioDecoder;
@@ -178,7 +175,29 @@ import static rf.ebanina.ebanina.Player.Controllers.Playlist.PlaylistController.
  */
 public class MediaProcessor
 {
+    /**
+     * Реализация корневого объекта приложения, через который медиапроцессор
+     * взаимодействует с основной структурой/состоянием приложения.
+     */
     private final Root rootImpl;
+
+    /**
+     * Менеджер конфигурации, отвечающий за хранение и управление настройками приложения,
+     * используемыми медиапроцессором.
+     */
+    private final ConfigurationManager configurationManager;
+
+    /**
+     * Менеджер ресурсов, отвечающий за загрузку и управление прикладными ресурсами
+     * (например, изображениями, стилями, локализацией и т.п.).
+     */
+    private final ResourceManager resourceManager;
+
+    /**
+     * Менеджер файлов, отвечающий за операции чтения/записи файлов и управление
+     * файловой структурой приложения.
+     */
+    private final FileManager fileManager;
 
     /**
      * Глобальный singleton экземпляр процессора медиа.
@@ -198,33 +217,62 @@ public class MediaProcessor
      * </p>
      */
     public static MediaProcessor mediaProcessor = new MediaProcessor(
-            ConfigurationManager.instance.getBooleanItem("clear_samples", "true"),
-            Root.rootImpl
+            ConfigurationManager.getInstance(),
+            Root.getRootImpl(),
+            ResourceManager.getInstance(),
+            FileManager.getInstance()
     );
     /**
-     * Конструктор процессора медиа.
-     * <p>
-     * <b>Параметры:</b>
-     * </p>
-     * <ul>
-     *   <li><code>isClearSamples</code>: управление памятью waveform сэмплов
-     *       ({@code soundSlider.clearSamples()})</li>
-     *   <li><code>rootImpl.soundSlider</code>: UI компонент для визуализации waveform
-     *       и анализа скипов</li>
-     * </ul>
-     * <p>
-     * Инициализирует критически важные поля для последующей работы:
-     * {@code isClearSamples}, {@code rootImpl.soundSlider}.
-     * </p>
+     * Возвращает новый экземпляр {@link MediaProcessor} с заданными зависимостями.
      *
-     * @param isClearSamples флаг очистки кэша сэмплов
+     * @param rootImpl реализация корневого объекта приложения
+     * @param configurationManager менеджер конфигурации, отвечающий за настройки приложения
+     * @return новый экземпляр {@link MediaProcessor}
      */
-    public MediaProcessor(boolean isClearSamples, Root root) {
-        this.isClearSamples = isClearSamples;
+    public static MediaProcessor defaultInstance(
+            Root rootImpl,
+            ConfigurationManager configurationManager
+    ) {
+        return new MediaProcessor(
+                configurationManager,
+                rootImpl,
+                ResourceManager.getInstance(),
+                FileManager.getInstance()
+        );
+    }
+    /**
+     * Возвращает глобальный единственный экземпляр {@link MediaProcessor} (singleton).
+     * При первом вызове создаётся новый экземпляр через {@link #defaultInstance(Root, ConfigurationManager)}.
+     *
+     * @return единственный экземпляр {@link MediaProcessor}
+     */
+    public static MediaProcessor getInstance() {
+        if(mediaProcessor == null)
+            return mediaProcessor = defaultInstance(
+                    Root.getRootImpl(),
+                    ConfigurationManager.getInstance()
+            );
+
+        return mediaProcessor;
+    }
+
+    /**
+     * Создаёт новый экземпляр {@link MediaProcessor} с заданными зависимостями
+     * и инициализирует внутренний набор параметров воспроизведения медиа.
+     *
+     * @param configurationManager менеджер конфигурации, отвечающий за настройки приложения
+     * @param root                 реализация корневого объекта приложения
+     */
+    public MediaProcessor(ConfigurationManager configurationManager, Root root, ResourceManager resourceManager, FileManager fileManager) {
+        this.configurationManager = configurationManager;
+        this.MEDIA_PLAYER_BLOCK_SIZE_FRAMES = configurationManager.getIntItem("audio_player_block_size_frames", "256");
+        this.isPreDownload = configurationManager.getBooleanItem("network_pre_download", "false");
         this.rootImpl = root;
-        this.mediaParameters.put("isAutoPlayback", new SimpleBooleanProperty(false), BooleanProperty.class);
-        this.mediaParameters.put("isPlaylistLoop", new SimpleBooleanProperty(false), BooleanProperty.class);
-        this.mediaParameters.put("isPlayRandom", new SimpleBooleanProperty(false), BooleanProperty.class);
+        this.resourceManager = resourceManager;
+        this.fileManager = fileManager;
+        this.mediaParameters.put(MediaParameters.IS_AUTO_PLAYBACK.code, new SimpleBooleanProperty(false), BooleanProperty.class);
+        this.mediaParameters.put(MediaParameters.IS_PLAYLIST_LOOP.code, new SimpleBooleanProperty(false), BooleanProperty.class);
+        this.mediaParameters.put(MediaParameters.IS_PLAY_RANDOM.code, new SimpleBooleanProperty(false), BooleanProperty.class);
     }
 
     /**
@@ -335,7 +383,7 @@ public class MediaProcessor
      * </p>
      * <p><b>Влияние:</b> определяет {@code SourceDataLine.write(buffer, 256)} частоту вызовов.</p>
      */
-    public final int MEDIA_PLAYER_BLOCK_SIZE_FRAMES = ConfigurationManager.instance.getIntItem("audio_player_block_size_frames", "256");
+    public final int MEDIA_PLAYER_BLOCK_SIZE_FRAMES;
     /**
      * Одинокий пул потоков для переключения треков.
      * <p>
@@ -544,7 +592,7 @@ public class MediaProcessor
      */
     public void _track(Track track) {
         // Задержка
-        int delay = ConfigurationManager.instance.getIntItem("delay_between_play", "2000");
+        int delay = configurationManager.getIntItem("delay_between_play", "2000");
 
         if(delay > 0) {
             try {
@@ -639,10 +687,10 @@ public class MediaProcessor
 
         trackCacheIter.incrementAndGet();
 
-        if(ConfigurationManager.instance.getBooleanItem("translate_track_title", "false")) {
+        if(configurationManager.getBooleanItem("translate_track_title", "false")) {
             rootImpl.currentTrackName.setText(Translator.instance.TranslateNodeText(
                     playProcessor.getTracks().get(playProcessor.getTrackIter()).getTitle(),
-                    ResourceManager.localizationManager.getLang().substring(ResourceManager.localizationManager.getLang().indexOf("_") + 1)
+                    resourceManager.getLocalizationManager().getLang().substring(resourceManager.getLocalizationManager().getLang().indexOf("_") + 1)
             ));
         }
     }
@@ -729,7 +777,7 @@ public class MediaProcessor
      * </p>
      * <p><b>Автоочистка:</b> {@code FileManager.isOccupiedSpace(64)} → clearCache().</p>
      */
-    private final boolean isPreDownload = ConfigurationManager.instance.getBooleanItem("network_pre_download", "false");
+    private final boolean isPreDownload;
 
     private long networkBufferSize = 32 * 1024 * 1024;
 
@@ -1087,7 +1135,7 @@ public class MediaProcessor
         globalMap.put("pan", Float.parseFloat(FileManager.instance.readSharedData().get("pan")), float.class);
         globalMap.put("pause", Boolean.parseBoolean(FileManager.instance.readSharedData().get("pause")), boolean.class);
         globalMap.put("tempo", Float.parseFloat(FileManager.instance.readSharedData().get("tempo")), float.class);
-        globalMap.put("audio_out", ConfigurationManager.instance.getItem("audio_out", ""), String.class);
+        globalMap.put("audio_out", configurationManager.getItem("audio_out", ""), String.class);
     }
     /**
      * Восстановление плеера из последнего сеанса (startup).
@@ -1115,7 +1163,7 @@ public class MediaProcessor
 
         Platform.runLater(() -> {
             rootImpl.soundSlider.setValue(sec);
-            rootImpl.soundSlider.setMax(MetadataOfFile.iMetadataOfFiles.getDuration(playProcessor.getTracks().get(playProcessor.getTrackIter()).toString()));
+            rootImpl.soundSlider.setMax(MetadataOfFile.metadataOfFilesImpl.getDuration(playProcessor.getTracks().get(playProcessor.getTrackIter()).toString()));
 
             rootImpl.tracksListView.getTrackListView().getSelectionModel().select(playProcessor.getTrackIter());
             rootImpl.beginTime.setText((Track.getFormattedTotalDuration(sec)));
@@ -1146,7 +1194,7 @@ public class MediaProcessor
      * <p><b>Автовоспроизведение:</b> IS_AUTO_PLAYBACK → start/stop время из кэша.</p>
      */
     public void readState(Track track) {
-        if (PlayProcessor.playProcessor.getTrackHistoryGlobal().size() >= ConfigurationManager.instance.getIntItem("global_history_size", "25")) {
+        if (PlayProcessor.playProcessor.getTrackHistoryGlobal().size() >= configurationManager.getIntItem("global_history_size", "25")) {
             PlayProcessor.playProcessor.getTrackHistoryGlobal().getHistory().clear();
         }
 
@@ -1154,7 +1202,7 @@ public class MediaProcessor
 
         String trackInFile = track.getPath();
 
-        final String al = ConfigurationManager.instance.getItem("start_play_from", "last_time");
+        final String al = configurationManager.getItem("start_play_from", "last_time");
 
         // Путь к кеш-файлу
         if(playProcessor.isNetwork()) {
@@ -1281,7 +1329,7 @@ public class MediaProcessor
 
         mediaPlayer.setPlugins(AudioHost.instance.vstPlugins);
 
-        if(playProcessor.isNetwork() && !ConfigurationManager.instance.getBooleanItem("network_pre_download", "false")) {
+        if(playProcessor.isNetwork() && !configurationManager.getBooleanItem("network_pre_download", "false")) {
             mediaPlayer.setTotalOverDuration(Duration.seconds(totalDuraSec.get()));
         }
 
@@ -1367,12 +1415,6 @@ public class MediaProcessor
      * <p><b>Связь:</b> {@link #setNewMedia(Media)}} → <code>onMediaPlayerCreate.accept(newPlayer)</code>.</p>
      */
     public Consumer<MediaPlayer> onMediaPlayerCreate = this::mediaPlayerPrepare;
-    /**
-     * Флаг очистки кэша сэмплов после waveform анализа.
-     * <p><b>Используется:</b> {@code getSubsets()} → <code>if(isClearSamples) soundSlider.clearSamples()</code>.</p>
-     * <p><b>Конфиг:</b> <code>clear_samples=true</code> (по умолчанию).</p>
-     */
-    private final boolean isClearSamples;
 
     /**
      * Формирует упрощённое представление аудиосигнала для визуализации.
@@ -1396,8 +1438,6 @@ public class MediaProcessor
      *   <li>Пересчитывает нормализованные значения в пиксели относительно текущего
      *       размера компонента {@link SoundSlider#getSize()} — используется половина высоты
      *       компонента как максимальная видимая амплитуда.</li>
-     *   <li>При установленном флаге {@code isClearSamples} очищает исходные сэмплы
-     *       через {@link SoundSlider#clearSamples()}.</li>
      * </ul>
      *
      * <h3>Назначение</h3>
@@ -1469,7 +1509,7 @@ public class MediaProcessor
         }
 
         // 9. Опционально: очищаем кэш сэмплов (чтобы не жрать память)
-        if(isClearSamples) {
+        if(configurationManager.getBooleanItem("clear_samples", "true")) {
             soundSlider.clearSamples();
         }
 

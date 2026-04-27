@@ -219,11 +219,11 @@ public final class Music
     public void start(Stage stage)
             throws IOException
     {
-        mainLogger.info("Initialized language: " + ResourceManager.getLocalizationManager().getLocale(), "EN_en");
+        mainLogger.info("Initialized language: " + ResourceManager.getInstance().getLocalizationManager().getLocale(), "EN_en");
 
         SplashScreen splashScreen = new SplashScreen(
                 FileManager.getInstance().getJsonList(Path.of(ResourceManager.getInstance().getResourcesPaths().get("splashesMessages")),
-                        ResourceManager.getLocalizationManager().getLocale(), "EN_en"))
+                        ResourceManager.getInstance().getLocalizationManager().getLocale(), "EN_en"))
         {
             @Override
             public void showMainWindow() {

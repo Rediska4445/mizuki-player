@@ -707,9 +707,28 @@ public class MediaPlayer
 
     private int BLOCK_SIZE_FRAMES = 2048;
 
-    public MediaPlayer(Media media, int BLOCK_SIZE_FRAMES) {
+    public MediaPlayer(
+            Media media,
+            int blockSizeFrames,
+            SourceDataLine line
+    ) {
         this.media = Objects.requireNonNull(media, "Media cannot be null");
-        this.BLOCK_SIZE_FRAMES = BLOCK_SIZE_FRAMES;
+        this.BLOCK_SIZE_FRAMES = blockSizeFrames;
+        this.line = line;
+
+        prepareAsync();
+
+        setStatus(Status.READY);
+
+        volume.addListener((obs, oldV, newV) -> setLineVolume(newV.doubleValue()));
+    }
+
+    public MediaPlayer(
+            Media media,
+            int blockSizeFrames
+    ) {
+        this.media = Objects.requireNonNull(media, "Media cannot be null");
+        this.BLOCK_SIZE_FRAMES = blockSizeFrames;
 
         prepareAsync();
 
@@ -1965,9 +1984,11 @@ public class MediaPlayer
             totalDuration.set(computeDurationFallback(decodedFormat, fileSize));
         }
 
-        DataLine.Info info = new DataLine.Info(SourceDataLine.class, decodedFormat);
-        line = (SourceDataLine) AudioSystem.getLine(info);
-        line.open(decodedFormat);
+        if(line == null) {
+            DataLine.Info info = new DataLine.Info(SourceDataLine.class, decodedFormat);
+            line = (SourceDataLine) AudioSystem.getLine(info);
+            line.open(decodedFormat);
+        }
 
         int channels = decodedFormat.getChannels();
         inputBlock = new float[channels][BLOCK_SIZE_FRAMES];
@@ -2300,6 +2321,7 @@ public class MediaPlayer
 
                 // Обновление текущего фрейма и времени
                 currentFrame += processedFrames;
+
                 updateCurrentTime(Duration.seconds(currentFrame / sampleRate));
             }
         } catch (Throwable t) {
