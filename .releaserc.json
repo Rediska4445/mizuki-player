@@ -21,9 +21,12 @@
         "preset": "angular",
         "presetConfig": {
           "types": [
-            { "type": "Breaking", "section": "Breaking", "hidden": false },
+            { "type": "Breaking", "section": "Breaking Changes", "hidden": false },
+            { "type": "breaking", "section": "Breaking Changes", "hidden": false },
             { "type": "Feat", "section": "Features", "hidden": false },
-            { "type": "Fix", "section": "Fixes", "hidden": false }
+            { "type": "feat", "section": "Features", "hidden": false },
+            { "type": "Fix", "section": "Fixes", "hidden": false },
+            { "type": "fix", "section": "Fixes", "hidden": false }
           ]
         }
       }

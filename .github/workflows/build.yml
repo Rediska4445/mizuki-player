@@ -7,42 +7,60 @@ on:
     branches: [ "master", "main" ]
 
 jobs:
-  ci-cd:
+  # 1: Tests
+  test:
     runs-on: windows-latest
-    permissions:
-      contents: write
-      issues: write
-      pull-requests: write
-
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
       - name: Set up JDK 19
         uses: actions/setup-java@v4
         with:
           java-version: '19'
           distribution: 'temurin'
           cache: maven
-
       - name: Install local dependencies
         shell: bash
         run: |
           chmod +x scripts/build/install-deps.sh
           ./scripts/build/install-deps.sh
-
-      # 1: Тесты
       - name: Run Tests
         run: mvn test "-Djava.library.path=libraries/classes" "-Dtestfx.robot=glass" "-Dtestfx.headless=true" "-Dprism.order=sw" "-Dglass.platform=Monocle" "-Dmonocle.platform=Headless"
 
-      # 2: Проверочная сборка
+  # 2: Package Check
+  build-check:
+    needs: test
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 19
+        uses: actions/setup-java@v4
+        with:
+          java-version: '19'
+          distribution: 'temurin'
+          cache: maven
       - name: Build Check
         run: mvn package -DskipTests
 
-      # 3: Релиз
+  # 3: Release
+  release:
+    needs: build-check
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    runs-on: windows-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up JDK 19
+        uses: actions/setup-java@v4
+        with:
+          java-version: '19'
+          distribution: 'temurin'
+          cache: maven
       - name: Semantic Release
-        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
         shell: bash
         run: |
           npm install semantic-release \
