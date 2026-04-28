@@ -28,6 +28,19 @@
         }
       }
     ],
-    "@semantic-release/github"
+    [
+      "@semantic-release/exec",
+      {
+        "prepareCmd": "mvn versions:set -DnewVersion=${nextRelease.version} -DgenerateBackupPoms=false && mvn package -DskipTests"
+      }
+    ],
+    [
+      "@semantic-release/github",
+      {
+        "assets": [
+          { "path": "target/Mizuki.zip", "label": "Mizuki Distribution" }
+        ]
+      }
+    ]
   ]
 }
