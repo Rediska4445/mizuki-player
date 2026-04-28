@@ -32,30 +32,24 @@ jobs:
           chmod +x scripts/build/install-deps.sh
           ./scripts/build/install-deps.sh
 
-      # 1: Запустить тесты
+      # 1: Тесты
       - name: Run Tests
         run: mvn test "-Djava.library.path=libraries/classes" "-Dtestfx.robot=glass" "-Dtestfx.headless=true" "-Dprism.order=sw" "-Dglass.platform=Monocle" "-Dmonocle.platform=Headless"
 
-      # 2: Выполнить сборку без тестов
-      # Это проверит, что проект в принципе собирается
-      - name: Build Package
+      # 2: Проверочная сборка
+      - name: Build Check
         run: mvn package -DskipTests
 
-      # : Если это пуш в main/master
+      # 3: Релиз
       - name: Semantic Release
         if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
-        id: semantic
         shell: bash
         run: |
-          npm install semantic-release @semantic-release/commit-analyzer @semantic-release/release-notes-generator @semantic-release/github
+          npm install semantic-release \
+                      @semantic-release/commit-analyzer \
+                      @semantic-release/release-notes-generator \
+                      @semantic-release/github \
+                      @semantic-release/exec
           npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # 4: Если версия изменилась
-      - name: Re-build with new version
-        if: steps.semantic.outputs.new_release_published == 'true'
-        shell: bash
-        run: |
-          mvn versions:set -DnewVersion=${{ steps.semantic.outputs.new_release_version }} -DgenerateBackupPoms=false
-          mvn package -DskipTests
