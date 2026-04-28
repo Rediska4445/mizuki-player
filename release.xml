@@ -58,6 +58,26 @@
         <fileSet>
             <directory>libraries</directory>
             <outputDirectory>libraries</outputDirectory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+            <excludes>
+                <exclude>**/*test*.jar</exclude>
+                <exclude>**/testfx*.jar</exclude>
+                <exclude>**/mockito*.jar</exclude>
+                <exclude>**/junit*.jar</exclude>
+                <exclude>**/assertj*.jar</exclude>
+                <exclude>**/byte*.jar</exclude>
+            </excludes>
+        </fileSet>
+
+        <!-- 7. Удаление модов -->
+        <fileSet>
+            <directory>res/mods</directory>
+            <outputDirectory>res/mods</outputDirectory>
+            <excludes>
+                <exclude>**/*</exclude>
+            </excludes>
         </fileSet>
     </fileSets>
 </assembly>

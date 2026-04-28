@@ -13,64 +13,48 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="090f838e-e1f0-4ee3-9e0f-b5df3b4d364f" name="Changes" comment="Refactored">
-      <change afterPath="$PROJECT_DIR$/src/rf/ebanina/File/Configuration/Configurations.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/rf/ebanina/ebanina/Player/MediaReferencable.java" afterDir="false" />
+    <list default="true" id="090f838e-e1f0-4ee3-9e0f-b5df3b4d364f" name="Changes" comment="MediaPlayerTest excluded from tests on some time">
+      <change beforePath="$PROJECT_DIR$/.github/workflows/build.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/build.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cache/shared.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cache/shared.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/settings.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/config/settings.cfg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/js/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/corrupted.plugin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/empty.plugin" beforeDir="false" afterPath="$PROJECT_DIR$/.releaserc.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mods/ebanina-std-mod-controller" beforeDir="false" afterPath="$PROJECT_DIR$/mods/ebanina-std-mod-controller" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mods/mizuka-std-background-player" beforeDir="false" afterPath="$PROJECT_DIR$/mods/mizuka-std-background-player" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modules/ebanina-soundcloud-api-wrapper" beforeDir="false" afterPath="$PROJECT_DIR$/modules/ebanina-soundcloud-api-wrapper" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modules/ebanina-std-utils" beforeDir="false" afterPath="$PROJECT_DIR$/modules/ebanina-std-utils" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modules/ebanina-vst-ipc-host" beforeDir="false" afterPath="$PROJECT_DIR$/modules/ebanina-vst-ipc-host" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modules/mizuka-deezer-api-wrapper" beforeDir="false" afterPath="$PROJECT_DIR$/modules/mizuka-deezer-api-wrapper" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/File/Field.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/File/Field.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/File/Localization/JsonLocalizationManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/File/Localization/JsonLocalizationManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/File/Metadata/Formats/MP3.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/File/Metadata/Formats/MP3.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/File/Metadata/MetadataOfFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/File/Metadata/MetadataOfFile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/File/Reference.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/File/Referencable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/File/ReferenceFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/File/ReferenceFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Info/Application/ApplicationInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Info/Application/ApplicationInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Metadata/Playlist/Playlist.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Metadata/Playlist/Playlist.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Metadata/Track/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Metadata/Track/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Metadata/Track/Metadata.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Metadata/Track/Metadata.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Network/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Network/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Network/NetworkHost.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Network/NetworkHost.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Player/AudioHost.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Player/AudioHost.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Player/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Player/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Player/Tabs/AudioEffects/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Player/Tabs/AudioEffects/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Player/Tabs/AudioPlugins/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Player/Tabs/AudioPlugins/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Player/Tabs/Automation/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Player/Tabs/Automation/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Player/Tabs/Settings/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Player/Tabs/Settings/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Settings/Settings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Settings/Settings.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Statistics/Track/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Statistics/Track/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Statistics/Track/TrackStatistics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Statistics/Track/TrackStatistics.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Tags/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/Editors/Tags/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/Root.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/Root.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Animations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Animations.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Context/Menu/Playlist/PlaylistContextMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Context/Menu/Playlist/PlaylistContextMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Context/Menu/Playlist/SimilarContextMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Context/Menu/Playlist/SimilarContextMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/Art.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/Art.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/Dialogs/MainFunctionDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/Dialogs/MainFunctionDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/ListViews/ListCells/AudioHost/PluginListCell.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/ListViews/ListCells/AudioHost/PluginListCell.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/ListViews/ListCells/AudioHost/VstPluginListCell.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/ListViews/ListCells/AudioHost/VstPluginListCell.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/ListViews/ListCells/Playlists/ListCellPlaylist.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/ListViews/ListCells/Playlists/ListCellPlaylist.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/ListViews/ListView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/ListViews/ListView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/ListViews/ListViewSkin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/ListViews/ListViewSkin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/Slider/SoundSlider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Element/Slider/SoundSlider.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Paint/ColorProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/UI/UI/Paint/ColorProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/release.xml" beforeDir="false" afterPath="$PROJECT_DIR$/release.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/mods/mizuka-std-images/75049c81a01f04e853e11fe3c1cb3b56_3598286243574336159.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/mods/mizuka-std-images/7gvO4ktCQ5o7KIIk9OykGwTT6YThFbYPxyzlcnxQch83pXoBEiLKdGle1fZiGHh8rkdoe9ubwYGcH56iOkA24y7a.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/mods/mizuka-std-images/A759cdrceT4f-WDvLC4-gEK1z6pbqZI9ljUOZid_uAgio0hsjzRbtBVByULWrMEsWPR5kEg4cXsVVBAePcVTAkVw.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/mods/mizuka-std-images/Kafka-(Honkai-Star-Rail)-Honkai-Star-Rail-Игры-9108451.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/mods/mizuka-std-images/YXvyeYZsASGiXGgXpcJR3ELsuaoH5iQ51XAcTzP7kLvHZkAHhkvlGlVqoTBCHv9fWHO2XpE_wEZ2HjGiEoCjPHEl.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/mods/mizuka-std-images/_1hnboanX3Y-Askk0mbSOXoh7fVn4HVLFpkO-G8IBf3ZHa6QmRue6DH_dGCdw3lbm58mtb_LUtdGWbizNa3hoNt9.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/mods/mizuka-std-images/azu9t29x7q9b1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/mods/mizuka-std-images/frgr.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/mods/mizuka-std-images/images.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/mods/mizuka-std-images/kafka-s-little-pet.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/mods/mizuka-std-images/kec0qrioI-PaZiUqm7M-h3GxH-2yOB3ESx8iAKFNvpSadvUG6YGwCZ_i16iDGcenh6wgNOFiG4eQi8OecUQzX6yt.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/mods/mizuka-std-images/miss-kafka-s-pet.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/mods/mizuka-std-images/n9ls8blxkxeb1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/mods/mizuka-std-images/p5LSPlg7_Nk6hlq32KfYkVvb9nZkRxcN-8SITFPB_sSHouVB2zFMt13d9O9U7x97p8wMt4dkyB8KeuQ-t0GyAczh.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/mods/mizuka-std-images/photo_2026-02-06_20-18-48.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/mods/mizuka-std-images/photo_2026-02-07_02-02-22.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/mods/mizuka-std-images/photo_2026-02-09_01-22-07.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/mods/mizuka-std-images/photo_2026-02-13_00-33-56.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/mods/mizuka-std-images/photo_2026-02-13_00-34-12.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/mods/mizuka-std-images/qe7exton.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/mods/mizuka-std-images/real_seks.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/mods/mizuka-std-images/rt.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/mods/mizuka-std-images/wdn2spm73zeb1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/mods/mizuka-std-images/xeDhiBrJ-Zu7zB_r0kYi_efEUTlH8b9Rg20M5STGt_GcukwbtpMhbzSAjFEQpP3hgsFQmi8tnnXljjB9odDo68Px.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/mods/mizuka-std-images/Без названия.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/File/FileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/File/FileManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/rf/ebanina/ebanina/Music.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/ebanina/Music.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/ebanina/Player/Controllers/ArtProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/ebanina/Player/Controllers/ArtProcessor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/rf/ebanina/ebanina/Player/Controllers/MediaProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/ebanina/Player/Controllers/MediaProcessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/ebanina/Player/Intro.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/ebanina/Player/Intro.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/ebanina/Player/Media.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/ebanina/Player/Media.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/rf/ebanina/ebanina/Player/MediaPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/ebanina/Player/MediaPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/ebanina/Player/MediaReference.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/ebanina/Player/Playlist.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/ebanina/Player/Playlist.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rf/ebanina/ebanina/Player/Track.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rf/ebanina/ebanina/Player/Track.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/version.json" beforeDir="false" afterPath="$PROJECT_DIR$/version.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -213,7 +197,7 @@
     &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/2022/Desktop/программы/Ebanina-Test/Ebanina/Ebanina-VST/res/themes&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/2022/Desktop/программы/Ebanina-Test/Ebanina/Ebanina-VST/libraries/modules&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15332031&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.28361857&quot;,
@@ -223,11 +207,11 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\2022\Desktop\программы\Ebanina-Test\Ebanina\Ebanina-VST\libraries\modules" />
       <recent name="C:\Users\2022\Desktop\программы\Ebanina-Test\Ebanina\Ebanina-VST\res\themes" />
       <recent name="C:\Users\2022\Desktop\программы\Ebanina-Test\Ebanina\Ebanina-VST\test\rf\ebanina\media" />
       <recent name="C:\Users\2022\Desktop\программы\Ebanina-Test\Ebanina\Ebanina-VST\res" />
       <recent name="C:\Users\2022\Desktop\программы\Ebanina-Test\Ebanina\Ebanina-VST\modules\ebanina-std-utils" />
-      <recent name="C:\Users\2022\Desktop\программы\Ebanina-Test\Ebanina\Ebanina-VST\package\maven\in-build" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\2022\Desktop\программы\Ebanina-Test\Ebanina\Ebanina-VST\res\cursorus" />
@@ -369,6 +353,23 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="MediaPlayerTest.testMultipleListeners" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Ebanina-VST" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ebanina.media.player.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ebanina.media.player" />
+      <option name="MAIN_CLASS_NAME" value="ebanina.media.player.MediaPlayerTest" />
+      <option name="METHOD_NAME" value="testMultipleListeners" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-Dfile.encoding=UTF-8 --module-path &quot;libraries\modules&quot; --add-modules javafx.controls,javafx.fxml,javafx.graphics,javafx.swing,javafx.media,org.controlsfx.controls,jdk.management,java.management,mp3agic,java.prefs,com.jfoenix,com.github.kwhat.jnativehook,jsoup,lastfm.java,java.desktop,com.sun.jna,com.sun.jna.platform --add-opens java.base/java.lang.reflect=com.jfoenix --add-opens javafx.graphics/javafx.stage=ALL-UNNAMED --add-opens javafx.graphics/com.sun.javafx.tk.quantum=ALL-UNNAMED --add-exports junit.platform.console.standalone/org.hamcrest.internal=ALL-UNNAMED --add-exports=javafx.graphics/com.sun.javafx.application=ALL-UNNAMED --add-opens=javafx.graphics/com.sun.javafx.application=ALL-UNNAMED" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="MediaPlayerTest.testPlaybackTriggersListener" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Ebanina-VST" />
       <extension name="coverage">
@@ -395,22 +396,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ebanina in Ebanina-VST" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Ebanina-VST" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="ebanina.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="ebanina" />
-      <option name="METHOD_NAME" value="" />
-      <option name="TEST_OBJECT" value="package" />
-      <option name="VM_PARAMETERS" value="-Dfile.encoding=UTF-8 --module-path &quot;libraries\modules&quot; --add-modules javafx.controls,javafx.fxml,javafx.graphics,javafx.swing,javafx.media,org.controlsfx.controls,jdk.management,java.management,mp3agic,java.prefs,com.jfoenix,com.github.kwhat.jnativehook,jsoup,lastfm.java,java.desktop,com.sun.jna,com.sun.jna.platform --add-opens java.base/java.lang.reflect=com.jfoenix --add-opens javafx.graphics/javafx.stage=ALL-UNNAMED --add-opens javafx.graphics/com.sun.javafx.tk.quantum=ALL-UNNAMED --add-exports junit.platform.console.standalone/org.hamcrest.internal=ALL-UNNAMED --add-exports=javafx.graphics/com.sun.javafx.application=ALL-UNNAMED --add-opens=javafx.graphics/com.sun.javafx.application=ALL-UNNAMED" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration default="true" type="JetRunConfigurationType">
       <shortenClasspath name="NONE" />
       <method v="2">
@@ -429,17 +414,17 @@
       <item itemvalue="JUnit.KeyActionTest" />
       <item itemvalue="JUnit.ClickableButtonTest_JUnit5Hamcrest" />
       <item itemvalue="JUnit.MediaPlayerTest" />
+      <item itemvalue="JUnit.MediaPlayerTest.testMultipleListeners" />
       <item itemvalue="JUnit.MediaPlayerTest.testPlaybackTriggersListener" />
-      <item itemvalue="JUnit.ebanina in Ebanina-VST" />
       <item itemvalue="JUnit.ArtTest" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.MediaPlayerTest" />
+        <item itemvalue="JUnit.MediaPlayerTest.testMultipleListeners" />
         <item itemvalue="JUnit.MediaPlayerTest.testPlaybackTriggersListener" />
         <item itemvalue="JUnit.ArtTest" />
         <item itemvalue="JUnit.ClickableButtonTest_JUnit5Hamcrest" />
-        <item itemvalue="JUnit.ebanina in Ebanina-VST" />
       </list>
     </recent_temporary>
   </component>
@@ -454,55 +439,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1751373119676</updated>
-    </task>
-    <task id="LOCAL-00158" summary="Fixed a bug with incorrect width calculation for selectionRect when selecting, and a bug with merging some colors (now they are just darker)">
-      <created>1775841981669</created>
-      <option name="number" value="00158" />
-      <option name="presentableId" value="LOCAL-00158" />
-      <option name="project" value="LOCAL" />
-      <updated>1775841981669</updated>
-    </task>
-    <task id="LOCAL-00159" summary="Python scripts for buildings extended new additional input functional">
-      <created>1775842394944</created>
-      <option name="number" value="00159" />
-      <option name="presentableId" value="LOCAL-00159" />
-      <option name="project" value="LOCAL" />
-      <updated>1775842394944</updated>
-    </task>
-    <task id="LOCAL-00160" summary="Update gitignore">
-      <created>1775911805800</created>
-      <option name="number" value="00160" />
-      <option name="presentableId" value="LOCAL-00160" />
-      <option name="project" value="LOCAL" />
-      <updated>1775911805801</updated>
-    </task>
-    <task id="LOCAL-00161" summary="TrackHistory logic migrate to super class History.java, and now is extended History.java">
-      <created>1775936645444</created>
-      <option name="number" value="00161" />
-      <option name="presentableId" value="LOCAL-00161" />
-      <option name="project" value="LOCAL" />
-      <updated>1775936645444</updated>
-    </task>
-    <task id="LOCAL-00162" summary="Concept of files managers edited">
-      <created>1775936689130</created>
-      <option name="number" value="00162" />
-      <option name="presentableId" value="LOCAL-00162" />
-      <option name="project" value="LOCAL" />
-      <updated>1775936689130</updated>
-    </task>
-    <task id="LOCAL-00163" summary="IParseAlbumArt.java now is functional interface">
-      <created>1775937808374</created>
-      <option name="number" value="00163" />
-      <option name="presentableId" value="LOCAL-00163" />
-      <option name="project" value="LOCAL" />
-      <updated>1775937808374</updated>
-    </task>
-    <task id="LOCAL-00164" summary="Minor bugs fixed, and netty track listcell optimized">
-      <created>1776000908230</created>
-      <option name="number" value="00164" />
-      <option name="presentableId" value="LOCAL-00164" />
-      <option name="project" value="LOCAL" />
-      <updated>1776000908231</updated>
     </task>
     <task id="LOCAL-00165" summary="Removed from gitignore">
       <created>1776107152548</created>
@@ -798,7 +734,56 @@
       <option name="project" value="LOCAL" />
       <updated>1777328923715</updated>
     </task>
-    <option name="localTasksCounter" value="207" />
+    <task id="LOCAL-00207" summary="Refactored">
+      <created>1777328992635</created>
+      <option name="number" value="00207" />
+      <option name="presentableId" value="LOCAL-00207" />
+      <option name="project" value="LOCAL" />
+      <updated>1777328992636</updated>
+    </task>
+    <task id="LOCAL-00208" summary="View controllers refactored">
+      <created>1777329015086</created>
+      <option name="number" value="00208" />
+      <option name="presentableId" value="LOCAL-00208" />
+      <option name="project" value="LOCAL" />
+      <updated>1777329015086</updated>
+    </task>
+    <task id="LOCAL-00209" summary="MediaPlayer and MediaProcessor DI added">
+      <created>1777329087791</created>
+      <option name="number" value="00209" />
+      <option name="presentableId" value="LOCAL-00209" />
+      <option name="project" value="LOCAL" />
+      <updated>1777329087791</updated>
+    </task>
+    <task id="LOCAL-00210" summary="CI build.yml fixed, added Djava.library.path">
+      <created>1777329682780</created>
+      <option name="number" value="00210" />
+      <option name="presentableId" value="LOCAL-00210" />
+      <option name="project" value="LOCAL" />
+      <updated>1777329682781</updated>
+    </task>
+    <task id="LOCAL-00211" summary="Added Djava.library.path to pom.xml">
+      <created>1777329912011</created>
+      <option name="number" value="00211" />
+      <option name="presentableId" value="LOCAL-00211" />
+      <option name="project" value="LOCAL" />
+      <updated>1777329912011</updated>
+    </task>
+    <task id="LOCAL-00212" summary="Added to biggest time to assert in MediaPlayerTest">
+      <created>1777330042306</created>
+      <option name="number" value="00212" />
+      <option name="presentableId" value="LOCAL-00212" />
+      <option name="project" value="LOCAL" />
+      <updated>1777330042306</updated>
+    </task>
+    <task id="LOCAL-00213" summary="MediaPlayerTest excluded from tests on some time">
+      <created>1777331584303</created>
+      <option name="number" value="00213" />
+      <option name="presentableId" value="LOCAL-00213" />
+      <option name="project" value="LOCAL" />
+      <updated>1777331584303</updated>
+    </task>
+    <option name="localTasksCounter" value="214" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -927,12 +912,6 @@
       <path value="$PROJECT_DIR$/modules/ebanina-soundcloud-api-wrapper" />
       <path value="$PROJECT_DIR$/modules/mizuka-deezer-api-wrapper" />
     </ignored-roots>
-    <MESSAGE value="Added new logo path to resources" />
-    <MESSAGE value="Anvil mods load updated to ignoring module-info and throwable exceptions" />
-    <MESSAGE value="Added progress bar to initialize splash window" />
-    <MESSAGE value="Added json localization messages to splash window" />
-    <MESSAGE value="Added json parse method to FileManager" />
-    <MESSAGE value="Network refactored" />
     <MESSAGE value="ListCells minor bugs fixed" />
     <MESSAGE value="Root refactored" />
     <MESSAGE value="Tests updated" />
@@ -952,7 +931,13 @@
     <MESSAGE value="DI added to ResourceManager and LocalizationManager" />
     <MESSAGE value="History and another classes minor refactored" />
     <MESSAGE value="Refactored" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactored" />
+    <MESSAGE value="View controllers refactored" />
+    <MESSAGE value="MediaPlayer and MediaProcessor DI added" />
+    <MESSAGE value="CI build.yml fixed, added Djava.library.path" />
+    <MESSAGE value="Added Djava.library.path to pom.xml" />
+    <MESSAGE value="Added to biggest time to assert in MediaPlayerTest" />
+    <MESSAGE value="MediaPlayerTest excluded from tests on some time" />
+    <option name="LAST_COMMIT_MESSAGE" value="MediaPlayerTest excluded from tests on some time" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">

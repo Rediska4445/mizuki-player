@@ -326,6 +326,22 @@
                 </configuration>
             </plugin>
 
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.3.2</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>res/mods</directory>
+                            <includes>
+                                <include>**/*</include>
+                            </includes>
+                            <followSymlinks>false</followSymlinks>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+
             <!-- Логирование -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -357,21 +373,21 @@
             </plugin>
 
             <!-- Библиотеки -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.6.1</version>
-                <executions>
-                    <execution>
-                        <id>copy-dependencies</id>
-                        <phase>prepare-package</phase>
-                        <goals><goal>copy-dependencies</goal></goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-dependency-plugin</artifactId>-->
+<!--                <version>3.6.1</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>copy-dependencies</id>-->
+<!--                        <phase>prepare-package</phase>-->
+<!--                        <goals><goal>copy-dependencies</goal></goals>-->
+<!--                        <configuration>-->
+<!--                            <outputDirectory>${project.build.directory}/lib</outputDirectory>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
 
             <!-- Основной JAR -->
             <plugin>
@@ -423,38 +439,38 @@
                 <version>2.6</version>
                 <executions>
                     <!-- Копировать папку libraries -->
-                    <execution>
-                        <id>copy-libraries</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/libraries</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>${libs.path}</directory>
+<!--                    <execution>-->
+<!--                        <id>copy-libraries</id>-->
+<!--                        <phase>package</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>copy-resources</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <outputDirectory>${project.build.directory}/libraries</outputDirectory>-->
+<!--                            <resources>-->
+<!--                                <resource>-->
+<!--                                    <directory>${libs.path}</directory>-->
 
-                                    <includes>
-                                        <include>**/*</include>
-                                        <include>**/</include>
-                                    </includes>
+<!--                                    <includes>-->
+<!--                                        <include>**/*</include>-->
+<!--                                        <include>**/</include>-->
+<!--                                    </includes>-->
 
-                                    <targetPath></targetPath>
-                                    <filtering>false</filtering>
+<!--                                    <targetPath></targetPath>-->
+<!--                                    <filtering>false</filtering>-->
 
-                                    <excludes>
-                                        <exclude>**/*test*.jar</exclude>
-                                        <exclude>**/testfx*.jar</exclude>
-                                        <exclude>**/mockito*.jar</exclude>
-                                        <exclude>**/junit*.jar</exclude>
-                                        <exclude>**/assertj*.jar</exclude>
-                                        <exclude>**/byte*.jar</exclude>
-                                    </excludes>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
+<!--                                    <excludes>-->
+<!--                                        <exclude>**/*test*.jar</exclude>-->
+<!--                                        <exclude>**/testfx*.jar</exclude>-->
+<!--                                        <exclude>**/mockito*.jar</exclude>-->
+<!--                                        <exclude>**/junit*.jar</exclude>-->
+<!--                                        <exclude>**/assertj*.jar</exclude>-->
+<!--                                        <exclude>**/byte*.jar</exclude>-->
+<!--                                    </excludes>-->
+<!--                                </resource>-->
+<!--                            </resources>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
 
                     <!-- Копирование готового launch.bat -->
                     <execution>
