@@ -53,6 +53,9 @@ The fastest way to get started is to run the automated script, which handles the
 *   [Download download-mizuka.sh](https://github.com/Rediska4445/mizuki-player/blob/main/scripts/build/download-mizuka.sh)
 *   Run: `bash download_mizuka.sh`
 
+### **Use:**
+<img src="https://github.com/user-attachments/assets/cda15cf1-41f4-4263-9443-3a7b6f4c8ef2">
+
 ---
 
 
