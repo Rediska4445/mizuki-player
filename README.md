@@ -2,7 +2,6 @@
   <img src="res/visual/gui/logo-hd.png" width="500">
 </div>
 
-
 <div align="center" style="margin-bottom: 22px;">
   <img src="https://img.shields.io/badge/Java-19-orange?style=for-the-badge&logo=java&logoColor=white" alt="Java 19"/>
   <img src="https://img.shields.io/badge/JavaFX-21-blue?style=for-the-badge&logo=javafx&logoColor=white" alt="JavaFX"/>
@@ -10,8 +9,8 @@
 </div>
 
 <div align="center">
-<span style="font-size: 36px; font-weight: bold;">Mizuki</span><br>
-<sup style="font-size: 18px;">v1.4</sup>
+  <span style="font-size: 36px; font-weight: bold;">Mizuki</span><br>
+  <sup style="font-size: 18px;">v1.4</sup>
 </div>
 
 <div align="center">
@@ -53,8 +52,18 @@ The fastest way to get started is to run the automated script, which handles the
 *   [Download download-mizuka.sh](https://github.com/Rediska4445/mizuki-player/blob/main/scripts/build/download-mizuka.sh)
 *   Run: `bash download_mizuka.sh`
 
-### **Use:**
-<img src="https://github.com/user-attachments/assets/cda15cf1-41f4-4263-9443-3a7b6f4c8ef2">
+### **Usage:**
+Default use (the example image uses the Russian language and the track "Darling" by DVRST and monrxe):  
+
+<div style="margin-top: 20px;">
+  <img src="https://github.com/user-attachments/assets/cda15cf1-41f4-4263-9443-3a7b6f4c8ef2">
+</div>
+
+VST/VST3 Plugin host (the example image uses the Russian language and the track "LIBERTY" by LXST CXNTURY):    
+
+<div style="margin-top: 20px;">
+  <img src="https://github.com/user-attachments/assets/aa3465af-26d4-4372-a7f2-4425ab6d0e33" />
+</div>
 
 ---
 
