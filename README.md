@@ -300,3 +300,14 @@ public class mod implements AudioMod {
 4. **Build JAR and place** in the folder from `resources.properties`
 
 ---
+
+## Documentation
+
+### **Explore resources and guides!**
+
+### Available Documentation
+
+* [JavaDocs](https://github.com/Rediska4445/mizuki-player/tree/main/src) — Complete API reference for developers.
+* [HTML Documentation](https://github.com/Rediska4445/mizuki-player/tree/main/docs) — Web-based user guide and manuals.
+* [GitHub Wiki](https://github.com/Rediska4445/mizuki-player/wiki) — Community guides and detailed wiki pages.
+
